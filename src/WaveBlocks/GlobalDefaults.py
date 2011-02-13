@@ -14,3 +14,4 @@ path_to_results = "results"
 
 file_metaconfiguration = "metaconfiguration.py"
 file_resultdatafile = "simulation_results.hdf5"
+file_batchconfiguration = "batchconfiguration.py"
