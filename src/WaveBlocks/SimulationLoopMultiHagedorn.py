@@ -51,9 +51,6 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         N = potential.get_number_components()
         
         # Check for enough initial values
-        if self.parameters.leading_component > N:
-            raise ValueError("Leading component index out of range.")
-        
         if len(self.parameters.parameters) < N:
             raise ValueError("Too few initial states given. Parameters are missing.")
             
