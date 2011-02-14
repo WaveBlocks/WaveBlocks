@@ -1,4 +1,14 @@
+The directory "WaveBlocks" contains the waveblocks python package
+which is used by all computation scripts.
+
+The directory "scripts" contains several scripts for running
+simulations and evaluating data.
+
+The directory "plotters_simple" contains some basic
+plotting functionality.
+
+The directory "tests" contains some test scripts.
+
 The directory "numdifftools" just contains an unmodified full copy
 of the numdifftools python package available at:
-
 http://code.google.com/p/numdifftools/

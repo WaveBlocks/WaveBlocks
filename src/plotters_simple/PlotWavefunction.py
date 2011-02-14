@@ -17,6 +17,13 @@ from WaveBlocks.plot import plotcf
 
 
 def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
+    """Plot the wave function for a series of timesteps.
+    @param f: An I{IOManager} instance providing the simulation data.
+    @keyword view: The aspect ratio.
+    @keyword plotphase: Whether to plot the complex phase. (slow)
+    @keyword plotcomponents: Whether to plot the real/imaginary parts..
+    @keyword plotabssqr: Whether to plot the absolute value squared.
+    """
     parameters = f.get_parameters()
     
     grid = f.load_grid()
@@ -66,6 +73,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
             
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters.dt)+r"$")
         fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
+        close(fig)
         
     print(" Plotting frames finished")
 
@@ -82,6 +90,6 @@ if __name__ == "__main__":
     # The axes rectangle that is plotted
     view = [-5.5, 5.5, -1.5, 1.5]
 
-    plot_frames(iom, view=view, plotphase=True, plotcomponents=True, plotabssqr=True)
+    plot_frames(iom, view=view, plotphase=True, plotcomponents=True, plotabssqr=False)
 
     iom.finalize()

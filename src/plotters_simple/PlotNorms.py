@@ -36,7 +36,7 @@ def plot_norms(timegrid, data):
     ax = fig.gca()
     
     # Plot the norms of the individual wavepackets
-    for i, datum in enumerate(data):
+    for i, datum in enumerate(data[:-1]):
         label_i = r"$\| \Phi_"+str(i)+r" \|$"
         ax.plot(timegrid, datum, label=label_i)
 
@@ -49,6 +49,7 @@ def plot_norms(timegrid, data):
     ax.grid(True)
 
     fig.savefig("norms.png")
+    close(fig)
 
 
     # Plot the difference from the theoretical norm
@@ -63,6 +64,7 @@ def plot_norms(timegrid, data):
     ax.set_ylabel(r"$$\|\Psi\|_0 - \|\Psi\|_t$$")
 
     fig.savefig("norms_drift.png")
+    close(fig)
 
 
 if __name__ == "__main__":

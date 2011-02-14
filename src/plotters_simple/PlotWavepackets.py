@@ -133,6 +133,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(12,9)
 
     fig.suptitle(r"Time $"+str(step*parameters.dt)+r"$")
     fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
+    close(fig)
 
 
 if __name__ == "__main__":

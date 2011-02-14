@@ -32,6 +32,7 @@ def plot_potential(grid, potential, imgsize=(8,6)):
     legend(loc="outer right")
     ax.set_title(r"The eigenvalues $\lambda_i$ of the potential $V\left(x\right)$")
     fig.savefig("potential.png")
+    close(fig)
 
 
 if __name__ == "__main__":

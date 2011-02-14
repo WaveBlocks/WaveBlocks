@@ -99,6 +99,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     ax.set_title(r"$\Im S$")
     
     fig.savefig("parameters.png")
+    close(fig)
 
 
 if __name__ == "__main__":

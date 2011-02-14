@@ -74,6 +74,7 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             i += 1
 
     fig.savefig("wavepacket_coefficients_first.png")
+    close(fig)
     
     # And last ones
     fig = figure(figsize=imgsize)
@@ -92,6 +93,7 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             i += 1
 
     fig.savefig("wavepacket_coefficients_last.png")
+    close(fig)
 
     
 if __name__ == "__main__":

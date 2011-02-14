@@ -66,7 +66,7 @@ def plot_energies(timegrid, ekin, epot):
     ax.set_title(r"Energies of the wavepacket $\Psi$")
 
     fig.savefig("energies.png")
-    
+    close(fig)
 
     # Plot the energy drift
     e_orig = (ekin[-1]+epot[-1])[0]
@@ -82,6 +82,7 @@ def plot_energies(timegrid, ekin, epot):
     ax.set_title(r"Energy drift of the wavepacket $\Psi$")
 
     fig.savefig("energy_drift.png")
+    close(fig)
 
 
 if __name__ == "__main__":
