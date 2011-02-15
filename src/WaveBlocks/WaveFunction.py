@@ -24,8 +24,7 @@ class WaveFunction:
     
     def __init__(self, parameters):
         """Initialize the I{WaveFunction} object that represents the vector of states $\Ket{\Psi}$.
-        @param nodes: The grid nodes to which the numerical values of $\psi_i$ belong to.
-        @param values: A list with the numerical values of each component $\psi_i$ sampled at the given nodes.
+        @param parameters: A I{ParameterProvider} instance with at least the items 'ncomponents', 'f' and 'ngn'.
         """
         self.number_components = parameters["ncomponents"]
         self.support = None

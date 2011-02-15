@@ -423,7 +423,7 @@ class IOManager:
 
     def save_energies_total(self, total_energy, timestep=None, block=0):
         """Save the total to a file.
-        @param energies: An array containing the energies.
+        @param total_energy: An array containing a time series of the total energy.
         """
         pathd = "/datablock_"+str(block)+"/observables/energies/total"
 

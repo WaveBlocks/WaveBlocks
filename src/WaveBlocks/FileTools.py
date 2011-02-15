@@ -131,8 +131,9 @@ def group_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
 
 
 def intersect_by(lista, listb, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
-    """Sorts simulation IDs with respect to a numerical value in the ID.
-    @parameter stringlist: A list with the simulation IDs
+    """Find the intersection of two lists containing simulation IDs.
+    @parameter lista: A first list with the simulation IDs
+    @parameter listb: A second list with the simulation IDs
     @parameter pattern: The pattern whose numerical value is used for sorting
     @keyword ldel: Left delimiter of the pattern
     @keyword mdel: Middle delimiter of the pattern

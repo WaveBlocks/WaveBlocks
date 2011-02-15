@@ -88,8 +88,8 @@ if __name__ == "__main__":
         iom.load_file()      
 
     # The axes rectangle that is plotted
-    view = [-5.5, 5.5, -1.5, 1.5]
+    view = [-1.5, 1.5, -0.1, 3.5]
 
-    plot_frames(iom, view=view, plotphase=True, plotcomponents=True, plotabssqr=False)
+    plot_frames(iom, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
 
     iom.finalize()

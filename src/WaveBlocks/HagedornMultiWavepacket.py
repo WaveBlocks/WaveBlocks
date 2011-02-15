@@ -382,7 +382,7 @@ class HagedornMultiWavepacket:
 
 
     def grady(self, component):
-        """Calculate the effect of $-i \varepsilon^2 \frac{\partial}{\partial x}$
+        """Calculate the effect of $-i \epsilon^2 \frac{\partial}{\partial x}$
         on a component $\Phi_i$ of the Hagedorn wavepacket $\Psi$.
         @keyword component: The index $i$ of the component $\Phi_i$ on which we apply the above operator.
         @return: The modified coefficients.
