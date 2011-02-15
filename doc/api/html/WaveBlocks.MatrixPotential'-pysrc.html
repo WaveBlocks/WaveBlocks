@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.MatrixPotential'</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;MatrixPotential'
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.MatrixPotential%27-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.MatrixPotential%27-module.html">Module WaveBlocks.MatrixPotential'</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains the abstract base class for representation of potentials</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">for an arbitrary number of components. It defines the interface every subclass</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">must support to represent a potential.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential"></a><div id="MatrixPotential-def"><a name="L12"></a><tt class="py-lineno"> 12</tt> <a class="py-toggle" href="#" id="MatrixPotential-toggle" onclick="return toggle('MatrixPotential');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html">MatrixPotential</a><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="MatrixPotential-expanded"><a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">    <tt class="py-docstring">"""This class represents a potential $V\ofs{x}$. The potential is given as an analytic</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-docstring">    expression. Some calculations with the potential are supported. For example</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-docstring">    calculation of eigenvalues and exponentials and numerical evaluation.</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-docstring">    Further, there are methods for splitting the potential into a Taylor</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-docstring">    expansion and for basis transformations between canonical and eigenbasis.</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.__init__"></a><div id="MatrixPotential.__init__-def"><a name="L20"></a><tt class="py-lineno"> 20</tt> <a class="py-toggle" href="#" id="MatrixPotential.__init__-toggle" onclick="return toggle('MatrixPotential.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.__init__-expanded"><a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">        <tt class="py-docstring">"""Create a new I{MatrixPotential} instance for a given potential matrix $V\ofs{x}$.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'MatrixPotential' is an abstract base class."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.__str__"></a><div id="MatrixPotential.__str__-def"><a name="L27"></a><tt class="py-lineno"> 27</tt> <a class="py-toggle" href="#" id="MatrixPotential.__str__-toggle" onclick="return toggle('MatrixPotential.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.__str__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.__str__-expanded"><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">        <tt class="py-docstring">"""Put the number of components and the analytical expression (the matrix)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        into a printable string.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'MatrixPotential' is an abstract base class."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">         </tt>
+<a name="MatrixPotential.get_number_components"></a><div id="MatrixPotential.get_number_components-def"><a name="L35"></a><tt class="py-lineno"> 35</tt> <a class="py-toggle" href="#" id="MatrixPotential.get_number_components-toggle" onclick="return toggle('MatrixPotential.get_number_components');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#get_number_components">get_number_components</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.get_number_components-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.get_number_components-expanded"><a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The number $N$ of components the potential supports.</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"get_number_components(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_at"></a><div id="MatrixPotential.evaluate_at-def"><a name="L42"></a><tt class="py-lineno"> 42</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_at-toggle" onclick="return toggle('MatrixPotential.evaluate_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_at">evaluate_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_at-expanded"><a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword component: The component $V_{i,j}$ that gets</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-docstring">        evaluated or 'None' to evaluate all.</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_at(...)"</tt><tt class="py-op">)</tt>      </tt>
+</div><a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_eigenvalues"></a><div id="MatrixPotential.calculate_eigenvalues-def"><a name="L52"></a><tt class="py-lineno"> 52</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_eigenvalues-toggle" onclick="return toggle('MatrixPotential.calculate_eigenvalues');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_eigenvalues">calculate_eigenvalues</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_eigenvalues-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_eigenvalues-expanded"><a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the eigenvalues $\lambda_i\ofs{x}$ of the potential $V\ofs{x}$.</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_eigenvalues(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_eigenvalues_at"></a><div id="MatrixPotential.evaluate_eigenvalues_at-def"><a name="L59"></a><tt class="py-lineno"> 59</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_eigenvalues_at-toggle" onclick="return toggle('MatrixPotential.evaluate_eigenvalues_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_eigenvalues_at">evaluate_eigenvalues_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_eigenvalues_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_eigenvalues_at-expanded"><a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the eigenvalues $\lambda_i\ofs{x}$ at some grid nodes $\gamma$.</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword diagonal_component: The index $i$ of the eigenvalue $\lambda_i$</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"><tt class="py-docstring">        that gets evaluated or 'None' to evaluate all.</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_eigenvalues_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_eigenvectors"></a><div id="MatrixPotential.calculate_eigenvectors-def"><a name="L69"></a><tt class="py-lineno"> 69</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_eigenvectors-toggle" onclick="return toggle('MatrixPotential.calculate_eigenvectors');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_eigenvectors">calculate_eigenvectors</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_eigenvectors-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_eigenvectors-expanded"><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the eigenvectors $\nu_i\ofs{x}$ of the potential $V\ofs{x}$.</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_eigenvectors(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_eigenvectors_at"></a><div id="MatrixPotential.evaluate_eigenvectors_at-def"><a name="L76"></a><tt class="py-lineno"> 76</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_eigenvectors_at-toggle" onclick="return toggle('MatrixPotential.evaluate_eigenvectors_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_eigenvectors_at">evaluate_eigenvectors_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_eigenvectors_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_eigenvectors_at-expanded"><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the eigenvectors $\nu_i\ofs{x}$ at some grid nodes $\gamma$.</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvectors at.</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_eigenvectors_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.project_to_eigen"></a><div id="MatrixPotential.project_to_eigen-def"><a name="L84"></a><tt class="py-lineno"> 84</tt> <a class="py-toggle" href="#" id="MatrixPotential.project_to_eigen-toggle" onclick="return toggle('MatrixPotential.project_to_eigen');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#project_to_eigen">project_to_eigen</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">values</tt><tt class="py-op">,</tt> <tt class="py-param">basis</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.project_to_eigen-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.project_to_eigen-expanded"><a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">        <tt class="py-docstring">"""Project a given vector from the canonical basis to the eigenbasis of the potential.</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-docstring">        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"project_to_eigen(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.project_to_canonical"></a><div id="MatrixPotential.project_to_canonical-def"><a name="L94"></a><tt class="py-lineno"> 94</tt> <a class="py-toggle" href="#" id="MatrixPotential.project_to_canonical-toggle" onclick="return toggle('MatrixPotential.project_to_canonical');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#project_to_canonical">project_to_canonical</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">values</tt><tt class="py-op">,</tt> <tt class="py-param">basis</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.project_to_canonical-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.project_to_canonical-expanded"><a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-docstring">"""Project a given vector from the potential's eigenbasis to the canonical basis.</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"><tt class="py-docstring">        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"project_to_canonical(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_exponential"></a><div id="MatrixPotential.calculate_exponential-def"><a name="L104"></a><tt class="py-lineno">104</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_exponential-toggle" onclick="return toggle('MatrixPotential.calculate_exponential');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_exponential">calculate_exponential</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">factor</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_exponential-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_exponential-expanded"><a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the matrix exponential $E = \exp\ofs{\alpha M}$.</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword factor: A prefactor $\alpha$ in the exponential.</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_exponential(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_exponential_at"></a><div id="MatrixPotential.evaluate_exponential_at-def"><a name="L112"></a><tt class="py-lineno">112</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_exponential_at-toggle" onclick="return toggle('MatrixPotential.evaluate_exponential_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_exponential_at">evaluate_exponential_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_exponential_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_exponential_at-expanded"><a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the exponential of the potential matrix $V$ at some grid nodes $\gamma$.</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_exponential_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_jacobian"></a><div id="MatrixPotential.calculate_jacobian-def"><a name="L120"></a><tt class="py-lineno">120</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_jacobian-toggle" onclick="return toggle('MatrixPotential.calculate_jacobian');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_jacobian">calculate_jacobian</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_jacobian-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_jacobian-expanded"><a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the jacobian matrix for each component $V_{i,j}$ of the potential.</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"><tt class="py-docstring">        For potentials which depend only one variable $x$, this equals the first derivative.</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_jacobian(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_jacobian_at"></a><div id="MatrixPotential.evaluate_jacobian_at-def"><a name="L128"></a><tt class="py-lineno">128</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_jacobian_at-toggle" onclick="return toggle('MatrixPotential.evaluate_jacobian_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_jacobian_at">evaluate_jacobian_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_jacobian_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_jacobian_at-expanded"><a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the jacobian at some grid nodes $\gamma$ for each component</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-docstring">        $V_{i,j}$ of the potential.</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword component: The index tuple $\left(i,j\right)$ that specifies</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line"><tt class="py-docstring">        the potential's entry of which the jacobian is evaluated. (Defaults to 'None' to evaluate all)</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_jacobian_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_hessian"></a><div id="MatrixPotential.calculate_hessian-def"><a name="L139"></a><tt class="py-lineno">139</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_hessian-toggle" onclick="return toggle('MatrixPotential.calculate_hessian');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_hessian">calculate_hessian</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_hessian-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_hessian-expanded"><a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the hessian matrix for each component $V_{i,j}$ of the potential.</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line"><tt class="py-docstring">        For potentials which depend only one variable $x$, this equals the second derivative.</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_hessian(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_hessian_at"></a><div id="MatrixPotential.evaluate_hessian_at-def"><a name="L147"></a><tt class="py-lineno">147</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_hessian_at-toggle" onclick="return toggle('MatrixPotential.evaluate_hessian_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_hessian_at">evaluate_hessian_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_hessian_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_hessian_at-expanded"><a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-docstring">"""Evaluate the hessian at some grid nodes $\gamma$ for each component</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-docstring">        $V_{i,j}$ of the potential.</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword component: The index tuple $\left(i,j\right)$ that specifies</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-docstring">        the potential's entry of which the hessian is evaluated. (Or 'None' to evaluate all)</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_hessian_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_local_quadratic"></a><div id="MatrixPotential.calculate_local_quadratic-def"><a name="L158"></a><tt class="py-lineno">158</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_local_quadratic-toggle" onclick="return toggle('MatrixPotential.calculate_local_quadratic');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_local_quadratic">calculate_local_quadratic</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_local_quadratic-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_local_quadratic-expanded"><a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the local quadratic approximation matrix $U$ of the potential's</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"><tt class="py-docstring">        eigenvalues in $\Lambda$. This function is used for the homogeneous case and</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line"><tt class="py-docstring">        takes into account the leading component $\chi$.</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line"><tt class="py-docstring">        that gets expanded into a Taylor series $u_i$.</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_local_quadratic(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_local_quadratic_at"></a><div id="MatrixPotential.evaluate_local_quadratic_at-def"><a name="L169"></a><tt class="py-lineno">169</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_local_quadratic_at-toggle" onclick="return toggle('MatrixPotential.evaluate_local_quadratic_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_local_quadratic_at">evaluate_local_quadratic_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_local_quadratic_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_local_quadratic_at-expanded"><a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line">        <tt class="py-docstring">"""Numerically evaluate the local quadratic approximation matrix $U$ of</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line"><tt class="py-docstring">        the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"><tt class="py-docstring">        This function is used for the homogeneous case and takes into account the</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"><tt class="py-docstring">        leading component $\chi$.</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.</tt> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_local_quadratic_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line"> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_local_remainder"></a><div id="MatrixPotential.calculate_local_remainder-def"><a name="L180"></a><tt class="py-lineno">180</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_local_remainder-toggle" onclick="return toggle('MatrixPotential.calculate_local_remainder');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_local_remainder">calculate_local_remainder</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_local_remainder-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_local_remainder-expanded"><a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the non-quadratic remainder matrix $W$ of the quadratic</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line"><tt class="py-docstring">        approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line"><tt class="py-docstring">        This function is used for the homogeneous case and takes into account the</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line"><tt class="py-docstring">        leading component $\chi$.</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line"><tt class="py-docstring">        @param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_local_remainder(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line"> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.evaluate_local_remainder_at"></a><div id="MatrixPotential.evaluate_local_remainder_at-def"><a name="L191"></a><tt class="py-lineno">191</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_local_remainder_at-toggle" onclick="return toggle('MatrixPotential.evaluate_local_remainder_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_local_remainder_at">evaluate_local_remainder_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">position</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_local_remainder_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_local_remainder_at-expanded"><a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">        <tt class="py-docstring">"""Numerically evaluate the non-quadratic remainder matrix $W$ of the quadratic</tt> </tt>
+<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line"><tt class="py-docstring">        approximation matrix $U$ of the potential's eigenvalues in $\Lambda$ at the</tt> </tt>
+<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line"><tt class="py-docstring">        given nodes $\gamma$. This function is used for the homogeneous and the </tt> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line"><tt class="py-docstring">        inhomogeneous case and just evaluates the remainder matrix $W$.</tt> </tt>
+<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line"><tt class="py-docstring">        @param position: The point $q$ where the Taylor series is computed.</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.</tt> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword component: The component $\left(i,j\right)$ of the remainder matrix $W$</tt> </tt>
+<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line"><tt class="py-docstring">        that is evaluated.</tt> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_local_remainder_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line"> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_local_quadratic_multi"></a><div id="MatrixPotential.calculate_local_quadratic_multi-def"><a name="L205"></a><tt class="py-lineno">205</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_local_quadratic_multi-toggle" onclick="return toggle('MatrixPotential.calculate_local_quadratic_multi');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_local_quadratic_multi">calculate_local_quadratic_multi</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_local_quadratic_multi-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_local_quadratic_multi-expanded"><a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the local quadratic approximation matrix $U$ of all the</tt> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line"><tt class="py-docstring">        potential's eigenvalues in $\Lambda$. This function is used for the inhomogeneous case.</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_local_quadratic_multi(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line">     </tt>
+<a name="L212"></a><tt class="py-lineno">212</tt>  <tt class="py-line">     </tt>
+<a name="MatrixPotential.evaluate_local_quadratic_multi_at"></a><div id="MatrixPotential.evaluate_local_quadratic_multi_at-def"><a name="L213"></a><tt class="py-lineno">213</tt> <a class="py-toggle" href="#" id="MatrixPotential.evaluate_local_quadratic_multi_at-toggle" onclick="return toggle('MatrixPotential.evaluate_local_quadratic_multi_at');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#evaluate_local_quadratic_multi_at">evaluate_local_quadratic_multi_at</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">nodes</tt><tt class="py-op">,</tt> <tt class="py-param">component</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.evaluate_local_quadratic_multi_at-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.evaluate_local_quadratic_multi_at-expanded"><a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">        <tt class="py-docstring">"""Numerically evaluate the local quadratic approximation matrix $U$ of</tt> </tt>
+<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line"><tt class="py-docstring">        the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.</tt> </tt>
+<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line"><tt class="py-docstring">        This function is used for the inhomogeneous case.</tt> </tt>
+<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line"><tt class="py-docstring">        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.</tt> </tt>
+<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword component: The component $\left(i,j\right)$ of the quadratic approximation</tt> </tt>
+<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line"><tt class="py-docstring">        matrix $U$ that is evaluated.</tt> </tt>
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L222"></a><tt class="py-lineno">222</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"evaluate_local_quadratic_multi_at(...)"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line"> </tt>
+<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line"> </tt>
+<a name="MatrixPotential.calculate_local_remainder_multi"></a><div id="MatrixPotential.calculate_local_remainder_multi-def"><a name="L225"></a><tt class="py-lineno">225</tt> <a class="py-toggle" href="#" id="MatrixPotential.calculate_local_remainder_multi-toggle" onclick="return toggle('MatrixPotential.calculate_local_remainder_multi');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.MatrixPotential'.MatrixPotential-class.html#calculate_local_remainder_multi">calculate_local_remainder_multi</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MatrixPotential.calculate_local_remainder_multi-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MatrixPotential.calculate_local_remainder_multi-expanded"><a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line">        <tt class="py-docstring">"""Calculate the non-quadratic remainder matrix $W$ of the quadratic</tt> </tt>
+<a name="L227"></a><tt class="py-lineno">227</tt>  <tt class="py-line"><tt class="py-docstring">        approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.</tt> </tt>
+<a name="L228"></a><tt class="py-lineno">228</tt>  <tt class="py-line"><tt class="py-docstring">        This function is used for the inhomogeneous case.</tt> </tt>
+<a name="L229"></a><tt class="py-lineno">229</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: This is an abstract base class.</tt> </tt>
+<a name="L230"></a><tt class="py-lineno">230</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L231"></a><tt class="py-lineno">231</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"calculate_local_remainder_multi(...)"</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L232"></a><tt class="py-lineno">232</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Feb 15 17:57:32 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

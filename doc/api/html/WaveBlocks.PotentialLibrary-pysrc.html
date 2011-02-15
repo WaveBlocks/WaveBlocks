@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.PotentialLibrary</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;PotentialLibrary
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.PotentialLibrary-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.PotentialLibrary-module.html">Module WaveBlocks.PotentialLibrary</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains some ready made potentials with up to five</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">separate energy levels. This is a pure data file without any</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">code. To load the potentials, use the I{PotentialFactory}.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-comment"># Potentials with one energy level</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-comment">##################################</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-comment">#: Simple harmonic potential</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.quadratic=WaveBlocks.PotentialLibrary-module.html#quadratic"><a title="WaveBlocks.PotentialLibrary.quadratic" class="py-name" href="#" onclick="return doclink('link-0', 'quadratic', 'link-0');">quadratic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt id="link-1" class="py-name"><a title="WaveBlocks.PotentialLibrary.quadratic" class="py-name" href="#" onclick="return doclink('link-1', 'quadratic', 'link-0');">quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"1/2 * sigma * x**2"</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt id="link-2" class="py-name"><a title="WaveBlocks.PotentialLibrary.quadratic" class="py-name" href="#" onclick="return doclink('link-2', 'quadratic', 'link-0');">quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-string">"1/2"</tt><tt class="py-op">}</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-comment">#: Perturbed harmonic potential</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.pert_quadratic=WaveBlocks.PotentialLibrary-module.html#pert_quadratic"><a title="WaveBlocks.PotentialLibrary.pert_quadratic" class="py-name" href="#" onclick="return doclink('link-3', 'pert_quadratic', 'link-3');">pert_quadratic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt id="link-4" class="py-name"><a title="WaveBlocks.PotentialLibrary.pert_quadratic" class="py-name" href="#" onclick="return doclink('link-4', 'pert_quadratic', 'link-3');">pert_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"1/2 * sigma * x**2 + 1/2 * eps**2 * x**2"</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt id="link-5" class="py-name"><a title="WaveBlocks.PotentialLibrary.pert_quadratic" class="py-name" href="#" onclick="return doclink('link-5', 'pert_quadratic', 'link-3');">pert_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-comment">#: A simple fourth order anharmonic potential</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt id="link-6" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.quartic=WaveBlocks.PotentialLibrary-module.html#quartic"><a title="WaveBlocks.PotentialLibrary.quartic" class="py-name" href="#" onclick="return doclink('link-6', 'quartic', 'link-6');">quartic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt id="link-7" class="py-name"><a title="WaveBlocks.PotentialLibrary.quartic" class="py-name" href="#" onclick="return doclink('link-7', 'quartic', 'link-6');">quartic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"1/4 * sigma * x**4"</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt id="link-8" class="py-name"><a title="WaveBlocks.PotentialLibrary.quartic" class="py-name" href="#" onclick="return doclink('link-8', 'quartic', 'link-6');">quartic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-comment">#: A potential consisting of a cosine wave</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.cos_waves=WaveBlocks.PotentialLibrary-module.html#cos_waves"><a title="WaveBlocks.PotentialLibrary.cos_waves" class="py-name" href="#" onclick="return doclink('link-9', 'cos_waves', 'link-9');">cos_waves</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt id="link-10" class="py-name"><a title="WaveBlocks.PotentialLibrary.cos_waves" class="py-name" href="#" onclick="return doclink('link-10', 'cos_waves', 'link-9');">cos_waves</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"alpha * (1 - cos(beta*x))"</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt id="link-11" class="py-name"><a title="WaveBlocks.PotentialLibrary.cos_waves" class="py-name" href="#" onclick="return doclink('link-11', 'cos_waves', 'link-9');">cos_waves</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"alpha"</tt><tt class="py-op">:</tt><tt class="py-number">0.07</tt><tt class="py-op">,</tt> <tt class="py-string">"beta"</tt><tt class="py-op">:</tt><tt class="py-number">1.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"><tt class="py-comment">#: A double well potential</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"><tt id="link-12" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.double_well=WaveBlocks.PotentialLibrary-module.html#double_well"><a title="WaveBlocks.PotentialLibrary.double_well" class="py-name" href="#" onclick="return doclink('link-12', 'double_well', 'link-12');">double_well</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"><tt id="link-13" class="py-name"><a title="WaveBlocks.PotentialLibrary.double_well" class="py-name" href="#" onclick="return doclink('link-13', 'double_well', 'link-12');">double_well</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"sigma * (x**2 - 1)**2"</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt id="link-14" class="py-name"><a title="WaveBlocks.PotentialLibrary.double_well" class="py-name" href="#" onclick="return doclink('link-14', 'double_well', 'link-12');">double_well</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">1.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line"> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"><tt class="py-comment">#: The Eckart potential</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"><tt id="link-15" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.eckart=WaveBlocks.PotentialLibrary-module.html#eckart"><a title="WaveBlocks.PotentialLibrary.eckart" class="py-name" href="#" onclick="return doclink('link-15', 'eckart', 'link-15');">eckart</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"><tt id="link-16" class="py-name"><a title="WaveBlocks.PotentialLibrary.eckart" class="py-name" href="#" onclick="return doclink('link-16', 'eckart', 'link-15');">eckart</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"sigma * cosh(x/a)**(-2)"</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"><tt id="link-17" class="py-name"><a title="WaveBlocks.PotentialLibrary.eckart" class="py-name" href="#" onclick="return doclink('link-17', 'eckart', 'link-15');">eckart</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">100</tt><tt class="py-op">*</tt><tt class="py-number">3.8088</tt><tt class="py-op">*</tt><tt class="py-number">10e-4</tt><tt class="py-op">,</tt> <tt class="py-string">"a"</tt><tt class="py-op">:</tt><tt class="py-number">1.0</tt><tt class="py-op">/</tt><tt class="py-op">(</tt><tt class="py-number">2.0</tt><tt class="py-op">*</tt><tt class="py-number">0.52918</tt><tt class="py-op">)</tt><tt class="py-op">}</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-comment">#: A smooth unitstep like wall</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt id="link-18" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.wall=WaveBlocks.PotentialLibrary-module.html#wall"><a title="WaveBlocks.PotentialLibrary.wall" class="py-name" href="#" onclick="return doclink('link-18', 'wall', 'link-18');">wall</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt id="link-19" class="py-name"><a title="WaveBlocks.PotentialLibrary.wall" class="py-name" href="#" onclick="return doclink('link-19', 'wall', 'link-18');">wall</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"atan(sigma*x) + pi/2"</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt id="link-20" class="py-name"><a title="WaveBlocks.PotentialLibrary.wall" class="py-name" href="#" onclick="return doclink('link-20', 'wall', 'link-18');">wall</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">10.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-comment">#: A narrow 'V'-like potential</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt id="link-21" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.v_shape=WaveBlocks.PotentialLibrary-module.html#v_shape"><a title="WaveBlocks.PotentialLibrary.v_shape" class="py-name" href="#" onclick="return doclink('link-21', 'v_shape', 'link-21');">v_shape</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt id="link-22" class="py-name"><a title="WaveBlocks.PotentialLibrary.v_shape" class="py-name" href="#" onclick="return doclink('link-22', 'v_shape', 'link-21');">v_shape</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">"1/2 * sqrt(9/16 * eps**2 + tanh(x)**2)"</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-comment"># Potentials with two energy levels</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt class="py-comment">###################################</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"><tt class="py-comment">#: Double harmonic potential for two components</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"><tt id="link-23" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.two_quadratic=WaveBlocks.PotentialLibrary-module.html#two_quadratic"><a title="WaveBlocks.PotentialLibrary.two_quadratic" class="py-name" href="#" onclick="return doclink('link-23', 'two_quadratic', 'link-23');">two_quadratic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt id="link-24" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_quadratic" class="py-name" href="#" onclick="return doclink('link-24', 'two_quadratic', 'link-23');">two_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/2*sigma*x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>             <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">                              <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>              <tt class="py-string">"1/2*sigma*x**2"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt id="link-25" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_quadratic" class="py-name" href="#" onclick="return doclink('link-25', 'two_quadratic', 'link-23');">two_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-comment">#: Double quartic anharmonic potential for two components</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt id="link-26" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.two_quartic=WaveBlocks.PotentialLibrary-module.html#two_quartic"><a title="WaveBlocks.PotentialLibrary.two_quartic" class="py-name" href="#" onclick="return doclink('link-26', 'two_quartic', 'link-26');">two_quartic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"><tt id="link-27" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_quartic" class="py-name" href="#" onclick="return doclink('link-27', 'two_quartic', 'link-26');">two_quartic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/4*sigma*x**4"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>             <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">                              <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>            <tt class="py-string">"1/8*sigma*x**4"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"><tt id="link-28" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_quartic" class="py-name" href="#" onclick="return doclink('link-28', 'two_quartic', 'link-26');">two_quartic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">1.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-comment">#: A potential with a single avoided crossing</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt id="link-29" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.delta_gap=WaveBlocks.PotentialLibrary-module.html#delta_gap"><a title="WaveBlocks.PotentialLibrary.delta_gap" class="py-name" href="#" onclick="return doclink('link-29', 'delta_gap', 'link-29');">delta_gap</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt id="link-30" class="py-name"><a title="WaveBlocks.PotentialLibrary.delta_gap" class="py-name" href="#" onclick="return doclink('link-30', 'delta_gap', 'link-29');">delta_gap</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/2 * tanh(x)"</tt><tt class="py-op">,</tt> <tt class="py-string">"delta"</tt>         <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">                          <tt class="py-op">[</tt><tt class="py-string">"delta"</tt><tt class="py-op">,</tt>         <tt class="py-string">"-1/2 * tanh(x)"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-comment">#: Diagonalized single avoided crossing</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt id="link-31" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.delta_gap_diag=WaveBlocks.PotentialLibrary-module.html#delta_gap_diag"><a title="WaveBlocks.PotentialLibrary.delta_gap_diag" class="py-name" href="#" onclick="return doclink('link-31', 'delta_gap_diag', 'link-31');">delta_gap_diag</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"><tt id="link-32" class="py-name"><a title="WaveBlocks.PotentialLibrary.delta_gap_diag" class="py-name" href="#" onclick="return doclink('link-32', 'delta_gap_diag', 'link-31');">delta_gap_diag</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"sqrt(delta**2 + tanh(x)**2/4)"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>                             <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">                               <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                             <tt class="py-string">"-sqrt(delta**2 + tanh(x)**2/4)"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-comment">#: A potential with two avoided crossings in series</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt id="link-33" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.two_crossings=WaveBlocks.PotentialLibrary-module.html#two_crossings"><a title="WaveBlocks.PotentialLibrary.two_crossings" class="py-name" href="#" onclick="return doclink('link-33', 'two_crossings', 'link-33');">two_crossings</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt id="link-34" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_crossings" class="py-name" href="#" onclick="return doclink('link-34', 'two_crossings', 'link-33');">two_crossings</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"tanh(x-rho)*tanh(x+rho)"</tt><tt class="py-op">,</tt> <tt class="py-string">"delta"</tt>                   <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">                              <tt class="py-op">[</tt><tt class="py-string">"delta"</tt><tt class="py-op">,</tt>                   <tt class="py-string">"-tanh(x-rho)*tanh(x+rho)"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt id="link-35" class="py-name"><a title="WaveBlocks.PotentialLibrary.two_crossings" class="py-name" href="#" onclick="return doclink('link-35', 'two_crossings', 'link-33');">two_crossings</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"rho"</tt><tt class="py-op">:</tt><tt class="py-number">3.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-comment"># Potentials with three energy levels</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-comment">#####################################</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-comment">#: Decoupled harmonic potentials for three components</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt id="link-36" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.three_quadratic=WaveBlocks.PotentialLibrary-module.html#three_quadratic"><a title="WaveBlocks.PotentialLibrary.three_quadratic" class="py-name" href="#" onclick="return doclink('link-36', 'three_quadratic', 'link-36');">three_quadratic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt id="link-37" class="py-name"><a title="WaveBlocks.PotentialLibrary.three_quadratic" class="py-name" href="#" onclick="return doclink('link-37', 'three_quadratic', 'link-36');">three_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">                                <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">                                <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt id="link-38" class="py-name"><a title="WaveBlocks.PotentialLibrary.three_quadratic" class="py-name" href="#" onclick="return doclink('link-38', 'three_quadratic', 'link-36');">three_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"><tt class="py-comment">#: A potential with three energy levels and multiple crossings</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt id="link-39" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.three_levels=WaveBlocks.PotentialLibrary-module.html#three_levels"><a title="WaveBlocks.PotentialLibrary.three_levels" class="py-name" href="#" onclick="return doclink('link-39', 'three_levels', 'link-39');">three_levels</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt id="link-40" class="py-name"><a title="WaveBlocks.PotentialLibrary.three_levels" class="py-name" href="#" onclick="return doclink('link-40', 'three_levels', 'link-39');">three_levels</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"tanh(x+rho) + tanh(x-rho)"</tt><tt class="py-op">,</tt> <tt class="py-string">"delta1"</tt><tt class="py-op">,</tt>       <tt class="py-string">"delta2"</tt>         <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">                             <tt class="py-op">[</tt><tt class="py-string">"delta1"</tt><tt class="py-op">,</tt>                    <tt class="py-string">"-tanh(x+rho)"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>              <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">                             <tt class="py-op">[</tt><tt class="py-string">"delta2"</tt><tt class="py-op">,</tt>                    <tt class="py-string">"0"</tt><tt class="py-op">,</tt>            <tt class="py-string">"1 - tanh(x-rho)"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt id="link-41" class="py-name"><a title="WaveBlocks.PotentialLibrary.three_levels" class="py-name" href="#" onclick="return doclink('link-41', 'three_levels', 'link-39');">three_levels</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"rho"</tt><tt class="py-op">:</tt><tt class="py-number">3.0</tt><tt class="py-op">}</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"><tt class="py-comment"># Potentials with four energy levels</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"><tt class="py-comment">####################################</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"><tt class="py-comment">#: Harmonic and higher order anharmonic potentials for four components</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"><tt id="link-42" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.four_powers=WaveBlocks.PotentialLibrary-module.html#four_powers"><a title="WaveBlocks.PotentialLibrary.four_powers" class="py-name" href="#" onclick="return doclink('link-42', 'four_powers', 'link-42');">four_powers</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"><tt id="link-43" class="py-name"><a title="WaveBlocks.PotentialLibrary.four_powers" class="py-name" href="#" onclick="return doclink('link-43', 'four_powers', 'link-42');">four_powers</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">                            <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/4 * sigma * x**4"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">                            <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/6 * sigma * x**6"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">                            <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/8 * sigma * x**8"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"><tt id="link-44" class="py-name"><a title="WaveBlocks.PotentialLibrary.four_powers" class="py-name" href="#" onclick="return doclink('link-44', 'four_powers', 'link-42');">four_powers</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"><tt class="py-comment"># Potentials with five energy levels</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-comment">####################################</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-comment">#: Decoupled harmonic potential for five components</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line"><tt id="link-45" class="py-name" targets="Variable WaveBlocks.PotentialLibrary.five_quadratic=WaveBlocks.PotentialLibrary-module.html#five_quadratic"><a title="WaveBlocks.PotentialLibrary.five_quadratic" class="py-name" href="#" onclick="return doclink('link-45', 'five_quadratic', 'link-45');">five_quadratic</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"><tt id="link-46" class="py-name"><a title="WaveBlocks.PotentialLibrary.five_quadratic" class="py-name" href="#" onclick="return doclink('link-46', 'five_quadratic', 'link-45');">five_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">[</tt><tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">                               <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">                               <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">                               <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">,</tt> <tt class="py-string">"0"</tt>                 <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">                               <tt class="py-op">[</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"0"</tt><tt class="py-op">,</tt>                  <tt class="py-string">"1/2 * sigma * x**2"</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"><tt id="link-47" class="py-name"><a title="WaveBlocks.PotentialLibrary.five_quadratic" class="py-name" href="#" onclick="return doclink('link-47', 'five_quadratic', 'link-45');">five_quadratic</a></tt><tt class="py-op">[</tt><tt class="py-string">"defaults"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"sigma"</tt><tt class="py-op">:</tt><tt class="py-number">0.05</tt><tt class="py-op">}</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Feb 15 17:57:32 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

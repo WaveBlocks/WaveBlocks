@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.FourierPropagator'</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;FourierPropagator'
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.FourierPropagator%27-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.FourierPropagator%27-module.html">Module WaveBlocks.FourierPropagator'</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains the Fourier propagator class.</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">numpy</tt> <tt class="py-keyword">import</tt> <tt class="py-name">arange</tt><tt class="py-op">,</tt> <tt class="py-name">append</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Variable WaveBlocks.FourierPropagator'.exp=WaveBlocks.FourierPropagator%27-module.html#exp,Variable WaveBlocks.GaussHermiteQR'.exp=WaveBlocks.GaussHermiteQR%27-module.html#exp,Variable WaveBlocks.HagedornMultiWavepacket'.exp=WaveBlocks.HagedornMultiWavepacket%27-module.html#exp,Variable WaveBlocks.HagedornWavepacket'.exp=WaveBlocks.HagedornWavepacket%27-module.html#exp"><a title="WaveBlocks.FourierPropagator'.exp
+WaveBlocks.GaussHermiteQR'.exp
+WaveBlocks.HagedornMultiWavepacket'.exp
+WaveBlocks.HagedornWavepacket'.exp" class="py-name" href="#" onclick="return doclink('link-0', 'exp', 'link-0');">exp</a></tt><tt class="py-op">,</tt> <tt class="py-name">zeros</tt><tt class="py-op">,</tt> <tt class="py-name">complexfloating</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">scipy</tt> <tt class="py-keyword">import</tt> <tt class="py-name">fft</tt><tt class="py-op">,</tt> <tt class="py-name">ifft</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Class WaveBlocks.Propagator.Propagator=WaveBlocks.Propagator.Propagator-class.html"><a title="WaveBlocks.Propagator.Propagator" class="py-name" href="#" onclick="return doclink('link-1', 'Propagator', 'link-1');">Propagator</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name"><a title="WaveBlocks.Propagator.Propagator" class="py-name" href="#" onclick="return doclink('link-2', 'Propagator', 'link-1');">Propagator</a></tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator"></a><div id="FourierPropagator-def"><a name="L16"></a><tt class="py-lineno"> 16</tt> <a class="py-toggle" href="#" id="FourierPropagator-toggle" onclick="return toggle('FourierPropagator');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html">FourierPropagator</a><tt class="py-op">(</tt><tt class="py-base-class">Propagator</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="FourierPropagator-expanded"><a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">    <tt class="py-docstring">"""This class can numerically propagate given initial values $\Ket{\Psi}$ in</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-docstring">    a potential surface $V\ofs{x}$. The propagation is done with a Strang splitting</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring">    of the time propagation operator."""</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.__init__"></a><div id="FourierPropagator.__init__-def"><a name="L21"></a><tt class="py-lineno"> 21</tt> <a class="py-toggle" href="#" id="FourierPropagator.__init__-toggle" onclick="return toggle('FourierPropagator.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">potential</tt><tt class="py-op">,</tt> <tt class="py-param">initial_values</tt><tt class="py-op">,</tt> <tt class="py-param">para</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.__init__-expanded"><a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">        <tt class="py-docstring">"""Initialize a new I{FourierPropagator} instance. Precalculate also the</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">        grid and the propagation operators.</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">        @param potential: The potential the state $\Ket{\Psi}$ feels during the time propagation.</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring">        @param initial_values: The initial values $\Ket{\Psi\ofs{t=0}}$ given in the canonical basis.</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring">        @raise ValueError: If the number of components of $\Ket{\Psi}$ does not</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">        match the number of energy levels $\lambda_i$ of the potential.</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">        <tt class="py-comment">#: The embedded I{MatrixPotential} instance representing the potential $V$.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt> <tt class="py-op">=</tt> <tt class="py-name">potential</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">        <tt class="py-comment">#: The initial values of the components $\psi_i$ sampled at the given nodes.</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt> <tt class="py-op">=</tt> <tt class="py-name">initial_values</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#get_number_components,Method WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components()=WaveBlocks.HagedornMultiPropagator%27.HagedornMultiPropagator-class.html#get_number_components,Method WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components()=WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html#get_number_components,Method WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components()=WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_number_components,Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_number_components,Method WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#get_number_components,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#get_number_components,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#get_number_components,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#get_number_components,Method WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components()=WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator-class.html#get_number_components,Method WaveBlocks.WaveFunction'.WaveFunction.get_number_components()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_number_components"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-3', 'get_number_components', 'link-3');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-4', 'get_number_components', 'link-3');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"Potential dimension and number of states do not match"</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-comment">#: The position space nodes $\gamma$.</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">nodes</tt> <tt class="py-op">=</tt> <tt class="py-name">initial_values</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method WaveBlocks.GaussHermiteQR'.GaussHermiteQR.get_nodes()=WaveBlocks.GaussHermiteQR%27.GaussHermiteQR-class.html#get_nodes,Method WaveBlocks.QuadratureRule'.QuadratureRule.get_nodes()=WaveBlocks.QuadratureRule%27.QuadratureRule-class.html#get_nodes,Method WaveBlocks.WaveFunction'.WaveFunction.get_nodes()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_nodes"><a title="WaveBlocks.GaussHermiteQR'.GaussHermiteQR.get_nodes
+WaveBlocks.QuadratureRule'.QuadratureRule.get_nodes
+WaveBlocks.WaveFunction'.WaveFunction.get_nodes" class="py-name" href="#" onclick="return doclink('link-5', 'get_nodes', 'link-5');">get_nodes</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">        <tt class="py-comment">#: The potential operator $V$ defined in position space.</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">V</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.evaluate_at()=WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html#evaluate_at,Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.evaluate_at()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#evaluate_at,Method WaveBlocks.MatrixPotential'.MatrixPotential.evaluate_at()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#evaluate_at,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.evaluate_at()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#evaluate_at,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.evaluate_at()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#evaluate_at,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.evaluate_at()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#evaluate_at"><a title="WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.evaluate_at
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.evaluate_at
+WaveBlocks.MatrixPotential'.MatrixPotential.evaluate_at
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.evaluate_at
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.evaluate_at
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.evaluate_at" class="py-name" href="#" onclick="return doclink('link-6', 'evaluate_at', 'link-6');">evaluate_at</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">nodes</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">        <tt class="py-comment">#: The momentum space nodes $\omega$.</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">omega</tt> <tt class="py-op">=</tt> <tt class="py-name">arange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">ngn</tt><tt class="py-op">/</tt><tt class="py-number">2.0</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">omega</tt> <tt class="py-op">=</tt> <tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">omega</tt><tt class="py-op">,</tt> <tt class="py-name">arange</tt><tt class="py-op">(</tt><tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">ngn</tt><tt class="py-op">/</tt><tt class="py-number">2.0</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">         </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-comment">#: The kinetic operator $T$ defined in momentum space.</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">T</tt> <tt class="py-op">=</tt> <tt class="py-number">0.5</tt> <tt class="py-op">*</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">eps</tt><tt class="py-op">**</tt><tt class="py-number">4</tt> <tt class="py-op">*</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">omega</tt><tt class="py-op">**</tt><tt class="py-number">2</tt> <tt class="py-op">/</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">f</tt><tt class="py-op">**</tt><tt class="py-number">2</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">         </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-comment">#: Exponential $\exp\ofs{T}$ of $T$ used in the Strang splitting.</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">TE</tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name"><a title="WaveBlocks.FourierPropagator'.exp
+WaveBlocks.GaussHermiteQR'.exp
+WaveBlocks.HagedornMultiWavepacket'.exp
+WaveBlocks.HagedornWavepacket'.exp" class="py-name" href="#" onclick="return doclink('link-7', 'exp', 'link-0');">exp</a></tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">0.5j</tt> <tt class="py-op">*</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">dt</tt> <tt class="py-op">*</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">eps</tt><tt class="py-op">**</tt><tt class="py-number">2</tt> <tt class="py-op">*</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">omega</tt><tt class="py-op">**</tt><tt class="py-number">2</tt> <tt class="py-op">/</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">f</tt><tt class="py-op">**</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Method WaveBlocks.MatrixPotential'.MatrixPotential.calculate_exponential()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#calculate_exponential,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_exponential()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#calculate_exponential,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_exponential()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#calculate_exponential,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_exponential()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#calculate_exponential"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.calculate_exponential
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_exponential
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_exponential
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_exponential" class="py-name" href="#" onclick="return doclink('link-8', 'calculate_exponential', 'link-8');">calculate_exponential</a></tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">0.5j</tt> <tt class="py-op">*</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">dt</tt> <tt class="py-op">/</tt> <tt class="py-name">para</tt><tt class="py-op">.</tt><tt class="py-name">eps</tt><tt class="py-op">**</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-comment">#: Exponential $\exp\ofs{V}$ of $V$ used in the Strang splitting.</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">VE</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method WaveBlocks.MatrixPotential'.MatrixPotential.evaluate_exponential_at()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#evaluate_exponential_at,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.evaluate_exponential_at()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#evaluate_exponential_at,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.evaluate_exponential_at()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#evaluate_exponential_at,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.evaluate_exponential_at()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#evaluate_exponential_at"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.evaluate_exponential_at
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.evaluate_exponential_at
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.evaluate_exponential_at
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.evaluate_exponential_at" class="py-name" href="#" onclick="return doclink('link-9', 'evaluate_exponential_at', 'link-9');">evaluate_exponential_at</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">nodes</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.__str__"></a><div id="FourierPropagator.__str__-def"><a name="L59"></a><tt class="py-lineno"> 59</tt> <a class="py-toggle" href="#" id="FourierPropagator.__str__-toggle" onclick="return toggle('FourierPropagator.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.__str__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.__str__-expanded"><a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-docstring">"""Prepare a printable string representing the I{FourierPropagator} instance."""</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">"Fourier propagator for "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-10', 'get_number_components', 'link-3');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">" components."</tt> </tt>
+</div><a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.get_number_components"></a><div id="FourierPropagator.get_number_components-def"><a name="L64"></a><tt class="py-lineno"> 64</tt> <a class="py-toggle" href="#" id="FourierPropagator.get_number_components-toggle" onclick="return toggle('FourierPropagator.get_number_components');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#get_number_components">get_number_components</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.get_number_components-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.get_number_components-expanded"><a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The number of components of $\Ket{\Psi}$."""</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-11', 'get_number_components', 'link-3');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">         </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.get_potential"></a><div id="FourierPropagator.get_potential-def"><a name="L69"></a><tt class="py-lineno"> 69</tt> <a class="py-toggle" href="#" id="FourierPropagator.get_potential-toggle" onclick="return toggle('FourierPropagator.get_potential');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#get_potential">get_potential</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.get_potential-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.get_potential-expanded"><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The I{MatrixPotential} instance used for time propagation."""</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt> </tt>
+</div><a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.get_wavefunction"></a><div id="FourierPropagator.get_wavefunction-def"><a name="L74"></a><tt class="py-lineno"> 74</tt> <a class="py-toggle" href="#" id="FourierPropagator.get_wavefunction-toggle" onclick="return toggle('FourierPropagator.get_wavefunction');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#get_wavefunction">get_wavefunction</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.get_wavefunction-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.get_wavefunction-expanded"><a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The I{WaveFunction} instance that stores the current wavefunction data."""</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt> </tt>
+</div><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.get_operators"></a><div id="FourierPropagator.get_operators-def"><a name="L79"></a><tt class="py-lineno"> 79</tt> <a class="py-toggle" href="#" id="FourierPropagator.get_operators-toggle" onclick="return toggle('FourierPropagator.get_operators');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#get_operators">get_operators</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.get_operators-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.get_operators-expanded"><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: Return the numerical expressions of the propagation</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt class="py-docstring">        operators $T$ and $V$.</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">T</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">V</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.propagate"></a><div id="FourierPropagator.propagate-def"><a name="L86"></a><tt class="py-lineno"> 86</tt> <a class="py-toggle" href="#" id="FourierPropagator.propagate-toggle" onclick="return toggle('FourierPropagator.propagate');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#propagate">propagate</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.propagate-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.propagate-expanded"><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">        <tt class="py-docstring">"""Given the wavefunction values $\Psi$ at time $t$, calculate new</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">        values at time $t + \tau$. We perform exactly one timestep $\tau$ here.</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-comment"># How many states we have</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">        <tt class="py-name">nst</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.SpawnSimplePropagator.SpawnSimplePropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-12', 'get_number_components', 'link-3');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">         </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">        <tt class="py-comment"># Read values out of current WaveFunction state</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-name">vals</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method WaveBlocks.WaveFunction'.WaveFunction.get_values()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_values"><a title="WaveBlocks.WaveFunction'.WaveFunction.get_values" class="py-name" href="#" onclick="return doclink('link-13', 'get_values', 'link-13');">get_values</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">         </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-comment"># Do the propagation</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">        <tt class="py-name">tmp</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">vals</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">shape</tt><tt class="py-op">,</tt> <tt class="py-name">dtype</tt><tt class="py-op">=</tt><tt class="py-name">complexfloating</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">vals</tt> <tt class="py-op">]</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">row</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">nst</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">col</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">nst</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">                <tt class="py-name">tmp</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">tmp</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">VE</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">*</tt><tt class="py-name">nst</tt><tt class="py-op">+</tt><tt class="py-name">col</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt class="py-name">vals</tt><tt class="py-op">[</tt><tt class="py-name">col</tt><tt class="py-op">]</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">                 </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt class="py-name">tmp</tt> <tt class="py-op">=</tt> <tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> <tt class="py-name">fft</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">tmp</tt> <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">     </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">tmp</tt> <tt class="py-op">=</tt> <tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">TE</tt> <tt class="py-op">*</tt> <tt class="py-name">item</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">tmp</tt> <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">         </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-name">tmp</tt> <tt class="py-op">=</tt> <tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> <tt class="py-name">ifft</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">tmp</tt> <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">         </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-name">values</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">tmp</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">shape</tt><tt class="py-op">,</tt> <tt class="py-name">dtype</tt><tt class="py-op">=</tt><tt class="py-name">complexfloating</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">tmp</tt> <tt class="py-op">]</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">row</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">nst</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">col</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">nst</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">                <tt class="py-name">values</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">values</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">VE</tt><tt class="py-op">[</tt><tt class="py-name">row</tt><tt class="py-op">*</tt><tt class="py-name">nst</tt><tt class="py-op">+</tt><tt class="py-name">col</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt class="py-name">tmp</tt><tt class="py-op">[</tt><tt class="py-name">col</tt><tt class="py-op">]</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">                 </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-comment"># Write values back to WaveFunction object</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method WaveBlocks.WaveFunction'.WaveFunction.set_values()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#set_values"><a title="WaveBlocks.WaveFunction'.WaveFunction.set_values" class="py-name" href="#" onclick="return doclink('link-14', 'set_values', 'link-14');">set_values</a></tt><tt class="py-op">(</tt><tt class="py-name">values</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.kinetic_energy"></a><div id="FourierPropagator.kinetic_energy-def"><a name="L117"></a><tt class="py-lineno">117</tt> <a class="py-toggle" href="#" id="FourierPropagator.kinetic_energy-toggle" onclick="return toggle('FourierPropagator.kinetic_energy');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#kinetic_energy">kinetic_energy</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">summed</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.kinetic_energy-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.kinetic_energy-expanded"><a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">        <tt class="py-docstring">"""This method just delegates the calculation of kinetic energies to the</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"><tt class="py-docstring">        embedded I{WaveFunction} object.</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword summed: Whether to sum up the kinetic energies of the individual components.</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line"><tt class="py-docstring">        @return: The kinetic energies.</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.kinetic_energy()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#kinetic_energy,Method WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.kinetic_energy()=WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html#kinetic_energy,Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.kinetic_energy()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#kinetic_energy,Method WaveBlocks.WaveFunction'.WaveFunction.kinetic_energy()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#kinetic_energy"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.kinetic_energy
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.kinetic_energy
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.kinetic_energy
+WaveBlocks.WaveFunction'.WaveFunction.kinetic_energy" class="py-name" href="#" onclick="return doclink('link-15', 'kinetic_energy', 'link-15');">kinetic_energy</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">T</tt><tt class="py-op">,</tt> <tt class="py-name">summed</tt><tt class="py-op">=</tt><tt class="py-name">summed</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"> </tt>
+<a name="FourierPropagator.potential_energy"></a><div id="FourierPropagator.potential_energy-def"><a name="L126"></a><tt class="py-lineno">126</tt> <a class="py-toggle" href="#" id="FourierPropagator.potential_energy-toggle" onclick="return toggle('FourierPropagator.potential_energy');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.FourierPropagator'.FourierPropagator-class.html#potential_energy">potential_energy</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">summed</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FourierPropagator.potential_energy-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="FourierPropagator.potential_energy-expanded"><a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-docstring">"""This method just delegates the calculation of potential energies to the</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-docstring">        embedded I{WaveFunction} object.</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword summed: Whether to sum up the potential energies of the individual components.</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-docstring">        @return: The potential energies. </tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">Psi</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.potential_energy()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#potential_energy,Method WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.potential_energy()=WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html#potential_energy,Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.potential_energy()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#potential_energy,Method WaveBlocks.WaveFunction'.WaveFunction.potential_energy()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#potential_energy"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.potential_energy
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.potential_energy
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.potential_energy
+WaveBlocks.WaveFunction'.WaveFunction.potential_energy" class="py-name" href="#" onclick="return doclink('link-16', 'potential_energy', 'link-16');">potential_energy</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">V</tt><tt class="py-op">,</tt> <tt class="py-name">summed</tt><tt class="py-op">=</tt><tt class="py-name">summed</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Feb 15 17:57:32 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
