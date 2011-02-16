@@ -9,13 +9,13 @@ This function makes a stem plot.
 @license: Modified BSD License
 """
 
-from numpy import pi, empty, array, zeros
+from numpy import pi, empty, array, zeros, real
 from matplotlib.colors import hsv_to_rgb
 from matplotlib.collections import LineCollection
-from matplotlib.pyplot import gca, plot
+from matplotlib.pyplot import gca, plot, scatter
 
 
-def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, color="k", markerp="o", **kwargs):
+def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
     """Stemplot the modulus of a complex valued function $f:I -> C$ together with its phase in a color coded fashion.
     @param grid: The grid nodes of the real domain R
     @param phase: The phase of the complex domain result f(grid)
@@ -23,7 +23,7 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
     @keyword axes: The axes instance used for plotting.
     @keyword linestylep: The line style of the phase curve.
     @keyword linewidthp: The line width of the phase curve.
-    @keyword color: The color of the phase curve.
+    @keyword color: The color of the stemmed markers.
     @keyword markerp: The shape of the stemmed markers.
     @note: Additional keyword arguments are passe to the plot function.
     """
@@ -51,5 +51,10 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
     # Plot the phase
     axes.add_collection(line_segments)
     # Plot the modulus
-    axes.plot(grid, modulus, linestyle="", marker=markerp, color=color, **kwargs)
-    axes.plot(grid, zeros(grid.shape), linestyle=linestylep, color=color, **kwargs)
+    if color is None:
+        # Scatter has a problem with complex data type, make sure values are purely real
+        axes.scatter(grid, real(modulus), c=rgb_colors[0], **kwargs)
+    else:
+        axes.plot(grid, modulus, linestyle="", marker=markerp, color=color, **kwargs)
+    # Plot the ground line
+    axes.plot(grid, zeros(grid.shape), linestyle=linestylep, color="k", **kwargs)
