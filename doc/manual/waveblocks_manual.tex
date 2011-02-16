@@ -1,10 +1,12 @@
 \documentclass[a4paper,10pt]{report}
 \usepackage[utf8x]{inputenc}
 
+\usepackage{longtable}
 \input{./header_math.tex}
 \input{./header_gfx.tex}
 \input{./header_python_listing.tex}
 \usepackage{url}
+
 
 
 \title{The \texttt{WaveBlocks} Manual}
@@ -235,7 +237,7 @@ and then produces a set of ordinary configuration files.
 
 Let's do a simple example, assume that our sample meta configuration file is \texttt{metaconfiguration\_02.py},
 its content is reprinted in listing \ref{lstmetaconf02}. The file is just another
-plain python file with only informal constraints. It has to define two dicts named
+plain python file with only informal constraints. There must be two dicts named
 \texttt{GP} and \texttt{LP} in the top level namespace. The first one, \texttt{GP},
 contains all the parameters that are global to the set of configuration. While the second
 one, \texttt{LP}, contains lists of the parameters that vary with each simulation.
@@ -290,7 +292,7 @@ prints
 \end{verbatim}
 
 and we find 6 configuration files. One file for each combination of a value for
-``eps'' and one for ``delta''. The filenames contains all local parameters as \texttt{key=value}
+``eps'' and one for ``delta''. The filenames contain all local parameters as \texttt{key=value}
 pairs. These can be used later in the post processing step by the functions from
 \texttt{FileTools.py} for sorting and grouping the simulations with respect to
 almost arbitrary criteria.
@@ -333,17 +335,19 @@ frames for animations.
 \end{verbatim}
 
 \begin{lstlisting}[float=tp,frame=single,label=lstdefbatch02,caption={Default batch configuration \texttt{batchconfiguration.py}}]
-# Default configuration of which scripts are run in the batch loop.
-# Change the content of the lists as you like but never rename the
-# variables.
+# Default configuration of which scripts are run in the
+# batch loop. Change the content of the lists as you like
+# but never rename the variables.
 
-# All scripts in this list are called for each simulation configuration
-# and with the configuration file as first command line argument
+# All scripts in this list are called for each simulation
+# configuration and with the configuration file as first
+# command line argument
 call_simulation = ["Main.py"]
 
-# All scripts in this list are called for each simulation configuration
-# but without additional arguments. They can assume that the simulation
-# results data file is available at the standard location (default: 'simulation_results.hdf5')
+# All scripts in this list are called for each simulation
+# configuration but without additional arguments. They can
+# assume that the simulation results data file is available
+# at the default location ('simulation_results.hdf5').
 call_for_each = ["ComputeNorms.py",
                  "ComputeEnergies.py",
                  #"PlotPotential.py",
@@ -356,9 +360,11 @@ call_for_each = ["ComputeNorms.py",
                  #"PlotWavepackets.py",
                  ]
 
-# The scripts in this list are called once after all simulations are finished
-# and the results were moved to the final location (default './results/*').
-# Put all scripts that do comparisons between different simulations in here.
+# The scripts in this list are called once after all
+# simulations are finished and the results were moved
+# to the final location (default './results/*'). Put
+# all scripts that do comparisons between different
+# simulations in here.
 call_once = [
              ]
 \end{lstlisting}
@@ -407,28 +413,337 @@ In this section we describe the important parts of the \texttt{WaveBlocks} packa
 from a user point of view. (For the developers point of view, see chapter ?)
 
 \subsection{Ready made Potentials}
+\label{sec:ready_made_potentials}
 
-The content of the potential library comes here
+The following sections contain all potentials that are implemented in the
+\emph{potential library}. The plots show the eigenvalues or energy surfaces.
+Some potential have additional parameters, the default values for these are
+also shown.
+
+\subsubsection{Potentials with one energy level}
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{cos\_waves}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\alpha \left(1 - \operatorname{cos}\left(\beta x\right)\right)\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \alpha &= 0.07 \\
+    \beta &= 1.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/cos_waves.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{double\_well}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\sigma \left(1 - x^{2}\right)^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 1.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/double_well.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{eckart}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{\sigma}{\operatorname{cosh}^{2}\left(\frac{x}{a}\right)}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 100 \cdot 3.8088 \cdot 10^{-4} \\
+    a &= \frac{1.0}{2.0 \cdot 0.52918}
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/eckart.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{pert\_quadratic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} + \frac{1}{2} eps^{2} x^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/pert_quadratic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{quadratic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.5
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/quadratic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{quartic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{4} \sigma x^{4}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/quartic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{v\_shape}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sqrt{\operatorname{tanh}^{2}\left(x\right) + \frac{9}{16} eps^{2}}\end{smallmatrix}\right)
+  \end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/v_shape.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{wall}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \pi + \operatorname{atan}\left(\sigma x\right)\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 10.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/wall.pdf}
+  \end{center}
+\end{minipage}
+
+
+\subsubsection{Potentials with two energy levels}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{delta\_gap}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \operatorname{tanh}\left(x\right) & \delta\\\delta & - \frac{1}{2} \operatorname{tanh}\left(x\right)\end{smallmatrix}\right)
+  \end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/delta_gap.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{delta\_gap\_diag}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\sqrt{\delta^{2} + \frac{1}{4} \operatorname{tanh}^{2}\left(x\right)} & 0\\0 & - \sqrt{\delta^{2} + \frac{1}{4} \operatorname{tanh}^{2}\left(x\right)}\end{smallmatrix}\right)
+  \end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/delta_gap_diag.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.75\linewidth}
+  Name:    \texttt{two\_crossings}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\operatorname{tanh}\left(\rho + x\right) \operatorname{tanh}\left(x - \rho\right) & \delta\\\delta & - \operatorname{tanh}\left(\rho + x\right) \operatorname{tanh}\left(x - \rho\right)\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \rho & = 3.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.25\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/two_crossings.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{two\_quadratic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} & 0\\0 & \frac{1}{2} \sigma x^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/two_quadratic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{two\_quartic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{4} \sigma x^{4} & 0\\0 & \frac{1}{8} \sigma x^{4}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 1.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/two_quartic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\subsubsection{Potentials with three energy levels}
+
+
+\begin{minipage}{0.75\linewidth}
+  Name:    \texttt{three\_levels}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\operatorname{tanh}\left(\rho + x\right) + \operatorname{tanh}\left(x - \rho\right) & \delta_{1} & \delta_{2}\\\delta_{1} & - \operatorname{tanh}\left(\rho + x\right) & 0\\\delta_{2} & 0 & 1 - \operatorname{tanh}\left(x - \rho\right)\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \rho & = 3.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.25\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/three_levels.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{three\_quadratic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} & 0 & 0\\0 & \frac{1}{2} \sigma x^{2} & 0\\0 & 0 & \frac{1}{2} \sigma x^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/three_quadratic.pdf}
+  \end{center}
+\end{minipage}
+
+
+\subsubsection{Potentials with four energy levels}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{four\_powers}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} & 0 & 0 & 0\\0 & \frac{1}{4} \sigma x^{4} & 0 & 0\\0 & 0 & \frac{1}{6} \sigma x^{6} & 0\\0 & 0 & 0 & \frac{1}{8} \sigma x^{8}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/four_powers.pdf}
+  \end{center}
+\end{minipage}
+
+
+\subsubsection{Potentials with five energy levels}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{five\_quadratic}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} & 0 & 0 & 0 & 0\\0 & \frac{1}{2} \sigma x^{2} & 0 & 0 & 0\\0 & 0 & \frac{1}{2} \sigma x^{2} & 0 & 0\\0 & 0 & 0 & \frac{1}{2} \sigma x^{2} & 0\\0 & 0 & 0 & 0 & \frac{1}{2} \sigma x^{2}\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    \sigma & = 0.05
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/five_quadratic.pdf}
+  \end{center}
+\end{minipage}
+
 
 \subsection{Time propagation algorithms}
 
-At the moment, three algorithms for time propagation are implemented.
+At the moment, three algorithms for time propagation of initial values are
+implemented.
 
-\begin{itemize}
-  \item \texttt{fourier}: Fourier propagation / Operator splitting
-  \item \texttt{hagedorn}: Homogeneous Hagedorn wavepackets
-  \item \texttt{multihagedorn}: Inhomogeneous Hagedorn wavepackets
-%   \item \texttt{spawn}: Spawning propagation for tunneling problems
-\end{itemize}
+\begin{center}
+\begin{tabular}{ll}
+  Name & Description \\
+  \hline
+  \texttt{fourier} & Fourier propagation / Operator splitting \\
+  \texttt{hagedorn} & Homogeneous Hagedorn wavepackets \\
+  \texttt{multihagedorn} & Inhomogeneous Hagedorn wavepackets \\
+%   \texttt{spawn} & Spawning propagation for tunneling problems
+\end{tabular}
+\end{center}
 
 
 \subsection{Specifying initial values}
 
 
+Initial values are always specified as wavepackets. For the Fourier propagator,
+the packets are samples at the grid nodes and for packet based algorithms, these
+initial packets are propagated. The two configuration variables \texttt{parameters}
+and \texttt{coefficients} are responsible for specifying the initial wavepackets.
+Their values are interpreted as usual.
+
 \subsection{Required parameter sets}
 
-The simulations can be configured with a very flexible scheme. There are some
-input parameters that have to be provided in any case and many others that
+The simulations can be configured with a very flexible scheme. Namely is possible
+to just specify the values that are really necessary and omit all others. There
+are some input parameters that have to be provided in any case and many others that
 are only necessary for a specific algorithm or are pure optional.
 
 In this section of the manual all parameters that can be provided are listed.
@@ -448,48 +763,60 @@ script. Just make sure there is no variable name clash.
 \begin{description}
   \item[\texttt{algorithm}] The simulation algorithm
   \begin{itemize}
-    \item \texttt{fourier}, \texttt{hagedorn}, \texttt{multihagedorn}, \texttt{spawn}
-    \item string
+    \item Possible values: \texttt{fourier}, \texttt{hagedorn}, \texttt{multihagedorn}, \texttt{spawn}
+    \item Data type: string
   \end{itemize}
 
   \item[\texttt{potential}] The potential
   \begin{itemize}
-    \item For possible values, see the PotentialLibrary
-    \item string
+    \item Possible values: see section \ref{sec:ready_made_potentials}
+    \item Data type: string or dict
   \end{itemize}
 
   \item[\texttt{T}] The time when the simulation stops
   \begin{itemize}
-    \item Non-negative float
+    \item Possible values: Non-negative float
+    \item Data type: float
   \end{itemize}
 
   \item[\texttt{dt}] The size of a single time step
   \begin{itemize}
-    \item Non-negative float
+    \item Possible values: Non-negative float
+    \item Data type: float
   \end{itemize}
 
   \item[\texttt{eps}] The semi-classical scaling parameter
   \begin{itemize}
-    \item Non-negative float
+    \item Possible values: Non-negative float
+    \item Data type: float
   \end{itemize}
 
-  \item[\texttt{parameters}] The hagedorn parameters of the initial wave packets.
+  \item[\texttt{parameters}] The Hagedorn parameters $\{P, Q, S, p, q \}$ of the
+    initial wave packets. The exact format of this variable depends on the
+    simulation algorithm used.
 
   \item[\texttt{coefficients}] A list with the lists of (index,value) tuples that
-                               set the coefficients of the basis functions for the
-                               initial wave packets.
+    set the coefficients of the basis functions for the initial wavepackets. The
+    exact format of this variable depends on the simulation algorithm used.
 
   \item[\texttt{write\_nth}] Save simulation data every n-th timestep
   \begin{itemize}
-    \item Positive Integer where the case 0 is interpreted as \emph{never}. In
-          this case only the initial values are saved.
-    \item Default is 0 if the value is not provided.
+    \item Possible values: Positive Integer where the case 0 is interpreted as
+          \emph{never}. In this case only the initial values are saved.
+    \item Data type: integer
+    \item Default value: is 0 if no other value is provided.
   \end{itemize}
 
-  \item[\texttt{save\_at}] A list of times and/or timesteps when saving the data takes place.
+  \item[\texttt{save\_at}] A list of times and/or timesteps when saving of the
+    simulation data takes place. (Which data are saved depends on the implementation
+    of the respective \texttt{SimulationLoop} subclass.)
   \begin{itemize}
-    \item A list of ints and/or floats. Integers are interpreted as timesteps and floats as times.
-    \item Default is a empty list, thus no saving at special points in time.
+    \item Possible values: A list of integers and/or floats. Integers are interpreted
+    as timesteps and floats as (absolute) times. Be always aware of this difference
+    in interpretation!
+    \item Data type: integer or float
+    \item Default value: an empty list, thus saving at special points in time
+    is not enabled.
   \end{itemize}
 \end{description}
 
@@ -498,28 +825,32 @@ script. Just make sure there is no variable name clash.
 \begin{description}
   \item[\texttt{ngn}] The number of grid nodes used for the Fourier transformation.
   \begin{itemize}
-    \item Integer, optimal is a power of 2 but this is not necessary.
+    \item Possible values: Integer, optimal is a power of 2 but this is not necessary.
+    \item Data type: integer
   \end{itemize}
 
-  \item[\texttt{f}] A scalar number that determined the extension of the computational domain.
+  \item[\texttt{f}] A scalar number that determines the extension of the computational domain.
   \begin{itemize}
-    \item A non-negative float
+    \item Possible values: A non-negative float
+    \item Data type: float
   \end{itemize}
 \end{description}
 
 \subsubsection{Parameters for the \texttt{hagedorn} propagator}
 
 \begin{description}
-  \item[\texttt{basis\_size}] Number of basis functions used for homogeneous hagedorn packets.
+  \item[\texttt{basis\_size}] Number of basis functions used for homogeneous Hagedorn wavepackets.
   \begin{itemize}
-    \item Non-negative integer greater than $2$.
+    \item Possible values: Non-negative integer larger than $2$.
+    \item Data type: integer
   \end{itemize}
 
   \item[\texttt{leading\_component}] The leading component is the eigenvalue that
-                                    governs the propagation of the hagedorn parameters.
+    governs the propagation of the wavepackets' parameters.
   \begin{itemize}
-    \item Integer in the range $0$ to $N-1$ inclusive, where $N$ is the number of
-          energy levels the given potential supports.
+    \item Possible values: Integer in the range $0$ to $N-1$ inclusive, where $N$
+      is the number of energy levels the given potential supports.
+    \item Data type: integer
   \end{itemize}
 \end{description}
 
@@ -528,7 +859,8 @@ script. Just make sure there is no variable name clash.
 \begin{description}
   \item[\texttt{basis\_size}] Number of basis functions used for inhomogeneous hagedorn packets.
   \begin{itemize}
-    \item Non-negative integer greater than $2$.
+    \item Possible values: Non-negative integer larger than $2$.
+    \item Data type: integer
   \end{itemize}
 \end{description}
 
@@ -549,26 +881,17 @@ script. Just make sure there is no variable name clash.
 
 \subsubsection{Optional parameters}
 
-All variables that are parameters of some potential can be specified
-here. For example, the \texttt{delta\_gap} has the parameter \texttt{delta}
-which can be given in the simulation configuration.
-
-\begin{description}
-  \item[\texttt{delta}] A scalar value that is used in the definition of some potentials
-  \begin{itemize}
-    \item float
-  \end{itemize}
-\end{description}
-
-
-
+All variables that appear as parameters of some potential can be specified
+here. For example, the \texttt{quadratic} potential has a parameter \texttt{sigma}
+which can be given in the simulation configuration. (Otherwise a default value
+would be used.) For potentials that contain parameters for which no default
+values are specified, these parameters must be given in the configuration file.
+An example of such a parameter is the \texttt{delta} of the \texttt{delta\_gap} potential.
 
 
 \section{Data storage}
 
-What data get written to disk
-How can we retrieve data, IOM basics, usage
-
+What data get written to disk. How can we retrieve data, IOM basics, usage, etc
 
 \subsection{How IOM works}
 
@@ -576,25 +899,31 @@ How can we retrieve data, IOM basics, usage
 
 \subsubsection{Retrieving the simulation parameters}
 
-From a hdf5 file with the simulation data we can also get the parameters this
-simulation used. Retrieval is trivial, the following interactive python
-session shows the basics which can of course be used in a user script.
+From a hdf5 file with the simulation data we can get back the parameters this
+simulation used. Retrieval is trivial, the following commented interactive python
+session shows the basics which can of course be used in a user script too.
 
 \begin{verbatim}
->>> import IOManager as IOM
->>> iom = IOM.IOManager()
->>> iom.load_file("simulation_results.hdf5")
->>> sim_params = iom.get_parameters()
->>> print(sim_params)
-====================================
-Parameters of the current simulation
-------------------------------------
-[...]
+  >>> from WaveBlocks import IOManager
+  >>> iom = IOManager()                         # create an IOM instance
+  >>> iom.load_file("simulation_results.hdf5")  # load the data file
+  >>> sim_params = iom.get_parameters()         # request the parameters
+  >>> print(sim_params)
+  ====================================
+  Parameters of the current simulation
+  ------------------------------------
+  [...]
 \end{verbatim}
+
+\subsubsection{Load simulation data}
+
+How to get particular simulation data
 
 
 \section{User scripts}
 
+Consider merging this section with chaper 2.
+Do an explicit example walk through somewhere.
 
 \subsection{Preparing simulations}
 
@@ -633,7 +962,7 @@ In detail description on how to generate valid configurations
 \end{verbatim}
 
 \begin{verbatim}
-  python Batch.py <configurations_dir> <results_dir>
+  python Batch.py <batchconfiguration.py> <configurations_dir> <results_dir>
 \end{verbatim}
 
 
@@ -645,15 +974,14 @@ In detail description on how to generate valid configurations
 Only compute/store what comes out directly from the time propagation
 (Or what would be much more difficult to computer afterwards)
 
-Compute all other data in a seperate step after the simulation finished
-Example: Norms, energies, ...
+Compute all other data in a separate step after the simulation finished
+Example: Norms, energies etc
 
 \subsection{Evaluating data}
 
 \subsection{Plot data}
 
-
-
+Call plot scripts which load the simulation data from a file and plot the values.
 
 
 
@@ -661,7 +989,7 @@ Example: Norms, energies, ...
 
 \section{Available blocks}
 
-
+See the API documentation.
 
 \chapter{Extending the \texttt{WaveBlocks} Core}
 
@@ -675,17 +1003,11 @@ A word about parameters used for the potentials.
 
 \section{Compute and store more data}
 
-IOM and IOM Plugins
+IOM and IOM Plugins, how to teach the IOM to store more/other data.
 
 \section{New propagation algorithms}
 
 Implementing the \texttt{SimulationLoop} and \texttt{Propagator} interfaces
-
-
-
-
-
-
 
 
 
@@ -694,7 +1016,5 @@ Implementing the \texttt{SimulationLoop} and \texttt{Propagator} interfaces
 \section{Interfaces}
 
 \section{Class hierarchies}
-
-
 
 \end{document}

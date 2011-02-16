@@ -35,7 +35,8 @@ delta = 0.1*eps
 # ==============
 
 # The hagedorn parameters of the initial wavepackets
-parameters = [ (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0), (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0) ]
+parameters = [ (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0),
+               (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0) ]
 
 # A list with the lists of (index,value) tuples that set the coefficients
 # of the basis functions for the initial wavepackets.
