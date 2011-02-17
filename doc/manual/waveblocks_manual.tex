@@ -47,37 +47,23 @@ efficiency are not the main concern.
 \section{Download}
 
 The \texttt{WaveBlocks} project has its home at
-\url{http://waveblocks.origo.ethz.ch/}
+\begin{center}
+  \url{http://waveblocks.origo.ethz.ch/}
+\end{center}
 and the latest version can be found in the svn repository at
-\url{https://svn.origo.ethz.ch/waveblocks/}. There are also
-older stable versions available.
+\begin{center}
+  \url{https://svn.origo.ethz.ch/waveblocks/}
+\end{center}
+Check out the \texttt{trunk} for the development version or
+one of the \texttt{tags} for stable and released versions.
+There are also older stable versions available as tarballs.
 
-\section{Installation}
+\section{Dependencies}
 
-Installing the \texttt{WaveBlocks} code itself is trivial. You just have to unpack
-the archive and place the \texttt{WaveBlocks} directory (which contains the
-library part) somewhere in your file system. Make sure the location is within
-your \textit{python path} otherwise you'll have to adapt the environment variable
-\texttt{PYTHONPATH}. For example if you place the files at \verb|~/python/WaveBlocks/|
-then you have to adapt the python path. You can write this line into your \texttt{.bashrc}
-file:
-
-\begin{verbatim}
-  export PYTHONPATH="$PYTHONPATH:~/python"
-\end{verbatim}
-
-The scripts that perform simulations, data evaluation and plotting can now be
-called from anywhere.
-
-Probably the most difficult part is to get the dependencies right. We need some
-more or less well known python packages that are not installed by default. On a
-recent Linux distribution (for example Debian), you can use the package management
-to get all the dependencies.
-
-The \texttt{WaveBlocks} code should run on Windows and Mac OS X too provided
-that the required python dependencies are installed. However, we did not test it.
-
-\subsection{Dependencies}
+Probably the most difficult part of the installation is to get the dependencies
+right. We need some more or less well known python packages that are not installed
+by default. On any recent Linux distribution (for example Debian) you can use the
+package manager to download and install all the dependencies.
 
 First, make sure you run \texttt{python 2.x} and not \texttt{python 3.x} because
 some of the following packages will not (yet) work with the latest python version.
@@ -98,11 +84,36 @@ need the package.
 \end{itemize}
 
 The package \texttt{numdifftools} is already included in the program archive.
-You should put it beside the \texttt{WaveBlocks} directory. (In the example installation
-from above, this would be \verb|~/python/numdifftools/|.) The package itself
-can be found at \url{http://code.google.com/p/numdifftools/}
+You should put it somewhere within your \emph{python path}. (In the example installation
+from below, this would be \verb|~/python/numdifftools/|, just beside the
+\texttt{WaveBlocks} directory). The package itself can be found at
+\begin{center}
+  \url{http://code.google.com/p/numdifftools/}
+\end{center}
 in case you want to look for a newer version.
 
+\section{Installation}
+
+Installing the \texttt{WaveBlocks} code itself is trivial. You just have to unpack
+the program archive and place the \texttt{WaveBlocks} directory (which contains the
+library part) somewhere in your file system. Make sure the location is within
+your \textit{python path} otherwise you'll have to adapt the environment variable
+\texttt{PYTHONPATH}. For example if you place the files at \verb|~/python/WaveBlocks/|
+then you have to adapt the python path as follows:
+
+\begin{verbatim}
+  export PYTHONPATH="$PYTHONPATH:~/python"
+\end{verbatim}
+
+You can write this line into your \texttt{.bashrc} file or any comparable file
+for you default shell.
+
+The scripts that perform simulations, data evaluation and plotting can now be
+called from anywhere. It's best to put them all together in a directory where
+you plan to work and perform simulations.
+
+The \texttt{WaveBlocks} code should run on Windows and Mac OS X too provided
+that the required python dependencies are installed. However, we did not test it.
 
 
 \chapter{Using \texttt{WaveBlocks} for performing simulations}
@@ -138,7 +149,7 @@ called \texttt{simulation\_results.hdf5} which contains all the simulation data.
 We can use the program \texttt{hdfview} to gain some insight whats in this file.
 
 Now we can start with the post processing of the data. Assume we want to plot
-the norms and energies of the wavefunction during the time evolution. These data
+the norms and energies of the wave function during the time evolution. These data
 are not computed during the simulation, but we can get them from the saved
 information. The following two command will compute these data and store them
 in \texttt{simulation\_results.hdf5}
@@ -194,10 +205,12 @@ delta = 0.1*eps
 # ==============
 
 # The hagedorn parameters of the initial wavepackets
-parameters = [ (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0), (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0) ]
+parameters = [ (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0),
+               (1.0j, 1.0-2.0j, 0.0, 1.0, -2.0) ]
 
-# A list with the lists of (index,value) tuples that set the coefficients
-# of the basis functions for the initial wavepackets.
+# A list with the lists of (index,value) tuples that set
+# the coefficients of the basis functions for the initial
+# wavepackets.
 coefficients = [ [(0,1.0)], [(0,0.0)] ]
 
 # Number of basis functions used for Hagedorn packets.
@@ -376,7 +389,7 @@ call_once = [
 \section{Computing more data}
 
 
-\section{Visualization}
+\section{Visualisation}
 
 
 \section{Comparing data across Simulations}
@@ -897,7 +910,7 @@ What data get written to disk. How can we retrieve data, IOM basics, usage, etc
 
 \subsection{What gets stored}
 
-\subsubsection{Retrieving the simulation parameters}
+\subsection{Retrieving the simulation parameters}
 
 From a hdf5 file with the simulation data we can get back the parameters this
 simulation used. Retrieval is trivial, the following commented interactive python
@@ -915,7 +928,10 @@ session shows the basics which can of course be used in a user script too.
   [...]
 \end{verbatim}
 
-\subsubsection{Load simulation data}
+With only three trivial lines of code we get back all the parameters
+that were used for the simulation!
+
+\subsection{Load simulation data}
 
 How to get particular simulation data
 
@@ -957,15 +973,33 @@ In detail description on how to generate valid configurations
 
 \subsection{Running simulations}
 
-\begin{verbatim}
-  python Main.py <simulationparameters.py>
-\end{verbatim}
+To run a single simulation, use the \texttt{Main.py} script. The first command
+line argument is the simulation configuration file (with an arbitrary file path).
 
 \begin{verbatim}
-  python Batch.py <batchconfiguration.py> <configurations_dir> <results_dir>
+  python Main.py path/to/the/simulationparameters.py
 \end{verbatim}
 
+The results will be written to the file \texttt{simulation\_results.hdf5}
+in the \emph{local} directory where the script was called and \emph{not}
+where the configuration file was loaded from.
 
+To run a bunch of simulations, use the script called \texttt{Batch.py}. It
+has three command line parameters and all are optional with sensible defaults.
+The first specifies the \emph{batch configuration} that will be used. The second
+is a directory path pointing to the directory where the configuration files
+are located. All python files within that directory (excluding recursive descent)
+will be treated as simulation configurations. The directory path default to
+\texttt{./configurations/}. Last but not least the third argument specifies the
+directory path where the simulation results (numerical data, plots etc) will be
+placed after the simulation finished. This defaults to \texttt{./results/}
+with one subdirectory for each simulation configuration. A call looks like:
+
+\begin{verbatim}
+  python Batch.py batchconfiguration.py configurations_dir results_dir
+\end{verbatim}
+
+This is all you need to know to be able to run simulations.
 
 
 
@@ -991,15 +1025,98 @@ Call plot scripts which load the simulation data from a file and plot the values
 
 See the API documentation.
 
-\chapter{Extending the \texttt{WaveBlocks} Core}
 
-In this chapter we describe what it takes to extend the \texttt{WaveBlocks}
-code base with respect to various central aspects.
+\chapter{Extending \texttt{WaveBlocks}}
 
-\section{New potentials}
+In this chapter we describe the steps to extend the \texttt{WaveBlocks}
+code base with respect to various central aspects. The most important aspect
+is probably the possibility to add new potentials of whatever kind. The other
+topics include the question on how to save more data and what it takes to
+implement new simulation algorithms.
 
-Adding new potentials to the potential library.
-A word about parameters used for the potentials.
+\section{Structure of potential definitions}
+
+Performing a simulation with a new potential that is not (yet) part of the
+\texttt{PotentialLibrary} is not difficult. All potentials are specified
+as a python dict. An simple example of a potential definition could look like:
+
+\begin{verbatim}
+  quadratic = {}
+  quadratic["potential"] = "1/2 * sigma * x**2"
+  quadratic["defaults"] = {"sigma":"1/2"}
+\end{verbatim}
+
+We see that this is nothing else than a python dict (here assigned to the
+variable \texttt{quadratic}). This dict must have a key \texttt{potential}
+and the corresponding value is the analytic potential formula. This formula
+must contain the variable \texttt{x} which is the position space variable.
+It may optionally have an arbitrary number of parameters, here for example
+the \texttt{sigma}.
+
+The dict may have a further key called \texttt{defaults} whose value is
+another dict containing default values for the parameters. These values
+are used if you do not specify a value for a parameter in the simulation
+configuration file. You may omit the defaults here, then you always have
+to provide a value in the simulation configuration. Values given in the
+simulation configuration always precede default values.
+
+The analytic potential formula is given as a string. This string is parsed
+by the \texttt{sympify} function of Sympy. You can use many of the usual
+mathematical operations and functions, for example (fractional) powers
+(\texttt{**}), roots (\texttt{sqrt()}), trigonometric and hyperbolic functions
+and their inverse functions (but remember, it's \texttt{atan} and not \texttt{arctan} etc)
+and also some constants like \texttt{pi}. Please refer to the Sympy manual
+for a more thorough description of \texttt{sympify}. The most important point is
+to make sure that the formula finally yields a scalar expression in $x$.
+
+\newpage
+A more complicated potential could be given by the following python code:
+
+\begin{verbatim}
+  delta_gap = {}
+  delta_gap["potential"] = [["1/2 * tanh(x)", "delta"         ],
+                            ["delta",         "-1/2 * tanh(x)"]]
+\end{verbatim}
+
+This potential has two energy levels and is given by a $2 \times 2$ matrix.
+The matrix is constructed as two nested python lists. Each entry is a single
+string as above. Note also that this potential does not specify a default
+for \texttt{delta}, you have to assign a scalar float value to a variable
+called \texttt{delta} in the simulation configuration. You may specify potentials
+with as many energy levels as you like.
+
+A final word on the strings representing formulae and parameter values: any string
+that \emph{only} consists of a numerical constant my be replaced by a float. But
+be careful with divisions, in python 2.x, \texttt{1/2} is \texttt{0}!
+
+\section{Adding new potentials}
+
+After we have seen the general structure of a potential definition in the last
+section, let's now look at how to add and use a new potential. For new potentials
+you have basically two options. Either place the potential definition in the
+\texttt{PotentialLibrary.py} file. Make sure your variable name (for example
+\texttt{delta\_gap}) is unique. If you decide to go this way, you can use
+the new potential by referring to it in the simulation configuration as:
+
+\begin{verbatim}
+  potential = "delta_gap"
+\end{verbatim}
+
+The other option is to place the \emph{whole} potential definition inside the
+simulation configuration file. Then this would look like:
+
+\begin{verbatim}
+  potential = {}
+  potential["potential"] = [["1/2 * tanh(x)", "delta"         ],
+                            ["delta",         "-1/2 * tanh(x)"]]
+\end{verbatim}
+
+This time you must name the dict \texttt{potential} because that's the
+variable name where the \texttt{ParameterProvider} looks for a potential.
+For the first time it might be confusing that the dict as well as its main
+key both bear the name \texttt{potential} but this is correct. Of course you
+can specify default values here too, but probably it has no real use case.
+
 
 \section{Compute and store more data}
 
@@ -1011,7 +1128,12 @@ Implementing the \texttt{SimulationLoop} and \texttt{Propagator} interfaces
 
 
 
-\chapter{For developers, Software architecture}
+\chapter{Software architecture}
+
+Some comments for developers
+
+How to achieve things that are more complicated than whats
+described in chapter 5
 
 \section{Interfaces}
 
