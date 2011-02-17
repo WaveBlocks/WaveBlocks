@@ -57,10 +57,11 @@ class MatrixPotential1S(MatrixPotential):
         return 1
         
         
-    def evaluate_at(self, nodes, component=0):
+    def evaluate_at(self, nodes, component=0, as_matrix=False):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets evaluated or 'None' to evaluate all.
+        @keyword as_matrix: Dummy parameter which has no effect here.
         @return: A list with the single entry evaluated at the nodes.
         """
         result = tuple([ numpy.array(self.functions(nodes), dtype=numpy.complexfloating) ])
@@ -79,10 +80,11 @@ class MatrixPotential1S(MatrixPotential):
             self.__valid_eigenvalues = True
         
         
-    def evaluate_eigenvalues_at(self, nodes, diagonal_component=None):
+    def evaluate_eigenvalues_at(self, nodes, diagonal_component=None, as_matrix=True):
         """Evaluate the eigenvalue $\lambda_0\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalue at.
         @keyword diagonal_component: Dummy parameter that has no effect here.
+        @keyword as_matrix: Dummy parameter which has no effect here.
         @return: A list with the single eigenvalue evaluated at the nodes.
         """
         self.calculate_eigenvalues()

@@ -110,6 +110,10 @@ class PotentialFactory:
         # The list with all free symbols
         free_symbols = tuple(set(free_symbols))
 
+        if len(free_symbols) == 0:
+            # Potential independent of x, add the symbol artificially
+            free_symbols = ( sympy.Symbol("x"), )
+
         if not potential_matrix.is_square:
             raise ValueError("Potential matrix is not square!")
 

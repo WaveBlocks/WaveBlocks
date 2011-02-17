@@ -58,10 +58,11 @@ class MatrixPotentialMS(MatrixPotential):
         return self.number_components
     
 
-    def evaluate_at(self, nodes, component=None):
+    def evaluate_at(self, nodes, component=None, as_matrix=True):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets evaluated or 'None' to evaluate all.
+        @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
         @return: A list with the $N^2$ entries evaluated at the nodes.
         """
         result = tuple([ numpy.array(f(nodes), dtype=numpy.complexfloating) for f in self.functions ])
@@ -89,10 +90,11 @@ class MatrixPotentialMS(MatrixPotential):
         self.__valid_eigenvalues = True
 
 
-    def evaluate_eigenvalues_at(self, nodes, component=None):
+    def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
         """Evaluate the eigenvalues $\lambda_i\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
         @keyword component: The index $i$ of the eigenvalue $\lambda_i$ that gets evaluated.
+        @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
         @return: A sorted list with $N$ entries for all the eigenvalues evaluated at the nodes. Or a
         single value if a component was specified.
         """

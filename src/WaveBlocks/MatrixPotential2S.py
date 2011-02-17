@@ -58,7 +58,6 @@ class MatrixPotential2S(MatrixPotential):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets evaluated or 'None' to evaluate all.
-        @keyword as_matrix: Dummy parameter which has no effect here.
         @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
         @return: A list with the $4$ entries evaluated at the nodes.
         """
