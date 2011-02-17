@@ -98,7 +98,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
         ax.plot(timegrid, imag(item), label=r"$\Im S$")
     ax.set_title(r"$\Im S$")
     
-    fig.savefig("parameters.png")
+    fig.savefig("wavepacket_parameters.png")
     close(fig)
 
 
