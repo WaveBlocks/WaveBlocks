@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.ParameterProvider'</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;ParameterProvider'
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.ParameterProvider%27-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.ParameterProvider%27-module.html">Module WaveBlocks.ParameterProvider'</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">Reads configuration files containing the simulation parameters and</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">provides these values to the simulation as global singleton.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">types</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Class WaveBlocks.PotentialFactory'.PotentialFactory=WaveBlocks.PotentialFactory%27.PotentialFactory-class.html"><a title="WaveBlocks.PotentialFactory'.PotentialFactory" class="py-name" href="#" onclick="return doclink('link-0', 'PotentialFactory', 'link-0');">PotentialFactory</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name"><a title="WaveBlocks.PotentialFactory'.PotentialFactory" class="py-name" href="#" onclick="return doclink('link-1', 'PotentialFactory', 'link-0');">PotentialFactory</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">PF</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Class WaveBlocks.TimeManager'.TimeManager=WaveBlocks.TimeManager%27.TimeManager-class.html"><a title="WaveBlocks.TimeManager'.TimeManager" class="py-name" href="#" onclick="return doclink('link-2', 'TimeManager', 'link-2');">TimeManager</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name"><a title="WaveBlocks.TimeManager'.TimeManager" class="py-name" href="#" onclick="return doclink('link-3', 'TimeManager', 'link-2');">TimeManager</a></tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider"></a><div id="ParameterProvider-def"><a name="L17"></a><tt class="py-lineno"> 17</tt> <a class="py-toggle" href="#" id="ParameterProvider-toggle" onclick="return toggle('ParameterProvider');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html">ParameterProvider</a><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="ParameterProvider-expanded"><a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__init__"></a><div id="ParameterProvider.__init__-def"><a name="L19"></a><tt class="py-lineno"> 19</tt> <a class="py-toggle" href="#" id="ParameterProvider.__init__-toggle" onclick="return toggle('ParameterProvider.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__init__-expanded"><a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">        <tt class="py-comment">#: Dict for storing the configuration parameters.</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+</div><a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__getattr__"></a><div id="ParameterProvider.__getattr__-def"><a name="L24"></a><tt class="py-lineno"> 24</tt> <a class="py-toggle" href="#" id="ParameterProvider.__getattr__-toggle" onclick="return toggle('ParameterProvider.__getattr__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__getattr__">__getattr__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__getattr__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__getattr__-expanded"><a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">        <tt class="py-comment"># todo: This is slow, speed up necessary?</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">     </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__getitem__"></a><div id="ParameterProvider.__getitem__-def"><a name="L29"></a><tt class="py-lineno"> 29</tt> <a class="py-toggle" href="#" id="ParameterProvider.__getitem__-toggle" onclick="return toggle('ParameterProvider.__getitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__getitem__">__getitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__getitem__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__getitem__-expanded"><a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__setitem__"></a><div id="ParameterProvider.__setitem__-def"><a name="L33"></a><tt class="py-lineno"> 33</tt> <a class="py-toggle" href="#" id="ParameterProvider.__setitem__-toggle" onclick="return toggle('ParameterProvider.__setitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__setitem__">__setitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">,</tt> <tt class="py-param">value</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__setitem__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__setitem__-expanded"><a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">value</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__iter__"></a><div id="ParameterProvider.__iter__-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="ParameterProvider.__iter__-toggle" onclick="return toggle('ParameterProvider.__iter__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__iter__">__iter__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__iter__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__iter__-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-comment"># For itertion over the parameter key-value pairs</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">.</tt><tt class="py-name">iteritems</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">            <tt class="py-keyword">yield</tt> <tt class="py-name">item</tt> </tt>
+</div><a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__repr__"></a><div id="ParameterProvider.__repr__-def"><a name="L43"></a><tt class="py-lineno"> 43</tt> <a class="py-toggle" href="#" id="ParameterProvider.__repr__-toggle" onclick="return toggle('ParameterProvider.__repr__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__repr__">__repr__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__repr__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__repr__-expanded"><a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">"A ParameterProvider instance."</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.has_key"></a><div id="ParameterProvider.has_key-def"><a name="L47"></a><tt class="py-lineno"> 47</tt> <a class="py-toggle" href="#" id="ParameterProvider.has_key-toggle" onclick="return toggle('ParameterProvider.has_key');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#has_key">has_key</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.has_key-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.has_key-expanded"><a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method WaveBlocks.ParameterProvider'.ParameterProvider.has_key()=WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#has_key"><a title="WaveBlocks.ParameterProvider'.ParameterProvider.has_key" class="py-name" href="#" onclick="return doclink('link-4', 'has_key', 'link-4');">has_key</a></tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">     </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.get_configuration_variables"></a><div id="ParameterProvider.get_configuration_variables-def"><a name="L51"></a><tt class="py-lineno"> 51</tt> <a class="py-toggle" href="#" id="ParameterProvider.get_configuration_variables-toggle" onclick="return toggle('ParameterProvider.get_configuration_variables');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#get_configuration_variables">get_configuration_variables</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">_scriptcode</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.get_configuration_variables-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.get_configuration_variables-expanded"><a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-docstring">"""Clean environment for reading in local parameters.</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">        @param _scriptcode: String with the configuration code to execute.</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-comment"># Execute the configuration file, they are plain python files</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-keyword">exec</tt><tt class="py-op">(</tt><tt class="py-name">_scriptcode</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-comment"># Filter out private variables (the ones prefixed by "_")</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-comment"># instances like "self" and imported modules.</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-name">parameters</tt> <tt class="py-op">=</tt> <tt class="py-name">locals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">items</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">         </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-name">parameters</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-name">item</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">parameters</tt> <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-name">types</tt><tt class="py-op">.</tt><tt class="py-name">ModuleType</tt> <tt class="py-op">]</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-name">parameters</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-name">item</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">parameters</tt> <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-name">types</tt><tt class="py-op">.</tt><tt class="py-name">InstanceType</tt> <tt class="py-op">]</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">        <tt class="py-name">parameters</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-name">item</tt> <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">parameters</tt> <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">item</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">"_"</tt><tt class="py-op">)</tt> <tt class="py-op">]</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">dict</tt><tt class="py-op">(</tt><tt class="py-name">parameters</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.incompletion_tolerance"></a><div id="ParameterProvider.incompletion_tolerance-def"><a name="L69"></a><tt class="py-lineno"> 69</tt> <a class="py-toggle" href="#" id="ParameterProvider.incompletion_tolerance-toggle" onclick="return toggle('ParameterProvider.incompletion_tolerance');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#incompletion_tolerance">incompletion_tolerance</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.incompletion_tolerance-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.incompletion_tolerance-expanded"><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">        <tt class="py-docstring">"""Be fault tolerant for some incomplete configurations.</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">        <tt class="py-comment"># todo: Improve or remove</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-string">"write_nth"</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">:</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"write_nth"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-string">"save_at"</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">:</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"save_at"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-comment"># Number of space dimensions</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"dimension"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+</div><a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.compute_parameters"></a><div id="ParameterProvider.compute_parameters-def"><a name="L83"></a><tt class="py-lineno"> 83</tt> <a class="py-toggle" href="#" id="ParameterProvider.compute_parameters-toggle" onclick="return toggle('ParameterProvider.compute_parameters');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#compute_parameters">compute_parameters</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.compute_parameters-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.compute_parameters-expanded"><a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">        <tt class="py-docstring">"""Compute some further parameters from the given ones.</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt> <tt class="py-op">=</tt> <tt id="link-5" class="py-name"><a title="WaveBlocks.TimeManager'.TimeManager" class="py-name" href="#" onclick="return doclink('link-5', 'TimeManager', 'link-2');">TimeManager</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method WaveBlocks.TimeManager'.TimeManager.set_T()=WaveBlocks.TimeManager%27.TimeManager-class.html#set_T"><a title="WaveBlocks.TimeManager'.TimeManager.set_T" class="py-name" href="#" onclick="return doclink('link-6', 'set_T', 'link-6');">set_T</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"T"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Method WaveBlocks.TimeManager'.TimeManager.set_dt()=WaveBlocks.TimeManager%27.TimeManager-class.html#set_dt"><a title="WaveBlocks.TimeManager'.TimeManager.set_dt" class="py-name" href="#" onclick="return doclink('link-7', 'set_dt', 'link-7');">set_dt</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"dt"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-comment"># todo: Fix and improve, decide what to do if not all data are given.</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">        <tt class="py-comment"># Set the interval for saving data</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Method WaveBlocks.TimeManager'.TimeManager.set_interval()=WaveBlocks.TimeManager%27.TimeManager-class.html#set_interval"><a title="WaveBlocks.TimeManager'.TimeManager.set_interval" class="py-name" href="#" onclick="return doclink('link-8', 'set_interval', 'link-8');">set_interval</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"write_nth"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-comment"># Set the fixed times for saving data</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method WaveBlocks.TimeManager'.TimeManager.add_to_savelist()=WaveBlocks.TimeManager%27.TimeManager-class.html#add_to_savelist"><a title="WaveBlocks.TimeManager'.TimeManager.add_to_savelist" class="py-name" href="#" onclick="return doclink('link-9', 'add_to_savelist', 'link-9');">add_to_savelist</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"save_at"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">        <tt class="py-comment"># The number of time steps we will perform.</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"nsteps"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method WaveBlocks.TimeManager'.TimeManager.compute_number_timesteps()=WaveBlocks.TimeManager%27.TimeManager-class.html#compute_number_timesteps"><a title="WaveBlocks.TimeManager'.TimeManager.compute_number_timesteps" class="py-name" href="#" onclick="return doclink('link-10', 'compute_number_timesteps', 'link-10');">compute_number_timesteps</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-comment"># Ugly hack. Should improve handling of potential libraries</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt class="py-name">Potential</tt> <tt class="py-op">=</tt> <tt class="py-name">PF</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Static Method WaveBlocks.PotentialFactory'.PotentialFactory.create_potential()=WaveBlocks.PotentialFactory%27.PotentialFactory-class.html#create_potential"><a title="WaveBlocks.PotentialFactory'.PotentialFactory.create_potential" class="py-name" href="#" onclick="return doclink('link-11', 'create_potential', 'link-11');">create_potential</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">        <tt class="py-comment"># Number of components of $\Psi$</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"ncomponents"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">Potential</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#get_number_components,Method WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components()=WaveBlocks.HagedornMultiPropagator%27.HagedornMultiPropagator-class.html#get_number_components,Method WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components()=WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html#get_number_components,Method WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components()=WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_number_components,Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_number_components,Method WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#get_number_components,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#get_number_components,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#get_number_components,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#get_number_components,Method WaveBlocks.Propagator'.Propagator.get_number_components()=WaveBlocks.Propagator%27.Propagator-class.html#get_number_components,Method WaveBlocks.WaveFunction'.WaveFunction.get_number_components()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_number_components"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator.get_number_components
+WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornWavepacket'.HagedornWavepacket.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.Propagator'.Propagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components" class="py-name" href="#" onclick="return doclink('link-12', 'get_number_components', 'link-12');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.read_parameters"></a><div id="ParameterProvider.read_parameters-def"><a name="L107"></a><tt class="py-lineno">107</tt> <a class="py-toggle" href="#" id="ParameterProvider.read_parameters-toggle" onclick="return toggle('ParameterProvider.read_parameters');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#read_parameters">read_parameters</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">filepath</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.read_parameters-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.read_parameters-expanded"><a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-docstring">"""Read the parameters from a configuration file.</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"><tt class="py-docstring">        @param filepath: Path to the configuration file.</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-comment"># Read the configuration file</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">        <tt class="py-name">cf</tt> <tt class="py-op">=</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">filepath</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-name">content</tt> <tt class="py-op">=</tt> <tt class="py-name">cf</tt><tt class="py-op">.</tt><tt class="py-name">read</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">        <tt class="py-name">cf</tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">        <tt class="py-comment"># All the parameters as dict</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">        <tt class="py-name">params</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method WaveBlocks.ParameterProvider'.ParameterProvider.get_configuration_variables()=WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#get_configuration_variables"><a title="WaveBlocks.ParameterProvider'.ParameterProvider.get_configuration_variables" class="py-name" href="#" onclick="return doclink('link-13', 'get_configuration_variables', 'link-13');">get_configuration_variables</a></tt><tt class="py-op">(</tt><tt class="py-name">content</tt><tt class="py-op">)</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">        <tt class="py-comment"># Put the values into the local storage</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">key</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt> <tt class="py-keyword">in</tt> <tt class="py-name">params</tt><tt class="py-op">.</tt><tt class="py-name">iteritems</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">value</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">        <tt class="py-comment"># Compensate for some missing values</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method WaveBlocks.ParameterProvider'.ParameterProvider.incompletion_tolerance()=WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#incompletion_tolerance"><a title="WaveBlocks.ParameterProvider'.ParameterProvider.incompletion_tolerance" class="py-name" href="#" onclick="return doclink('link-14', 'incompletion_tolerance', 'link-14');">incompletion_tolerance</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">        <tt class="py-comment"># Compute some values on top of the given input parameters</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method WaveBlocks.ParameterProvider'.ParameterProvider.compute_parameters()=WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#compute_parameters"><a title="WaveBlocks.ParameterProvider'.ParameterProvider.compute_parameters" class="py-name" href="#" onclick="return doclink('link-15', 'compute_parameters', 'link-15');">compute_parameters</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.get_timemanager"></a><div id="ParameterProvider.get_timemanager-def"><a name="L130"></a><tt class="py-lineno">130</tt> <a class="py-toggle" href="#" id="ParameterProvider.get_timemanager-toggle" onclick="return toggle('ParameterProvider.get_timemanager');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#get_timemanager">get_timemanager</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.get_timemanager-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.get_timemanager-expanded"><a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">        <tt class="py-docstring">"""Return the embedded I{TimeManager} instance.</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_tm</tt> </tt>
+</div><a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line"> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"> </tt>
+<a name="ParameterProvider.__str__"></a><div id="ParameterProvider.__str__-def"><a name="L136"></a><tt class="py-lineno">136</tt> <a class="py-toggle" href="#" id="ParameterProvider.__str__-toggle" onclick="return toggle('ParameterProvider.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ParameterProvider'.ParameterProvider-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterProvider.__str__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ParameterProvider.__str__-expanded"><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">=</tt>  <tt class="py-string">"====================================\n"</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"Parameters of the current simulation\n"</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"------------------------------------\n"</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">" Propagation algorithm: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"algorithm"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">" Potential: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"potential"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Number components: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"ncomponents"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">" Timestepping:\n"</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Final simulation time: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"T"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Time step size: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"dt"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Number of timesteps: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"nsteps"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">" I/O related:\n"</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Write results every step (0 = never): "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"write_nth"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  Write results at time/timesteps (additionally): "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">"save_at"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"------------------------------------\n"</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"All parameters provided\n"</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"------------------------------------\n"</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">        <tt class="py-name">keys</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">.</tt><tt class="py-name">keys</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">        <tt class="py-name">keys</tt><tt class="py-op">.</tt><tt class="py-name">sort</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">         </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">keys</tt><tt class="py-op">:</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">            <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"  "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">": "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt class="py-name">s</tt> <tt class="py-op">+=</tt> <tt class="py-string">"====================================\n"</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">s</tt> </tt>
+</div></div><a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 17:35:36 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
