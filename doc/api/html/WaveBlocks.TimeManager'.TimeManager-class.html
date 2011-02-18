@@ -54,14 +54,14 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class TimeManager</h1><p class="nomargin-top"><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager">source&nbsp;code</a></span></p>
-<p>This class performs several computation with time, timesteps and so 
-  for. The important quantities here are: T  : the fixed simulation end 
-  time dt : the size of the timestep N  : the overall number of timesteps. 
-  t  : an unspecified time in the interval [0, T] n  : an unspecified 
+<p>This class performs several computation with time, timesteps and so
+  for. The important quantities here are: T  : the fixed simulation end
+  time dt : the size of the timestep N  : the overall number of timesteps.
+  t  : an unspecified time in the interval [0, T] n  : an unspecified
   timestep in the interval [0, N] The importtant relations that hold are: T
-  = N * dt  and in analogy  t = n * dt There are also conversion routines 
-  for t and n. Additionally the class contains some routines for 
-  determining if and when to save data. But we do not touch any data in 
+  = N * dt  and in analogy  t = n * dt There are also conversion routines
+  for t and n. Additionally the class contains some routines for
+  determining if and when to save data. But we do not touch any data in
   here.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -90,11 +90,11 @@
           <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.__init__">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -106,11 +106,11 @@
           <td><span class="summary-sig"><a name="__str__"></a><span class="summary-sig-name">__str__</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.__str__">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -121,15 +121,15 @@
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.TimeManager%27.TimeManager-class.html#add_to_savelist" class="summary-sig-name">add_to_savelist</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">alist</span>)</span><br />
-      Add a list of times and/or timesteps to the list of times which 
+      Add a list of times and/or timesteps to the list of times which
       determine when to save data.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.add_to_savelist">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -142,11 +142,11 @@
       Compute the number of saves we will perform during the simulation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_number_saves">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -159,11 +159,11 @@
       Computes the number of time steps we will perform.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_number_timesteps">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -177,11 +177,11 @@
       Compute the time t from a timestep n such that t = n * dt holds.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_time">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -195,11 +195,11 @@
       Compute the timestep n from a time t such that t = n * dt holds.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_timestep">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -213,11 +213,11 @@
       Determine if we have to save right now.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.must_save">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -231,11 +231,11 @@
       Set the simulation endtime T.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_T">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -249,11 +249,11 @@
       Set the simulation timestep size dt.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_dt">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -267,11 +267,11 @@
       Set the inteval for saving results.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_interval">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 </table>
@@ -307,18 +307,18 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.add_to_savelist">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Add a list of times and/or timesteps to the list of times which 
+
+  <p>Add a list of times and/or timesteps to the list of times which
   determine when to save data.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>alist</code></strong> - A list with integers (interpreted as timesteps) and/or floats 
+        <li><strong class="pname"><code>alist</code></strong> - A list with integers (interpreted as timesteps) and/or floats
           (interpreted as times)</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The times and timesteps can be mixed and needn't to be given in 
+        The times and timesteps can be mixed and needn't to be given in
         monotone order.
       </p>
 </div></td></tr></table>
@@ -336,9 +336,9 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_number_saves">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Compute the number of saves we will perform during the simulation. 
-  This can be used to determine how much space to allocate in the output 
+
+  <p>Compute the number of saves we will perform during the simulation.
+  This can be used to determine how much space to allocate in the output
   files.</p>
   <dl class="fields">
   </dl>
@@ -358,7 +358,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_time">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Compute the time t from a timestep n such that t = n * dt holds.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -382,7 +382,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.compute_timestep">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Compute the timestep n from a time t such that t = n * dt holds.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -409,7 +409,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.must_save">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Determine if we have to save right now.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -433,7 +433,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_T">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Set the simulation endtime T.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -457,7 +457,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_dt">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Set the simulation timestep size dt.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -481,7 +481,7 @@
     ><span class="codelink"><a href="WaveBlocks.TimeManager%27-pysrc.html#TimeManager.set_interval">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Set the inteval for saving results.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -518,7 +518,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb 18 17:35:35 2011
+    Generated by Epydoc 3.0.1 on Fri Feb 18 17:52:40 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

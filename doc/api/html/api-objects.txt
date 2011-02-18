@@ -53,6 +53,17 @@ WaveBlocks.MatrixPotentialMS'	WaveBlocks.MatrixPotentialMS%27-module.html
 WaveBlocks.MatrixPotentialMS'.__package__	WaveBlocks.MatrixPotentialMS%27-module.html#__package__
 WaveBlocks.ParameterProvider'	WaveBlocks.ParameterProvider%27-module.html
 WaveBlocks.ParameterProvider'.__package__	WaveBlocks.ParameterProvider%27-module.html#__package__
+WaveBlocks.Plot.legend'	WaveBlocks.Plot.legend%27-module.html
+WaveBlocks.Plot.legend'.legend	WaveBlocks.Plot.legend%27-module.html#legend
+WaveBlocks.Plot.legend'.__package__	WaveBlocks.Plot.legend%27-module.html#__package__
+WaveBlocks.Plot.plotcf'	WaveBlocks.Plot.plotcf%27-module.html
+WaveBlocks.Plot.plotcf'.plotcf	WaveBlocks.Plot.plotcf%27-module.html#plotcf
+WaveBlocks.Plot.plotcf'.__package__	WaveBlocks.Plot.plotcf%27-module.html#__package__
+WaveBlocks.Plot.plotcf'.pi	WaveBlocks.Plot.plotcf%27-module.html#pi
+WaveBlocks.Plot.stemcf'	WaveBlocks.Plot.stemcf%27-module.html
+WaveBlocks.Plot.stemcf'.stemcf	WaveBlocks.Plot.stemcf%27-module.html#stemcf
+WaveBlocks.Plot.stemcf'.__package__	WaveBlocks.Plot.stemcf%27-module.html#__package__
+WaveBlocks.Plot.stemcf'.pi	WaveBlocks.Plot.stemcf%27-module.html#pi
 WaveBlocks.PotentialFactory'	WaveBlocks.PotentialFactory%27-module.html
 WaveBlocks.PotentialFactory'.__package__	WaveBlocks.PotentialFactory%27-module.html#__package__
 WaveBlocks.PotentialLibrary	WaveBlocks.PotentialLibrary-module.html

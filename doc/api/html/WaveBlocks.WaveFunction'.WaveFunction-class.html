@@ -54,9 +54,9 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class WaveFunction</h1><p class="nomargin-top"><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction">source&nbsp;code</a></span></p>
-<p>This class represents a vector valued quantum state $\Ket{\Psi}$ as 
+<p>This class represents a vector valued quantum state $\Ket{\Psi}$ as
   used in the vector valued time-dependent Schroedinger equation. The state
-  $\Ket{\Psi}$ is composed of $\psi_0, \ldots, \psi_{N-1}$ where $\psi_i$ 
+  $\Ket{\Psi}$ is composed of $\psi_0, \ldots, \psi_{N-1}$ where $\psi_i$
   is a single wavefunction component.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -84,15 +84,15 @@
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.WaveFunction%27.WaveFunction-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">parameters</span>)</span><br />
-      Initialize the <i>WaveFunction</i> object that represents the vector 
+      Initialize the <i>WaveFunction</i> object that represents the vector
       of states $\Ket{\Psi}$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.__init__">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -106,11 +106,11 @@
       A string that describes the wavefunction $\Ket{\Psi}$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.__str__">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -124,11 +124,11 @@
       The grid nodes $\gamma$ the wave function values belong to.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_nodes">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -141,15 +141,15 @@
         <span class="summary-sig-arg">values</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">summed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">component</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Calculate the $L^2$ norm of the whole vector $\Ket{\Psi}$ or some 
+      Calculate the $L^2$ norm of the whole vector $\Ket{\Psi}$ or some
       individual components $\psi_i$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_norm">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -160,15 +160,15 @@
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_number_components" class="summary-sig-name">get_number_components</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Returns:
-      The number of components $\psi_i$ the vector $\Ket{\Psi}$ consists 
+      The number of components $\psi_i$ the vector $\Ket{\Psi}$ consists
       of.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_number_components">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -181,11 +181,11 @@
       Return the wave function values for each component of $\Ket{\Psi}$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_values">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -197,15 +197,15 @@
           <td><span class="summary-sig"><a href="WaveBlocks.WaveFunction%27.WaveFunction-class.html#kinetic_energy" class="summary-sig-name">kinetic_energy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">kinetic</span>,
         <span class="summary-sig-arg">summed</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Calculate the kinetic energy $E_{       ext{kin}} ssign 
+      Calculate the kinetic energy $E_{       ext{kin}} =
       \Braket{\Psi|T|\Psi}$ of the different components.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.kinetic_energy">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -217,15 +217,15 @@
           <td><span class="summary-sig"><a href="WaveBlocks.WaveFunction%27.WaveFunction-class.html#potential_energy" class="summary-sig-name">potential_energy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">potential</span>,
         <span class="summary-sig-arg">summed</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Calculate the potential energy $E_{     ext{pot}} ssign 
+      Calculate the potential energy $E_{     ext{pot}} =
       \Braket{\Psi|V|\Psi}$ of the different components.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.potential_energy">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -239,11 +239,11 @@
       Assign a new grid to the wavefunction.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.set_grid">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 <tr>
@@ -258,11 +258,11 @@
       Assign new function values for each component of $\Ket{\Psi}$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.set_values">source&nbsp;code</a></span>
-            
+
           </td>
         </tr>
       </table>
-      
+
     </td>
   </tr>
 </table>
@@ -299,13 +299,13 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Initialize the <i>WaveFunction</i> object that represents the vector 
+
+  <p>Initialize the <i>WaveFunction</i> object that represents the vector
   of states $\Ket{\Psi}$.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>parameters</code></strong> - A <i>ParameterProvider</i> instance with at least the items 
+        <li><strong class="pname"><code>parameters</code></strong> - A <i>ParameterProvider</i> instance with at least the items
           'ncomponents', 'f' and 'ngn'.</li>
     </ul></dd>
   </dl>
@@ -325,8 +325,8 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.__str__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  
+
+
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A string that describes the wavefunction $\Ket{\Psi}$.</dd>
@@ -346,8 +346,8 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_nodes">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  
+
+
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The grid nodes $\gamma$ the wave function values belong to.</dd>
@@ -370,20 +370,20 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_norm">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Calculate the $L^2$ norm of the whole vector $\Ket{\Psi}$ or some 
-  individual components $\psi_i$. The calculation is done in momentum 
+
+  <p>Calculate the $L^2$ norm of the whole vector $\Ket{\Psi}$ or some
+  individual components $\psi_i$. The calculation is done in momentum
   space.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>values</code></strong> - Allows to use this function for external data, similar to a 
+        <li><strong class="pname"><code>values</code></strong> - Allows to use this function for external data, similar to a
           static function.</li>
         <li><strong class="pname"><code>summed</code></strong> - Whether to sum up the norms of the individual components.</li>
         <li><strong class="pname"><code>component</code></strong> - The component $\psi_i$ of which the norm is calculated.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The $L^2$ norm of $\Ket{\Psi}$ or a list of the $L^2$ norms of 
+        <dd>The $L^2$ norm of $\Ket{\Psi}$ or a list of the $L^2$ norms of
           all components $\psi_i$. (Depending on the optional arguments.)</dd>
   </dl>
 </td></tr></table>
@@ -401,11 +401,11 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_number_components">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  
+
+
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The number of components $\psi_i$ the vector $\Ket{\Psi}$ 
+        <dd>The number of components $\psi_i$ the vector $\Ket{\Psi}$
           consists of.</dd>
   </dl>
 </td></tr></table>
@@ -423,12 +423,12 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.get_values">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Return the wave function values for each component of 
+
+  <p>Return the wave function values for each component of
   $\Ket{\Psi}$.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A list with the values of all components $\psi_i$ evaluated on 
+        <dd>A list with the values of all components $\psi_i$ evaluated on
           the grid nodes $\gamma$.</dd>
   </dl>
 </td></tr></table>
@@ -448,18 +448,18 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.kinetic_energy">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Calculate the kinetic energy $E_{       ext{kin}} ssign 
+
+  <p>Calculate the kinetic energy $E_{       ext{kin}} =
   \Braket{\Psi|T|\Psi}$ of the different components.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>kinetic</code></strong> - The kinetic energy operator $T$.</li>
-        <li><strong class="pname"><code>summed</code></strong> - Whether to sum up the kinetic energies of the individual 
+        <li><strong class="pname"><code>summed</code></strong> - Whether to sum up the kinetic energies of the individual
           components.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A list with the kinetic energies of the individual components or 
+        <dd>A list with the kinetic energies of the individual components or
           the overall kinetic energy of the wavefunction. (Depending on the
           optional arguments.)</dd>
   </dl>
@@ -480,19 +480,19 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.potential_energy">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Calculate the potential energy $E_{     ext{pot}} ssign 
+
+  <p>Calculate the potential energy $E_{     ext{pot}} =
   \Braket{\Psi|V|\Psi}$ of the different components.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>potential</code></strong> - The potential energy operator $V$.</li>
-        <li><strong class="pname"><code>summed</code></strong> - Whether to sum up the potential energies of the individual 
+        <li><strong class="pname"><code>summed</code></strong> - Whether to sum up the potential energies of the individual
           components.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A list with the potential energies of the individual components 
-          or the overall potential energy of the wavefunction. (Depending 
+        <dd>A list with the potential energies of the individual components
+          or the overall potential energy of the wavefunction. (Depending
           on the optional arguments.)</dd>
   </dl>
 </td></tr></table>
@@ -511,8 +511,8 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.set_grid">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
-  <p>Assign a new grid to the wavefunction. All values are regarded to 
+
+  <p>Assign a new grid to the wavefunction. All values are regarded to
   belong to these grid nodes.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -537,7 +537,7 @@
     ><span class="codelink"><a href="WaveBlocks.WaveFunction%27-pysrc.html#WaveFunction.set_values">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
-  
+
   <p>Assign new function values for each component of $\Ket{\Psi}$.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -575,7 +575,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb 18 17:35:35 2011
+    Generated by Epydoc 3.0.1 on Fri Feb 18 17:52:40 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
