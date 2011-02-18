@@ -12,8 +12,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks.Plot import stemcf
 
-x = np.r_[-1.:1.:1j*2**6]
-u = np.exp(-x**2)*(np.cos(10*x) + 1j *np.sin(10*x))
+x = np.r_[0.0:2.0*np.pi:1j*2**6]
+u = np.exp( -1.0j * x )
 
 rvals = np.real(u)
 ivals = np.imag(u)
