@@ -11,7 +11,7 @@ from numpy import *
 from matplotlib.pyplot import *
 
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks.plot import plotcf
+from WaveBlocks.Plot import plotcf
 
 nmax = 10
 amp0 = 0.5

@@ -12,7 +12,7 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
-from WaveBlocks.plot import legend
+from WaveBlocks.Plot import legend
 
 
 def plot_potential(grid, potential, imgsize=(8,6)):

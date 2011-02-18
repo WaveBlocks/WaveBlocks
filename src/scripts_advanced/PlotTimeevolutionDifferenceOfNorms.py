@@ -18,7 +18,7 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 from WaveBlocks import GlobalDefaults
-from WaveBlocks.plot import legend
+from WaveBlocks.Plot import legend
 
 
 def load_data(resultspath):
@@ -43,7 +43,6 @@ def load_data(resultspath):
         if len(dirs_f) != len(dirs_h):
             raise ValueError("Found different number of fourier and hagedorn simulations!")
         
-        # And sort by ascending d value        
         dirs_f = FT.sort_by(dirs_f, "eps", as_string=True)
         dirs_h = FT.sort_by(dirs_h, "eps", as_string=True)
         

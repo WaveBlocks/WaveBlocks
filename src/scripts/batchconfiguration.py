@@ -23,7 +23,7 @@ call_for_each = ["ComputeNorms.py",
                  "PlotEnergies.py",
                  #"PlotWavepacketParameters.py",
                  #"PlotWavepacketCoefficients.py",
-                 #"EvaluateWavepacketsEigen.py",
+                 #"ComputeEvaluateWavepacketsEigen.py",
                  #"PlotWavefunction.py",
                  #"PlotWavepackets.py",
                  ]

@@ -11,7 +11,7 @@ import sys
 from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
-from WaveBlocks.plot import legend
+from WaveBlocks.Plot import legend
 
 
 def read_data(f):

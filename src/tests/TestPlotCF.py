@@ -10,7 +10,7 @@ Test the complex phase plot function.
 import numpy as np
 from matplotlib.pyplot import *
 
-from WaveBlocks.plot import plotcf
+from WaveBlocks.Plot import plotcf
 
 x = np.r_[-1.:1.:1j*2**12]
 u = np.exp(-x**2)*(np.cos(10*x) + 1j *np.sin(10*x))

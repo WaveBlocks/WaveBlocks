@@ -16,7 +16,7 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
 from WaveBlocks import HagedornMultiWavepacket
 from WaveBlocks import IOManager
-from WaveBlocks.plot import plotcf, stemcf
+from WaveBlocks.Plot import plotcf, stemcf
 
 
 def plot_frames_homogeneous(f, view=None):

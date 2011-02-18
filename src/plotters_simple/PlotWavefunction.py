@@ -13,7 +13,7 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
-from WaveBlocks.plot import plotcf
+from WaveBlocks.Plot import plotcf
 
 
 def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):

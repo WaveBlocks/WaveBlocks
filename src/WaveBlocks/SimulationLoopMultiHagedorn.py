@@ -107,14 +107,6 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
                 self.IOManager.save_coefficients_inhomog(self.propagator.get_wavepacket().get_coefficients(), timestep=i)
                 self.IOManager.save_parameters_inhomog(self.propagator.get_wavepacket().get_parameters(), timestep=i)
 
-            # vals = self.propagator.get_wavepacket().evaluate_at(self.nodes, prefactor=True)
-
-            # from pylab import *
-            # figure()
-            # plot(self.nodes, conj(vals[0])*vals[0])
-            # plot(self.nodes, conj(vals[1])*vals[1])
-            # show()
-
 
     def end_simulation(self):
         """Do the necessary cleanup after a simulation. For example request the

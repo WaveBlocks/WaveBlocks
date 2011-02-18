@@ -13,7 +13,7 @@ from matplotlib.pyplot import *
 from WaveBlocks import GlobalDefaults
 from WaveBlocks import FileTools as FT
 from WaveBlocks import IOManager
-from WaveBlocks.plot import legend
+from WaveBlocks.Plot import legend
 
 
 def load_data(resultspath):
