@@ -57,6 +57,15 @@ def get_results_file(path):
     return results_file
 
 
+def get_number_simulations(path):
+    """Get the number of simulations at hand below the given path.
+    @parameter path: The path under which we search for a output file.
+    @return: The number of simulations result directories.
+    """
+    ids = get_result_dirs(path)
+    return len(ids)
+
+
 def name_contains(name, pattern):
     """Checks if a simulation ID contains a given pattern.
     @parameter name: The full simulation ID.
