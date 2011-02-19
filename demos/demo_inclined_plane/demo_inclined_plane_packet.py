@@ -15,8 +15,8 @@ leading_component = 0
 basis_size = 64
 
 P = 1.0j
-S = 0.0
 Q = 1.0
+S = 0.0
 
 parameters = [ (P, Q, S, 0.0, 2.0) ]
 coefficients = [[(0, 1.0)]]
