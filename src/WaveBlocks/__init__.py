@@ -36,3 +36,10 @@ from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
 # Just functions inside this modules.
 #from GlobalDefaults import GlobalDefaults
 #from FileTools import FileTools
+
+# Enable dynamic plugin loading for IOManager
+import sys
+import os
+
+plugin_dir = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, plugin_dir)

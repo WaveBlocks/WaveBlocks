@@ -8,6 +8,8 @@ This file contains code for serializing simulation data.
 """
 
 import os
+import sys
+import types
 import h5py as hdf
 import pickle
 import numpy as np
@@ -24,8 +26,31 @@ class IOManager:
     def __init__(self):
         self.parameters = None
         self.srf = None
+
+
+    def __getattr__(self, key):
+        """Try to load a plugin if a member function is not available.
+        """
+        # Oh, a request for an undefined method
+        print("Requested function: "+key)
+
+        # Plugin name convention
+        name = "IOM_plugin_" + key.split("_")[1]
+
+        # Load the necessary plugin
+        print("Plugin to load: "+name)
+        plugin = __import__(name)
+
+        # Filter out functions we want to add to IOM and
+        # bind methods to the current IOM instance
+        for k, v in plugin.__dict__.iteritems():
+            if type(v) == types.FunctionType:
+                self.__dict__[k] = types.MethodType(v, self)
         
-        
+        # Now return the new function to complete it's call
+        return self.__dict__[key]
+    
+    
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
         """Set up a new I{IOManager} instance. The output files are created and opened.
         """
@@ -117,16 +142,7 @@ class IOManager:
     #
     # Functions for adding data sets to the hdf tree
     #
-
-    def add_grid(self, parameters, block=0):
-        # Add storage for a grid
-        self.srf["datablock_"+str(block)].create_dataset("grid", (parameters.dimension, parameters.ngn), np.floating)
-
-
-    def add_grid_reference(self, blockfrom=1, blockto=0):
-        self.srf["datablock_"+str(blockfrom)]["grid"] = hdf.SoftLink("/datablock_"+str(blockto)+"/grid")
-        
-
+    
     def add_propagators(self, parameters, block=0):
         # Store the propagation operators (if available)
         grp_pr = self.srf["datablock_"+str(block)].create_group("propagation")
@@ -207,28 +223,6 @@ class IOManager:
         daset_c.attrs["pointer"] = 0
 
 
-    def add_norm(self, parameters, timeslots=None, block=0):
-        # Store the norms
-        grp_ob = self.srf["datablock_"+str(block)].require_group("observables")
-
-        # Create the dataset with appropriate parameters
-        grp_no = grp_ob.create_group("norm")
-
-        if timeslots is None:
-            # This case is event based storing
-            daset_n = grp_no.create_dataset("norm", (1, parameters.ncomponents), dtype=np.floating, chunks=(1, parameters.ncomponents))
-            daset_tg = grp_no.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
-
-            daset_n.resize(0, axis=0)
-            daset_tg.resize(0, axis=0)
-        else:
-            # User specified how much space is necessary.
-            daset_n = grp_no.create_dataset("norm", (timeslots, parameters.ncomponents), dtype=np.floating)
-            daset_tg = grp_no.create_dataset("timegrid", (timeslots,), dtype=np.integer)
-
-        daset_tg.attrs["pointer"] = 0
-
-
     def add_energies(self, parameters, timeslots=None, block=0, total=False):
         # Store the potential and kinetic energies
         grp_ob = self.srf["datablock_"+str(block)].require_group("observables")
@@ -263,17 +257,9 @@ class IOManager:
 
         daset_tg.attrs["pointer"] = 0
 
-
     #
     # Functions for actually save simulation data
     #
-
-    def save_grid(self, grid, block=0):
-        """Save the grid nodes to a file.
-        """
-        path = "/datablock_"+str(block)+"/grid"
-        self.srf[path][:] = np.real(grid)
-
 
     def save_operators(self, operators, block=0):
         """Save the kinetic and potential operator to a file.
@@ -440,27 +426,6 @@ class IOManager:
         self.srf[pathd].attrs["pointer"] += 1
 
 
-    def save_norm(self, norm, timestep=None, block=0):
-        """Save the norm of the wave packets"""
-        pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-        pathd = "/datablock_"+str(block)+"/observables/norm/norm"
-        timeslot = self.srf[pathtg].attrs["pointer"]
-
-        #@refactor: remove np,array
-        norms = np.real(np.array(norm))
-
-        # Write the data
-        self.must_resize(pathd, timeslot)
-        self.srf[pathd][timeslot,:] = norms
-
-        # Write the timestep to which the stored values belong into the timegrid
-        self.must_resize(pathtg, timeslot)
-        self.srf[pathtg][timeslot] = timestep
-
-        # Update the pointer
-        self.srf[pathtg].attrs["pointer"] += 1
-
-
     #
     # Functions for retrieving simulation data
     #
@@ -478,12 +443,7 @@ class IOManager:
             raise ValueError("No data for given timestep!")
         
         return index
-        
-
-    def load_grid(self, block=0):
-        path = "/datablock_"+str(block)+"/grid"
-        return np.squeeze(self.srf[path])
-
+    
 
     def load_operators(self, block=0):
         path = "/datablock_"+str(block)+"/propagation/operators/"
@@ -502,21 +462,6 @@ class IOManager:
     def load_wavefunction(self, timestep=None, block=0):
         pathtg = "/datablock_"+str(block)+"/wavefunction/timegrid"
         pathd = "/datablock_"+str(block)+"/wavefunction/Psi"
-        if timestep is not None:
-            index = self.find_timestep_index(pathtg, timestep)
-            return self.srf[pathd][index,...]
-        else:
-            return self.srf[pathd][...]
-
-
-    def load_norm_timegrid(self, block=0):
-        pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-        return self.srf[pathtg][:]
-
-
-    def load_norm(self, timestep=None, block=0):
-        pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-        pathd = "/datablock_"+str(block)+"/observables/norm/norm"
         if timestep is not None:
             index = self.find_timestep_index(pathtg, timestep)
             return self.srf[pathd][index,...]
