@@ -110,7 +110,7 @@ def load_energy(self, timestep=None, split=False, block=0):
 
     if split is True:
         ekin = self.split_data( self.srf[pathd1][index,...], axis)
-        epot = self.split_data( self.srf[pathd1][index,...], axis)
+        epot = self.split_data( self.srf[pathd2][index,...], axis)
     else:
         ekin = self.srf[pathd1][index,...]
         epot = self.srf[pathd2][index,...]

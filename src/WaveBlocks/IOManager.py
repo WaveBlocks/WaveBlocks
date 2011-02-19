@@ -176,5 +176,5 @@ class IOManager:
         @param axis: The axis along which to split the data.
         @return: A list of slices.
         """
-        parts = data.shape[axis]        
-        return np.split( np.squeeze(data), parts, axis=axis)
+        parts = data.shape[axis]
+        return np.split(data, parts, axis=axis)

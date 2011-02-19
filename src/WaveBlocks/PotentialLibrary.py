@@ -79,8 +79,8 @@ delta_gap_diag["potential"] = [["sqrt(delta**2 + tanh(x)**2/4)", "0"            
 
 #: A potential with two avoided crossings in series
 two_crossings = {}
-two_crossings["potential"] = [["tanh(x-rho)*tanh(x+rho)", "delta"                   ],
-                              ["delta",                   "-tanh(x-rho)*tanh(x+rho)"]]
+two_crossings["potential"] = [["tanh(x-rho)*tanh(x+rho)/2", "delta/2"                   ],
+                              ["delta/2",                   "-tanh(x-rho)*tanh(x+rho)/2"]]
 two_crossings["defaults"] = {"rho":3.0}
 
 
