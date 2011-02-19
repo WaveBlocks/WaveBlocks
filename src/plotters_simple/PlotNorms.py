@@ -19,8 +19,7 @@ def read_data(f):
 
     timegrid = f.load_norm_timegrid()
     
-    norms = f.load_norm()
-    norms = [ norms[:,c] for c in xrange(para.ncomponents) ]
+    norms = f.load_norm(split=True)
 
     normsum = [ item**2 for item in norms ]
     normsum = reduce(lambda x,y: x+y, normsum)
@@ -72,9 +71,9 @@ if __name__ == "__main__":
 
     # Read file with simulation data
     try:
-        iom.load_file(filename=sys.argv[1])
+        iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.load_file()      
+        iom.open_file()      
     
     data = read_data(iom)
     plot_norms(*data)

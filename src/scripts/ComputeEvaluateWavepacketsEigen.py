@@ -19,9 +19,9 @@ if __name__ == "__main__":
     
     # Read file with simulation data
     try:
-        iom.load_file(filename=sys.argv[1])
+        iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.load_file()
+        iom.open_file()
         
     parameters = iom.get_parameters()
     

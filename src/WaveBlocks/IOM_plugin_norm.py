@@ -62,13 +62,20 @@ def load_norm_timegrid(self, block=0):
     return self.srf[pathtg][:]
 
 
-def load_norm(self, timestep=None, block=0):
+def load_norm(self, timestep=None, split=False, block=0):
     """Load the norm data.
     """
     pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
     pathd = "/datablock_"+str(block)+"/observables/norm/norm"
+
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        return self.srf[pathd][index,...]
+        axis = 0
     else:
-        return self.srf[pathd][...]
+        index = slice(None)
+        axis = 1
+
+    if split is True:
+        return self.split_data( self.srf[pathd][index,...], axis)
+    else:
+        return self.srf[pathd][index,...]

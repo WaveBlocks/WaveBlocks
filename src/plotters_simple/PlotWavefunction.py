@@ -83,9 +83,9 @@ if __name__ == "__main__":
 
     # Read file with simulation data
     try:
-        iom.load_file(filename=sys.argv[1])
+        iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.load_file()      
+        iom.open_file()
 
     # The axes rectangle that is plotted
     view = [-1.5, 1.5, -0.1, 3.5]

@@ -34,7 +34,7 @@ def load_data(resultspath):
 
         print(" Reading " + resultsfile)
         
-        iom.load_file(filename=resultsfile)
+        iom.open_file(filename=resultsfile)
         parameters = iom.get_parameters()
         number_components = parameters.ncomponents
         axisdata.append(parameters.eps)

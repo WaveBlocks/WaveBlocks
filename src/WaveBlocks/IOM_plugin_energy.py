@@ -96,18 +96,24 @@ def load_energy_timegrid(self, block=0):
     return self.srf[pathtg][:]
 
 
-def load_energy(self, timestep=None, block=0):
+def load_energy(self, timestep=None, split=False, block=0):
     pathtg = "/datablock_"+str(block)+"/observables/energies/timegrid"
     pathd1 = "/datablock_"+str(block)+"/observables/energies/kinetic"
     pathd2 = "/datablock_"+str(block)+"/observables/energies/potential"
 
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
+        axis = 0
+    else:
+        index = slice(None)
+        axis = 1
+
+    if split is True:
+        ekin = self.split_data( self.srf[pathd1][index,...], axis)
+        epot = self.split_data( self.srf[pathd1][index,...], axis)
+    else:
         ekin = self.srf[pathd1][index,...]
         epot = self.srf[pathd2][index,...]
-    else:
-        ekin = self.srf[pathd1][...]
-        epot = self.srf[pathd2][...]
     
     return (ekin, epot)
 
@@ -118,8 +124,7 @@ def load_energy_total(self, timestep=None, block=0):
 
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        etot = self.srf[pathd][index,...]
     else:
-        etot = self.srf[pathd][...]
-
-    return etot
+        index = slice(None)
+    
+    return self.srf[pathd][index,...]

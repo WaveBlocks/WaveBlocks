@@ -56,10 +56,10 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             print("Comparing simulation " + dir_h + " with " + dir_f)
 
             resultsfile_f = get_results_file(dir_f)
-            iom_f.load_file(filename=resultsfile_f)
+            iom_f.open_file(filename=resultsfile_f)
 
             resultsfile_h = get_results_file(dir_h)
-            iom_h.load_file(filename=resultsfile_h)
+            iom_h.open_file(filename=resultsfile_h)
             
             # Read the parameters
             parameters_f = iom_f.get_parameters()

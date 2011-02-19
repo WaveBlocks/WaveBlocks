@@ -56,10 +56,10 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             # Why it works when we put the minimal data here instead outside the loop?
             # Open the minimal data
             resultsfile_min = get_results_file(dir_min)
-            iom_min.load_file(filename=resultsfile_min)
+            iom_min.open_file(filename=resultsfile_min)
         
             resultsfile_h = get_results_file(dir_h)
-            iom_h.load_file(filename=resultsfile_h)
+            iom_h.open_file(filename=resultsfile_h)
             
             # Read the parameters
             parameters_min = iom_min.get_parameters()

@@ -19,10 +19,7 @@ def read_data(f):
     para = f.get_parameters()
 
     timegrid = f.load_energy_timegrid()
-    ekin, epot = f.load_energy()
-
-    ekin = [ ekin[:,c] for c in xrange(para.ncomponents) ]
-    epot = [ epot[:,c] for c in xrange(para.ncomponents) ]    
+    ekin, epot = f.load_energy(split=True)
 
     # Compute the sum of all energies
     ekinsum = reduce(lambda x,y: x+y, ekin)
@@ -90,9 +87,9 @@ if __name__ == "__main__":
 
     # Read file with simulation data
     try:
-        iom.load_file(filename=sys.argv[1])
+        iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.load_file()      
+        iom.open_file()      
 
     data = read_data(iom)
     plot_energy(*data)

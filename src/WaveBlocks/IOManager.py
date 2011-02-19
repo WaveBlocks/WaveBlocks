@@ -28,13 +28,27 @@ class IOManager:
         self.srf = None
 
 
+    def __str__(self):
+        if self.srf is None:
+            s = "IOManager instance without an open file."
+        else:
+            s = "IOManager instance with open file " + str(self.srf.filename)
+        return s
+
+
     def __getattr__(self, key):
         """Try to load a plugin if a member function is not available.
         """
-        print("Requested function: "+key)
+        parts = key.split("_")
 
-        # Plugin name convention
-        name = "IOM_plugin_" + key.split("_")[1]
+        # Plugin name convention, we only trigger plugin loading
+        # for requests starting with "add", "load" or "save".
+        # However, IF we load a plugin, we load ALL functions it defines.
+        if parts[0] not in ("add", "load", "save"):
+            return
+        else:
+            print("Requested function: "+key)
+            name = "IOM_plugin_" + parts[1]
 
         # Load the necessary plugin
         print("Plugin to load: "+name)
@@ -74,7 +88,7 @@ class IOManager:
         self.create_block()
 
 
-    def load_file(self, filename=GlobalDefaults.file_resultdatafile):
+    def open_file(self, filename=GlobalDefaults.file_resultdatafile):
         """Load a given file that contains the results from a former simulation.
         @keyword filename: The filename/path of the file we try to load.
         """
@@ -96,7 +110,7 @@ class IOManager:
 
     def finalize(self):
         """Close the open output files."""
-        self.srf.close()             
+        self.srf.close()
 
 
     def create_block(self):
@@ -154,3 +168,13 @@ class IOManager:
             raise ValueError("No data for given timestep!")
         
         return index
+
+
+    def split_data(self, data, axis):
+        """Split a multi-dimensional data block into slabs along a given axis.
+        @param data: The data tensor given.
+        @param axis: The axis along which to split the data.
+        @return: A list of slices.
+        """
+        parts = data.shape[axis]        
+        return np.split( np.squeeze(data), parts, axis=axis)

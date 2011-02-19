@@ -28,8 +28,8 @@ def compute_energy(f, datablock=0):
     
     Potential = PotentialFactory.create_potential(p)
     
-    params = f.load_parameters(block=datablock)
-    coeffs = f.load_coefficients(block=datablock)
+    params = f.load_wavepacket_parameters(block=datablock)
+    coeffs = f.load_wavepacket_coefficients(block=datablock)
     
     # A data transformation needed by API specification
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps) ]
@@ -68,9 +68,9 @@ if __name__ == "__main__":
 
     # Read file with simulation data
     try:
-        iom.load_file(filename=sys.argv[1])
+        iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.load_file()
+        iom.open_file()
 
     parameters = iom.get_parameters()
 
