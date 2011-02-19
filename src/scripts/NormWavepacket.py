@@ -28,8 +28,8 @@ def compute_norm(f, datablock=0):
 
     Potential = PotentialFactory.create_potential(p)
     
-    params = f.load_parameters(block=datablock)
-    coeffs = f.load_coefficients(block=datablock)
+    params = f.load_wavepacket_parameters(block=datablock)
+    coeffs = f.load_wavepacket_coefficients(block=datablock)
 
     # A data transformation needed by API specification
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]

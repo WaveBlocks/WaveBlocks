@@ -26,15 +26,15 @@ if __name__ == "__main__":
 
     if parameters.algorithm == "fourier":
         import EnergiesWavefunction
-        EnergiesWavefunction.compute_energies(iom)
+        EnergiesWavefunction.compute_energy(iom)
 
     elif parameters.algorithm == "hagedorn":
         import EnergiesWavepacket
-        EnergiesWavepacket.compute_energies(iom)
+        EnergiesWavepacket.compute_energy(iom)
 
     elif parameters.algorithm == "multihagedorn":
         import EnergiesWavepacketInhomog
-        EnergiesWavepacketInhomog.compute_energies(iom)
+        EnergiesWavepacketInhomog.compute_energy(iom)
 
     else:
         raise ValueError("Unknown propagator algorithm.")

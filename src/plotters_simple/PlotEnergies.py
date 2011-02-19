@@ -18,8 +18,8 @@ from WaveBlocks.Plot import legend
 def read_data(f):
     para = f.get_parameters()
 
-    timegrid = f.load_energies_timegrid()
-    ekin, epot = f.load_energies()
+    timegrid = f.load_energy_timegrid()
+    ekin, epot = f.load_energy()
 
     ekin = [ ekin[:,c] for c in xrange(para.ncomponents) ]
     epot = [ epot[:,c] for c in xrange(para.ncomponents) ]    
@@ -34,7 +34,7 @@ def read_data(f):
     return (timegrid, ekin, epot)
 
 
-def plot_energies(timegrid, ekin, epot):
+def plot_energy(timegrid, ekin, epot):
     print("Plotting the energies")
 
     # Plot the energies
@@ -95,6 +95,6 @@ if __name__ == "__main__":
         iom.load_file()      
 
     data = read_data(iom)
-    plot_energies(*data)
+    plot_energy(*data)
 
     iom.finalize()

@@ -81,14 +81,14 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         slots = tm.compute_number_saves()
 
         self.IOManager.add_grid(self.parameters)
-        self.IOManager.add_wavepacket_inhomog(self.parameters, timeslots=slots)
+        self.IOManager.add_inhomogwavepacket(self.parameters, timeslots=slots)
       
         # Write some initial values to disk
         nodes = self.parameters.f * sp.pi * sp.arange(-1, 1, 2.0/self.parameters.ngn, dtype=np.complexfloating)
         # self.nodes = nodes
         self.IOManager.save_grid(nodes)
-        self.IOManager.save_coefficients_inhomog(self.propagator.get_wavepacket().get_coefficients(), timestep=0)
-        self.IOManager.save_parameters_inhomog(self.propagator.get_wavepacket().get_parameters(), timestep=0)
+        self.IOManager.save_inhomogwavepacket_coefficients(self.propagator.get_wavepacket().get_coefficients(), timestep=0)
+        self.IOManager.save_inhomogwavepacket_parameters(self.propagator.get_wavepacket().get_parameters(), timestep=0)
         
 
     def run_simulation(self):
@@ -104,8 +104,8 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
 
             # Save some simulation data
             if tm.must_save(i):
-                self.IOManager.save_coefficients_inhomog(self.propagator.get_wavepacket().get_coefficients(), timestep=i)
-                self.IOManager.save_parameters_inhomog(self.propagator.get_wavepacket().get_parameters(), timestep=i)
+                self.IOManager.save_inhomogwavepacket_coefficients(self.propagator.get_wavepacket().get_coefficients(), timestep=i)
+                self.IOManager.save_inhomogwavepacket_parameters(self.propagator.get_wavepacket().get_parameters(), timestep=i)
 
 
     def end_simulation(self):

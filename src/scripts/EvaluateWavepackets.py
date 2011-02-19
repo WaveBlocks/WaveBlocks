@@ -29,8 +29,8 @@ def compute_evaluate_wavepackets(f, basis="eigen", datablock=0):
     timesteps = f.load_wavepacket_timegrid(block=datablock)
     nrtimesteps = timesteps.shape[0]
     
-    params = f.load_parameters(block=datablock)
-    coeffs = f.load_coefficients(block=datablock)
+    params = f.load_wavepacket_parameters(block=datablock)
+    coeffs = f.load_wavepacket_coefficients(block=datablock)
     
     # A data transformation needed by API specification
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]

@@ -39,7 +39,7 @@ def load_data(resultspath):
         number_components = parameters.ncomponents
         axisdata.append(parameters.eps)
 
-        ekin, epot = iom.load_energies()
+        ekin, epot = iom.load_energy()
         ekindata.append(ekin)
         epotdata.append(epot)
 

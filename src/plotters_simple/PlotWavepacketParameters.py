@@ -23,7 +23,7 @@ def read_data_homogeneous(f):
     parameters = f.get_parameters()
     
     timegrid = f.load_wavepacket_timegrid()
-    Pi = f.load_parameters()
+    Pi = f.load_wavepacket_parameters()
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -40,8 +40,8 @@ def read_data_inhomogeneous(f):
     """
     parameters = f.get_parameters()
     
-    timegrid = f.load_wavepacket_inhomog_timegrid()
-    Pi = f.load_parameters_inhomog()
+    timegrid = f.load_inhomogwavepacket_timegrid()
+    Pi = f.load_inhomogwavepacket_parameters()
 
     # Number of components
     N = parameters.ncomponents

@@ -20,7 +20,7 @@ def compute_norm(f, datablock=0):
     p = f.get_parameters()
 
     # Number of time steps we saved
-    timesteps = f.load_wavepacket_inhomog_timegrid(block=datablock)
+    timesteps = f.load_inhomogwavepacket_timegrid(block=datablock)
     nrtimesteps = timesteps.shape[0]
 
     # We want to save norms, thus add a data slot to the data file
@@ -28,8 +28,8 @@ def compute_norm(f, datablock=0):
     
     Potential = PotentialFactory.create_potential(p)
     
-    params = f.load_parameters_inhomog(block=datablock)
-    coeffs = f.load_coefficients_inhomog(block=datablock)
+    params = f.load_inhomogwavepacket_parameters(block=datablock)
+    coeffs = f.load_inhomogwavepacket_coefficients(block=datablock)
 
     # A data transformation needed by API specification
     params = [ [ params[j][i,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps) ]

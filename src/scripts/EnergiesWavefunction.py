@@ -14,7 +14,7 @@ from WaveBlocks import WaveFunction
 from WaveBlocks import IOManager
 
 
-def compute_energies(f, datablock=0):
+def compute_energy(f, datablock=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.    
@@ -26,10 +26,10 @@ def compute_energies(f, datablock=0):
     nrtimesteps = timesteps.shape[0]
 
     # We want to save norms, thus add a data slot to the data file
-    f.add_energies(p, timeslots=nrtimesteps, block=datablock)
+    f.add_energy(p, timeslots=nrtimesteps, block=datablock)
 
     nodes = f.load_grid(block=datablock)
-    opT, opV = f.load_operators(block=datablock)
+    opT, opV = f.load_fourieroperators(block=datablock)
 
     # Precalculate eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(p)
@@ -67,4 +67,4 @@ def compute_energies(f, datablock=0):
             ekinlist.append(WF.kinetic_energy(opT, summed=True))
             epotlist.append(WF.potential_energy(opV, summed=True))
             
-        f.save_energies((ekinlist, epotlist), timestep=step, block=datablock)
+        f.save_energy((ekinlist, epotlist), timestep=step, block=datablock)

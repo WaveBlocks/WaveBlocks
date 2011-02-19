@@ -16,7 +16,7 @@ from WaveBlocks import HagedornWavepacket
 from WaveBlocks import IOManager
 
 
-def compute_energies(f, datablock=0):
+def compute_energy(f, datablock=0):
     p = f.get_parameters()
     
     # Number of time steps we saved
@@ -24,7 +24,7 @@ def compute_energies(f, datablock=0):
     nrtimesteps = timesteps.shape[0]
     
     # We want to save energies, thus add a data slot to the data file
-    f.add_energies(p, timeslots=nrtimesteps, block=datablock, total=True)
+    f.add_energy(p, timeslots=nrtimesteps, block=datablock, total=True)
     
     Potential = PotentialFactory.create_potential(p)
     
@@ -51,7 +51,7 @@ def compute_energies(f, datablock=0):
         epot = HAWP.potential_energy(Potential.evaluate_at, summed=True)
         etot = ekin + epot
 
-        f.save_energies_total(etot, timestep=step, block=datablock)
+        f.save_energy_total(etot, timestep=step, block=datablock)
         
         # Transform to eigenbasis
         HAWP.project_to_eigen(Potential)
@@ -60,7 +60,7 @@ def compute_energies(f, datablock=0):
         ekin = HAWP.kinetic_energy()
         epot = HAWP.potential_energy(Potential.evaluate_eigenvalues_at)
         
-        f.save_energies((ekin, epot), timestep=step, block=datablock)
+        f.save_energy((ekin, epot), timestep=step, block=datablock)
 
 
 if __name__ == "__main__":
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     parameters = iom.get_parameters()
 
     if parameters.algorithm == "hagedorn":
-        compute_energies(iom)
+        compute_energy(iom)
 
     else:
         raise ValueError("Unsupported propagator algorithm.")

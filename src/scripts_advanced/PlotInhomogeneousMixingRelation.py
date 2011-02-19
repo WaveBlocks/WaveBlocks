@@ -20,9 +20,9 @@ def load_data(f):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = f.get_parameters()
-    timegrid = f.load_wavepacket_inhomog_timegrid()
+    timegrid = f.load_inhomogwavepacket_timegrid()
     
-    Pi = f.load_parameters_inhomog()
+    Pi = f.load_inhomogwavepacket_parameters()
 
     # Number of components
     N = parameters.ncomponents

@@ -23,7 +23,7 @@ def read_data_homogeneous(f):
     parameters = f.get_parameters()
     
     timegrid = f.load_wavepacket_timegrid()
-    C = f.load_coefficients()
+    C = f.load_wavepacket_coefficients()
 
     coeffs = []
     for i in xrange(parameters.ncomponents):
@@ -38,8 +38,8 @@ def read_data_inhomogeneous(f):
     """
     parameters = f.get_parameters()
     
-    timegrid = f.load_wavepacket_inhomog_timegrid()
-    C = f.load_coefficients_inhomog()
+    timegrid = f.load_inhomogwavepacket_timegrid()
+    C = f.load_inhomogwavepacket_coefficients()
 
     coeffs = []
     for i in xrange(parameters.ncomponents):

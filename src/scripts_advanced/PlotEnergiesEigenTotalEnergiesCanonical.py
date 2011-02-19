@@ -22,12 +22,12 @@ def load_data(iom):
     # Load the data
     parameters = iom.get_parameters()
     
-    timegrid = iom.load_energies_timegrid()
+    timegrid = iom.load_energy_timegrid()
     times = timegrid * parameters.dt
 
     # Load kinetic, potential and total energies
-    ekin, epot = iom.load_energies()
-    etot = iom.load_energies_total()
+    ekin, epot = iom.load_energy()
+    etot = iom.load_energy_total()
 
     # Some data transformation
     ekin = [ ekin[:,c] for c in xrange(parameters.ncomponents) ]
@@ -43,7 +43,7 @@ def load_data(iom):
     return times, ekin, epot, etot
 
 
-def plot_energies(times, ekin, epot, etot):
+def plot_energy(times, ekin, epot, etot):
     print("Plotting the energies")
     
     # Plot the energies
@@ -112,6 +112,6 @@ if __name__ == "__main__":
         iom.load_file()
 
     data = load_data(iom)
-    plot_energies(*data)
+    plot_energy(*data)
 
     iom.finalize()

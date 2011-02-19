@@ -27,8 +27,8 @@ def plot_frames_homogeneous(f, view=None):
     timesteps = f.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
     
-    params = f.load_parameters()
-    coeffs = f.load_coefficients()
+    params = f.load_wavepacket_parameters()
+    coeffs = f.load_wavepacket_coefficients()
 
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
 
@@ -60,11 +60,11 @@ def plot_frames_inhomogeneous(f, view=None):
     
     # Get the data
     grid = f.load_grid()
-    timesteps = f.load_wavepacket_inhomog_timegrid()
+    timesteps = f.load_inhomogwavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
     
-    params = f.load_parameters_inhomog()
-    coeffs = f.load_coefficients_inhomog()
+    params = f.load_inhomogwavepacket_parameters()
+    coeffs = f.load_inhomogwavepacket_coefficients()
 
     params = [ [ params[j][i,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
