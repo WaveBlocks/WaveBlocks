@@ -12,7 +12,6 @@ delta = 5.0*eps
 f = 5.0
 ngn = 4096
 
-leading_component = 0
 basis_size = 128
 
 P = 1.0j

@@ -11,7 +11,6 @@ eps = 0.1
 f = 2.0
 ngn = 4096
 
-leading_component = 0
 basis_size = 64
 
 P = 1.0j
