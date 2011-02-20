@@ -745,12 +745,94 @@ implemented.
 
 \subsection{Specifying initial values}
 
-
 Initial values are always specified as wavepackets. For the Fourier propagator,
-the packets are samples at the grid nodes and for packet based algorithms, these
-initial packets are propagated. The two configuration variables \texttt{parameters}
+the packets are sampled at the grid nodes and for packet based algorithms, these
+initial packets are just propagated. The two configuration variables \texttt{parameters}
 and \texttt{coefficients} are responsible for specifying the initial wavepackets.
-Their values are interpreted as usual.
+Their values are interpreted as usual but let's look at this important part
+a bit closer.
+
+\subsubsection{For the \texttt{fourier} Propagator}
+
+The initial values for the \texttt{fourier} propagator are given in the simulation
+configuration file by the variable \texttt{initial\_values}. The data format is
+a list of arbitrary length. Each entry is a list itself having the format:
+
+\begin{verbatim}
+  [ level, parameters, [(index,value), (index,value), ...] ]
+\end{verbatim}
+
+where the \texttt{level} is the energy level, the \texttt{parameters} is a 5-tuple
+of the usual form \texttt{(P,Q,S,p,q)} containing the wavepacket's parameter. The
+third part is a list containing one or several \texttt{(index,value)} pairs
+which hold the value $c_i$ of the coefficient with index $i$. We know that
+this is all the data necessary for constructing a wavepacket that lives on
+the given energy level. (But remember that these packets are sampled at the grid
+nodes later to be usable for the Fourier propagation.)
+
+This input format allows us to place several wavepackets on the same energy level,
+for example the following valid specification places two Gaussian packets
+which will run into each other and bounce off:
+
+\begin{verbatim}
+  initial_values = [[ 0, (P, Q, S, -0.5,  2.0), [(0,1.0)]],
+                    [ 0, (P, Q, S,  0.5, -2.0), [(0,1.0)]]]
+\end{verbatim}
+
+For compatibility reasons the input can also be of the format described
+in the next two sections. This allows for sharing of simulation configurations.
+
+\subsubsection{For the \texttt{hagedorn} Propagator}
+
+For this propagator we need one set of parameters which belong to
+the leading component. With these parameters we then set up a homogeneous
+wavepacket. We can specify the parameters as follows:
+
+\begin{verbatim}
+  parameters = (P, Q, S, p, q)
+\end{verbatim}
+
+with some meaningful values for $Q$, $P$, $S$ and $q$ and $p$. For compatibility
+with the inhomogeneous case, we can also specify the parameters as:
+
+\begin{verbatim}
+  parameters = [ (P0, Q0, S0, p0, q0), ..., (Pn, Qn, Sn, pn, qn) ]
+\end{verbatim}
+
+where there are as many inner tuples as energy levels. The initialisation
+code then picks just the single tuple with its index matching the
+\texttt{leading\_component} value. This allows easy sharing of
+configuration files with minimal editing.
+
+The coefficients $c_i$ of the linear combination are specified for each
+level separately. There is a list of \texttt{(index,value)} pairs for
+each energy level and all these lists are collected in one big list
+assigned to the variable \texttt{coefficients}. This could for example look like:
+
+\begin{verbatim}
+  coefficients = [[ (0,1.0), (2,0.5), (4,0.2)],
+                  [ (0,0.1), (3,1.2)]]
+\end{verbatim}
+
+where we have two energy levels (note that the wave function here is not normalized!).
+These \texttt{(index,value)} pairs give the value $c_i$ of the coefficient
+with index $i$. For example the list containing only the pair \texttt{[ (2,1.0) ]}
+yields a $\varphi_2$ packet while the list \texttt{[ (0,0.5), (1,0.5) ]} gives
+a superposition of $\frac{1}{2} \left( \varphi_0 + \varphi_1 \right)$. If you
+wish to have no wavepacket on an energy level just provide the dummy pair \texttt{[ (0,0.0) ]}.
+
+\subsubsection{For the \texttt{multihagedorn} Propagator}
+
+This propagator needs a set of parameters for each energy level. Thus
+the data structure must look like:
+
+\begin{verbatim}
+  parameters = [ (P0, Q0, S0, p0, q0), ..., (Pn, Qn, Sn, pn, qn) ]
+\end{verbatim}
+
+where there are as many inner tuples as energy levels. The coefficients $c_i$
+are specified the same way as in the homogeneous case above.
+
 
 \subsection{Required parameter sets}
 
@@ -806,11 +888,11 @@ script. Just make sure there is no variable name clash.
 
   \item[\texttt{parameters}] The Hagedorn parameters $\{P, Q, S, p, q \}$ of the
     initial wave packets. The exact format of this variable depends on the
-    simulation algorithm used.
+    simulation algorithm used, see above.
 
   \item[\texttt{coefficients}] A list with the lists of (index,value) tuples that
     set the coefficients of the basis functions for the initial wavepackets. The
-    exact format of this variable depends on the simulation algorithm used.
+    exact format of this variable depends on the simulation algorithm used, see above.
 
   \item[\texttt{write\_nth}] Save simulation data every n-th timestep
   \begin{itemize}
@@ -836,6 +918,13 @@ script. Just make sure there is no variable name clash.
 \subsubsection{Parameters for the \texttt{fourier} propagator}
 
 \begin{description}
+
+  \item[\texttt{initial\_values}] A specific input format for the initial values.
+    This allows to place an arbitrary number of wavepackets on any energy level.
+    A valid configuration must either have this variable set or both of
+    \texttt{parameters} and \texttt{coefficients}. If all three are given, this
+    takes precedence.
+
   \item[\texttt{ngn}] The number of grid nodes used for the Fourier transformation.
   \begin{itemize}
     \item Possible values: Integer, optimal is a power of 2 but this is not necessary.
@@ -848,6 +937,9 @@ script. Just make sure there is no variable name clash.
     \item Data type: float
   \end{itemize}
 \end{description}
+
+Note: You must specify a \texttt{basis\_size} (see below) for the Fourier propagator too
+because we compute initial values from wavepackets.
 
 \subsubsection{Parameters for the \texttt{hagedorn} propagator}
 
