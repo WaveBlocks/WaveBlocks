@@ -65,4 +65,4 @@ def compute_evaluate_wavepackets(f, basis="eigen", datablock=0):
         WF.set_values(values)
 
         # Save the wave function
-        f.save_wavefunction(WF, timestep=step, block=datablock)
+        f.save_wavefunction(WF.get_values(), timestep=step, block=datablock)

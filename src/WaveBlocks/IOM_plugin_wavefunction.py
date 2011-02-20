@@ -30,9 +30,9 @@ def add_wavefunction(self, parameters, timeslots=None, block=0):
     daset_psi_tg.attrs["pointer"] = 0
 
 
-def save_wavefunction(self, wavefunction, block=0, timestep=None):
+def save_wavefunction(self, wavefunctionvalues, block=0, timestep=None):
     """Save a I{WaveFunction} instance. The output is suitable for the plotting routines.
-    @param wavefunction: The I{WaveFunction} instance to save.
+    @param wavefunctionvalues: The I{WaveFunction} instance to save.
     @keyword block: The data block where to store the wavefunction.
     """
     #@refactor: take wavefunction or wavefunction.get_values() as input?
@@ -42,7 +42,8 @@ def save_wavefunction(self, wavefunction, block=0, timestep=None):
 
     # Store the values given
     self.must_resize(pathd, timeslot)
-    for index, item in enumerate(wavefunction.get_values()):
+    
+    for index, item in enumerate(wavefunctionvalues):
         self.srf[pathd][timeslot,index,:] = item
         
     # Write the timestep to which the stored values belong into the timegrid

@@ -88,7 +88,7 @@ if __name__ == "__main__":
         iom.open_file()
 
     # The axes rectangle that is plotted
-    view = [-1.5, 1.5, -0.1, 3.5]
+    view = [-3.5, 3.5, -0.1, 3.5]
 
     plot_frames(iom, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
 

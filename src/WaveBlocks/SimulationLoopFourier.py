@@ -36,7 +36,7 @@ class SimulationLoopFourier(SimulationLoop):
         self.IOManager = None
 
         #: The number of time steps we will perform.
-        self.nsteps = parameters.nsteps
+        self.nsteps = parameters["nsteps"]
 
         # Set up serializing of simulation data
         self.IOManager = IOManager()
@@ -55,26 +55,56 @@ class SimulationLoopFourier(SimulationLoop):
         potential = PF.create_potential(self.parameters)
 
         # Check for enough initial values
-        if len(self.parameters.parameters) < potential.get_number_components():
-            raise ValueError("Too few initial states given. Parameters are missing.")
+        if not self.parameters.has_key("initial_values"):
+            if len(self.parameters["parameters"]) < potential.get_number_components():
+                raise ValueError("Too few initial states given. Parameters are missing.")
             
-        if len(self.parameters.coefficients) < potential.get_number_components():
-            raise ValueError("Too few initial states given. Coefficients are missing.")
+            if len(self.parameters["coefficients"]) < potential.get_number_components():
+                raise ValueError("Too few initial states given. Coefficients are missing.")
         
         # Calculate the initial values sampled from a hagedorn wave packet
-        initialvalues = []
         d = dict([("ncomponents", 1), ("basis_size", self.parameters["basis_size"]), ("eps", self.parameters["eps"])])
-        for index, item in enumerate(self.parameters.parameters):
-            hwp = HagedornWavepacket(d)
-            hwp.set_parameters(item)
+
+        # Initial values given in the "fourier" specific format
+        if self.parameters.has_key("initial_values"):
+            initialvalues = [ np.zeros(nodes.shape, dtype=np.complexfloating) for i in xrange(self.parameters["ncomponents"]) ]
+
+            for level, params, coeffs in self.parameters["initial_values"]:
+                hwp = HagedornWavepacket(d)
+                hwp.set_parameters(params)
+
+                for index, value in coeffs:
+                    hwp.set_coefficient(0, index, value)
+
+                iv = hwp.evaluate_at(nodes, component=0, prefactor=True)
+
+                initialvalues[level] = initialvalues[level] + iv
+        
+        # Initial value read in compatibility mode to the packet algorithms
+        else:
+            # See if we have a list of parameter tuples or just a single 5-tuple
+            # This is for compatibility with the inhomogeneous case.
+            try:
+                # We have a list of parameter tuples this is ok for the loop below
+                len(self.parameters["parameters"][0])
+                parameters = self.parameters["parameters"]
+            except TypeError:
+                # We have just a single 5-tuple of parameters, we need to replicate for looping
+                parameters = [ self.parameters["parameters"] for i in xrange(self.parameters["ncomponents"]) ]
+
+            initialvalues = []
             
-            # Set the coefficients of the basis functions
-            for i, value in self.parameters.coefficients[index]:
-                hwp.set_coefficient(0,i,value)
+            for level, item in enumerate(parameters):
+                hwp = HagedornWavepacket(d)
+                hwp.set_parameters(item)
+                
+                # Set the coefficients of the basis functions
+                for index, value in self.parameters.coefficients[level]:
+                    hwp.set_coefficient(0, index, value)
 
-            iv = hwp.evaluate_at(nodes, component=0, prefactor=True)
+                iv = hwp.evaluate_at(nodes, component=0, prefactor=True)
 
-            initialvalues.append(iv)
+                initialvalues.append(iv)
             
         # Project the initial values to the canonical base
         initialvalues = potential.project_to_canonical(nodes, initialvalues)
@@ -100,8 +130,8 @@ class SimulationLoopFourier(SimulationLoop):
         # Write some initial values to disk
         self.IOManager.save_grid(nodes)
         self.IOManager.save_fourieroperators(self.propagator.get_operators())
-        self.IOManager.save_wavefunction(IV, timestep=0)
-                             
+        self.IOManager.save_wavefunction(IV.get_values(), timestep=0)
+        
 
     def run_simulation(self):
         """Run the simulation loop for a number of time steps. The number of steps
@@ -116,7 +146,7 @@ class SimulationLoopFourier(SimulationLoop):
             
             # Save some simulation data
             if tm.must_save(i):
-                self.IOManager.save_wavefunction(self.propagator.get_wavefunction(), timestep=i)
+                self.IOManager.save_wavefunction(self.propagator.get_wavefunction().get_values(), timestep=i)
 
 
     def end_simulation(self):

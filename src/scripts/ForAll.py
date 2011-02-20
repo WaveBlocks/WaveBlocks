@@ -50,7 +50,7 @@ if __name__ == "__main__":
     else:
         resultspath = GlobalDefaults.path_to_results
 
-    print("Will execute the code in \"" + scriptcode + "\" for all files in " + resultspath)
+    print("Will execute the code in '" + scriptcode + "' for all files in '" + resultspath + "'")
 
     execute_for_all(resultspath, scriptcode)
 

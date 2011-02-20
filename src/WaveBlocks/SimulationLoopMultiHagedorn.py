@@ -35,7 +35,7 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         self.IOManager = None
 
         #: The number of time steps we will perform.
-        self.nsteps = parameters.nsteps
+        self.nsteps = parameters["nsteps"]
         
         # Set up serializing of simulation data
         self.IOManager = IOManager()
@@ -51,10 +51,10 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         N = potential.get_number_components()
         
         # Check for enough initial values
-        if len(self.parameters.parameters) < N:
+        if len(self.parameters["parameters"]) < N:
             raise ValueError("Too few initial states given. Parameters are missing.")
             
-        if len(self.parameters.coefficients) < N:
+        if len(self.parameters["coefficients"]) < N:
             raise ValueError("Too few initial states given. Coefficients are missing.")
         
         # Create a suitable wave packet
@@ -62,11 +62,11 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         packet.set_quadrator(None)
 
         # Set the parameters for each energy level
-        for index, item in enumerate(self.parameters.parameters):
-            packet.set_parameters(item, index)
+        for level, item in enumerate(self.parameters["parameters"]):
+            packet.set_parameters(item, level)
 
         # Set the initial values
-        for component, data in enumerate(self.parameters.coefficients):
+        for component, data in enumerate(self.parameters["coefficients"]):
             for index, value in data:
                 packet.set_coefficient(component, index, value)
 
@@ -84,7 +84,7 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         self.IOManager.add_inhomogwavepacket(self.parameters, timeslots=slots)
       
         # Write some initial values to disk
-        nodes = self.parameters.f * sp.pi * sp.arange(-1, 1, 2.0/self.parameters.ngn, dtype=np.complexfloating)
+        nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
         # self.nodes = nodes
         self.IOManager.save_grid(nodes)
         self.IOManager.save_inhomogwavepacket_coefficients(self.propagator.get_wavepacket().get_coefficients(), timestep=0)
