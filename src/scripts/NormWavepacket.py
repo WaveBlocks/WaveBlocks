@@ -9,7 +9,6 @@ Compute the norms of the homogeneous wavepackets as well as the sum of all norms
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import IOManager
 
 
 def compute_norm(f, datablock=0):

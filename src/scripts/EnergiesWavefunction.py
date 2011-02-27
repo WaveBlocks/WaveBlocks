@@ -11,7 +11,6 @@ from numpy import zeros
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
-from WaveBlocks import IOManager
 
 
 def compute_energy(f, datablock=0):

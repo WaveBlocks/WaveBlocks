@@ -16,8 +16,9 @@ from WaveBlocks.Plot import legend
 
 
 def read_data(f):
-    para = f.get_parameters()
-
+    """
+    @param f: An I{IOManager} instance providing the simulation data.
+    """
     timegrid = f.load_energy_timegrid()
     ekin, epot = f.load_energy(split=True)
 

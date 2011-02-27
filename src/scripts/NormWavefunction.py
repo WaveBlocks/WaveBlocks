@@ -9,7 +9,6 @@ Calculate the norms of the different wave packets as well as the sum of all norm
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
-from WaveBlocks import IOManager
 
 
 def compute_norm(f, datablock=0):

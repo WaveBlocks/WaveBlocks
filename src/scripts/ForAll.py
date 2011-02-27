@@ -9,9 +9,10 @@ python script for a bunch of simulation result files.
 """
 
 import sys
+import os
 import subprocess as sp
 
-from WaveBlocks.FileTools import *
+from WaveBlocks.FileTools import get_result_dirs, get_results_file
 from WaveBlocks import GlobalDefaults
 
 

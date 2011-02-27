@@ -8,7 +8,7 @@ This file contains the class which represents an inhomogeneous Hagedorn wavepack
 """
 
 from functools import partial
-from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, real, imag, transpose, squeeze
+from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, imag, transpose, squeeze
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 

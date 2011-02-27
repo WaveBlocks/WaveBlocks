@@ -9,7 +9,6 @@ Compute the kinetic and potential energies of the inhomogeneous wavepackets.
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornMultiWavepacket
-from WaveBlocks import IOManager
 
 
 def compute_energy(f, datablock=0):

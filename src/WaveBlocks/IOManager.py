@@ -8,7 +8,6 @@ This file contains code for serializing simulation data.
 """
 
 import os
-import sys
 import types
 import h5py as hdf
 import pickle

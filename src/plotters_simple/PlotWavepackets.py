@@ -9,7 +9,7 @@ during the time evolution.
 """
 
 import sys
-from numpy import array, real, imag, conj, abs, angle, squeeze
+from numpy import array, conj, abs, angle, squeeze
 from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
@@ -20,6 +20,9 @@ from WaveBlocks.Plot import plotcf, stemcf
 
 
 def plot_frames_homogeneous(f, view=None):
+    """
+    @param f: An I{IOManager} instance providing the simulation data.
+    """
     p = f.get_parameters()
     
     # Get the data
@@ -56,6 +59,9 @@ def plot_frames_homogeneous(f, view=None):
 
 
 def plot_frames_inhomogeneous(f, view=None):
+    """
+    @param f: An I{IOManager} instance providing the simulation data.
+    """
     p = f.get_parameters()
     
     # Get the data
@@ -86,9 +92,6 @@ def plot_frames_inhomogeneous(f, view=None):
 
         values = HAWP.evaluate_at(grid, prefactor=True)
         coeffi = HAWP.get_coefficients()
-        
-        n = p.ncomponents
-        k = array(range(p.basis_size))
 
         plot_frame(step, p, grid, values, coeffi, view=view)
         

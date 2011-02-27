@@ -11,7 +11,6 @@ to the given simulation data file.
 from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import IOManager
 
 
 def compute_evaluate_wavepackets(f, basis="eigen", datablock=0):

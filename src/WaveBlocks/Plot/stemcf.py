@@ -12,7 +12,7 @@ This function makes a stem plot.
 from numpy import pi, empty, array, zeros, real
 from matplotlib.colors import hsv_to_rgb
 from matplotlib.collections import LineCollection
-from matplotlib.pyplot import gca, plot, scatter
+from matplotlib.pyplot import gca
 
 
 def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):

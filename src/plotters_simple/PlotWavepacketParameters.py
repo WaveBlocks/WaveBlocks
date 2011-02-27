@@ -19,9 +19,7 @@ from WaveBlocks import IOManager
 def read_data_homogeneous(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
-    """
-    parameters = f.get_parameters()
-    
+    """    
     timegrid = f.load_wavepacket_timegrid()
     Pi = f.load_wavepacket_parameters()
 

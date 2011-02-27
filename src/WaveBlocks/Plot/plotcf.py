@@ -11,7 +11,7 @@ with abs(f) as y-value and phase(f) as color code.
 from numpy import pi, empty, array
 from matplotlib.colors import hsv_to_rgb
 from matplotlib.collections import LineCollection
-from matplotlib.pyplot import gca, plot
+from matplotlib.pyplot import gca
 
 
 def plotcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=1, color="k", **kwargs):
