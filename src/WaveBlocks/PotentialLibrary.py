@@ -105,6 +105,14 @@ three_levels["defaults"] = {"rho":3.0}
 # Potentials with four energy levels
 ####################################
 
+#: Decoupled harmonic potentials for four components
+four_quadratic = {}
+four_quadratic["potential"] = [["1/2 * sigma * x**2", "0",                  "0",                  "0"                 ],
+                               ["0",                  "1/2 * sigma * x**2", "0",                  "0"                 ],
+                               ["0",                  "0",                  "1/2 * sigma * x**2", "0"                 ],
+                               ["0",                  "0",                  "0",                  "1/2 * sigma * x**2"]]
+four_quadratic["defaults"] = {"sigma":0.05}
+
 #: Harmonic and higher order anharmonic potentials for four components
 four_powers = {}
 four_powers["potential"] = [["1/2 * sigma * x**2", "0",                  "0",                  "0"                 ],

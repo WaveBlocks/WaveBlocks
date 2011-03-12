@@ -27,9 +27,9 @@ def add_wavepacket(self, parameters, timeslots=None, block=0):
         daset_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), np.complexfloating)        
-        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters.ncomponents, parameters.basis_size), np.complexfloating)
-        daset_tg = grp_wp.create_dataset("timegrid", (timeslots,), np.integer)
+        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), dtype=np.complexfloating)        
+        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters.ncomponents, parameters.basis_size), dtype=np.complexfloating)
+        daset_tg = grp_wp.create_dataset("timegrid", (timeslots,), dtype=np.integer)
 
     # Attach pointer to data instead timegrid
     # Reason is that we have have two save functions but one timegrid
@@ -46,8 +46,8 @@ def save_wavepacket_parameters(self, parameters, timestep=None, block=0):
     timeslot = self.srf[pathd].attrs["pointer"]
 
     # Write the data
-    self.must_resize(pathd, timeslot)
-    self.srf[pathd][timeslot,0,:] = parameters
+    self.must_resize(pathd, timeslot)    
+    self.srf[pathd][timeslot,0,:] = np.squeeze(np.array(parameters))
 
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)

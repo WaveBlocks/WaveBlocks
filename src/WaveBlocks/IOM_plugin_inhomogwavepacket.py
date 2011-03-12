@@ -48,7 +48,7 @@ def save_inhomogwavepacket_parameters(self, parameters, timestep=None, block=0):
     # Write the data
     self.must_resize(pathd, timeslot)
     for index, item in enumerate(parameters):
-        self.srf[pathd][timeslot,index,:] = np.array(item)
+        self.srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
     
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
@@ -69,7 +69,7 @@ def save_inhomogwavepacket_coefficients(self, coefficients, timestep=None, block
     # Write the data
     self.must_resize(pathd, timeslot)
     for index, item in enumerate(coefficients):
-        self.srf[pathd][timeslot,index,:] = np.squeeze(item)
+        self.srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
 
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)

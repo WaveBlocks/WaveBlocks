@@ -19,6 +19,9 @@ def read_data(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
+    params = f.get_parameters()
+
+    
     timegrid = f.load_energy_timegrid()
     ekin, epot = f.load_energy(split=True)
 
@@ -29,7 +32,7 @@ def read_data(f):
     ekin.append(ekinsum)
     epot.append(epotsum)
 
-    return (timegrid, ekin, epot)
+    return (timegrid*params.dt, ekin, epot)
 
 
 def plot_energy(timegrid, ekin, epot):
