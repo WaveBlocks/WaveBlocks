@@ -7,9 +7,11 @@ This file contains the Hagedorn propagator class for inhomogeneous wavepackets.
 @license: Modified BSD License
 """
 
+from functools import partial
 import numpy as np
 import scipy as sp
 
+import GlobalDefaults
 from WaveFunction import WaveFunction
 from Propagator import Propagator
 
@@ -42,6 +44,27 @@ class HagedornMultiPropagator(Propagator):
         self.parameters = parameters
         self.dt = parameters.dt
         self.eps = parameters.eps
+
+        # Decide about the matrix exponential algorithm to use
+        if parameters.has_key("matrix_exponential"):
+            method = parameters["matrix_exponential"]
+        else:
+            method = GlobalDefaults.matrix_exponential
+
+        if method == "pade":
+            from MatrixExponential import matrix_exp_pade
+            self.__dict__["matrix_exponential"] = matrix_exp_pade
+        elif method == "arnoldi":
+            from MatrixExponential import matrix_exp_arnoldi
+
+            if parameters.has_key("arnoldi_steps"):
+                arnoldi_steps = parameters["arnoldi_steps"]
+            else:
+                arnoldi_steps = min(parameters["basis_size"], GlobalDefaults.arnoldi_steps)
+
+            self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
+        else:
+            raise ValueError("Unknown matrix exponential algorithm")
 
         # Precalculate the potential splitting
         self.potential.calculate_local_quadratic_multi()
@@ -114,8 +137,7 @@ class HagedornMultiPropagator(Propagator):
         # Do a potential step with the local non-quadratic taylor remainder
         F = self.packet.matrix(self.potential.evaluate_local_remainder_at)
         coefficients = self.packet.get_coefficient_vector()
-        
-        coefficients = np.dot(sp.linalg.expm(-1.0j*F*dt/self.eps**2), coefficients)
+        coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
         self.packet.set_coefficient_vector(coefficients)
 
         # Do a kinetic step of dt/2
