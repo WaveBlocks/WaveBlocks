@@ -913,6 +913,21 @@ script. Just make sure there is no variable name clash.
     \item Default value: an empty list, thus saving at special points in time
     is not enabled.
   \end{itemize}
+
+  \item[\texttt{matrix\_exponential}] Choose the algorithm used for computing the matrix exponential.
+  \begin{itemize}
+    \item Possible values: \texttt{"pade"}, \texttt{"arnoldi"}
+    \item Data type: string
+    \item Default value: \texttt{"pade"}
+  \end{itemize}
+
+  \item[\texttt{arnoldi\_steps}] The number of arnoldi steps performed. Use this together with
+  the parameter \texttt{matrix\_exponential} set to \texttt{"arnoldi"}.
+  \begin{itemize}
+    \item Possible values: positive integers
+    \item Data type: integer
+    \item Default value: 20
+  \end{itemize}
 \end{description}
 
 \subsubsection{Parameters for the \texttt{fourier} propagator}
