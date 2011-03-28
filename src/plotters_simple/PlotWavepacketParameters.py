@@ -59,41 +59,49 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     ax = fig.add_subplot(4,2,1)
     for item in Phist:
         ax.plot(timegrid, real(item), label=r"$\Re P$")
+    ax.grid(True)
     ax.set_title(r"$\Re P$")
     
     ax = fig.add_subplot(4,2,2)
     for item in Phist:
         ax.plot(timegrid, imag(item), label=r"$\Im P$")
+    ax.grid(True)
     ax.set_title(r"$\Im P$")
     
     ax = fig.add_subplot(4,2,3)
     for item in Qhist:
         ax.plot(timegrid, real(item), label=r"$\Re Q$")
+    ax.grid(True)
     ax.set_title(r"$\Re Q$")
     
     ax = fig.add_subplot(4,2,4)
     for item in Qhist:
         ax.plot(timegrid, imag(item), label=r"$\Im Q$")
+    ax.grid(True)
     ax.set_title(r"$\Im Q$")
     
     ax = fig.add_subplot(4,2,5)
     for item in qhist:
         ax.plot(timegrid, item, label=r"$q$")
+    ax.grid(True)
     ax.set_title(r"$q$")
     
     ax = fig.add_subplot(4,2,6)
     for item in phist:
         ax.plot(timegrid, item, label=r"$p$")
+    ax.grid(True)
     ax.set_title(r"$p$")
     
     ax = fig.add_subplot(4,2,7)
     for item in Shist:
         ax.plot(timegrid, real(item), label=r"$\Re S$")
+    ax.grid(True)
     ax.set_title(r"$\Re S$")
     
     ax = fig.add_subplot(4,2,8)
     for item in Shist:
         ax.plot(timegrid, imag(item), label=r"$\Im S$")
+    ax.grid(True)
     ax.set_title(r"$\Im S$")
     
     fig.savefig("wavepacket_parameters.png")

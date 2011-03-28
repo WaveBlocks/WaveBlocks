@@ -1,6 +1,8 @@
 """The WaveBlocks Project
 
-This file contains the Hagedorn propagator class for homogeneous wavepackets.
+This file contains several different algorithms to compute the
+matrix exponential. Currently we have an exponential based on
+Pade approximations and an Arnoldi iteration method.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2007 V. Gradinaru
