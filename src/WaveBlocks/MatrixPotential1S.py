@@ -237,13 +237,13 @@ class MatrixPotential1S(MatrixPotential):
         """
         self.calculate_eigenvalues()
         f = self.eigenvalues_s
-            
+
         # point where the taylor series is computed
         q = sympy.Symbol("q")
         
-        p = f.subs(self.x, q)            
+        p = f.subs(self.x, q)
         j = sympy.diff(f, self.x)
-        j = j.subs(self.x, q)            
+        j = j.subs(self.x, q)
         h = sympy.diff(f, self.x, 2)
         h = h.subs(self.x, q)
 
@@ -251,7 +251,7 @@ class MatrixPotential1S(MatrixPotential):
 
         # Symbolic expression for the taylor expansion remainder term
         self.nonquadratic_s = sympy.simplify(self.potential - quadratic)
-                            
+        
         # Construct functions to evaluate the approximation at point q at the given nodes
         self.nonquadratic_n = sympy.vectorize(1)(sympy.lambdify([q, self.x], self.nonquadratic_s, "numpy"))
         

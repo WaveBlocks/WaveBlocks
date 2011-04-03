@@ -40,7 +40,7 @@ double_well["defaults"] = {"sigma":1.0}
 #: The Eckart potential
 eckart = {}
 eckart["potential"] = "sigma * cosh(x/a)**(-2)"
-eckart["defaults"] = {"sigma":100*3.8088*10e-4, "a":1.0/(2.0*0.52918)}
+eckart["defaults"] = {"sigma":100*3.8088*10**(-4), "a":1.0/(2.0*0.52918)}
 
 #: A smooth unitstep like wall
 wall = {}
