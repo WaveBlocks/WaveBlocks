@@ -13,7 +13,6 @@ import sys
 from numpy import *
 from matplotlib.pyplot import *
 
-from WaveBlocks import GlobalDefaults
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 

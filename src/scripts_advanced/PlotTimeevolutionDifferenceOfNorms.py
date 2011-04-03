@@ -10,7 +10,6 @@ simulation algorithms.
 """
 
 from numpy import array
-from scipy.linalg import norm
 from matplotlib.pyplot import *
 
 from WaveBlocks import FileTools as FT
@@ -65,7 +64,6 @@ def load_data(resultspath):
 
             # Precalculate eigenvectors for efficiency
             Potential = PotentialFactory.create_potential(parameters_f)
-            eigenvalues = Potential.evaluate_eigenvalues_at(grid)
             eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
             # Get the data
