@@ -409,6 +409,11 @@ class HagedornMultiWavepacket:
         @note: This function is expensive and destructive! It modifies the coefficients
         of the I{self} instance.
         """
+        # No projection for potentials with a single energy level.
+        # The canonical and eigenbasis are identical here.
+        if potential.get_number_components() == 1:
+            return
+ 
         potential.calculate_eigenvectors()
 
         # Basically an ugly hack to overcome some shortcomings of the matrix function
@@ -432,6 +437,11 @@ class HagedornMultiWavepacket:
         @note: This function is expensive and destructive! It modifies the coefficients
         of the I{self} instance.
         """
+        # No projection for potentials with a single energy level.
+        # The canonical and eigenbasis are identical here.
+        if potential.get_number_components() == 1:
+            return
+
         potential.calculate_eigenvectors()
 
         # Basically an ugly hack to overcome some shortcomings of the matrix function
