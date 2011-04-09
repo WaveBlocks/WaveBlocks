@@ -11,7 +11,7 @@ import numpy as np
 
 
 def add_norm(self, parameters, timeslots=None, block=0):
-    """Store the norms
+    """Add storage for the norms.
     """
     grp_ob = self.srf["datablock_"+str(block)].require_group("observables")
     
@@ -31,6 +31,18 @@ def add_norm(self, parameters, timeslots=None, block=0):
         daset_tg = grp_no.create_dataset("timegrid", (timeslots,), dtype=np.integer)
         
     daset_tg.attrs["pointer"] = 0
+
+
+def delete_norm(self, block=0):
+    """Remove the stored norms.
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/observables/norm"]
+        # Check if there are other children, if not remove the whole node.
+        if len(self.srf["datablock_"+str(block)+"/observables"].keys()) == 0:
+            del self.srf["datablock_"+str(block)+"/observables"]
+    except KeyError:
+        pass
 
 
 def save_norm(self, norm, timestep=None, block=0):

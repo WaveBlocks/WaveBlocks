@@ -43,7 +43,7 @@ class IOManager:
         # Plugin name convention, we only trigger plugin loading
         # for requests starting with "add", "load" or "save".
         # However, IF we load a plugin, we load ALL functions it defines.
-        if parts[0] not in ("add", "load", "save"):
+        if parts[0] not in ("add", "delete", "load", "save"):
             return
         else:
             print("Requested function: "+key)

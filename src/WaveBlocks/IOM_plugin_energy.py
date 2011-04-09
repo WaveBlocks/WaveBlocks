@@ -45,6 +45,18 @@ def add_energy(self, parameters, timeslots=None, block=0, total=False):
     daset_tg.attrs["pointer"] = 0
 
 
+def delete_energy(self, block=0):
+    """Remove the stored energies
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/observables/energies"]
+        # Check if there are other children, if not remove the whole node.
+        if len(self.srf["datablock_"+str(block)+"/observables"].keys()) == 0:
+            del self.srf["datablock_"+str(block)+"/observables"]
+    except KeyError:
+        pass
+
+
 def save_energy(self, energies, timestep=None, block=0):
     """Save the kinetic and potential energies to a file.
     @param energies: A tuple \texttt{(ekin, epot)} containing the energies.

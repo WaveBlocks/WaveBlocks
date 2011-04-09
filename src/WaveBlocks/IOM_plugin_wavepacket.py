@@ -12,7 +12,8 @@ import numpy as np
 
 
 def add_wavepacket(self, parameters, timeslots=None, block=0):
-    # Store the wavepackets
+    """Add storage for the homogeneous wavepackets.
+    """
     grp_wp = self.srf["datablock_"+str(block)].require_group("wavepacket")
 
     # Create the dataset with appropriate parameters
@@ -35,6 +36,15 @@ def add_wavepacket(self, parameters, timeslots=None, block=0):
     # Reason is that we have have two save functions but one timegrid
     daset_pi.attrs["pointer"] = 0
     daset_c.attrs["pointer"] = 0
+
+
+def delete_wavepacket(self, block=0):
+    """Remove the stored wavepackets.
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/wavepacket"]
+    except KeyError:
+        pass
 
 
 def save_wavepacket_parameters(self, parameters, timestep=None, block=0):

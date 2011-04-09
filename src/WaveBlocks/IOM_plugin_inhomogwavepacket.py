@@ -12,7 +12,8 @@ import numpy as np
 
 
 def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
-    # Store the wave packets
+    """Add storage for the inhomogeneous wavepackets.
+    """
     grp_wp = self.srf["datablock_"+str(block)].require_group("wavepacket_inhomog")
 
     # Create the dataset with appropriate parameters
@@ -35,6 +36,15 @@ def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
     # Reason is that we have have two save functions but one timegrid
     daset_pi.attrs["pointer"] = 0
     daset_c.attrs["pointer"] = 0
+
+
+def delete_inhomogwavepacket(self, block=0):
+    """Remove the stored wavepackets.
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/wavepacket_inhomog"]
+    except KeyError:
+        pass
 
 
 def save_inhomogwavepacket_parameters(self, parameters, timestep=None, block=0):

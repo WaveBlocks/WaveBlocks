@@ -11,7 +11,8 @@ import numpy as np
 
 
 def add_wavefunction(self, parameters, timeslots=None, block=0):
-    # Store the sampled wavefunction
+    """Add storage for the sampled wavefunction.
+    """
     grp_wf = self.srf["datablock_"+str(block)].require_group("wavefunction")
 
     # Create the dataset with appropriate parameters
@@ -28,6 +29,15 @@ def add_wavefunction(self, parameters, timeslots=None, block=0):
         daset_psi_tg = grp_wf.create_dataset("timegrid", (timeslots,), dtype=np.integer)
         
     daset_psi_tg.attrs["pointer"] = 0
+
+
+def delete_wavefunction(self, block=0):
+    """Remove the stored wavefunction.
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/wavefunction"]
+    except KeyError:
+        pass
 
 
 def save_wavefunction(self, wavefunctionvalues, block=0, timestep=None):

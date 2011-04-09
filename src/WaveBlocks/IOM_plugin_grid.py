@@ -12,9 +12,18 @@ import h5py as hdf
 
 
 def add_grid(self, parameters, block=0):
-    """Add storage for a grid
+    """Add storage for a grid.
     """
     self.srf["datablock_"+str(block)].create_dataset("grid", (parameters.dimension, parameters.ngn), np.floating)
+
+
+def delete_grid(self, block=0):
+    """Remove the stored grid.
+    """
+    try:
+        del self.srf["datablock_"+str(block)+"/grid"]
+    except KeyError:
+        pass
 
 
 def add_grid_reference(self, blockfrom=1, blockto=0):
