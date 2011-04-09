@@ -141,6 +141,7 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         # Plot a convergence indicator
         ax.loglog(axisdata[0], axisdata[0]**2, "-k", label=r"$y = x^2$")
 
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"Timestep size $dt$")
         ax.set_ylabel(r"$$\| \phi_f - \phi_h \|_{"+nona+r"}$$")
         ax.set_title(r"Error norm $\| \phi_f - \phi_h \|_{"+nona+r"}$ for time $T=" + str(time) + r"$")
@@ -155,7 +156,8 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         for eps, ad, nd in  zip(epsdata, axisdata, normdata[t]):
             values = guessor(ad, nd)
             ax.plot(values, "-o", label=r"$\varepsilon = "+str(eps)+"$")
-        
+
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_title(r"guessor at time $T=" + str(time) + r"$")
         legend(loc="outer right")
         fig.savefig("guessor_FvP_time="+str(time)+"_"+nona+".png")

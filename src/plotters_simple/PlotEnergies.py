@@ -19,10 +19,10 @@ def read_data(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    params = f.get_parameters()
-
-    
+    params = f.get_parameters()    
     timegrid = f.load_energy_timegrid()
+    time = timegrid * params.dt
+        
     ekin, epot = f.load_energy(split=True)
 
     # Compute the sum of all energies
@@ -32,7 +32,7 @@ def read_data(f):
     ekin.append(ekinsum)
     epot.append(epotsum)
 
-    return (timegrid*params.dt, ekin, epot)
+    return (time, ekin, epot)
 
 
 def plot_energy(timegrid, ekin, epot):
@@ -61,13 +61,15 @@ def plot_energy(timegrid, ekin, epot):
     # Plot the overall energy of all wave packets
     ax.plot(timegrid, ekin[-1] + epot[-1], label=r"$\sum_i E^{kin}_i + \sum_i E^{pot}_i$")
 
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
     ax.grid(True)
-    ax.set_xlabel(r"Timesteps")
+    ax.set_xlabel(r"Time $t$")
     legend(loc="outer right")
     ax.set_title(r"Energies of the wavepacket $\Psi$")
 
     fig.savefig("energies.png")
     close(fig)
+
 
     # Plot the energy drift
     e_orig = (ekin[-1]+epot[-1])[0]
@@ -77,8 +79,10 @@ def plot_energy(timegrid, ekin, epot):
     ax = fig.gca()
 
     ax.plot(timegrid, data, label=r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
+    
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
-    ax.set_xlabel(r"Timesteps")
+    ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
     ax.set_title(r"Energy drift of the wavepacket $\Psi$")
 

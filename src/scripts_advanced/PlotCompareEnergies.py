@@ -61,6 +61,7 @@ def plot_data(axisdata, ekindata, epotdata, number_simulations, number_component
             ax.plot(epotdata[index][:,jndex], label=r"$"+str(index)+r": E^{pot}_"+str(jndex)+r"$", color=colormap[(2*jndex+1)%len(colormap)])
 
     ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Timestep")
     ax.set_ylabel(r"$E$")
     ax.set_title(r"Energies timeseries comparison")
@@ -82,6 +83,7 @@ def plot_data(axisdata, ekindata, epotdata, number_simulations, number_component
         ax.plot(axisdata, endpotdata[index], label=r"$E^{pot}_"+str(index)+r"$", marker="o")
 
     ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"$\varepsilon$")
     ax.set_ylabel(r"$E$")
     ax.set_title(r"Energies end of time comparison")

@@ -8,6 +8,7 @@ Plot the norms of the different wavepackets as well as the sum of all norms.
 """
 
 import sys
+from numpy import sqrt, max
 from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
@@ -18,15 +19,17 @@ def read_data(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
+    parameters = f.get_parameters()
     timegrid = f.load_norm_timegrid()
+    time = timegrid * parameters.dt
     
     norms = f.load_norm(split=True)
-
+    
     normsum = [ item**2 for item in norms ]
     normsum = reduce(lambda x,y: x+y, normsum)
-    norms.append(normsum)
+    norms.append(sqrt(normsum))
     
-    return (timegrid, norms)
+    return (time, norms)
 
 
 def plot_norms(timegrid, data):
@@ -39,16 +42,38 @@ def plot_norms(timegrid, data):
     for i, datum in enumerate(data[:-1]):
         label_i = r"$\| \Phi_"+str(i)+r" \|$"
         ax.plot(timegrid, datum, label=label_i)
-
+    
     # Plot the sum of all norms
     ax.plot(timegrid, data[-1], color=(1,0,0), label=r"${\sqrt{\sum_i {\| \Phi_i \|^2}}}$")
 
+    ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_title(r"Norms of $\Psi$")
     legend(loc="outer right")
-    ax.set_xlabel(r"Timesteps")
-    ax.grid(True)
-
+    ax.set_xlabel(r"Time $t$")
+    ax.set_ylim([0,1.1*max(data[:-1])])
     fig.savefig("norms.png")
+    close(fig)
+
+
+    fig = figure()
+    ax = fig.gca()
+    
+    # Plot the squared norms of the individual wavepackets
+    for i, datum in enumerate(data[:-1]):
+        label_i = r"$\| \Phi_"+str(i)+r" \|^2$"
+        ax.plot(timegrid, datum**2, label=label_i)
+
+    # Plot the squared sum of all norms
+    ax.plot(timegrid, data[-1]**2, color=(1,0,0), label=r"${\sum_i {\| \Phi_i \|^2}}$")
+
+    ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    ax.set_title(r"Squared norms of $\Psi$")
+    legend(loc="outer right")
+    ax.set_xlabel(r"Time $t$")
+    ax.set_ylim([0,1.1*max(data[:-1])])
+    fig.savefig("norms_sqr.png")
     close(fig)
 
 
@@ -57,12 +82,13 @@ def plot_norms(timegrid, data):
     ax = fig.gca()
 
     ax.plot(timegrid, abs(data[-1][0] - data[-1]), label=r"$\|\Psi\|_0 - \|\Psi\|_t$")
+    
     ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_title(r"Drift of $\| \Psi \|$")
     legend(loc="outer right")
-    ax.set_xlabel(r"Timesteps")
-    ax.set_ylabel(r"$$\|\Psi\|_0 - \|\Psi\|_t$$")
-
+    ax.set_xlabel(r"Time $t$")
+    ax.set_ylabel(r"$\|\Psi\|_0 - \|\Psi\|_t$")
     fig.savefig("norms_drift.png")
     close(fig)
 
@@ -70,11 +96,11 @@ def plot_norms(timegrid, data):
 if __name__ == "__main__":
     iom = IOManager()
 
-    # Read file with simulation data
+    # Read the file with the simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.open_file()      
+        iom.open_file()
     
     data = read_data(iom)
     plot_norms(*data)

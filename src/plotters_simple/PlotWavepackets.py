@@ -111,7 +111,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(12,9)
             
         # Plot the probability densities
         ax1 = fig.add_subplot(n,2,2*s+1)
-        ax1.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+        ax1.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         plotcf(grid, angle(y), conj(y)*y)
 
         if view is not None:
@@ -123,7 +123,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(12,9)
 
         # Plot the coefficients of the Hagedorn wavepacket
         ax2 = fig.add_subplot(n,2,2*s+2)
-        ax2.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+        ax2.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         stemcf(k, angle(c), abs(c))
 
         # axis formatting:

@@ -41,18 +41,19 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         values = [ wave[j,...] for j in xrange(parameters.ncomponents) ]
 
         # Transform the values to the eigenbasis
-        # todo: improve this:
+        # TODO: improve this:
         if parameters.algorithm == "fourier":
             ve = Potential.project_to_eigen(grid, values, eigenvectors)
         else:
             ve = values
 
-        # plot the probability densities projected to the eigenbase
+        # Plot the probability densities projected to the eigenbasis
         fig = figure(figsize=imgsize)
         
         for index, component in enumerate(ve):
             ax = fig.add_subplot(parameters.ncomponents,1,index+1)
-
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+            
             if plotcomponents is True:
                 ax.plot(grid, real(component))
                 ax.plot(grid, imag(component))
@@ -80,16 +81,16 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
 
 if __name__ == "__main__":
     iom = IOManager()
-
+    
     # Read file with simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
         iom.open_file()
-
+    
     # The axes rectangle that is plotted
     view = [-3.5, 3.5, -0.1, 3.5]
-
+    
     plot_frames(iom, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
-
+    
     iom.finalize()

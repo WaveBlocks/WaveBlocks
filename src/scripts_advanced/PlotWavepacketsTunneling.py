@@ -126,7 +126,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     # Plot the probability density, left to X0
     ax1 = fig.add_subplot(2,2,1)
-    ax1.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+    ax1.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     plotcf(gl, angle(yl), conj(yl)*yl)
 
     if view is not None:
@@ -138,7 +138,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     # Plot the probability density, right to X0
     ax2 = fig.add_subplot(2,2,2)
-    ax2.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+    ax2.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     plotcf(gr, angle(yr), conj(yr)*yr)
 
     if view is not None:
@@ -150,7 +150,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     # Plot the coefficients smaller than K0 of the Hagedorn wavepacket
     ax3 = fig.add_subplot(2,2,3)
-    ax3.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+    ax3.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     stemcf(kl, angle(cs), abs(cs))
 
     # axis formatting:
@@ -162,7 +162,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     # Plot the coefficients bigger than K0 of the Hagedorn wavepacket
     ax4 = fig.add_subplot(2,2,4)
-    ax4.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
+    ax4.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     stemcf(kr, angle(cb), abs(cb))
 
     # axis formatting:

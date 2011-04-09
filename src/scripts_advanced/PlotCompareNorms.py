@@ -59,6 +59,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components):
             
     ax.set_ylim(0,1.1)
     ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Timestep")
     ax.set_ylabel(r"$\|\cdot\|$")
     ax.set_title(r"Norms timeseries comparison")
@@ -77,6 +78,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components):
         plot(axisdata, enddata[jndex], label=r"$\| \psi_"+str(jndex)+r"\|$", marker="o", color=colormap[jndex%len(colormap)])
 
     ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"$\varepsilon$")
     ax.set_ylabel(r"$\|\cdot\|$")
     ax.set_title(r"Norms end of time comparison")

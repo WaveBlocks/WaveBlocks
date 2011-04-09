@@ -24,8 +24,10 @@ def plot_potential(grid, potential, imgsize=(8,6)):
     ax = fig.gca()
     
     for index, ew in enumerate(potew):
+        ax.fill(grid, ew, facecolor="blue", alpha=0.25)
         ax.plot(grid, ew, label=r"$\lambda_"+str(index)+r"$")
-    
+
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$\lambda_i\left(x\right)$")

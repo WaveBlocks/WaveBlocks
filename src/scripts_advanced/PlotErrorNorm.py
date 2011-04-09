@@ -110,10 +110,11 @@ def plot_data(axisdata, normdata, number_simulations, number_components, timeind
     
     for index in xrange(number_simulations):
         ax.plot(normdata[index], label=r"$\varepsilon = $" + str(axisdata[index]))
-    
+
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Timestep $t$")
-    ax.set_ylabel(r"$$\| \phi_f - \phi_h \|_{"+nona+r"}$$")
-    ax.set_title(r"Timeseries of $$\| \phi_f - \phi_h \|_{"+nona+r"}$$ ")
+    ax.set_ylabel(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$")
+    ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{"+nona+r"}$")
     legend(loc="outer right")
     fig.savefig("convergence_"+nona+"_all.png")
     close(fig)
@@ -132,6 +133,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components, timeind
         ax.plot(axisdata, tmp, "-o", label=r"$t = " + str(t) + r"$")
         
         ax.grid(True)
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"$\varepsilon$")
         ax.set_ylabel(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$")
         ax.set_title(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$ for different $\varepsilon$ ")

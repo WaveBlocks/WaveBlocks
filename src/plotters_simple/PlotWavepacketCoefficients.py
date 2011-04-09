@@ -21,15 +21,16 @@ def read_data_homogeneous(f):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = f.get_parameters()
-    
     timegrid = f.load_wavepacket_timegrid()
+    time = timegrid * parameters.dt
+    
     C = f.load_wavepacket_coefficients()
-
+    
     coeffs = []
     for i in xrange(parameters.ncomponents):
         coeffs.append(squeeze(C[:,i,:]))
 
-    return (parameters, timegrid, coeffs)
+    return (parameters, time, coeffs)
 
 
 def read_data_inhomogeneous(f):
@@ -37,15 +38,16 @@ def read_data_inhomogeneous(f):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = f.get_parameters()
-    
     timegrid = f.load_inhomogwavepacket_timegrid()
+    time = timegrid * parameters.dt
+    
     C = f.load_inhomogwavepacket_coefficients()
 
     coeffs = []
     for i in xrange(parameters.ncomponents):
         coeffs.append(squeeze(C[:,i,:]))
 
-    return (parameters, timegrid, coeffs)
+    return (parameters, time, coeffs)
 
 
 def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
@@ -70,6 +72,7 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             ax.plot(timegrid, imag(coeffs[component][:,coeff]))
             ax.plot(timegrid, abs(coeffs[component][:,coeff]))
 
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
@@ -88,7 +91,8 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             ax.plot(timegrid, real( coeffs[component][:,coeff] ) )
             ax.plot(timegrid, imag( coeffs[component][:,coeff] ) )
             ax.plot(timegrid, abs( coeffs[component][:,coeff] ) )
-
+            
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
@@ -115,6 +119,6 @@ if __name__ == "__main__":
         iom.finalize()
         sys.exit("Can only postprocess (multi)hagedorn algorithm data. Silent return ...")
 
-    plot_coefficients(*data, amount=3)
+    plot_coefficients(*data, amount=5)
 
     iom.finalize()

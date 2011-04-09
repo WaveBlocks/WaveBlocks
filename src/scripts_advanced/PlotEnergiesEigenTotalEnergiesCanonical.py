@@ -69,7 +69,8 @@ def plot_energy(times, ekin, epot, etot):
     ax.plot(times, etot, label=r"$\sum_i E^{kin}_i + \sum_i E^{pot}_i$")
 
     ax.grid(True)
-    ax.set_xlabel(r"Time")
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Energies of the wavepacket $\Psi$")
     legend(loc="outer right")
     fig.savefig("energies_etot_canonical.png")
@@ -82,7 +83,12 @@ def plot_energy(times, ekin, epot, etot):
 
     fig = figure()
     ax = fig.gca()
-    ax.plot(times, squeeze(etot) - etot_eig, label=r"etot eig - etot can")
+    
+    ax.plot(times, squeeze(etot) - etot_eig, label=r"$E_{tot}^{eig} - E_{tot}^{can}$")
+
+    ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    ax.set_xlabel(r"Time $t$")
     fig.savefig("etot_canonical_diff.png")
     close(fig)
 
@@ -92,9 +98,12 @@ def plot_energy(times, ekin, epot, etot):
 
     fig = figure()
     ax = fig.gca()
+
     ax.plot(times, abs(e_orig-(ekin[-1]+epot[-1])), label=r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
+    
     ax.grid(True)
-    ax.set_xlabel(r"Timesteps")
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
     ax.set_title(r"Energy drift of the wave packet $\Psi$")
     fig.savefig("energies_etot_canonical_drift.png")

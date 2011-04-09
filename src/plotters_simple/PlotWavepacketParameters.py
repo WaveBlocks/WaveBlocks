@@ -19,8 +19,11 @@ from WaveBlocks import IOManager
 def read_data_homogeneous(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
-    """    
+    """
+    parameters = f.get_parameters()
     timegrid = f.load_wavepacket_timegrid()
+    time = timegrid * parameters.dt
+
     Pi = f.load_wavepacket_parameters()
 
     Phist = [ Pi[:,0] ]
@@ -29,7 +32,7 @@ def read_data_homogeneous(f):
     phist = [ Pi[:,3] ]
     qhist = [ Pi[:,4] ]
 
-    return (timegrid, Phist, Qhist, Shist, phist, qhist)
+    return (time, Phist, Qhist, Shist, phist, qhist)
 
 
 def read_data_inhomogeneous(f):
@@ -37,6 +40,8 @@ def read_data_inhomogeneous(f):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = f.get_parameters()
+    timegrid = f.load_inhomogwavepacket_timegrid()
+    time = timegrid * params.dt
     
     timegrid = f.load_inhomogwavepacket_timegrid()
     Pi = f.load_inhomogwavepacket_parameters()
@@ -50,7 +55,7 @@ def read_data_inhomogeneous(f):
     phist = [ Pi[i][:,3] for i in xrange(N) ]
     qhist = [ Pi[i][:,4] for i in xrange(N) ]
 
-    return (timegrid, Phist, Qhist, Shist, phist, qhist)
+    return (time, Phist, Qhist, Shist, phist, qhist)
 
 
 def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
@@ -82,13 +87,13 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     
     ax = fig.add_subplot(4,2,5)
     for item in qhist:
-        ax.plot(timegrid, item, label=r"$q$")
+        ax.plot(timegrid, real(item), label=r"$q$")
     ax.grid(True)
     ax.set_title(r"$q$")
     
     ax = fig.add_subplot(4,2,6)
     for item in phist:
-        ax.plot(timegrid, item, label=r"$p$")
+        ax.plot(timegrid, real(item), label=r"$p$")
     ax.grid(True)
     ax.set_title(r"$p$")
     
@@ -97,12 +102,6 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
         ax.plot(timegrid, real(item), label=r"$\Re S$")
     ax.grid(True)
     ax.set_title(r"$\Re S$")
-    
-    ax = fig.add_subplot(4,2,8)
-    for item in Shist:
-        ax.plot(timegrid, imag(item), label=r"$\Im S$")
-    ax.grid(True)
-    ax.set_title(r"$\Im S$")
     
     fig.savefig("wavepacket_parameters.png")
     close(fig)

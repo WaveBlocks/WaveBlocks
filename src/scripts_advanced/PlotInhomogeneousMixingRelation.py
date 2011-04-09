@@ -21,6 +21,7 @@ def load_data(f):
     """
     parameters = f.get_parameters()
     timegrid = f.load_inhomogwavepacket_timegrid()
+    time = timegrid * parameters.dt
     
     Pi = f.load_inhomogwavepacket_parameters()
 
@@ -33,7 +34,7 @@ def load_data(f):
     phist = [ Pi[i][:,3] for i in xrange(N) ]
     qhist = [ Pi[i][:,4] for i in xrange(N) ]
 
-    return (N, timegrid, Phist, Qhist, Shist, phist, qhist)
+    return (N, time, Phist, Qhist, Shist, phist, qhist)
 
 
 def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
@@ -50,7 +51,8 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, imag(data)) 
 
             ax.grid(True)
-            ax.set_xlabel(r"$t$")
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+            ax.set_xlabel(r"Time $t$")
             ax.set_ylabel(r"$\Re(\cdot), \Im(\cdot)$")
             ax.set_title(r"$\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}$")
 
@@ -77,7 +79,8 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, imag(data1) - imag(data2))
 
             ax.grid(True)
-            ax.set_xlabel(r"$t$")
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+            ax.set_xlabel(r"Time $t$")
             ax.set_ylabel(r"$\Im(\cdot), \Im(\cdot), \Im(\cdot)-\Im(\cdot)$")
             ax.set_title(r"$\Im\left(\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}\right) - \Im\left(\frac{P_"+str(i)+r"}{Q_"+str(i)+r"} - \frac{\overline{P_"+str(j)+r"}}{\overline{Q_"+str(j)+r"}}\right)$")
 
@@ -106,7 +109,8 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, data, "r") 
 
             ax.grid(True)
-            ax.set_xlabel(r"$t$")
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+            ax.set_xlabel(r"Time $t$")
             ax.set_ylabel(r"$\frac{\Im(\overline{r_k}q_k - r_l q_l)}{\Im(\overline{r_k}-r_l)}$")
             ax.set_title(r"Mixing of $q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 
@@ -135,7 +139,8 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, data, "r") 
 
             ax.grid(True)
-            ax.set_xlabel(r"$t$")
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+            ax.set_xlabel(r"Time $t$")
             ax.set_ylabel(r"$-\frac{\Im(\overline{r_k}-r_l)}{2}$")
             ax.set_title(r"Mixing of $Q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 

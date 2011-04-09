@@ -135,8 +135,7 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
         # Plot the error time series for each simulation
         fig = figure()
         ax = fig.gca()
-        ax.ticklabel_format(style='sci', scilimits=(0,0), axis='y')
-
+        
         for cur_axisd, cur_norm in zip(axisd, normd):
 
             # One single component in |Psi>
@@ -152,6 +151,7 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
                 # Plot the overall summed error norm
                 ax.semilogy(cur_axisd[1]*cur_axisd[0].dt, cur_norm[:,-1], label=r"$\varepsilon = $" + str(cur_axisd[0].eps) +r", $\sum_i c_i$")
 
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"$t$")
         ax.set_ylabel(r"$\| \phi^F - \phi^H \|_{"+nona+r"}$")
         ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{"+nona+r"}$ ")
