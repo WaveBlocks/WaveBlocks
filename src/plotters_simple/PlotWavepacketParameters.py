@@ -10,7 +10,7 @@ time propagation.
 """
 
 import sys
-from numpy import real, imag
+from numpy import real, imag, abs, angle
 from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
@@ -100,12 +100,65 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     
     ax = fig.add_subplot(4,2,7)
     for item in Shist:
-        ax.plot(timegrid, real(item), label=r"$\Re S$")
+        ax.plot(timegrid, real(item), label=r"$S$")
     ax.grid(True)
-    ax.set_title(r"$\Re S$")
-    
+    ax.set_title(r"$S$")
+
+    fig.suptitle("Wavepacket parameters")
     fig.savefig("wavepacket_parameters.png")
     close(fig)
+
+
+    # Plot the time evolution of the parameters P, Q, S, p and q
+    # This time plot abs/angle instead of real/imag
+    fig = figure(figsize=(12,12))
+
+    ax = fig.add_subplot(4,2,1)
+    for item in Phist:
+        ax.plot(timegrid, abs(item), label=r"$|P|$")
+    ax.grid(True)
+    ax.set_title(r"$|P|$")
+    
+    ax = fig.add_subplot(4,2,2)
+    for item in Phist:
+        ax.plot(timegrid, angle(item), label=r"$\arg P$")
+    ax.grid(True)
+    ax.set_title(r"$\arg P$")
+    
+    ax = fig.add_subplot(4,2,3)
+    for item in Qhist:
+        ax.plot(timegrid, abs(item), label=r"$|Q|$")
+    ax.grid(True)
+    ax.set_title(r"$|Q|$")
+    
+    ax = fig.add_subplot(4,2,4)
+    for item in Qhist:
+        ax.plot(timegrid, angle(item), label=r"$\arg Q$")
+    ax.grid(True)
+    ax.set_title(r"$\arg Q$")
+    
+    ax = fig.add_subplot(4,2,5)
+    for item in qhist:
+        ax.plot(timegrid, real(item), label=r"$q$")
+    ax.grid(True)
+    ax.set_title(r"$q$")
+    
+    ax = fig.add_subplot(4,2,6)
+    for item in phist:
+        ax.plot(timegrid, real(item), label=r"$p$")
+    ax.grid(True)
+    ax.set_title(r"$p$")
+    
+    ax = fig.add_subplot(4,2,7)
+    for item in Shist:
+        ax.plot(timegrid, abs(item), label=r"$S$")
+    ax.grid(True)
+    ax.set_title(r"$S$")
+
+    fig.suptitle("Wavepacket parameters")
+    fig.savefig("wavepacket_parameters_abs_ang.png")
+    close(fig)
+
 
 
 if __name__ == "__main__":
