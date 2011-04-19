@@ -137,7 +137,19 @@ class IOManager:
         """Return the reference to the current I{ParameterProvider} instance.
         """
         return self.parameters
+
+
+    def update_simulation_parameters(self, parameters):
+        # Brute force implementation which will fail
+        # if the new parameters are not a superset of
+        # the old ones!
+        self.delete_simulation_parameters()
+        self.save_simulation_parameters(parameters)
     
+
+    def delete_simulation_parameters(self):
+        del self.srf["simulation_parameters"]
+
     
     def must_resize(self, path, slot, axis=0):
         """Check if we must resize a given dataset and if yes, resize it.

@@ -24,17 +24,22 @@ if __name__ == "__main__":
 
     parameters = iom.get_parameters()
 
-    if parameters.algorithm == "fourier":
+    if parameters["algorithm"] == "fourier":
         import NormWavefunction 
         NormWavefunction.compute_norm(iom)
 
-    elif parameters.algorithm == "hagedorn":
+    elif parameters["algorithm"] == "hagedorn":
         import NormWavepacket
         NormWavepacket.compute_norm(iom)
 
-    elif parameters.algorithm == "multihagedorn":
+    elif parameters["algorithm"] == "multihagedorn":
         import NormWavepacketInhomog
         NormWavepacketInhomog.compute_norm(iom)
+
+    elif parameters["algorithm"] == "spawning_apost":
+        import NormWavepacket
+        #NormWavepacket.compute_norm(iom)
+        NormWavepacket.compute_norm(iom, datablock=1)
 
     else:
         raise ValueError("Unknown propagator algorithm.")

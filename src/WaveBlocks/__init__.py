@@ -33,6 +33,8 @@ from SimulationLoopFourier import SimulationLoopFourier
 from SimulationLoopHagedorn import SimulationLoopHagedorn
 from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
 
+from AdiabaticSpawner import AdiabaticSpawner
+
 # Just functions inside this modules.
 #from GlobalDefaults import GlobalDefaults
 #from FileTools import FileTools

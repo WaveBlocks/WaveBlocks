@@ -47,7 +47,12 @@ def compute_energy(f, datablock=0):
         HAWP.project_to_eigen(Potential)
 
         # Compute the energies
-        ekin = HAWP.kinetic_energy()
-        epot = HAWP.potential_energy(Potential.evaluate_eigenvalues_at)
+        # todo: ugly hack, remove try/except and fix spawner
+        try:
+            ekin = HAWP.kinetic_energy()
+            epot = HAWP.potential_energy(Potential.evaluate_eigenvalues_at)
+        except ValueError:
+            ekin = 0
+            epot = 0
 
         f.save_energy((ekin, epot), timestep=step, block=datablock)
