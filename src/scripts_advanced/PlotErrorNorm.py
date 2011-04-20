@@ -13,6 +13,7 @@ from numpy import array
 from scipy.linalg import norm
 from matplotlib.pyplot import *
 
+from WaveBlocks import GlobalDefaults
 from WaveBlocks import FileTools as FT
 from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
