@@ -18,10 +18,19 @@ def continuate(data, jump=2.0*pi):
     @keyword jump: The basic size of jumps which will be removed. Default is 2*pi.
     @Note: There may be issues with jumps that are of size nearly k*jump.
     """
-    return data - 2.0*pi*hstack([0,cumsum(around(diff(data)/jump))])
+    return data - jump*hstack([0,cumsum(around(diff(data)/jump))])
 
 
-def contsqrt(data):
+def cont_angle(data):
+    """Compute the angle of a complex number *not* constrained to
+    the principal value and avoiding discontinuities at the branch cut.
+    @param data: An array with the input data.
+    @note: This function just applies 'continuate(.)' to the complex phase.
+    """
+    return continuate(angle(data))
+
+
+def cont_sqrt(data):
     """Compute the complex square root (following the Riemann surface)
     yields a result *not* constrained to the principal value and avoiding
     discontinuities at the branch cut.
