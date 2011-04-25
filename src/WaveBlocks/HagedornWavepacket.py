@@ -12,6 +12,7 @@ from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, tr
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
+from ComplexMath import cont_sqrt
 from GaussHermiteQR import GaussHermiteQR
 
 
@@ -44,6 +45,8 @@ class HagedornWavepacket:
 
         #: An object that provides nodes $\gamma$ and weights $\omega$ for Gauss-Hermite quadrature.
         self.quadrator = None
+
+        self._cont_sqrt_cache = 0.0
 
 
     def __str__(self):
@@ -181,7 +184,12 @@ class HagedornWavepacket:
         base = self.evaluate_base_at(nodes)
         values = [ self.coefficients[index] * base for index in xrange(self.number_components) ]
         phase = exp(1.0j*self.S/self.eps**2)
-        factor = 1.0/sqrt(self.Q) if prefactor is True else 1.0
+
+        if prefactor is True:
+            sqrtQ, self._cont_sqrt_cache = cont_sqrt(self.Q, reference=self._cont_sqrt_cache)
+            factor = 1.0/sqrtQ
+        else:
+            factor = 1.0
         values = [ factor * phase * sum(values[index], axis=0) for index in xrange(self.number_components) ]
 
         if not component is None:

@@ -10,9 +10,10 @@ time propagation.
 """
 
 import sys
-from numpy import real, imag, abs, angle
+from numpy import real, imag, abs
 from matplotlib.pyplot import *
 
+from WaveBlocks import ComplexMath 
 from WaveBlocks import IOManager
 
 
@@ -121,7 +122,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     
     ax = fig.add_subplot(4,2,2)
     for item in Phist:
-        ax.plot(timegrid, angle(item), label=r"$\arg P$")
+        ax.plot(timegrid, ComplexMath.cont_angle(item), label=r"$\arg P$")
     ax.grid(True)
     ax.set_title(r"$\arg P$")
     
@@ -133,7 +134,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     
     ax = fig.add_subplot(4,2,4)
     for item in Qhist:
-        ax.plot(timegrid, angle(item), label=r"$\arg Q$")
+        ax.plot(timegrid, ComplexMath.cont_angle(item), label=r"$\arg Q$")
     ax.grid(True)
     ax.set_title(r"$\arg Q$")
     

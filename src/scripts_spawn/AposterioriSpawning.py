@@ -81,7 +81,7 @@ if __name__ == "__main__":
     # Spawning related configurations
     # todo: Ugly, remove and replace with better solution
     parameters["K0"] = 50
-    parameters["spawn_threshold"] = 10e-2
+    parameters["spawn_threshold"] = 1e-4
 
     # Second data block for the spawned packet
     iom.create_block()

@@ -42,7 +42,7 @@ class AdiabaticSpawner(Spawner):
         ck = c[self.K:]
         w = spla.norm(ck)**2
 
-        if w <= 10e-10:
+        if w <= self.threshold:
             print(" Warning: really small w! Nothing to spawn!")
 
         # Some temporary values

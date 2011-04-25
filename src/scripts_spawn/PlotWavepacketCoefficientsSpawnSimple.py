@@ -37,7 +37,7 @@ def read_data_spawn(f):
     for i in xrange(parameters.ncomponents):
         coeffs1.append(squeeze(C1[:,i,:]))
 
-    return (parameters, timegrid0, timegrid1, coeffs0, coeffs1)
+    return (parameters, time0, time1, coeffs0, coeffs1)
 
 
 def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, amount=5, imgsize=(14,14)):

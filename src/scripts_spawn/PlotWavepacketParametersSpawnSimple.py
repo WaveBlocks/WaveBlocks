@@ -13,6 +13,7 @@ import sys
 from numpy import real, imag, abs, angle
 from matplotlib.pyplot import *
 
+from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
 
@@ -47,7 +48,7 @@ def read_data_spawn(f):
 
     AllPA1 = [ Phist1, Qhist1, Shist1, phist1, qhist1 ]
 
-    return (timegrid0, timegrid1, AllPA0, AllPA1)
+    return (time0, time1, AllPA0, AllPA1)
 
 
 
@@ -118,6 +119,72 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
     fig.suptitle("Wavepacket (spawned) parameters")
     fig.savefig("wavepacket_parameters_spawned.png")
     close(fig)
+
+
+    # Plot the time evolution of the parameters P, Q, S, p and q
+    # This time plot abs/angle instead of real/imag
+    fig = figure(figsize=(12,12))
+
+    ax = fig.add_subplot(4,2,1)
+    for item in Phist0:
+        ax.plot(timegrid0, abs(item), label=r"$|P|$")
+    for item in Phist1:
+        ax.plot(timegrid1, abs(item), "c", label=r"$|P^s|$")
+    ax.grid(True)
+    ax.set_title(r"$|P|$")
+    
+    ax = fig.add_subplot(4,2,2)
+    for item in Phist0:
+        ax.plot(timegrid0, ComplexMath.cont_angle(item), label=r"$\arg P$")
+    for item in Phist1:
+        ax.plot(timegrid1, ComplexMath.cont_angle(item), "c", label=r"$\arg P^s$")
+    ax.grid(True)
+    ax.set_title(r"$\arg P$")
+    
+    ax = fig.add_subplot(4,2,3)
+    for item in Qhist0:
+        ax.plot(timegrid0, abs(item), label=r"$|Q|$")
+    for item in Qhist1:
+        ax.plot(timegrid1, abs(item), "c", label=r"$|Q^s|$")
+    ax.grid(True)
+    ax.set_title(r"$|Q|$")
+    
+    ax = fig.add_subplot(4,2,4)
+    for item in Qhist0:
+        ax.plot(timegrid0, ComplexMath.cont_angle(item), label=r"$\arg Q$")
+    for item in Qhist1:
+        ax.plot(timegrid1, ComplexMath.cont_angle(item), "c", label=r"$\arg Q^s$")
+    ax.grid(True)
+    ax.set_title(r"$\arg Q$")
+    
+    ax = fig.add_subplot(4,2,5)
+    for item in qhist0:
+        ax.plot(timegrid0, real(item), label=r"$q$")
+    for item in qhist1:
+        ax.plot(timegrid1, real(item), "c", label=r"$q^s$")
+    ax.grid(True)
+    ax.set_title(r"$q$")
+    
+    ax = fig.add_subplot(4,2,6)
+    for item in phist0:
+        ax.plot(timegrid0, real(item), label=r"$p$")
+    for item in phist1:
+        ax.plot(timegrid1, real(item), "c", label=r"$p^s$")
+    ax.grid(True)
+    ax.set_title(r"$p$")
+    
+    ax = fig.add_subplot(4,2,7)
+    for item in Shist0:
+        ax.plot(timegrid0, real(item), label=r"$S$")
+    for item in Shist1:
+        ax.plot(timegrid1, real(item), "c", label=r"$S^s$")
+    ax.grid(True)
+    ax.set_title(r"$S$")
+
+    fig.suptitle("Wavepacket (spawned) parameters")
+    fig.savefig("wavepacket_parameters_abs_ang_spawned.png")
+    close(fig)
+
 
 
 
