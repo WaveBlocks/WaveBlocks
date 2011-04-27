@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     elif parameters["algorithm"] == "spawning_apost":
         import EnergiesWavepacket
-        #ComputeEnergiesWavepacket.compute_energies(iom)
+        EnergiesWavepacket.compute_energy(iom, datablock=0)
         EnergiesWavepacket.compute_energy(iom, datablock=1)
         
     else:

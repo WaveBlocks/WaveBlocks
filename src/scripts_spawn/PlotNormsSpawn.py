@@ -62,8 +62,7 @@ def plot_norms(time0, time1, norms0, norms1):
     ax.grid(True)
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
-    ax.set_title(r"Norms of the original wave packet $\Psi$")
-
+    ax.set_title(r"Norms of the mother packet $\Psi_m$")
 
     ax = subplot(2,1,2)
     
@@ -78,10 +77,62 @@ def plot_norms(time0, time1, norms0, norms1):
     ax.grid(True)
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
-    ax.set_title(r"Spawned packet")
+    ax.set_title(r"Norms of the spawned packet $\Psi_s$")
     
     fig.savefig("norms_spawn.png")
     close(fig)
+
+
+    # Data transformation necessary for plotting different parts
+    x0 = time0.shape[0]
+    x1 = time1.shape[0]
+        
+    time_sum_pre = time0[:x0-x1]
+    time_sum_post = time1
+    
+    n0_pre = norms0[-1][:x0-x1]
+    n0_post = norms0[-1][x0-x1:]
+
+    n1_post = norms1[-1]
+
+    norms_sum_pre = n0_pre
+    norms_sum_post = sqrt(n0_post**2 + n1_post**2)
+
+    time_sum = time0    
+    norms_sum = hstack([squeeze(norms_sum_pre), squeeze(norms_sum_post)])
+
+
+    # Plot the sum of all norms
+    fig = figure()
+    ax = fig.gca()
+
+    ax.plot(time0, norms0[-1], label=r"$\| \Phi_m \|$")
+    ax.plot(time1, norms1[-1], label=r"$\| \Phi_s \|$")
+    ax.plot(time_sum_pre, norms_sum_pre, color=(0,0,0), label=r"$\sqrt{\sum {\| \Phi \|^2}}$")
+    ax.plot(time_sum_post, norms_sum_post, color=(0,0,0), label=r"$\sqrt{\sum {\| \Phi \|^2}}$")
+
+    ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    legend(loc="outer right")
+    ax.set_xlabel(r"Time $t$")
+    ax.set_title(r"Sum $\sqrt{\sum {\| \Phi \|^2}}$ for all spawned packets $\Phi$")
+    fig.savefig("norms_spawn_sum.png")
+    close(fig)
+
+
+    # Plot the drift of the sum of all norms
+    fig = figure()
+    ax = fig.gca()
+
+    ax.plot(time_sum, abs(norms_sum[0]-norms_sum))
+
+    ax.grid(True)
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    ax.set_xlabel(r"Time $t$")
+    ax.set_title(r"Drift of the sum of the norms of all spawned packets")
+    fig.savefig("norms_spawn_sum_drift.png")
+    close(fig)
+
 
 
 

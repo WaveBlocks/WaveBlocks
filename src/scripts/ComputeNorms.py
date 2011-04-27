@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     elif parameters["algorithm"] == "spawning_apost":
         import NormWavepacket
-        #NormWavepacket.compute_norm(iom)
+        NormWavepacket.compute_norm(iom, datablock=0)
         NormWavepacket.compute_norm(iom, datablock=1)
 
     else:

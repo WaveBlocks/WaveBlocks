@@ -18,33 +18,34 @@ from WaveBlocks import AdiabaticSpawner
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
+from WaveBlocks import ParameterProvider
 
 
-def aposteriori_spawning(f, p, datablock=0):
+def aposteriori_spawning(fin, fout, pin, pout):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.    
     """    
     # Number of time steps we saved
-    timesteps = f.load_wavepacket_timegrid(block=datablock)
+    timesteps = fin.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
         
-    params = f.load_wavepacket_parameters(block=datablock)
-    coeffs = f.load_wavepacket_coefficients(block=datablock)
+    params = fin.load_wavepacket_parameters()
+    coeffs = fin.load_wavepacket_coefficients()
 
     # A data transformation needed by API specification
-    coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps) ]
+    coeffs = [ [ coeffs[i,j,:] for j in xrange(pin.ncomponents) ] for i in xrange(nrtimesteps) ]
 
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
-    HAWP = HagedornWavepacket(p)
+    HAWP = HagedornWavepacket(pin)
     HAWP.set_quadrator(None)
     
     # Initialize an empty wavepacket for spawning
-    SWP = HagedornWavepacket(p)
+    SWP = HagedornWavepacket(pin)
     SWP.set_quadrator(None)
 
     # Initialize a Spawner
-    AS = AdiabaticSpawner(p)
+    AS = AdiabaticSpawner(pout)
 
     # Iterate over all timesteps and spawn
     for i, step in enumerate(timesteps):
@@ -61,42 +62,64 @@ def aposteriori_spawning(f, p, datablock=0):
         AS.project_coefficients(HAWP, SWP)
 
         # Save the spawned packet
-        f.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
-        f.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
+        fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
+        fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
         
+        fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
+        fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
+
+
 
 
 if __name__ == "__main__":
-
-    iom = IOManager()
+    # Input data manager
+    iomin = IOManager()
 
     # Read file with simulation data
     try:
-        iom.open_file(filename=sys.argv[1])
+        iomin.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.open_file()
+        iomin.open_file()
 
-    parameters = iom.get_parameters()
+    parametersin = iomin.get_parameters()
 
-    # Spawning related configurations
-    # todo: Ugly, remove and replace with better solution
-    parameters["K0"] = 50
-    parameters["spawn_threshold"] = 1e-4
-
-    # Second data block for the spawned packet
-    iom.create_block()
-
-    iom.add_grid_reference()
-    iom.add_wavepacket(parameters, block=1)
-                                
-    if parameters["algorithm"] == "hagedorn":
-        # Change the simulation algorithm used to allow for
-        # specific observable calculators
-        parameters["algorithm"] = "spawning_apost"
-        iom.update_simulation_parameters(parameters)
-        aposteriori_spawning(iom, parameters)
-        
-    else:
+    # Check if we can start a spawning simulation
+    if parametersin["algorithm"] != "hagedorn":
+        iomin.finalize()
         raise ValueError("Unknown propagator algorithm.")
     
-    iom.finalize()
+    # Parameters for spawning simulation
+    parametersout = ParameterProvider()
+
+    # Transfer the simulation parameters
+    parametersout.set_parameters(parametersin.get_parameters())
+
+    # And add spawning related configurations variables
+    # todo: Ugly, remove and replace with better solution
+    # reading values from a configuration file
+    parametersout["algorithm"] = "spawning_apost"
+    parametersout["K0"] = 50
+    parametersout["spawn_threshold"] = 1e-4
+
+    # How much time slots do we need
+    tm = parametersout.get_timemanager()
+    slots = tm.compute_number_saves()
+    
+    # Second IOM for output data of the spawning simulation
+    iomout = IOManager()
+    iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
+    iomout.create_block()
+
+    iomout.add_grid(parametersout)
+    iomout.save_grid(iomin.load_grid())    
+    iomout.add_grid_reference()
+
+    iomout.add_wavepacket(parametersout, timeslots=slots)
+    iomout.add_wavepacket(parametersout, timeslots=slots, block=1)
+    
+    # Really do the aposteriori spawning simulation
+    aposteriori_spawning(iomin, iomout, parametersin, parametersout)
+
+    # Close the inpout/output files
+    iomin.finalize()
+    iomout.finalize()

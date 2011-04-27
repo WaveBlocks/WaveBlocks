@@ -155,7 +155,7 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
         ax.set_xlabel(r"$t$")
         ax.set_ylabel(r"$\| \phi^F - \phi^H \|_{"+nona+r"}$")
         ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{"+nona+r"}$ ")
-        legend(loc="lower center")
+        legend()
         fig.savefig("error_timevolution_"+which_norm+"_all.png")
         close(fig)
         
