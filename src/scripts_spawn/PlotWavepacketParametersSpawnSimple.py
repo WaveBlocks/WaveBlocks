@@ -197,14 +197,6 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
-
-    if parameters["algorithm"] == "spawning_apost":
-        data = read_data_spawn(iom)
-    else:
-        iom.finalize()
-        sys.exit("Can only postprocess hagedorn algorithm data. Silent return ...")
-        
-    plot_parameters_spawn(*data)
+    plot_parameters_spawn(*read_data_spawn(iom))
 
     iom.finalize()

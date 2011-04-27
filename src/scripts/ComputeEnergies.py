@@ -36,7 +36,8 @@ if __name__ == "__main__":
         import EnergiesWavepacketInhomog
         EnergiesWavepacketInhomog.compute_energy(iom)
 
-    elif parameters["algorithm"] == "spawning_apost":
+    elif (parameters["algorithm"] == "spawning_apost" or
+          parameters["algorithm"] == "spawning_adiabatic"):
         import EnergiesWavepacket
         EnergiesWavepacket.compute_energy(iom, datablock=0)
         EnergiesWavepacket.compute_energy(iom, datablock=1)

@@ -36,7 +36,8 @@ if __name__ == "__main__":
         import NormWavepacketInhomog
         NormWavepacketInhomog.compute_norm(iom)
 
-    elif parameters["algorithm"] == "spawning_apost":
+    elif (parameters["algorithm"] == "spawning_apost" or
+          parameters["algorithm"] == "spawning_adiabatic"):
         import NormWavepacket
         NormWavepacket.compute_norm(iom, datablock=0)
         NormWavepacket.compute_norm(iom, datablock=1)

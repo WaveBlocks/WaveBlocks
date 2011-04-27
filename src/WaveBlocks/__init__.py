@@ -27,11 +27,13 @@ from Propagator import Propagator
 from FourierPropagator import FourierPropagator
 from HagedornPropagator import HagedornPropagator
 from HagedornMultiPropagator import HagedornMultiPropagator
+from SpawnAdiabaticPropagator import SpawnAdiabaticPropagator
 
 from SimulationLoop import SimulationLoop
 from SimulationLoopFourier import SimulationLoopFourier
 from SimulationLoopHagedorn import SimulationLoopHagedorn
 from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
+from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 
 from AdiabaticSpawner import AdiabaticSpawner
 
