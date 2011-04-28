@@ -112,11 +112,13 @@ class SpawnAdiabaticPropagator(Propagator):
             
             # Spawn a new packet
             ps = AS.estimate_parameters(self.packets[-1], 0)
-            SWP.set_parameters(ps)
-            AS.project_coefficients(self.packets[-1], SWP)
 
-            self.number_packets += 1
-            self.packets.append(SWP)
+            if ps is not None:
+                SWP.set_parameters(ps)
+                AS.project_coefficients(self.packets[-1], SWP)
+
+                self.number_packets += 1
+                self.packets.append(SWP)
 
         
         # Propagate all packets

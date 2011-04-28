@@ -42,8 +42,9 @@ class AdiabaticSpawner(Spawner):
         ck = c[self.K:]
         w = spla.norm(ck)**2
 
-        if w <= self.threshold:
+        if w < self.threshold:
             print(" Warning: really small w! Nothing to spawn!")
+            return None
 
         # Some temporary values
         k = np.arange(self.K+1, self.basis_size)
@@ -76,16 +77,6 @@ class AdiabaticSpawner(Spawner):
         B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
 
         return (B, A, S, b, a)
-
-
-    # def spawn_packet(self, parameters):
-    #     # The spawned packet
-    #     packet = HagedornWavepacket(self.parameters)
-        
-    #     packet.set_parameters(parameters)
-    #     packet.set_quadrator(None)
-        
-    #     return packet
 
 
     def project_coefficients(self, mother, child):

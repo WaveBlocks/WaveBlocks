@@ -58,15 +58,17 @@ def aposteriori_spawning(fin, fout, pin, pout):
 
         # Try spawning a new packet
         ps = AS.estimate_parameters(HAWP, 0)
-        SWP.set_parameters(ps)
-        AS.project_coefficients(HAWP, SWP)
 
-        # Save the spawned packet
-        fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
-        fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
-        
-        fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
-        fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
+        if ps is not None:
+            SWP.set_parameters(ps)
+            AS.project_coefficients(HAWP, SWP)
+
+            # Save the spawned packet
+            fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
+            fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
+            
+            fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
+            fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
 
 
 
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     # reading values from a configuration file
     parametersout["algorithm"] = "spawning_apost"
     parametersout["K0"] = 50
-    parametersout["spawn_threshold"] = 1e-4
+    parametersout["spawn_threshold"] = 1e-10
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()
@@ -114,8 +116,8 @@ if __name__ == "__main__":
     iomout.save_grid(iomin.load_grid())    
     iomout.add_grid_reference()
 
-    iomout.add_wavepacket(parametersout, timeslots=slots)
-    iomout.add_wavepacket(parametersout, timeslots=slots, block=1)
+    iomout.add_wavepacket(parametersout)
+    iomout.add_wavepacket(parametersout, block=1)
     
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)
