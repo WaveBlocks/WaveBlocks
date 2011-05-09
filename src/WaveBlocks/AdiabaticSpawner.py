@@ -156,7 +156,7 @@ class AdiabaticSpawner(Spawner):
 
         # The quadrature nodes and weights
         nodes = q0 + self.eps * QS * QR.get_nodes()
-        weights = np.squeeze(QR.get_weights())
+        weights = QR.get_weights()
 
         # Basis sets for both packets
         basis_m = mother.evaluate_base_at(nodes, prefactor=True)
@@ -172,12 +172,19 @@ class AdiabaticSpawner(Spawner):
         #
         #     c_new_s[i,0] = self.eps * QS * tmp
 
-        # Optimised code (maybe can optimise further and removing the outer loop too?)
-        tmp = np.zeros((self.max_order,), dtype=np.complexfloating)
-        for r in xrange(R):
-            tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[:self.max_order,r] * weights[r]
-        
-        c_new_s[:self.max_order,0] = self.eps * QS * tmp
+        # Optimised and vectorised code (in ugly formatting)
+        c_new_s[:self.max_order,:] = self.eps * QS * (
+            np.reshape(
+                np.sum(
+                    np.transpose(
+                        np.reshape(
+                            np.conj(
+                                np.sum(c_old[self.K:,:] * basis_m[self.K:,:],axis=0)
+                            ) ,(-1,1)
+                        )
+                    ) * (basis_s[:self.max_order,:] * weights[:,:]), axis=1
+                ) ,(-1,1)
+            ))
 
         # Reassign the new coefficients
         mother.set_coefficient_vector(c_new_m)
