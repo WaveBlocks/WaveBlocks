@@ -102,6 +102,7 @@ if __name__ == "__main__":
     parametersout["algorithm"] = "spawning_apost"
     parametersout["K0"] = 50
     parametersout["spawn_threshold"] = 1e-10
+    parametersout["spawn_max_order"] = 12
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()

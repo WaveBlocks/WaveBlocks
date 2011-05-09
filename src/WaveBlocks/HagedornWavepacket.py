@@ -151,9 +151,17 @@ class HagedornWavepacket:
             self.quadrator = quadrator
 
 
-    def evaluate_base_at(self, nodes):
+    def get_quadrator(self):
+        """Return the I{GaussHermiteQR} instance used for quadrature.
+        @return: The current instance of the quadrature rule.
+        """
+        return self.quadrator
+
+
+    def evaluate_base_at(self, nodes, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
+        @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.
         @return: Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value
         of the $k$-th Hagedorn function evaluated at the node $i$.
         """
@@ -169,6 +177,10 @@ class HagedornWavepacket:
         for k in xrange(2, self.basis_size):
             H[k] = Qinv*sqrt(2.0/self.eps**2)*1.0/sqrt(k) * (nodes-self.q) * H[k-1] - Qinv*Qbar*sqrt((k-1.0)/k) * H[k-2]
 
+        if prefactor is True:
+            sqrtQ, self._cont_sqrt_cache = cont_sqrt(self.Q, reference=self._cont_sqrt_cache)
+            H = 1.0/sqrtQ*H
+
         return H
 
 
@@ -181,16 +193,10 @@ class HagedornWavepacket:
         @return: A list of arrays or a single array containing the values of the $\Phi_i$ at the nodes $\gamma$.
         """
         nodes = nodes.reshape((1,nodes.size))
-        base = self.evaluate_base_at(nodes)
+        base = self.evaluate_base_at(nodes, prefactor=prefactor)
         values = [ self.coefficients[index] * base for index in xrange(self.number_components) ]
         phase = exp(1.0j*self.S/self.eps**2)
-
-        if prefactor is True:
-            sqrtQ, self._cont_sqrt_cache = cont_sqrt(self.Q, reference=self._cont_sqrt_cache)
-            factor = 1.0/sqrtQ
-        else:
-            factor = 1.0
-        values = [ factor * phase * sum(values[index], axis=0) for index in xrange(self.number_components) ]
+        values = [ phase * sum(values[index], axis=0) for index in xrange(self.number_components) ]
 
         if not component is None:
             values = values[component]

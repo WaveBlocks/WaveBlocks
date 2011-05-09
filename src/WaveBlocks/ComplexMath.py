@@ -7,7 +7,7 @@ Some selected functions for complex math.
 @license: Modified BSD License
 """
 
-from numpy import array, hstack, cumsum, diff, around, sqrt, abs, angle, exp, sqrt, pi
+from numpy import array, hstack, cumsum, diff, around, abs, angle, exp, sqrt, pi
 
 
 def continuate(data, jump=2.0*pi, reference=0.0):

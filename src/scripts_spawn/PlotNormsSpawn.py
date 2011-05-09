@@ -60,6 +60,7 @@ def plot_norms(time0, time1, norms0, norms1):
 
     xlims = ax.get_xlim()
     ax.grid(True)
+    ax.set_ylim([0.9*min(norms0[-1])[0],1.1*max(norms0[-1])[0]])    
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Norms of the mother packet $\Psi_m$")
@@ -75,6 +76,7 @@ def plot_norms(time0, time1, norms0, norms1):
 
     ax.set_xlim(xlims)
     ax.grid(True)
+    ax.set_ylim([0.9*min(norms1[-1])[0],1.1*max(norms1[-1])[0]])    
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Norms of the spawned packet $\Psi_s$")
@@ -112,6 +114,7 @@ def plot_norms(time0, time1, norms0, norms1):
     ax.plot(time_sum_post, norms_sum_post, color=(0,0,0), label=r"$\sqrt{\sum {\| \Phi \|^2}}$")
 
     ax.grid(True)
+    ax.set_ylim([0,1.1*max(norms0[-1])])
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     legend(loc="outer right")
     ax.set_xlabel(r"Time $t$")

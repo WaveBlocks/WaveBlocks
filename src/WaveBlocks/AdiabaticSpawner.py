@@ -11,7 +11,6 @@ import numpy as np
 from scipy import linalg as spla
 
 from Spawner import Spawner
-from HagedornWavepacket import HagedornWavepacket
 
 
 class AdiabaticSpawner(Spawner):
@@ -28,7 +27,10 @@ class AdiabaticSpawner(Spawner):
         self.basis_size = parameters["basis_size"]
         self.K = parameters["K0"]
         self.threshold = parameters["spawn_threshold"]
-        self.max_order = 0
+        if parameters.has_key("spawn_max_order"):
+            self.max_order = parameters["spawn_max_order"]
+        else:
+            self.max_order = 1
 
 
     def estimate_parameters(self, packet, mother_component):
@@ -79,25 +81,90 @@ class AdiabaticSpawner(Spawner):
         return (B, A, S, b, a)
 
 
+    # def project_coefficients(self, mother, child):
+    #     """Update the superposition coefficients of mother and
+    #     spawned wavepacket.
+    #     """
+    #     c_old = mother.get_coefficients(component=0)        
+    #     w = spla.norm( np.squeeze(c_old[self.K:,:]) )
+
+    #     # Mother packet
+    #     c_new = np.zeros(c_old.shape, dtype=np.complexfloating)
+    #     c_new[:self.K,:] = c_old[:self.K,:]
+
+    #     # Spawned packet
+    #     c_new2 = np.zeros(c_old.shape, dtype=np.complexfloating)
+    #     # pure Gaussian
+    #     c_new2[0,0] = 1.0
+    #     # But normalized
+    #     c_new2 = w * c_new2
+
+    #     mother.set_coefficient_vector(c_new)
+    #     child.set_coefficient_vector(c_new2)
+
+    #     return (mother, child)
+
+
     def project_coefficients(self, mother, child):
         """Update the superposition coefficients of mother and
-        spawned wavepacket.
+        spawned wavepacket. We do a full basis projection to the
+        basis of the spawned wavepacket here.
         """
         c_old = mother.get_coefficients(component=0)        
-        w = spla.norm( np.squeeze(c_old[self.K:,:]) )
+        #w = spla.norm( np.squeeze(c_old[self.K:,0]) )
 
         # Mother packet
-        c_new = np.zeros(c_old.shape, dtype=np.complexfloating)
-        c_new[:self.K,:] = c_old[:self.K,:]
+        c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
+        c_new_m[:self.K,:] = c_old[:self.K,:]
 
         # Spawned packet
-        c_new2 = np.zeros(c_old.shape, dtype=np.complexfloating)
-        # pure Gaussian
-        c_new2[0,0] = 1.0
-        # But normalized
-        c_new2 = w * c_new2
+        c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
 
-        mother.set_coefficient_vector(c_new)
-        child.set_coefficient_vector(c_new2)
+        # Quadrature rule, assume same quadrature order for both packets
+        QR = mother.get_quadrator()
+        R = QR.get_order()
+
+        # Mix the parameters for quadrature
+        (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
+        (Ps, Qs, Ss, ps, qs) = child.get_parameters()
+        
+        rm = Pm/Qm
+        rs = Ps/Qs
+        
+        r = np.conj(rm)-rs
+        s = np.conj(rm)*qm - rs*qs
+        
+        q0 = np.imag(s) / np.imag(r)
+        Q0 = -0.5 * np.imag(r)
+        QS = 1 / np.sqrt(Q0)
+
+        # The quadrature nodes and weights
+        nodes = q0 + self.eps * QS * QR.get_nodes()
+        weights = np.squeeze(QR.get_weights())
+
+        # Basis sets for both packets
+        basis_m = mother.evaluate_base_at(nodes, prefactor=True)
+        basis_s = child.evaluate_base_at(nodes, prefactor=True)
+
+        # Project to the basis of the spawned wavepacket
+        # Original, inefficient code for projection
+        # for i in xrange(self.max_order):
+        #     # Loop over all quadrature points
+        #     tmp = 0.0j
+        #     for r in xrange(R):
+        #         tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[i,r] * weights[r]   
+        #
+        #     c_new_s[i,0] = self.eps * QS * tmp
+
+        # Optimised code (maybe can optimise further and removing the outer loop too?)
+        tmp = np.zeros((self.max_order,), dtype=np.complexfloating)
+        for r in xrange(R):
+            tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[:self.max_order,r] * weights[r]
+        
+        c_new_s[:self.max_order,0] = self.eps * QS * tmp
+
+        # Reassign the new coefficients
+        mother.set_coefficient_vector(c_new_m)
+        child.set_coefficient_vector(c_new_s)
 
         return (mother, child)

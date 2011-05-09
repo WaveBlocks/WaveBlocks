@@ -163,6 +163,13 @@ class HagedornMultiWavepacket:
             self.quadrator = quadrator
 
 
+    def get_quadrator(self):
+        """Return the I{GaussHermiteQR} instance used for quadrature.
+        @return: The current instance of the quadrature rule.
+        """
+        return self.quadrator
+
+
     def evaluate_base_at(self, nodes, component, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
