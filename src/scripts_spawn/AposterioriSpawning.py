@@ -103,6 +103,7 @@ if __name__ == "__main__":
     parametersout["K0"] = 50
     parametersout["spawn_threshold"] = 1e-10
     parametersout["spawn_max_order"] = 12
+    parametersout["spawn_normed_gaussian"] = False
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()

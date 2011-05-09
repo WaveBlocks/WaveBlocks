@@ -1,6 +1,7 @@
 """The WaveBlocks Project
 
-This file contains the class for Gauss-Hermite quadrature.
+This file conatins the code for spawning new wavepackets depending
+on some criterion. 
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
@@ -27,6 +28,10 @@ class AdiabaticSpawner(Spawner):
         self.basis_size = parameters["basis_size"]
         self.K = parameters["K0"]
         self.threshold = parameters["spawn_threshold"]
+        if parameters.has_key("spawn_normed_gaussian"):
+            self.spawn_normed_gaussian = parameters["spawn_normed_gaussian"]
+        else:
+            self.spawn_normed_gaussian = True
         if parameters.has_key("spawn_max_order"):
             self.max_order = parameters["spawn_max_order"]
         else:
@@ -81,37 +86,48 @@ class AdiabaticSpawner(Spawner):
         return (B, A, S, b, a)
 
 
-    # def project_coefficients(self, mother, child):
-    #     """Update the superposition coefficients of mother and
-    #     spawned wavepacket.
-    #     """
-    #     c_old = mother.get_coefficients(component=0)        
-    #     w = spla.norm( np.squeeze(c_old[self.K:,:]) )
-
-    #     # Mother packet
-    #     c_new = np.zeros(c_old.shape, dtype=np.complexfloating)
-    #     c_new[:self.K,:] = c_old[:self.K,:]
-
-    #     # Spawned packet
-    #     c_new2 = np.zeros(c_old.shape, dtype=np.complexfloating)
-    #     # pure Gaussian
-    #     c_new2[0,0] = 1.0
-    #     # But normalized
-    #     c_new2 = w * c_new2
-
-    #     mother.set_coefficient_vector(c_new)
-    #     child.set_coefficient_vector(c_new2)
-
-    #     return (mother, child)
-
-
     def project_coefficients(self, mother, child):
+        """Update the superposition coefficients of mother and
+        spawned wavepacket. Here we decide which method to use
+        and call the corresponding method.
+        """
+        if self.spawn_normed_gaussian is True:
+            return self.normed_gaussian(mother, child)
+        else:
+            return self.full_basis_projection(mother, child)
+
+
+    def normed_gaussian(self, mother, child):
+        """Update the superposition coefficients of mother and
+        spawned wavepacket. We produce just a gaussian which
+        takes the full norm <w|w> of w.
+        """
+        c_old = mother.get_coefficients(component=0)        
+        w = spla.norm( np.squeeze(c_old[self.K:,:]) )
+
+        # Mother packet
+        c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
+        c_new_m[:self.K,:] = c_old[:self.K,:]
+
+        # Spawned packet
+        c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
+        # pure Gaussian
+        c_new_s[0,0] = 1.0
+        # But normalized
+        c_new_s = w * c_new_s
+
+        mother.set_coefficient_vector(c_new_m)
+        child.set_coefficient_vector(c_new_s)
+
+        return (mother, child)
+
+
+    def full_basis_projection(self, mother, child):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
         """
-        c_old = mother.get_coefficients(component=0)        
-        #w = spla.norm( np.squeeze(c_old[self.K:,0]) )
+        c_old = mother.get_coefficients(component=0)
 
         # Mother packet
         c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)

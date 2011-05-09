@@ -11,3 +11,18 @@ to all adiabatic and non-adiabatic spawners.
 class Spawner:
     def __init__(self):
         pass
+
+
+    def estimate_parameters(self, packet, mother_component):
+        """Compute the parameters for a new wavepacket.
+        @raise NotImplementedError: This is an abstract base class.
+        """
+        raise NotImplementedError("'Spawner' is an abstract base class.")
+
+
+    def project_coefficients(self, mother, child):
+        """Update the superposition coefficients of mother and
+        spawned wavepacket.
+        @raise NotImplementedError: This is an abstract base class.
+        """        
+        raise NotImplementedError("'Spawner' is an abstract base class.")
