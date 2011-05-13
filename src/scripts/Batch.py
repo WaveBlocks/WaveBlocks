@@ -9,6 +9,7 @@ Simple script to run several simulations with a given set of parameter files.
 
 import sys
 import os
+from glob import glob
 import subprocess as sp
 
 from WaveBlocks import GlobalDefaults
@@ -71,13 +72,13 @@ def batch_run(call_simulation, call_for_each, call_once):
         if not os.path.lexists(resultspath):
             os.mkdir(resultspath)
 
-        proc = sp.Popen("cp "+filepath+" "+resultspath, shell=True)
-        os.waitpid(proc.pid, 0)        
-        proc = sp.Popen("mv *.hdf5 "+resultspath, shell=True)
-        os.waitpid(proc.pid, 0)
-        proc = sp.Popen("mv *.png "+resultspath, shell=True)
-        os.waitpid(proc.pid, 0)
-                        
+        sp.call(["cp", filepath, resultspath])
+        for afile in glob("*.hdf5"):
+            sp.call(["mv", afile, resultspath])
+        for afile in glob("*.png"):
+            sp.call(["mv", afile, resultspath])
+
+        
     print("Finished batch loop")
 
     # Postprocessing, call scripts that should get called once after all simulations finished
