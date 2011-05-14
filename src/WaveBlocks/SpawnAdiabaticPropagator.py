@@ -8,6 +8,7 @@ for wavepackets and gaussian spawning.
 @license: Modified BSD License
 """
 
+from functools import partial
 import numpy as np
 import scipy as sp
 import scipy.linalg as spla
