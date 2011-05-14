@@ -53,12 +53,32 @@ class SpawnAdiabaticPropagator(Propagator):
         self.parameters = parameters
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
-
-        # todo: put this in the ParameterProvider
         self.K = parameters["K0"]
         self.threshold = parameters["spawn_threshold"]
 
+        # todo: put this in the ParameterProvider
         self.already_spawned = False
+
+        # Decide about the matrix exponential algorithm to use
+        if parameters.has_key("matrix_exponential"):
+            method = parameters["matrix_exponential"]
+        else:
+            method = GlobalDefaults.matrix_exponential
+
+        if method == "pade":
+            from MatrixExponential import matrix_exp_pade
+            self.__dict__["matrix_exponential"] = matrix_exp_pade
+        elif method == "arnoldi":
+            from MatrixExponential import matrix_exp_arnoldi
+
+            if parameters.has_key("arnoldi_steps"):
+                arnoldi_steps = parameters["arnoldi_steps"]
+            else:
+                arnoldi_steps = min(parameters["basis_size"], GlobalDefaults.arnoldi_steps)
+
+            self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
+        else:
+            raise ValueError("Unknown matrix exponential algorithm")
 
         # Precalculate the potential splitting
         self.potential.calculate_local_quadratic(diagonal_component=self.leading)
@@ -139,7 +159,7 @@ class SpawnAdiabaticPropagator(Propagator):
             F = packet.matrix(self.potential.evaluate_local_remainder_at)
             coefficients = packet.get_coefficient_vector()
             
-            coefficients = np.dot(sp.linalg.expm(-1.0j*F*dt/self.eps**2), coefficients)
+            coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
             packet.set_coefficient_vector(coefficients)
             
             # Do a kinetic step of dt/2

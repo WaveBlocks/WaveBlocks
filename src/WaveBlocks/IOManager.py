@@ -112,6 +112,12 @@ class IOManager:
         self.srf.close()
 
 
+    def get_number_blocks(self):
+        """Return the number of data blocks the data file currently consists of.
+        """
+        return self.srf.attrs["number_blocks"]
+
+
     def create_block(self):
         # Create a data block. Each data block can store several chunks
         # of information, and there may be multiple blocks per file.
