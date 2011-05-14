@@ -37,7 +37,8 @@ if __name__ == "__main__":
         import EvaluateWavepacketsInhomog
         EvaluateWavepacketsInhomog.compute_evaluate_wavepackets(iom, basis="canonical")
 
-    elif parameters["algorithm"] == "spawning_apost":
+    elif (parameters["algorithm"] == "spawning_apost" or
+          parameters["algorithm"] == "spawning_adiabatic"):
         import EvaluateWavepackets
         EvaluateWavepackets.compute_evaluate_wavepackets(iom, basis="canonical")
         EvaluateWavepackets.compute_evaluate_wavepackets(iom, basis="canonical", datablock=1)
