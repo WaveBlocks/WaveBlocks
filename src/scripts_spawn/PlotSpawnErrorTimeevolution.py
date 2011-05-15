@@ -9,17 +9,18 @@ for each timestep. This is valid for both aposteriori spawn and spawn propagatio
 """
 
 import sys
-from numpy import conj, sqrt, zeros
+from numpy import conj, sqrt, zeros, array
 from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
+from WaveBlocks import WaveFunction
 
 
-def plot_frames(data_s, data_o, view=None):
+def compute_data(data_s, data_o, which_norm="L2"):
     """Plot the wave function for a series of timesteps.
     @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @param data_o: An I{IOManager} instance providing the reference simulation data.
-    @keyword view: The aspect ratio.
+    @param which_norm: Decide which norm is used to quantify the spawn error, can be 'L2' or 'max'.
     """
     parameters_o = data_o.get_parameters()
     parameters_s = data_s.get_parameters()
@@ -27,7 +28,12 @@ def plot_frames(data_s, data_o, view=None):
     grid_o = data_o.load_grid()
 
     timegrid_o = data_o.load_wavefunction_timegrid()
-
+    
+    WF = WaveFunction(parameters_o)
+    WF.set_grid(grid_o)
+    
+    norms = []
+    
     for step in timegrid_o:
         print(" Timestep # " + str(step))
 
@@ -56,41 +62,48 @@ def plot_frames(data_s, data_o, view=None):
                 values_sum.append( sqrt(reduce(lambda x,y: x+y, [ conj(item[i])*item[i] for item in values_s ])) )
 
             # Compute the difference to the original
-            values_diff = [ abs(item_o - item_s) for item_o, item_s in zip(values_o, values_sum) ]
+            values_diff = [ item_o - item_s for item_o, item_s in zip(values_o, values_sum) ]
         else:
             # Return zeros if we did not spawn yet in this timestep
             values_diff = [ zeros(values_o[0].shape) for i in xrange(parameters_o.ncomponents) ]
+
+        # Compute the norm
+        if which_norm == "L2":
+            # Rearrange data to fit the input of WF and handle over
+            WF.set_values(values_diff)
+            curnorm = WF.get_norm()
+            
+        elif which_norm == "max":
+            curnorm = [ max(abs(item)) for item in values_diff ]
+            
+        print(" at time " + str(step*parameters_o.dt) + " the error norm is " + str(curnorm))
+        norms.append(curnorm)
+
+    return (timegrid_o*parameters_o.dt, array(norms), which_norm)
+
+
+def plot_data(timegrid, norms, which_norm):
+    nona = "L^2" if which_norm == "L2" else "\infty"
+
+    # Plot the probability densities projected to the eigenbasis
+    fig = figure()
+    ax = fig.gca()
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    
+    # Plot the difference between the original and spawned Wavefunctions
+    for i in xrange(norms.shape[1]):
+        ax.semilogy(timegrid, norms[:,i])
         
-        # Plot the probability densities projected to the eigenbasis
-        fig = figure()
+    # Set the axis properties
+    ax.grid(True)
+    ax.set_ylim([10**-6, 10**0])
+    ax.set_xlabel(r"$x$")
+            
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
+    fig.savefig("spawn_error_norm-"+nona+".png")
+    close(fig)
 
-        # Create a bunch of subplots, one for each component
-        axes = []
 
-        for index, component in enumerate(values_diff):
-            ax = fig.add_subplot(parameters_o.ncomponents,1,index+1)
-            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
-            axes.append(ax)
-
-        # Plot the difference between the original and spawned Wavefunctions
-        for index, values in enumerate(values_diff):
-            axes[index].plot(grid_o, values)
-            axes[index].set_ylabel(r"Error")
-
-        # Set the axis properties
-        for index in xrange(len(axes)):
-            axes[index].grid(True)
-            axes[index].set_xlabel(r"$x$")
-
-            # Set the aspect window
-            if view is not None:
-                axes[index].set_xlim(view)
-
-        fig.suptitle(r"$|\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 }$ at time $"+str(step*parameters_o.dt)+r"$")
-        fig.savefig("wavefunction_spawn_error_"+ (5-len(str(step)))*"0"+str(step) +".png")
-        close(fig)
-        
-    print(" Plotting frames finished")
 
 
 if __name__ == "__main__":
@@ -114,10 +127,8 @@ if __name__ == "__main__":
     except IndexError:
         iom_o.open_file()
     
-    # The axes rectangle that is plotted
-    view = [-8.5, 8.5]
-    
-    plot_frames(iom_s, iom_o, view=view)
+    plot_data(*compute_data(iom_s, iom_o))
+    plot_data(*compute_data(iom_s, iom_o, which_norm="max"))
     
     iom_s.finalize()
     iom_o.finalize()
