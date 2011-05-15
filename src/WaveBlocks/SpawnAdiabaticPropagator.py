@@ -158,8 +158,7 @@ class SpawnAdiabaticPropagator(Propagator):
             
             # Do a potential step with the local non-quadratic taylor remainder
             F = packet.matrix(self.potential.evaluate_local_remainder_at)
-            coefficients = packet.get_coefficient_vector()
-            
+            coefficients = packet.get_coefficient_vector()            
             coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
             packet.set_coefficient_vector(coefficients)
             
@@ -181,8 +180,8 @@ class SpawnAdiabaticPropagator(Propagator):
         c_low = c[:self.K]
         c_high = c[self.K:]
 
-        n_low = spla.norm(c_low)**2
-        n_high = spla.norm(c_high)**2
+        n_low = spla.norm(c_low)
+        n_high = spla.norm(c_high)
 
         print((n_low, n_high))
 
