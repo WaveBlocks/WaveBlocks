@@ -40,26 +40,22 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
     for step in timegrid:
         print(" Timestep # " + str(step))
 
-        wave = f.load_wavefunction(timestep=step)
-        values = [ wave[j,...] for j in xrange(parameters.ncomponents) ]
-
-        # Transform the values to the eigenbasis
-        # TODO: improve this:
-        if parameters.algorithm == "fourier":
-            ve = Potential.project_to_eigen(grid, values, eigenvectors)
-        else:
-            ve = values
+        # Retrieve spawn data for both packets
+        try:
+            wave_m = f.load_wavefunction(timestep=step, block=0)
+            values_m = [ wave_m[j,...] for j in xrange(parameters.ncomponents) ]
+            have_mother_data = True
+        except ValueError:
+            have_mother_data = False
 
         # Retrieve spawn data
-        waves = f.load_wavefunction(timestep=step, block=1)
-        valuess = [ waves[j,...] for j in xrange(parameters.ncomponents) ]
+        try:
+            wave_s = f.load_wavefunction(timestep=step, block=1)
+            values_s = [ wave_s[j,...] for j in xrange(parameters.ncomponents) ]
+            have_spawn_data = True
+        except ValueError:
+            have_spawn_data = False
 
-        # Transform the values to the eigenbasis
-        # TODO: improve this:
-        if parameters.algorithm == "fourier":
-            ves = Potential.project_to_eigen(grid, valuess, eigenvectors)
-        else:
-            ves = valuess
 
         # Plot the probability densities projected to the eigenbasis
         fig = figure(figsize=imgsize)
@@ -67,31 +63,33 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         # Create a bunch of subplots
         axes = []
 
-        for index, component in enumerate(ve):
+        for index, component in enumerate(values_m):
             ax = fig.add_subplot(parameters.ncomponents,1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
 
         # Plot original Wavefunction
-        for index, component in enumerate(ve):
-            if plotcomponents is True:
-                axes[index].plot(grid, real(component))
-                axes[index].plot(grid, imag(component))
-                axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
-            if plotabssqr is True:
-                axes[index].plot(grid, component*conj(component))
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
-            if plotphase is True:
-                plotcf(grid, angle(component), component*conj(component))
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+        if have_mother_data is True:
+            for index, component in enumerate(values_m):
+                if plotcomponents is True:
+                    axes[index].plot(grid, real(component))
+                    axes[index].plot(grid, imag(component))
+                    axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
+                if plotabssqr is True:
+                    axes[index].plot(grid, component*conj(component))
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+                if plotphase is True:
+                    plotcf(grid, angle(component), component*conj(component))
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
 
         # Overlay spawned parts
-        for index, component in enumerate(ves):
-            axes[index].plot(grid, component*conj(component), "-r")
-            axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+        if have_spawn_data is True:
+            for index, component in enumerate(values_s):
+                axes[index].plot(grid, component*conj(component), "-r")
+                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
 
         # Set the axis properties
-        for index in xrange(len(ve)):
+        for index in xrange(len(values_m)):
             axes[index].set_xlabel(r"$x$")
 
             # Set the aspect window
@@ -128,36 +126,29 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
     for step in timegrid:
         print(" Timestep # " + str(step))
 
-        wave = f.load_wavefunction(timestep=step)
-        values = [ wave[j,...] for j in xrange(parameters.ncomponents) ]
-
-        # Transform the values to the eigenbasis
-        # TODO: improve this:
-        if parameters.algorithm == "fourier":
-            ve = Potential.project_to_eigen(grid, values, eigenvectors)
-        else:
-            ve = values
-
-        # Retrieve spawn data
-        waves = f.load_wavefunction(timestep=step, block=1)
-        valuess = [ waves[j,...] for j in xrange(parameters.ncomponents) ]
-
-        # Transform the values to the eigenbasis
-        # TODO: improve this:
-        if parameters.algorithm == "fourier":
-            ves = Potential.project_to_eigen(grid, valuess, eigenvectors)
-        else:
-            ves = valuess
-
-        # Split the data as necessary
+        # Split grid
         gl = grid[grid<=X0]
         gr = grid[grid>X0]
-        
-        yl = ve[0][grid<=X0]
-        yr = ve[0][grid>X0]
-        
-        ysl = ves[0][grid<=X0]
-        ysr = ves[0][grid>X0]
+
+        # Retrieve spawn data for both packets and split the data as necessary
+        try:
+            wave_m = f.load_wavefunction(timestep=step, block=0)
+            values_m = [ wave_m[j,...] for j in xrange(parameters.ncomponents) ]
+            yl = values_m[0][grid<=X0]
+            yr = values_m[0][grid>X0]
+            have_mother_data = True
+        except ValueError:
+            have_mother_data = False
+
+        # Retrieve spawn data
+        try:
+            wave_s = f.load_wavefunction(timestep=step, block=1)
+            values_s = [ wave_s[j,...] for j in xrange(parameters.ncomponents) ]
+            ysl = values_s[0][grid<=X0]
+            ysr = values_s[0][grid>X0]
+            have_spawn_data = True
+        except ValueError:
+            have_spawn_data = False
 
         # Plot the probability densities projected to the eigenbasis
         fig = figure(figsize=imgsize)
@@ -166,9 +157,11 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
         ax1 = fig.add_subplot(1,2,1)
         ax1.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         # mother
-        plotcf(gl, angle(yl), conj(yl)*yl)
+        if have_mother_data is True:
+            plotcf(gl, angle(yl), conj(yl)*yl)
         # spawned
-        plot(gl, conj(ysl)*ysl, "-r")
+        if have_spawn_data is True:
+            plot(gl, conj(ysl)*ysl, "-r")
 
         if view is not None:
             ax1.set_xlim(view[0],0)
@@ -181,9 +174,11 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
         ax2 = fig.add_subplot(1,2,2)
         ax2.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         # mother
-        plotcf(gr, angle(yr), conj(yr)*yr)
+        if have_mother_data is True:
+            plotcf(gr, angle(yr), conj(yr)*yr)
         # spawned
-        plot(gr, conj(ysr)*ysr, "-r")
+        if have_spawn_data is True:
+            plot(gr, conj(ysr)*ysr, "-r")
 
         if view is not None:
             ax2.set_xlim(0, view[1])

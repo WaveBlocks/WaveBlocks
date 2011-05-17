@@ -102,7 +102,7 @@ if __name__ == "__main__":
     parametersout["algorithm"] = "spawning_apost"
     parametersout["K0"] = 100
     parametersout["spawn_threshold"] = 1e-10
-    parametersout["spawn_max_order"] = 12
+    #parametersout["spawn_max_order"] = 12
     parametersout["spawn_normed_gaussian"] = True
 
     # How much time slots do we need

@@ -9,7 +9,7 @@ Additionally plot the spawned wavepackets.
 """
 
 import sys
-from numpy import angle, conj, real, imag
+from numpy import angle, conj, real, imag, squeeze
 from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
@@ -38,13 +38,21 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
     for step in timegrid_m:
         print(" Timestep # " + str(step))
 
-        wave_m = f.load_wavefunction(timestep=step, block=0)
-        values_m = [ wave_m[j,...] for j in xrange(parameters.ncomponents) ]
+        # Retrieve spawn data for both packets
+        try:
+            wave_m = f.load_wavefunction(timestep=step, block=0)
+            values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters.ncomponents) ]
+            have_mother_data = True
+        except ValueError:
+            have_mother_data = False
 
         # Retrieve spawn data
-        wave_s = f.load_wavefunction(timestep=step, block=1)
-        values_s = [ wave_s[j,...] for j in xrange(parameters.ncomponents) ]
-
+        try:
+            wave_s = f.load_wavefunction(timestep=step, block=1)
+            values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters.ncomponents) ]
+            have_spawn_data = True
+        except ValueError:
+            have_spawn_data = False
 
         # Plot the probability densities projected to the eigenbasis
         fig = figure(figsize=imgsize)
@@ -58,30 +66,32 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
             axes.append(ax)
 
         # Plot original Wavefunction
-        for index, component in enumerate(values_m):
-            if plotcomponents is True:
-                axes[index].plot(grid, real(component))
-                axes[index].plot(grid, imag(component))
-                axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
-            if plotabssqr is True:
-                axes[index].plot(grid, component*conj(component), color="black")
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
-            if plotphase is True:
-                plotcf(grid, angle(component), component*conj(component))
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+        if have_mother_data is True:
+            for index, component in enumerate(values_m):
+                if plotcomponents is True:
+                    axes[index].plot(grid, real(component))
+                    axes[index].plot(grid, imag(component))
+                    axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
+                if plotabssqr is True:
+                    axes[index].plot(grid, component*conj(component), color="black")
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+                if plotphase is True:
+                    plotcf(grid, angle(component), component*conj(component))
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
 
         # Overlay spawned parts
-        for index, component in enumerate(values_s):
-            if plotcomponents is True:
-                axes[index].plot(grid, real(component))
-                axes[index].plot(grid, imag(component))
-                axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
-            if plotabssqr is True:
-                axes[index].plot(grid, component*conj(component), color="red")
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
-            if plotphase is True:
-                plotcf(grid, angle(component), component*conj(component))
-                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+        if have_spawn_data is True:
+            for index, component in enumerate(values_s):
+                if plotcomponents is True:
+                    axes[index].plot(grid, real(component))
+                    axes[index].plot(grid, imag(component))
+                    axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
+                if plotabssqr is True:
+                    axes[index].plot(grid, component*conj(component), color="red")
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+                if plotphase is True:
+                    plotcf(grid, angle(component), component*conj(component))
+                    axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
 
         # Set the axis properties
         for index in xrange(len(values_m)):
