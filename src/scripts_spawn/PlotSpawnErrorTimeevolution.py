@@ -16,7 +16,7 @@ from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 
 
-def compute_data(data_s, data_o, which_norm="L2"):
+def compute_data(data_s, data_o):
     """Plot the wave function for a series of timesteps.
     @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @param data_o: An I{IOManager} instance providing the reference simulation data.
@@ -32,7 +32,8 @@ def compute_data(data_s, data_o, which_norm="L2"):
     WF = WaveFunction(parameters_o)
     WF.set_grid(grid_o)
     
-    norms = []
+    norms_L2 = []
+    norms_max = []
     
     for step in timegrid_o:
         print(" Timestep # " + str(step))
@@ -67,40 +68,77 @@ def compute_data(data_s, data_o, which_norm="L2"):
             # Return zeros if we did not spawn yet in this timestep
             values_diff = [ zeros(values_o[0].shape) for i in xrange(parameters_o.ncomponents) ]
 
-        # Compute the norm
-        if which_norm == "L2":
-            # Rearrange data to fit the input of WF and handle over
-            WF.set_values(values_diff)
-            curnorm = WF.get_norm()
+        # Compute the L^2 norm
+        WF.set_values(values_diff)
+        curnorm_L2 = WF.get_norm()
             
-        elif which_norm == "max":
-            curnorm = [ max(abs(item)) for item in values_diff ]
+        # Compute the max norm
+        curnorm_max = [ max(abs(item)) for item in values_diff ]
             
-        print(" at time " + str(step*parameters_o.dt) + " the error norm is " + str(curnorm))
-        norms.append(curnorm)
+        print(" at time " + str(step*parameters_o.dt) + " the error in L^2 norm is " + str(curnorm_L2))
+        norms_L2.append(curnorm_L2)
+        norms_max.append(curnorm_max)
 
-    return (timegrid_o*parameters_o.dt, array(norms), which_norm)
+    return (timegrid_o*parameters_o.dt, array(norms_L2), array(norms_max))
 
 
-def plot_data(timegrid, norms, which_norm):
-    nona = "L^2" if which_norm == "L2" else "\infty"
+def plot_data(timegrid, norms_L2, norms_max):
 
-    # Plot the probability densities projected to the eigenbasis
+    # Plot the L^2 norm of the spawning error
     fig = figure()
     ax = fig.gca()
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     
-    # Plot the difference between the original and spawned Wavefunctions
-    for i in xrange(norms.shape[1]):
-        ax.semilogy(timegrid, norms[:,i])
+    # Plot the difference between the original and spawned Wavefunctions in L^2 norm
+    for i in xrange(norms_L2.shape[1]):
+        ax.semilogy(timegrid, norms_L2[:,i])
         
     # Set the axis properties
     ax.grid(True)
     ax.set_ylim([10**-6, 10**0])
     ax.set_xlabel(r"$x$")
-            
+    
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
+    fig.savefig("spawn_error_L2-norm.png")
+    close(fig)
+
+
+    # Plot the max norm of the spawning error
+    fig = figure()
+    ax = fig.gca()
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+    
+    # Plot the difference between the original and spawned Wavefunctions in max norm
+    for i in xrange(norms_max.shape[1]):
+        ax.semilogy(timegrid, norms_max[:,i])
+        
+    # Set the axis properties
+    ax.grid(True)
+    ax.set_ylim([10**-6, 10**0])
+    ax.set_xlabel(r"$x$")
+    
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
+    fig.savefig("spawn_error_max-norm.png")
+    close(fig)
+
+
+    # Plot the L^2 and max norm of the spawning error
+    fig = figure()
+    ax = fig.gca()
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+
+    # Plot the difference between the original and spawned Wavefunctions in both norms
+    for i in xrange(norms_L2.shape[1]):
+        ax.semilogy(timegrid, norms_L2[:,i], label=r"$L^2$ norm")
+        ax.semilogy(timegrid, norms_max[:,i], label=r"$L^\infty$ norm")
+
+    # Set the axis properties
+    ax.grid(True)
+    ax.set_ylim([10**-6, 10**0])
+    ax.set_xlabel(r"$x$")
+    ax.legend()
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
-    fig.savefig("spawn_error_norm-"+nona+".png")
+    fig.savefig("spawn_error_norm.png")
     close(fig)
 
 
@@ -128,7 +166,6 @@ if __name__ == "__main__":
         iom_o.open_file()
     
     plot_data(*compute_data(iom_s, iom_o))
-    plot_data(*compute_data(iom_s, iom_o, which_norm="max"))
     
     iom_s.finalize()
     iom_o.finalize()
