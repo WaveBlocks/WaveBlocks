@@ -72,6 +72,7 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             ax.plot(timegrid, imag(coeffs[component][:,coeff]))
             ax.plot(timegrid, abs(coeffs[component][:,coeff]))
 
+            ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
@@ -91,7 +92,8 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
             ax.plot(timegrid, real( coeffs[component][:,coeff] ) )
             ax.plot(timegrid, imag( coeffs[component][:,coeff] ) )
             ax.plot(timegrid, abs( coeffs[component][:,coeff] ) )
-            
+
+            ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1

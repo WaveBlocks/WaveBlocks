@@ -66,6 +66,7 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
             ax.plot(timegrid1, imag(coeffs1[component][:,coeff]), "m")
             ax.plot(timegrid1, abs(coeffs1[component][:,coeff]), "k")
 
+            ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
@@ -89,7 +90,8 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
             ax.plot(timegrid1, real(coeffs1[component][:,coeff]), "c")
             ax.plot(timegrid1, imag(coeffs1[component][:,coeff]), "m")
             ax.plot(timegrid1, abs(coeffs1[component][:,coeff]), "k")
-            
+
+            ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
