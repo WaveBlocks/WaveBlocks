@@ -9,6 +9,7 @@ provides these values to the simulation as global singleton.
 """
 
 import types
+from copy import deepcopy
 
 from PotentialFactory import PotentialFactory as PF
 from TimeManager import TimeManager
@@ -118,7 +119,21 @@ class ParameterProvider:
 
         # Put the values into the local storage
         for key, value in params.iteritems():
-            self.params[key] = value
+            self.params[key] = deepcopy(value)
+
+        # Compensate for some missing values
+        self.incompletion_tolerance()
+
+        # Compute some values on top of the given input parameters
+        self.compute_parameters()
+
+
+    def set_parameters(self, params):
+        """Overwrite the dict containing all parameters with a
+        newly provided dict with (possibly) changed parameters.
+        @param params: Dict with new parameters. The dict will be copied.
+        """
+        self.params = deepcopy(params)
 
         # Compensate for some missing values
         self.incompletion_tolerance()
@@ -133,23 +148,34 @@ class ParameterProvider:
         return self._tm
 
 
-    def __str__(self):
-        s =  "====================================\n"
-        s += "Parameters of the current simulation\n"
-        s += "------------------------------------\n"
-        s += " Propagation algorithm: " + str(self.params["algorithm"]) + "\n"
-        s += " Potential: " + str(self.params["potential"]) + "\n"
-        s += "  Number components: " + str(self.params["ncomponents"]) + "\n"
-        s += "\n"
-        s += " Timestepping:\n"
-        s += "  Final simulation time: " + str(self.params["T"]) + "\n"
-        s += "  Time step size: " + str(self.params["dt"]) + "\n"
-        s += "  Number of timesteps: " + str(self.params["nsteps"]) + "\n"
-        s += "\n"
-        s += " I/O related:\n"
-        s += "  Write results every step (0 = never): " + str(self.params["write_nth"]) + "\n"
-        s += "  Write results at time/timesteps (additionally): " + str(self.params["save_at"]) + "\n"
+    def get_parameters(self):
+        """Return a copy of the dict containing all parameters.
+        @return: A copy of the dict containing all parameters. The dict will be copied.
+        """
+        return deepcopy(self.params)
 
+
+    def __str__(self):
+        try:
+            s =  "====================================\n"
+            s += "Parameters of the current simulation\n"
+            s += "------------------------------------\n"
+            s += " Propagation algorithm: " + str(self.params["algorithm"]) + "\n"
+            s += " Potential: " + str(self.params["potential"]) + "\n"
+            s += "  Number components: " + str(self.params["ncomponents"]) + "\n"
+            s += "\n"
+            s += " Timestepping:\n"
+            s += "  Final simulation time: " + str(self.params["T"]) + "\n"
+            s += "  Time step size: " + str(self.params["dt"]) + "\n"
+            s += "  Number of timesteps: " + str(self.params["nsteps"]) + "\n"
+            s += "\n"
+            s += " I/O related:\n"
+            s += "  Write results every step (0 = never): " + str(self.params["write_nth"]) + "\n"
+            s += "  Write results at time/timesteps (additionally): " + str(self.params["save_at"]) + "\n"
+
+        except KeyError:
+            pass
+            
         s += "------------------------------------\n"
         s += "All parameters provided\n"
         s += "------------------------------------\n"

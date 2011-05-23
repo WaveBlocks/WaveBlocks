@@ -12,6 +12,7 @@ from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, im
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
+from ComplexMath import cont_sqrt
 from GaussHermiteQR import GaussHermiteQR
 
 
@@ -48,6 +49,8 @@ class HagedornMultiWavepacket:
         #: An object that provides nodes $\gamma$ and weights $\omega$ for Gauss-Hermite quadrature.
         self.quadrator = None
 
+        self._cont_sqrt_cache = [ 0.0 for i in xrange(self.number_components) ]
+        
 
     def __str__(self):
         """@return: A string describing the Hagedorn wavepacket.
@@ -160,6 +163,13 @@ class HagedornMultiWavepacket:
             self.quadrator = quadrator
 
 
+    def get_quadrator(self):
+        """Return the I{GaussHermiteQR} instance used for quadrature.
+        @return: The current instance of the quadrature rule.
+        """
+        return self.quadrator
+
+
     def evaluate_base_at(self, nodes, component, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
@@ -182,8 +192,9 @@ class HagedornMultiWavepacket:
             H[k] = Qinv*sqrt(2.0/self.eps**2)*1.0/sqrt(k) * (nodes-q) * H[k-1] - Qinv*Qbar*sqrt((k-1.0)/k) * H[k-2]
 
         if prefactor is True:
-            H = 1.0/sqrt(Q)*H
-
+            sqrtQ, self._cont_sqrt_cache[component] = cont_sqrt(Q, reference=self._cont_sqrt_cache[component])
+            H = 1.0/sqrtQ*H
+        
         return H
 
 
