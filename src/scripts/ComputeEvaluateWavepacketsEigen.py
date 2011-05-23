@@ -25,17 +25,23 @@ if __name__ == "__main__":
         
     parameters = iom.get_parameters()
     
-    if parameters.algorithm == "fourier":
+    if parameters["algorithm"] == "fourier":
         # Nothing to do for Fourier propagator
         pass
 
-    elif parameters.algorithm == "hagedorn":
+    elif parameters["algorithm"] == "hagedorn":
         import EvaluateWavepackets
         EvaluateWavepackets.compute_evaluate_wavepackets(iom)
 
-    elif parameters.algorithm == "multihagedorn":
+    elif parameters["algorithm"] == "multihagedorn":
         import EvaluateWavepacketsInhomog
         EvaluateWavepacketsInhomog.compute_evaluate_wavepackets(iom)
+
+    elif (parameters["algorithm"] == "spawning_apost" or
+          parameters["algorithm"] == "spawning_adiabatic"):
+        import EvaluateWavepackets
+        EvaluateWavepackets.compute_evaluate_wavepackets(iom)
+        EvaluateWavepackets.compute_evaluate_wavepackets(iom, datablock=1)
 
     else:
         raise ValueError("Unknown propagator algorithm.")

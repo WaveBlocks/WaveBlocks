@@ -43,7 +43,7 @@ def sort_statements(alist):
             alist.remove(item)
 
         if len(alist) == curlen:
-            raise ValueError("Could not sort configuration statements. Possibly a dependency cycle?")
+            raise ValueError("Could not sort configuration statements. Maybe an unescaped string? Or possibly a dependency cycle?")
 
     return ordered_statements
 

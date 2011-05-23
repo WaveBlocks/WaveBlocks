@@ -195,10 +195,15 @@ if __name__ == "__main__":
     # The axes rectangle that is plotted
     view = [-15, 15, 0.0, 1.5, 0.0, 0.05]
 
-    if parameters.algorithm == "hagedorn":
+    if parameters["algorithm"] == "hagedorn":
         plot_frames_homogeneous(iom, view=view)
-    elif parameters.algorithm == "multihagedorn":
+        
+    elif parameters["algorithm"] == "multihagedorn":
         plot_frames_inhomogeneous(iom, view=view)
+
+    elif parameters["algorithm"] == "spawning_apost":
+        plot_frames_homogeneous(iom, view=view)
+
     else:
         iom.finalize()
         sys.exit("Can only postprocess (multi)hagedorn algorithm data. Silent return ...")

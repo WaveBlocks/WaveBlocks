@@ -40,6 +40,10 @@ elif PA.algorithm == "multihagedorn":
     from WaveBlocks import SimulationLoopMultiHagedorn
     SL = SimulationLoopMultiHagedorn(PA)
 
+elif PA.algorithm == "spawning_adiabatic":
+    from WaveBlocks import SimulationLoopSpawnAdiabatic
+    SL = SimulationLoopSpawnAdiabatic(PA)
+
 else:
     raise ValueError("Invalid propagator algorithm.")
 

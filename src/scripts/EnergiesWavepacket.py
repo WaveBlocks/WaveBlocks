@@ -49,5 +49,5 @@ def compute_energy(f, datablock=0):
         # Compute the energies
         ekin = HAWP.kinetic_energy()
         epot = HAWP.potential_energy(Potential.evaluate_eigenvalues_at)
-
+        
         f.save_energy((ekin, epot), timestep=step, block=datablock)

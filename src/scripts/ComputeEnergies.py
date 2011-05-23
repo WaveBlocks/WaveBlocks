@@ -24,18 +24,24 @@ if __name__ == "__main__":
 
     parameters = iom.get_parameters()
 
-    if parameters.algorithm == "fourier":
+    if parameters["algorithm"] == "fourier":
         import EnergiesWavefunction
         EnergiesWavefunction.compute_energy(iom)
 
-    elif parameters.algorithm == "hagedorn":
+    elif parameters["algorithm"] == "hagedorn":
         import EnergiesWavepacket
         EnergiesWavepacket.compute_energy(iom)
 
-    elif parameters.algorithm == "multihagedorn":
+    elif parameters["algorithm"] == "multihagedorn":
         import EnergiesWavepacketInhomog
         EnergiesWavepacketInhomog.compute_energy(iom)
 
+    elif (parameters["algorithm"] == "spawning_apost" or
+          parameters["algorithm"] == "spawning_adiabatic"):
+        import EnergiesWavepacket
+        EnergiesWavepacket.compute_energy(iom, datablock=0)
+        EnergiesWavepacket.compute_energy(iom, datablock=1)
+        
     else:
         raise ValueError("Unknown propagator algorithm.")
     

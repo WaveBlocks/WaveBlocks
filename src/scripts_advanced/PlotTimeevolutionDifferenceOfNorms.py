@@ -141,12 +141,12 @@ def plot_data(groupdata, axisdata, normdata):
 
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"$t$")
-        ax.set_ylabel(r"$\| \phi^F - \phi^H \|_{L^2}$")
-        ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{L^2}$ ")
-        legend(loc="lower center")
+        ax.set_ylabel(r"$| \| \phi^F - \phi^H \|_{L^2} |$")
+        ax.set_title(r"Timeseries of $| \| \phi_f - \phi_h \|_{L^2} |$")
+        legend()
         fig.savefig("difference_of_norms_timevolution_all.png")
         close(fig)
-        
+
 
 if __name__ == "__main__":
     # Read simulation data path
