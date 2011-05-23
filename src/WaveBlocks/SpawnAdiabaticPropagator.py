@@ -54,7 +54,7 @@ class SpawnAdiabaticPropagator(Propagator):
         self.parameters = parameters
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
-        self.K = parameters["K0"]
+        self.K = parameters["spawn_K0"]
         self.threshold = parameters["spawn_threshold"]
 
         # todo: put this in the ParameterProvider

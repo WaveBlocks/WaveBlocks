@@ -26,7 +26,7 @@ class AdiabaticSpawner(Spawner):
         # Configuration parameters related to spawning
         self.eps = parameters["eps"]
         self.basis_size = parameters["basis_size"]
-        self.K = parameters["K0"]
+        self.K = parameters["spawn_K0"]
         self.threshold = parameters["spawn_threshold"]
         if parameters.has_key("spawn_normed_gaussian"):
             self.spawn_normed_gaussian = parameters["spawn_normed_gaussian"]
