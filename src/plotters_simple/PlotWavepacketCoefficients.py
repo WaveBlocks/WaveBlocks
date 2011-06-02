@@ -59,6 +59,9 @@ def plot_coefficients(parameters, timegrid, coeffs, amount=5, imgsize=(14,14)):
     @keyword imgsize: The size of the plot. For a large number of
     plotted coefficients, we might have to increase this value.
     """
+    # Check if we have enough coefficients to plot
+    amount = min(amount, coeffs[0].shape[-1])
+    
     # First ones
     fig = figure(figsize=imgsize)
     
