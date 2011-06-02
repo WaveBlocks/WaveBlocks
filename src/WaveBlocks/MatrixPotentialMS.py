@@ -65,7 +65,7 @@ class MatrixPotentialMS(MatrixPotential):
         @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
         @return: A list with the $N^2$ entries evaluated at the nodes.
         """
-        result = tuple([ numpy.array(f(nodes), dtype=numpy.complexfloating) for f in self.functions ])
+        result = tuple([ numpy.array(f(nodes), dtype=numpy.floating) for f in self.functions ])
         
         if not component is None:
             result = result[component * self.number_components + component]
@@ -90,27 +90,33 @@ class MatrixPotentialMS(MatrixPotential):
         self.__valid_eigenvalues = True
 
 
-    def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
+    def evaluate_eigenvalues_at(self, nodes, diag_component=None, as_matrix=False):
         """Evaluate the eigenvalues $\lambda_i\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
-        @keyword component: The index $i$ of the eigenvalue $\lambda_i$ that gets evaluated.
+        @keyword diag_component: The index $i$ of the eigenvalue $\lambda_i$ that gets evaluated.
         @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
         @return: A sorted list with $N$ entries for all the eigenvalues evaluated at the nodes. Or a
         single value if a component was specified.
         """
         result = []
-        
+
         # Hack to see if we evaluate at a single value
-        try:
-            n = len(nodes)
-        except TypeError:
-            n = 1
-        tmppot = numpy.ndarray((n,self.number_components,self.number_components), dtype=numpy.complexfloating)
-        tmpew = numpy.ndarray((n,self.number_components), dtype=numpy.complexfloating)
-        
+        if type(nodes) == numpy.ndarray:
+            # Max to get rid of singular dimensions
+            n = max(nodes.shape)
+        else:
+            try:
+                n = len(nodes)
+            except TypeError:
+                n = len([nodes])
+
+        # Memory for storing temporary values
+        tmppot = numpy.ndarray((n,self.number_components,self.number_components), dtype=numpy.floating)
+        tmpew = numpy.ndarray((n,self.number_components), dtype=numpy.floating)
+
         # evaluate potential
         values = self.evaluate_at(nodes)
-        
+
         # fill in values
         for row in xrange(0, self.number_components):
             for col in xrange(0, self.number_components):
@@ -123,15 +129,21 @@ class MatrixPotentialMS(MatrixPotential):
             ew.sort()
             tmpew[i,:] = ew[::-1]
 
-        result = [ tmpew[:,index] for index in xrange(0, self.number_components) ]
-        
-        # Hack to undo vectorization
-        if n == 1:
-            result = [ item[0] for item in result ]
-            
-        if not component is None:
-            result = result[component]
-            
+        tmp = [ tmpew[:,index] for index in xrange(0, self.number_components) ]
+
+        if not diag_component is None:
+            result = tmp[diag_component]            
+        elif as_matrix is True:
+            result = []
+            for row in xrange(self.number_components):
+                for col in xrange(self.number_components):
+                    if row == col:
+                        result.append(tmp[row])
+                    else:
+                        result.append( numpy.zeros(tmp[row].shape, dtype=numpy.floating) )
+        else:
+            result = tmp
+
         return result
 
 
@@ -337,7 +349,7 @@ class MatrixPotentialMS(MatrixPotential):
         # We can not solve these problems by symbolical manipulations.
         self.quadratic_n = []
 
-        v = partial(self.evaluate_eigenvalues_at, component=diagonal_component)
+        v = partial(self.evaluate_eigenvalues_at, diag_component=diagonal_component)
         self.quadratic_n.append(v)
 
         vj = ndt.Derivative(v)
