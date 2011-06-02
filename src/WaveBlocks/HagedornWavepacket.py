@@ -40,6 +40,9 @@ class HagedornWavepacket:
         # Cache the parameter values epsilon we will use over and over again.
         self.eps = parameters["eps"]
 
+        #: The parameters initialized to zero
+        self.P, self.Q, self.S, self.p, self.q = 0.0, 0.0, 0.0, 0.0, 0.0
+
         #: The coefficients $c^i$ of the linear combination for each component $\Phi_k$.
         self.coefficients = [ zeros((self.basis_size,1), dtype=complexfloating) for index in xrange(self.number_components) ]
 
@@ -56,6 +59,23 @@ class HagedornWavepacket:
         return s
 
 
+    def clone(self):
+        # Parameters of this packet
+        params = {"ncomponents": self.number_components,
+                  "basis_size":  self.basis_size,
+                  "eps":         self.eps}
+
+        # Create a new Packet
+        other = HagedornWavepacket(params)
+        # And copy over all (private) data
+        other.set_quadrator(self.get_quadrator())
+        other.set_parameters(self.get_parameters())
+        other.set_coefficients(self.get_coefficients())
+        other._cont_sqrt_cache = self._cont_sqrt_cache
+        
+        return other
+
+
     def get_number_components(self):
         """@return: The number $N$ of components the wavepacket $\Psi$ has."""
         return self.number_components
@@ -67,7 +87,7 @@ class HagedornWavepacket:
         @param component: The index $i$ of the component we want to update with new coefficients.
         @note: This function can either set new coefficients for a single component
         $\Phi_i$ only if the I{component} attribute is set or for all components
-        simultaneously if I{values} is a list of arrays.
+        simultaneously if I{values} is a list of arrays. This function *DOES* copy the input data!
         @raise ValueError: For invalid indices $i$.
         """
         if component is None:
@@ -75,12 +95,12 @@ class HagedornWavepacket:
                 if index > self.number_components-1:
                     raise ValueError("There is no component with index "+str(index)+".")
 
-                self.coefficients[index] = value[:].reshape((self.basis_size,1))
+                self.coefficients[index] = value.copy().reshape((self.basis_size,1))
         else:
             if component > self.number_components-1:
                 raise ValueError("There is no component with index "+str(component)+".")
 
-            self.coefficients[component] = values[:].reshape((self.basis_size,1))
+            self.coefficients[component] = values.copy().reshape((self.basis_size,1))
 
 
     def set_coefficient(self, component, index, value):
@@ -103,15 +123,18 @@ class HagedornWavepacket:
         @keyword component: The index $i$ of the coefficients $c^i$ we want to get.
         @return: The coefficients $c^i$ either for all components $\Phi_i$
         or for a specified one.
+        @note: This function *DOES* copy the output data!
         """
         if component is None:
-            return self.coefficients[:]
+            return [ item.copy() for item in self.coefficients ]
         else:
-            return self.coefficients[component]
+            return self.coefficients[component].copy()
 
 
     def get_coefficient_vector(self):
         """@return: The coefficients $c^i$ of all components $\Phi_i$ as a single long column vector.
+        @note: This function does *NOT* copy the output data! This is for efficiency as this
+        routine is used in the innermost loops.
         """
         vec = vstack(self.coefficients)
         return vec
@@ -120,14 +143,17 @@ class HagedornWavepacket:
     def set_coefficient_vector(self, vector):
         """Set the coefficients for all components $\Phi_i$ simultaneously.
         @param vector: The coefficients of all components as a single long column vector.
+        @note: This function does *NOT* copy the input data! This is for efficiency as this
+        routine is used in the innermost loops.
         """
         cl = vsplit(vector, self.number_components)
         for index in xrange(self.number_components):
             self.coefficients[index] = cl[index]
 
 
-    def get_parameters(self):
+    def get_parameters(self, component=None):
         """Get the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.
+        @param component: Dummy parameter for API compatibility with the inhomogeneous packets.
         @return: The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this order.
         """
         return (self.P, self.Q, self.S, self.p, self.q)
@@ -344,11 +370,12 @@ class HagedornWavepacket:
         return c
 
 
-    def project_to_canonical(self, potential):
+    def project_to_canonical(self, potential, assign=True):
         """Project the Hagedorn wavepacket into the canonical basis.
         @param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
+        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.
         @note: This function is expensive and destructive! It modifies the coefficients
-        of the I{self} instance.
+        of the I{self} instance if the I{assign} parameter is True (default).
         """
         # No projection for potentials with a single energy level.
         # The canonical and eigenbasis are identical here.
@@ -375,14 +402,18 @@ class HagedornWavepacket:
         F = transpose(conj(F))
         c = self.get_coefficient_vector()
         d = dot(F, c)
-        self.set_coefficient_vector(d)
+        if assign is True:
+            self.set_coefficient_vector(d)
+        else:
+            return d
+    
 
-
-    def project_to_eigen(self, potential):
+    def project_to_eigen(self, potential, assign=True):
         """Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.
         @param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
+        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.
         @note: This function is expensive and destructive! It modifies the coefficients
-        of the I{self} instance.
+        of the I{self} instance if the I{assign} parameter is True (default).
         """
         # No projection for potentials with a single energy level.
         # The canonical and eigenbasis are identical here.
@@ -408,4 +439,7 @@ class HagedornWavepacket:
         F = self.matrix(f)
         c = self.get_coefficient_vector()
         d = dot(F, c)
-        self.set_coefficient_vector(d)
+        if assign:
+            self.set_coefficient_vector(d)
+        else:
+            return d

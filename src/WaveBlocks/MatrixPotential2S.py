@@ -44,7 +44,7 @@ class MatrixPotential2S(MatrixPotential):
     def __str__(self):
         """Put the number of components and the analytical expression (the matrix) into a printable string.
         """
-        return """Matrix potential for 2 states given by matrix:\n""" + str(self.potential)
+        return """Matrix potential for 2 states given by matrix: V(x) = \n""" + str(self.potential)
 
 
     def get_number_components(self):

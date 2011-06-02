@@ -36,6 +36,7 @@ from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
 from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 
 from AdiabaticSpawner import AdiabaticSpawner
+from NonAdiabaticSpawner import NonAdiabaticSpawner
 
 # Just functions inside this modules.
 #from GlobalDefaults import GlobalDefaults
