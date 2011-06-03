@@ -72,14 +72,14 @@ def aposteriori_spawning(fin, fout, pin, pout):
 
                 # Project the coefficients to the spawned packet
                 U.set_parameters(ps)
-                AS.project_coefficients(T, U)
+                AS.project_coefficients(T, U, component=index)
 
                 # Transform back
                 U.project_to_canonical(Potential)
 
                 # Save the mother packet rest
                 fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step, block=2*index)
-                fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
+                fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step, block=2*index)
 
                 # Save the spawned packet
                 fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, block=2*index+1)
@@ -127,13 +127,14 @@ if __name__ == "__main__":
     iomout = IOManager()
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
 
+    # Allocate all the data blocks
     for i in xrange(2*parametersin["ncomponents"]):
-        iomout.create_block()
         if i == 0:
-            iomout.add_grid(parametersout, block=0)
+            iomout.add_grid(parametersout)
             iomout.save_grid(iomin.load_grid())
         else:
-            iomout.add_grid_reference(blockfrom=i,   blockto=0)        
+            iomout.create_block()
+            iomout.add_grid_reference(blockfrom=i, blockto=0)        
         iomout.add_wavepacket(parametersout, block=i)
     
     # Really do the aposteriori spawning simulation

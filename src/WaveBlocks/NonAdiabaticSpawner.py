@@ -4,7 +4,7 @@ This file conatins the code for spawning new wavepackets depending
 on some criterion. 
 
 @author: R. Bourquin
-@copyright: Copyright (C) 2010, 2011 R. Bourquin
+@copyright: Copyright (C) 2011 R. Bourquin
 @license: Modified BSD License
 """
 
@@ -86,50 +86,48 @@ class NonAdiabaticSpawner(Spawner):
             
             # Normalize
             # Really? Why?
-            # A = np.sqrt(A)
-            # B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
+            #A = np.sqrt(A)
+            #B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
 
             estimated_params.append((B, A, S, b, a))
 
         return estimated_params
 
 
-    def project_coefficients(self, mother, child):
+    def project_coefficients(self, mother, child, component=0):
         """Update the superposition coefficients of mother and
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
-        # if self.spawn_normed_gaussian is True:
-        #     return self.normed_gaussian(mother, child)
-        # else:
-        #     return self.full_basis_projection(mother, child)
-        pass
+        if self.spawn_normed_gaussian is True:
+            return self.normed_gaussian(mother, child, component)
+        else:
+            pass
+            #return self.full_basis_projection(mother, child)
 
 
-    def normed_gaussian(self, mother, child):
+    def normed_gaussian(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
         takes the full norm <w|w> of w.
         """
-        # c_old = mother.get_coefficients(component=0)        
-        # w = spla.norm( np.squeeze(c_old[self.K:,:]) )
+        c_old = mother.get_coefficients(component=component)
+        w = spla.norm(np.squeeze(c_old))
 
-        # # Mother packet
-        # c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
-        # c_new_m[:self.K,:] = c_old[:self.K,:]
+        # Mother packet
+        c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
 
-        # # Spawned packet
-        # c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
-        # # pure Gaussian
-        # c_new_s[0,0] = 1.0
-        # # But normalized
-        # c_new_s = w * c_new_s
+        # Spawned packet
+        c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
+        # pure Gaussian
+        c_new_s[0,0] = 1.0
+        # But normalized
+        c_new_s = w * c_new_s
 
-        # mother.set_coefficient_vector(c_new_m)
-        # child.set_coefficient_vector(c_new_s)
+        mother.set_coefficients(c_new_m, component=component)
+        child.set_coefficients(c_new_s, component=component)
 
-        # return (mother, child)
-        pass
+        return (mother, child)
 
 
     def full_basis_projection(self, mother, child):

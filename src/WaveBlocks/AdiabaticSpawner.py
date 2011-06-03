@@ -116,8 +116,8 @@ class AdiabaticSpawner(Spawner):
         # But normalized
         c_new_s = w * c_new_s
 
-        mother.set_coefficient_vector(c_new_m)
-        child.set_coefficient_vector(c_new_s)
+        mother.set_coefficients(c_new_m, component=0)
+        child.set_coefficients(c_new_s, component=0)
 
         return (mother, child)
 
