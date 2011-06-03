@@ -38,11 +38,11 @@ class AdiabaticSpawner(Spawner):
             self.max_order = 1
 
 
-    def estimate_parameters(self, packet, mother_component):
+    def estimate_parameters(self, packet, component):
         """Compute the parameters for a new wavepacket.
         """
         P, Q, S, p, q = packet.get_parameters()
-        c = packet.get_coefficients(component=mother_component)
+        c = packet.get_coefficients(component=component)
         c = np.squeeze(c)
 
         # Higher coefficients
@@ -86,23 +86,23 @@ class AdiabaticSpawner(Spawner):
         return (B, A, S, b, a)
 
 
-    def project_coefficients(self, mother, child):
+    def project_coefficients(self, mother, child, component=0):
         """Update the superposition coefficients of mother and
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
         if self.spawn_normed_gaussian is True:
-            return self.normed_gaussian(mother, child)
+            return self.normed_gaussian(mother, child, component)
         else:
-            return self.full_basis_projection(mother, child)
+            return self.full_basis_projection(mother, child, component)
 
 
-    def normed_gaussian(self, mother, child):
+    def normed_gaussian(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
         takes the full norm <w|w> of w.
         """
-        c_old = mother.get_coefficients(component=0)        
+        c_old = mother.get_coefficients(component=component)
         w = spla.norm( np.squeeze(c_old[self.K:,:]) )
 
         # Mother packet
@@ -116,18 +116,18 @@ class AdiabaticSpawner(Spawner):
         # But normalized
         c_new_s = w * c_new_s
 
-        mother.set_coefficients(c_new_m, component=0)
-        child.set_coefficients(c_new_s, component=0)
+        mother.set_coefficients(c_new_m, component=component)
+        child.set_coefficients(c_new_s, component=component)
 
         return (mother, child)
 
 
-    def full_basis_projection(self, mother, child):
+    def full_basis_projection(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
         """
-        c_old = mother.get_coefficients(component=0)
+        c_old = mother.get_coefficients(component=component)
 
         # Mother packet
         c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)

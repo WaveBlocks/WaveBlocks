@@ -64,7 +64,7 @@ def aposteriori_spawning(fin, fout, pin, pout):
         T.project_to_eigen(Potential)
 
         # Try spawning a new packet
-        estps = AS.estimate_parameters(T, mother_components=range(pin["ncomponents"]))
+        estps = AS.estimate_parameters(T, components=range(pin["ncomponents"]))
 
         for index, ps in enumerate(estps):
             if ps is not None:

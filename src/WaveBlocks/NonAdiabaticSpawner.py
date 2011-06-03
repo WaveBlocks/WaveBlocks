@@ -38,12 +38,12 @@ class NonAdiabaticSpawner(Spawner):
             self.max_order = 1
 
 
-    def estimate_parameters(self, packet, mother_components=[]):
+    def estimate_parameters(self, packet, components=[]):
         """Compute the parameters for a new wavepacket.
         """
         estimated_params = []
 
-        for acomp in mother_components:
+        for acomp in components:
             P, Q, S, p, q = packet.get_parameters(component=acomp)
 
             c = packet.get_coefficients(component=acomp)
@@ -86,8 +86,8 @@ class NonAdiabaticSpawner(Spawner):
             
             # Normalize
             # Really? Why?
-            #A = np.sqrt(A)
-            #B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
+            A = np.sqrt(A)
+            B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
 
             estimated_params.append((B, A, S, b, a))
 
@@ -102,8 +102,7 @@ class NonAdiabaticSpawner(Spawner):
         if self.spawn_normed_gaussian is True:
             return self.normed_gaussian(mother, child, component)
         else:
-            pass
-            #return self.full_basis_projection(mother, child)
+            return self.full_basis_projection(mother, child, component)
 
 
     def normed_gaussian(self, mother, child, component):
@@ -130,7 +129,7 @@ class NonAdiabaticSpawner(Spawner):
         return (mother, child)
 
 
-    def full_basis_projection(self, mother, child):
+    def full_basis_projection(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
