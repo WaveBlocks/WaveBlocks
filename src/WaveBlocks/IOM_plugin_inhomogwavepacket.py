@@ -47,6 +47,12 @@ def delete_inhomogwavepacket(self, block=0):
         pass
 
 
+def has_inhomogwavepacket(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return "wavepacket_inhomog" in self.srf["datablock_"+str(block)].keys()
+
+
 def save_inhomogwavepacket_parameters(self, parameters, timestep=None, block=0):
     """Save the parameters of the Hagedorn wavepacket to a file.
     @param parameters: The parameters of the Hagedorn wavepacket.

@@ -40,6 +40,12 @@ def delete_wavefunction(self, block=0):
         pass
 
 
+def has_wavefunction(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return "wavefunction" in self.srf["datablock_"+str(block)].keys()
+
+
 def save_wavefunction(self, wavefunctionvalues, block=0, timestep=None):
     """Save a I{WaveFunction} instance. The output is suitable for the plotting routines.
     @param wavefunctionvalues: The I{WaveFunction} instance to save.
