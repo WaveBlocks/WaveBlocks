@@ -81,6 +81,11 @@ class HagedornWavepacket:
         return self.number_components
 
 
+    def get_basis_size(self):
+        """@return: The size of the basis, i.e. the number $K$ of ${\phi_k}_{k=1}^K$."""
+        return self.basis_size
+
+
     def set_coefficients(self, values, component=None):
         """Update the coefficients $c$ of $\Psi$.
         @param values: The new values of the coefficients $c^i$ of $\Phi_i$.

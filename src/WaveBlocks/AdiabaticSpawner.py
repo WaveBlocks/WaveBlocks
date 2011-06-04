@@ -162,9 +162,11 @@ class AdiabaticSpawner(Spawner):
         basis_m = mother.evaluate_base_at(nodes, prefactor=True)
         basis_s = child.evaluate_base_at(nodes, prefactor=True)
 
+        max_order = min(child.get_basis_size(), self.max_order)
+
         # Project to the basis of the spawned wavepacket
         # Original, inefficient code for projection
-        # for i in xrange(self.max_order):
+        # for i in xrange(max_order):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
@@ -173,7 +175,7 @@ class AdiabaticSpawner(Spawner):
         #     c_new_s[i,0] = self.eps * QS * tmp
 
         # Optimised and vectorised code (in ugly formatting)
-        c_new_s[:self.max_order,:] = self.eps * QS * (
+        c_new_s[:max_order,:] = self.eps * QS * (
             np.reshape(
                 np.sum(
                     np.transpose(
@@ -182,7 +184,7 @@ class AdiabaticSpawner(Spawner):
                                 np.sum(c_old[self.K:,:] * basis_m[self.K:,:],axis=0)
                             ) ,(-1,1)
                         )
-                    ) * (basis_s[:self.max_order,:] * weights[:,:]), axis=1
+                    ) * (basis_s[:max_order,:] * weights[:,:]), axis=1
                 ) ,(-1,1)
             ))
 

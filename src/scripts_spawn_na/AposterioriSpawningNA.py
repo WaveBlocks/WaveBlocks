@@ -78,8 +78,8 @@ def aposteriori_spawning(fin, fout, pin, pout):
                 U.project_to_canonical(Potential)
 
                 # Save the mother packet rest
-                fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step, block=2*index)
-                fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step, block=2*index)
+                fout.save_wavepacket_parameters(T.get_parameters(), timestep=step, block=2*index)
+                fout.save_wavepacket_coefficients(T.get_coefficients(), timestep=step, block=2*index)
 
                 # Save the spawned packet
                 fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, block=2*index+1)
@@ -116,8 +116,8 @@ if __name__ == "__main__":
     # reading values from a configuration file
     parametersout["algorithm"] = "spawning_apost_na"
     parametersout["spawn_threshold"] = 1e-10
-    #parametersout["spawn_max_order"] = 12
-    parametersout["spawn_normed_gaussian"] = True
+    parametersout["spawn_max_order"] = 3
+    parametersout["spawn_normed_gaussian"] = False
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()

@@ -134,68 +134,68 @@ class NonAdiabaticSpawner(Spawner):
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
         """
-        # c_old = mother.get_coefficients(component=0)
+        c_old = mother.get_coefficients(component=component)
 
-        # # Mother packet
-        # c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
+        # Mother packet
+        c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
         # c_new_m[:self.K,:] = c_old[:self.K,:]
 
-        # # Spawned packet
-        # c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
+        # Spawned packet
+        c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
 
-        # # Quadrature rule, assume same quadrature order for both packets
-        # QR = mother.get_quadrator()
-        # R = QR.get_order()
+        # Quadrature rule, assume same quadrature order for both packets
+        QR = mother.get_quadrator()
+        R = QR.get_order()
 
-        # # Mix the parameters for quadrature
-        # (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
-        # (Ps, Qs, Ss, ps, qs) = child.get_parameters()
+        # Mix the parameters for quadrature
+        (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
+        (Ps, Qs, Ss, ps, qs) = child.get_parameters()
         
-        # rm = Pm/Qm
-        # rs = Ps/Qs
+        rm = Pm/Qm
+        rs = Ps/Qs
         
-        # r = np.conj(rm)-rs
-        # s = np.conj(rm)*qm - rs*qs
+        r = np.conj(rm)-rs
+        s = np.conj(rm)*qm - rs*qs
         
-        # q0 = np.imag(s) / np.imag(r)
-        # Q0 = -0.5 * np.imag(r)
-        # QS = 1 / np.sqrt(Q0)
+        q0 = np.imag(s) / np.imag(r)
+        Q0 = -0.5 * np.imag(r)
+        QS = 1 / np.sqrt(Q0)
 
-        # # The quadrature nodes and weights
-        # nodes = q0 + self.eps * QS * QR.get_nodes()
-        # weights = QR.get_weights()
+        # The quadrature nodes and weights
+        nodes = q0 + self.eps * QS * QR.get_nodes()
+        weights = QR.get_weights()
 
-        # # Basis sets for both packets
-        # basis_m = mother.evaluate_base_at(nodes, prefactor=True)
-        # basis_s = child.evaluate_base_at(nodes, prefactor=True)
+        # Basis sets for both packets
+        basis_m = mother.evaluate_base_at(nodes, prefactor=True)
+        basis_s = child.evaluate_base_at(nodes, prefactor=True)
 
-        # # Project to the basis of the spawned wavepacket
-        # # Original, inefficient code for projection
-        # # for i in xrange(self.max_order):
-        # #     # Loop over all quadrature points
-        # #     tmp = 0.0j
-        # #     for r in xrange(R):
-        # #         tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[i,r] * weights[r]   
-        # #
-        # #     c_new_s[i,0] = self.eps * QS * tmp
+        max_order = min(child.get_basis_size(), self.max_order)
 
-        # # Optimised and vectorised code (in ugly formatting)
-        # c_new_s[:self.max_order,:] = self.eps * QS * (
-        #     np.reshape(
-        #         np.sum(
-        #             np.transpose(
-        #                 np.reshape(
-        #                     np.conj(
-        #                         np.sum(c_old[self.K:,:] * basis_m[self.K:,:],axis=0)
-        #                     ) ,(-1,1)
-        #                 )
-        #             ) * (basis_s[:self.max_order,:] * weights[:,:]), axis=1
-        #         ) ,(-1,1)
-        #     ))
+        # Project to the basis of the spawned wavepacket
+        # Original, inefficient code for projection
+        # for i in xrange(max_order):
+        #     # Loop over all quadrature points
+        #     tmp = 0.0j
+        #     for r in xrange(R):
+        #         tmp += np.conj(np.dot( c_old[:,0], basis_m[:,r] )) * basis_s[i,r] * weights[0,r]                
+        #     c_new_s[i,0] = self.eps * QS * tmp
 
-        # # Reassign the new coefficients
-        # mother.set_coefficient_vector(c_new_m)
-        # child.set_coefficient_vector(c_new_s)
+        # Optimised and vectorised code (in ugly formatting)
+        c_new_s[:max_order,:] = self.eps * QS * (
+            np.reshape(
+                np.sum(
+                    np.transpose(
+                        np.reshape(
+                            np.conj(
+                                np.sum(c_old[:,:] * basis_m[:,:],axis=0)
+                            ) ,(-1,1)
+                        )
+                    ) * (basis_s[:max_order,:] * weights[:,:]), axis=1
+                ) ,(-1,1)
+            ))
 
-        # return (mother, child)
-        pass
+        # Reassign the new coefficients
+        mother.set_coefficients(c_new_m, component=component)
+        child.set_coefficients(c_new_s, component=component)
+
+        return (mother, child)
