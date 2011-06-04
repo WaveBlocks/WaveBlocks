@@ -17,7 +17,7 @@ from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
 
-def read_data_spawn(f, assume_duplicate_mother=True):
+def read_data_spawn(f, assume_duplicate_mother=False):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword assume_duplicate_mother: Parameter to tell the code to leave out
@@ -148,6 +148,11 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    plot_parameters_spawn(*read_data_spawn(iom))
+    parameters = iom.get_parameters()
+    
+    if parameters["algorithm"] == "spawning_apost_na":
+        plot_parameters_spawn(*read_data_spawn(iom, assume_duplicate_mother=True))
+    else:
+        plot_parameters_spawn(*read_data_spawn(iom))
 
     iom.finalize()

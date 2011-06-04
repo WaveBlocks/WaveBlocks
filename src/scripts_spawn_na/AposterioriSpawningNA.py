@@ -114,7 +114,7 @@ if __name__ == "__main__":
     # And add spawning related configurations variables
     # todo: Ugly, remove and replace with better solution
     # reading values from a configuration file
-    parametersout["algorithm"] = "spawning_apost"
+    parametersout["algorithm"] = "spawning_apost_na"
     parametersout["spawn_threshold"] = 1e-10
     #parametersout["spawn_max_order"] = 12
     parametersout["spawn_normed_gaussian"] = True
