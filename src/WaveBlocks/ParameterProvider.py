@@ -42,7 +42,11 @@ class ParameterProvider:
 
 
     def __setitem__(self, key, value):
-        self.params[key] = value
+        self.params[key] = deepcopy(value)
+
+
+    def __contains__(self, key):
+        return self.has_key(key)
 
 
     def __iter__(self):
@@ -127,12 +131,33 @@ class ParameterProvider:
     def set_parameters(self, params):
         """Overwrite the dict containing all parameters with a
         newly provided dict with (possibly) changed parameters.
-        @param params: Dict with new parameters. The dict will be copied.
+        @param params: A I{ParameterProvider} instance or a dict
+        with new parameters. The values will be deep-copied. No
+        old values will remain.
         """
+        if isinstance(params, ParameterProvider):
+            params = params.get_parameters()
+
         self.params = deepcopy(params)
         # Compute some values on top of the given input parameters
         self.compute_parameters()
 
+
+    def update_parameters(self, params):
+        """Overwrite the dict containing all parameters with a
+        newly provided dict with (possibly) changed parameters.
+        @param params: A I{ParameterProvider} instance or a dict
+        with new parameters. The values will be deep-copied. Old
+        values are only overwritten if we have got new values.
+        """
+        if isinstance(params, ParameterProvider):
+            params = params.get_parameters()
+        
+        for key, value in params.iteritems():
+            self.__setitem__(key, value)
+        # Compute some values on top of the given input parameters
+        self.compute_parameters()
+        
 
     def get_timemanager(self):
         """Return the embedded I{TimeManager} instance.

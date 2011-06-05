@@ -21,7 +21,7 @@ from WaveBlocks import HagedornWavepacket
 from WaveBlocks import NonAdiabaticSpawner
 
 
-def aposteriori_spawning(fin, fout, pin, pout, components=None, save_canonical=False):
+def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.    
@@ -44,15 +44,17 @@ def aposteriori_spawning(fin, fout, pin, pout, components=None, save_canonical=F
     HAWP.set_quadrator(None)
     
     # Initialize an empty wavepacket for spawning
-    SWP = HagedornWavepacket(pin)
+    SWP = HagedornWavepacket(pout)
     SWP.set_quadrator(None)
 
     # Initialize a Spawner
     NAS = NonAdiabaticSpawner(pout)
 
     # Try spawning for these components, if none is given, try it for all.
-    if components is None:
+    if not "spawn_components" in parametersout:
         components = range(pin["ncomponents"])
+    else:
+        components = parametersout["spawn_components"]
 
     # Iterate over all timesteps and spawn
     for i, step in enumerate(timesteps):
@@ -104,6 +106,13 @@ if __name__ == "__main__":
     except IndexError:
         iomin.open_file()
 
+    # Read a configuration file with the spawn parameters
+    try:
+        parametersspawn = ParameterProvider()
+        parametersspawn.read_parameters(sys.argv[2])
+    except IndexError:
+        raise IOError("No spawn configuration given!")
+
     parametersin = iomin.get_parameters()
 
     # Check if we can start a spawning simulation
@@ -115,16 +124,10 @@ if __name__ == "__main__":
     parametersout = ParameterProvider()
 
     # Transfer the simulation parameters
-    parametersout.set_parameters(parametersin.get_parameters())
+    parametersout.set_parameters(parametersin)
 
     # And add spawning related configurations variables
-    # todo: Ugly, remove and replace with better solution
-    # reading values from a configuration file
-    parametersout["algorithm"] = "spawning_apost_na"
-    parametersout["spawn_threshold"] = 1e-10
-    parametersout["spawn_max_order"] = 4
-    parametersout["spawn_normed_gaussian"] = False
-    parametersout["spawn_components"] = [1]
+    parametersout.update_parameters(parametersspawn)
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()
@@ -135,17 +138,22 @@ if __name__ == "__main__":
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
 
     # Allocate all the data blocks
-    for i in xrange(2*len(parametersout["spawn_components"])):
-        if i == 0:
-            iomout.add_grid(parametersout)
-            iomout.save_grid(iomin.load_grid())
+    iomout.add_grid(parametersout)
+    iomout.save_grid(iomin.load_grid())
+    iomout.add_wavepacket(parametersin)
+
+    for i in xrange(1,2*len(parametersout["spawn_components"])):
+        iomout.create_block()
+        iomout.add_grid_reference(blockfrom=i, blockto=0)
+        if i % 2 == 0:
+            # Block for remainder / mother after spawning
+            iomout.add_wavepacket(parametersin, block=i)
         else:
-            iomout.create_block()
-            iomout.add_grid_reference(blockfrom=i, blockto=0)        
-        iomout.add_wavepacket(parametersout, block=i)
+            # Block for spawned packet
+            iomout.add_wavepacket(parametersout, block=i)
     
     # Really do the aposteriori spawning simulation
-    aposteriori_spawning(iomin, iomout, parametersin, parametersout, components=parametersout["spawn_components"])
+    aposteriori_spawning(iomin, iomout, parametersin, parametersout)
 
     # Close the inpout/output files
     iomin.finalize()

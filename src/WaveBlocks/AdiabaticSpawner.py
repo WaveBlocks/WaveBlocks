@@ -25,7 +25,6 @@ class AdiabaticSpawner(Spawner):
 
         # Configuration parameters related to spawning
         self.eps = parameters["eps"]
-        self.basis_size = parameters["basis_size"]
         self.K = parameters["spawn_K0"]
         self.threshold = parameters["spawn_threshold"]
         if parameters.has_key("spawn_normed_gaussian"):
@@ -54,7 +53,7 @@ class AdiabaticSpawner(Spawner):
             return None
 
         # Some temporary values
-        k = np.arange(self.K+1, self.basis_size)
+        k = np.arange(self.K+1, packet.get_basis_size())
         ck   = c[self.K+1:]
         ckm1 = c[self.K:-1]
 
@@ -65,12 +64,12 @@ class AdiabaticSpawner(Spawner):
         b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
 
         # theta_1
-        k = np.arange(self.K, self.basis_size)
+        k = np.arange(self.K, packet.get_basis_size())
         ck = c[self.K:]
         theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
 
         # theta_2
-        k = np.arange(self.K, self.basis_size-2)
+        k = np.arange(self.K, packet.get_basis_size()-2)
         ck   = c[self.K:-2]
         ckp2 = c[self.K+2:]
         theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
@@ -134,7 +133,7 @@ class AdiabaticSpawner(Spawner):
         c_new_m[:self.K,:] = c_old[:self.K,:]
 
         # Spawned packet
-        c_new_s = np.zeros(c_old.shape, dtype=np.complexfloating)
+        c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
         # Quadrature rule, assume same quadrature order for both packets
         QR = mother.get_quadrator()
@@ -189,7 +188,7 @@ class AdiabaticSpawner(Spawner):
             ))
 
         # Reassign the new coefficients
-        mother.set_coefficient_vector(c_new_m)
-        child.set_coefficient_vector(c_new_s)
+        mother.set_coefficients(c_new_m, component=component)
+        child.set_coefficients(c_new_s, component=component)
 
         return (mother, child)
