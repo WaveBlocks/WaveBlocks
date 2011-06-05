@@ -42,16 +42,16 @@ class FourierPropagator(Propagator):
         self.V = self.potential.evaluate_at(self.nodes)
 
         #: The momentum space nodes $\omega$.
-        self.omega = arange(0, para.ngn/2.0)
-        self.omega = append(self.omega, arange(para.ngn/2.0, 0, -1))
+        self.omega = arange(0, para["ngn"]/2.0)
+        self.omega = append(self.omega, arange(para["ngn"]/2.0, 0, -1))
         
         #: The kinetic operator $T$ defined in momentum space.
-        self.T = 0.5 * para.eps**4 * self.omega**2 / para.f**2
+        self.T = 0.5 * para["eps"]**4 * self.omega**2 / para["f"]**2
         
         #: Exponential $\exp\ofs{T}$ of $T$ used in the Strang splitting.
-        self.TE = exp(-0.5j * para.dt * para.eps**2 * self.omega**2 / para.f**2)
+        self.TE = exp(-0.5j * para["dt"] * para["eps"]**2 * self.omega**2 / para["f"]**2)
 
-        self.potential.calculate_exponential(-0.5j * para.dt / para.eps**2)
+        self.potential.calculate_exponential(-0.5j * para["dt"] / para["eps"]**2)
         #: Exponential $\exp\ofs{V}$ of $V$ used in the Strang splitting.
         self.VE = self.potential.evaluate_exponential_at(self.nodes)
 

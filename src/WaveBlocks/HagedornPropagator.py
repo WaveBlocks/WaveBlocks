@@ -50,8 +50,8 @@ class HagedornPropagator(Propagator):
 
         # Cache some parameter values for efficiency
         self.parameters = parameters
-        self.dt = parameters.dt
-        self.eps = parameters.eps
+        self.dt = parameters["dt"]
+        self.eps = parameters["eps"]
 
         # Decide about the matrix exponential algorithm to use
         if parameters.has_key("matrix_exponential"):
