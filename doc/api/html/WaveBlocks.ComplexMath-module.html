@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.ComplexMath</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;ComplexMath
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.ComplexMath-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ComplexMath</h1><p class="nomargin-top"><span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html">source&nbsp;code</a></span></p>
+<p>The WaveBlocks Project</p>
+  <p>Some selected functions for complex math.</p>
+
+<hr />
+<div class="fields">      <p><strong>Author:</strong>
+        R. Bourquin
+      </p>
+      <p><strong>Copyright:</strong>
+        Copyright (C) 2011 R. Bourquin
+      </p>
+      <p><strong>License:</strong>
+        Modified BSD License
+      </p>
+</div><!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.ComplexMath-module.html#continuate" class="summary-sig-name">continuate</a>(<span class="summary-sig-arg">data</span>,
+        <span class="summary-sig-arg">jump</span>=<span class="summary-sig-default">6.28318530718</span>,
+        <span class="summary-sig-arg">reference</span>=<span class="summary-sig-default">0.0</span>)</span><br />
+      Make the given data continuous by removing all jumps of size k*jump
+      but not touching jumps of any other size.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#continuate">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.ComplexMath-module.html#cont_angle" class="summary-sig-name">cont_angle</a>(<span class="summary-sig-arg">data</span>,
+        <span class="summary-sig-arg">reference</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the angle of a complex number *not* constrained to the
+      principal value and avoiding discontinuities at the branch cut.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#cont_angle">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.ComplexMath-module.html#cont_sqrt" class="summary-sig-name">cont_sqrt</a>(<span class="summary-sig-arg">data</span>,
+        <span class="summary-sig-arg">reference</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the complex square root (following the Riemann surface)
+      yields a result *not* constrained to the principal value and avoiding
+      discontinuities at the branch cut.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#cont_sqrt">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'WaveBlocks'"><code class="variable-quote">'</code><code class="variable-string">WaveBlocks</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="continuate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">continuate</span>(<span class="sig-arg">data</span>,
+        <span class="sig-arg">jump</span>=<span class="sig-default">6.28318530718</span>,
+        <span class="sig-arg">reference</span>=<span class="sig-default">0.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#continuate">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+
+  <p>Make the given data continuous by removing all jumps of size k*jump
+  but not touching jumps of any other size. This can be used to overcome
+  issues with the branch cut along the negative axis.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>data</code></strong> - An array with the input data.</li>
+        <li><strong class="pname"><code>jump</code></strong> - The basic size of jumps which will be removed. Default is 2*pi.</li>
+        <li><strong class="pname"><code>reference</code></strong> - This value allows the specify the starting point for continuation
+          explicitely. It can be used together with <i>data</i> beeing a
+          single number.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        There may be issues with jumps that are of size nearly k*jump.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cont_angle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cont_angle</span>(<span class="sig-arg">data</span>,
+        <span class="sig-arg">reference</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#cont_angle">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+
+  <p>Compute the angle of a complex number *not* constrained to the
+  principal value and avoiding discontinuities at the branch cut.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>data</code></strong> - An array with the input data.</li>
+        <li><strong class="pname"><code>reference</code></strong> - This value allows the specify the starting point for continuation
+          explicitely. It can be used together with <i>data</i> beeing a
+          single number.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This function just applies 'continuate(.)' to the complex phase.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cont_sqrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cont_sqrt</span>(<span class="sig-arg">data</span>,
+        <span class="sig-arg">reference</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ComplexMath-pysrc.html#cont_sqrt">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+
+  <p>Compute the complex square root (following the Riemann surface) yields
+  a result *not* constrained to the principal value and avoiding
+  discontinuities at the branch cut.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>data</code></strong> - An array with the input data.</li>
+        <li><strong class="pname"><code>reference</code></strong> - This value allows the specify the starting point for continuation
+          explicitely. It can be used together with <i>data</i> beeing a
+          single number.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This function applies 'continuate(.)' to the complex phase and
+        computes the complex square root according to the formula $\sqrt{z}
+        = \sqrt{r} \cdot \exp \left( i \cdot rac{\phi}{2}
+ight)$
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:58 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -56,21 +56,37 @@
 <a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
 <a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
 <a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains some global defaults, for example file names for output files.</tt> </tt>
-<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
-<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
-<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
-<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
-<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
-<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-comment"># Some global parameters related to file naming</tt> </tt>
-<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_autogen_configs=WaveBlocks.GlobalDefaults-module.html#path_to_autogen_configs"><a title="WaveBlocks.GlobalDefaults.path_to_autogen_configs" class="py-name" href="#" onclick="return doclink('link-0', 'path_to_autogen_configs', 'link-0');">path_to_autogen_configs</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"autogen_configurations"</tt> </tt>
-<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_configs=WaveBlocks.GlobalDefaults-module.html#path_to_configs"><a title="WaveBlocks.GlobalDefaults.path_to_configs" class="py-name" href="#" onclick="return doclink('link-1', 'path_to_configs', 'link-1');">path_to_configs</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"configurations"</tt> </tt>
-<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_results=WaveBlocks.GlobalDefaults-module.html#path_to_results"><a title="WaveBlocks.GlobalDefaults.path_to_results" class="py-name" href="#" onclick="return doclink('link-2', 'path_to_results', 'link-2');">path_to_results</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"results"</tt> </tt>
-<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt>
-<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_metaconfiguration=WaveBlocks.GlobalDefaults-module.html#file_metaconfiguration"><a title="WaveBlocks.GlobalDefaults.file_metaconfiguration" class="py-name" href="#" onclick="return doclink('link-3', 'file_metaconfiguration', 'link-3');">file_metaconfiguration</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"metaconfiguration.py"</tt> </tt>
-<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt id="link-4" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_resultdatafile=WaveBlocks.GlobalDefaults-module.html#file_resultdatafile"><a title="WaveBlocks.GlobalDefaults.file_resultdatafile" class="py-name" href="#" onclick="return doclink('link-4', 'file_resultdatafile', 'link-4');">file_resultdatafile</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"simulation_results.hdf5"</tt> </tt>
-<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_batchconfiguration=WaveBlocks.GlobalDefaults-module.html#file_batchconfiguration"><a title="WaveBlocks.GlobalDefaults.file_batchconfiguration" class="py-name" href="#" onclick="return doclink('link-5', 'file_batchconfiguration', 'link-5');">file_batchconfiguration</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"batchconfiguration.py"</tt> </tt>
-<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring">If a I{ParameterProvider} instance is asked about a key which it does not know about</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">it tries to look it up here to see if a default value is available.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-comment"># Some global parameters related to file naming</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_autogen_configs=WaveBlocks.GlobalDefaults-module.html#path_to_autogen_configs"><a title="WaveBlocks.GlobalDefaults.path_to_autogen_configs" class="py-name" href="#" onclick="return doclink('link-0', 'path_to_autogen_configs', 'link-0');">path_to_autogen_configs</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"autogen_configurations"</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_configs=WaveBlocks.GlobalDefaults-module.html#path_to_configs"><a title="WaveBlocks.GlobalDefaults.path_to_configs" class="py-name" href="#" onclick="return doclink('link-1', 'path_to_configs', 'link-1');">path_to_configs</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"configurations"</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.path_to_results=WaveBlocks.GlobalDefaults-module.html#path_to_results"><a title="WaveBlocks.GlobalDefaults.path_to_results" class="py-name" href="#" onclick="return doclink('link-2', 'path_to_results', 'link-2');">path_to_results</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"results"</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_metaconfiguration=WaveBlocks.GlobalDefaults-module.html#file_metaconfiguration"><a title="WaveBlocks.GlobalDefaults.file_metaconfiguration" class="py-name" href="#" onclick="return doclink('link-3', 'file_metaconfiguration', 'link-3');">file_metaconfiguration</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"metaconfiguration.py"</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt id="link-4" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_resultdatafile=WaveBlocks.GlobalDefaults-module.html#file_resultdatafile"><a title="WaveBlocks.GlobalDefaults.file_resultdatafile" class="py-name" href="#" onclick="return doclink('link-4', 'file_resultdatafile', 'link-4');">file_resultdatafile</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"simulation_results.hdf5"</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.file_batchconfiguration=WaveBlocks.GlobalDefaults-module.html#file_batchconfiguration"><a title="WaveBlocks.GlobalDefaults.file_batchconfiguration" class="py-name" href="#" onclick="return doclink('link-5', 'file_batchconfiguration', 'link-5');">file_batchconfiguration</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"batchconfiguration.py"</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-comment"># Defaults for some simulation configuration parameters</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt class="py-comment"># Matrix exponential algorithm</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt id="link-6" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.matrix_exponential=WaveBlocks.GlobalDefaults-module.html#matrix_exponential"><a title="WaveBlocks.GlobalDefaults.matrix_exponential" class="py-name" href="#" onclick="return doclink('link-6', 'matrix_exponential', 'link-6');">matrix_exponential</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"pade"</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt id="link-7" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.arnoldi_steps=WaveBlocks.GlobalDefaults-module.html#arnoldi_steps"><a title="WaveBlocks.GlobalDefaults.arnoldi_steps" class="py-name" href="#" onclick="return doclink('link-7', 'arnoldi_steps', 'link-7');">arnoldi_steps</a></tt> <tt class="py-op">=</tt> <tt class="py-number">20</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt class="py-comment"># Default values about when to save the results</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"><tt id="link-8" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.write_nth=WaveBlocks.GlobalDefaults-module.html#write_nth"><a title="WaveBlocks.GlobalDefaults.write_nth" class="py-name" href="#" onclick="return doclink('link-8', 'write_nth', 'link-8');">write_nth</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.save_at=WaveBlocks.GlobalDefaults-module.html#save_at"><a title="WaveBlocks.GlobalDefaults.save_at" class="py-name" href="#" onclick="return doclink('link-9', 'save_at', 'link-9');">save_at</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-comment"># The space dimension is always 1 for now</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt id="link-10" class="py-name" targets="Variable WaveBlocks.GlobalDefaults.dimension=WaveBlocks.GlobalDefaults-module.html#dimension"><a title="WaveBlocks.GlobalDefaults.dimension" class="py-name" href="#" onclick="return doclink('link-10', 'dimension', 'link-10');">dimension</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -100,7 +116,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 20 19:31:36 2011
+    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:59 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
