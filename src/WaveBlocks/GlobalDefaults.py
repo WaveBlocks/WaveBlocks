@@ -1,6 +1,8 @@
 """The WaveBlocks Project
 
 This file contains some global defaults, for example file names for output files.
+If a I{ParameterProvider} instance is asked about a key which it does not know about
+it tries to look it up here to see if a default value is available.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
@@ -16,6 +18,16 @@ file_metaconfiguration = "metaconfiguration.py"
 file_resultdatafile = "simulation_results.hdf5"
 file_batchconfiguration = "batchconfiguration.py"
 
+
+# Defaults for some simulation configuration parameters
+
 # Matrix exponential algorithm
 matrix_exponential = "pade"
 arnoldi_steps = 20
+
+# Default values about when to save the results
+write_nth = 0
+save_at = []
+
+# The space dimension is always 1 for now
+dimension = 1
