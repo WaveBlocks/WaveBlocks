@@ -36,8 +36,8 @@ def load_data(resultspath):
         
         iom.open_file(filename=resultsfile)
         parameters = iom.get_parameters()
-        number_components = parameters.ncomponents
-        axisdata.append(parameters.eps)
+        number_components = parameters["ncomponents"]
+        axisdata.append(parameters["eps"])
 
         ekin, epot = iom.load_energy()
         ekindata.append(ekin)

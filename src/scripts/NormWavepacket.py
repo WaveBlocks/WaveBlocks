@@ -31,7 +31,7 @@ def compute_norm(f, datablock=0):
     coeffs = f.load_wavepacket_coefficients(block=datablock)
 
     # A data transformation needed by API specification
-    coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
+    coeffs = [ [ coeffs[i,j,:] for j in xrange(p["ncomponents"]) ] for i in xrange(nrtimesteps)]
 
     # Initialize a Hagedorn wavepacket with the data
     HAWP = HagedornWavepacket(p)

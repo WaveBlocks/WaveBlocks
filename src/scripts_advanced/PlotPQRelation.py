@@ -38,7 +38,7 @@ def read_data_inhomogeneous(f):
     """
     parameters = f.get_parameters()
     timegrid = f.load_inhomogwavepacket_timegrid()
-    time = timegrid * params.dt
+    time = timegrid * params["dt"]
     
     timegrid = f.load_inhomogwavepacket_timegrid()
     Pi = f.load_inhomogwavepacket_parameters()

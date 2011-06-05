@@ -21,7 +21,7 @@ def read_data(f):
     """
     params = f.get_parameters()    
     timegrid = f.load_energy_timegrid()
-    time = timegrid * params.dt
+    time = timegrid * params["dt"]
         
     ekin, epot = f.load_energy(split=True)
 

@@ -18,14 +18,15 @@ def add_wavefunction(self, parameters, timeslots=None, block=0):
     # Create the dataset with appropriate parameters
     if timeslots is None:
         # This case is event based storing
-        daset_psi = grp_wf.create_dataset("Psi", (1, parameters.ncomponents, parameters.ngn), dtype=np.complexfloating, chunks=(1, parameters.ncomponents, parameters.ngn))
+        daset_psi = grp_wf.create_dataset("Psi", (1, parameters["ncomponents"], parameters["ngn"]),
+                                          dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], parameters["ngn"]))
         daset_psi_tg = grp_wf.create_dataset("timegrid", (timeslots,), dtype=np.integer, chunks=(1,))
 
         daset_psi.resize(0, axis=0)
         daset_psi_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_psi = grp_wf.create_dataset("Psi", (timeslots, parameters.ncomponents, parameters.ngn), dtype=np.complexfloating)
+        daset_psi = grp_wf.create_dataset("Psi", (timeslots, parameters["ncomponents"], parameters["ngn"]), dtype=np.complexfloating)
         daset_psi_tg = grp_wf.create_dataset("timegrid", (timeslots,), dtype=np.integer)
         
     daset_psi_tg.attrs["pointer"] = 0

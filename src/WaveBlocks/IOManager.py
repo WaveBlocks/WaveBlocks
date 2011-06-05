@@ -146,11 +146,10 @@ class IOManager:
 
 
     def update_simulation_parameters(self, parameters):
-        # Brute force implementation which will fail
-        # if the new parameters are not a superset of
-        # the old ones!
+        params = self.get_parameters()
         self.delete_simulation_parameters()
-        self.save_simulation_parameters(parameters)
+        params.update_parameters(parameters)
+        self.save_simulation_parameters(params)
     
 
     def delete_simulation_parameters(self):

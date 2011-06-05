@@ -56,10 +56,10 @@ def load_data(resultspath, which_norm="wf"):
         parameters_f = iom_f.get_parameters()
         parameters_h = iom_h.get_parameters()
         
-        number_components = parameters_f.ncomponents
+        number_components = parameters_f["ncomponents"]
 
         # Scalar parameter that discriminates the simulations
-        axisdata.append(parameters_f.eps)
+        axisdata.append(parameters_f["eps"])
 
         # Get the data
         grid = iom_f.load_grid()
