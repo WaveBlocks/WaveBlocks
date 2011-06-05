@@ -38,60 +38,54 @@ class NonAdiabaticSpawner(Spawner):
             self.max_order = 1
 
 
-    def estimate_parameters(self, packet, components=[]):
+    def estimate_parameters(self, packet, component=0):
         """Compute the parameters for a new wavepacket.
         """
-        estimated_params = []
+        P, Q, S, p, q = packet.get_parameters(component=component)
 
-        for acomp in components:
-            P, Q, S, p, q = packet.get_parameters(component=acomp)
+        c = packet.get_coefficients(component=component)
+        c = np.squeeze(c)
 
-            c = packet.get_coefficients(component=acomp)
-            c = np.squeeze(c)
+        w = spla.norm(c)**2
 
-            w = spla.norm(c)**2
+        if w < self.threshold**2:
+            print(" Warning: really small w! Nothing to spawn!")
+            return None
 
-            if w < self.threshold**2:
-                print(" Warning: really small w! Nothing to spawn!")
-                estimated_params.append(None)
-                continue
+        # Some temporary values
+        k = np.arange(1, self.basis_size)
+        ck   = c[1:]
+        ckm1 = c[:-1]
 
-            # Some temporary values
-            k = np.arange(1, self.basis_size)
-            ck   = c[1:]
-            ckm1 = c[:-1]
+        tmp = np.sum( np.conj(ck) * ckm1 * np.sqrt(k) )
 
-            tmp = np.sum( np.conj(ck) * ckm1 * np.sqrt(k) )
-            
-            # Compute spawning position and impulse
-            # TODO: Check 1/w
-            a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
-            b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
-            
-            # theta_1
-            k = np.arange(0, self.basis_size)
-            ck = c[:]
-            theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
-            
-            # theta_2
-            k = np.arange(0, self.basis_size-2)
-            ck   = c[:-2]
-            ckp2 = c[2:]
-            theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
-            
-            # Compute other parameters
-            # TODO: Check about 1/w and first term
-            A = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
-            B = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
-            
-            # Normalize
-            # Really? Why?
-            A = np.sqrt(A)
-            B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
+        # Compute spawning position and impulse
+        # TODO: Check 1/w
+        a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
+        b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
 
-            estimated_params.append((B, A, S, b, a))
+        # theta_1
+        k = np.arange(0, self.basis_size)
+        ck = c[:]
+        theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
 
-        return estimated_params
+        # theta_2
+        k = np.arange(0, self.basis_size-2)
+        ck   = c[:-2]
+        ckp2 = c[2:]
+        theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
+
+        # Compute other parameters
+        # TODO: Check about 1/w and first term
+        A = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
+        B = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
+
+        # Normalize
+        # Really? Why?
+        A = np.sqrt(A)
+        B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
+
+        return (B, A, S, b, a)
 
 
     def project_coefficients(self, mother, child, component=0):

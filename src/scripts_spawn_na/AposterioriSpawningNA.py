@@ -14,14 +14,14 @@ import sys
 import numpy as np
 from scipy import linalg as spla
 
-from WaveBlocks import NonAdiabaticSpawner
+from WaveBlocks import ParameterProvider
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import ParameterProvider
+from WaveBlocks import NonAdiabaticSpawner
 
 
-def aposteriori_spawning(fin, fout, pin, pout):
+def aposteriori_spawning(fin, fout, pin, pout, components=None, save_canonical=False):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.    
@@ -48,7 +48,11 @@ def aposteriori_spawning(fin, fout, pin, pout):
     SWP.set_quadrator(None)
 
     # Initialize a Spawner
-    AS = NonAdiabaticSpawner(pout)
+    NAS = NonAdiabaticSpawner(pout)
+
+    # Try spawning for these components, if none is given, try it for all.
+    if components is None:
+        components = range(pin["ncomponents"])
 
     # Iterate over all timesteps and spawn
     for i, step in enumerate(timesteps):
@@ -63,19 +67,21 @@ def aposteriori_spawning(fin, fout, pin, pout):
         T = HAWP.clone()
         T.project_to_eigen(Potential)
 
-        # Try spawning a new packet
-        estps = AS.estimate_parameters(T, components=range(pin["ncomponents"]))
+        # Try spawning a new packet for each component
+        estps = [ NAS.estimate_parameters(T, component=acomp) for acomp in components ]
 
         for index, ps in enumerate(estps):
             if ps is not None:
                 U = SWP.clone()
-
-                # Project the coefficients to the spawned packet
                 U.set_parameters(ps)
-                AS.project_coefficients(T, U, component=index)
+                
+                # Project the coefficients to the spawned packet
+                NAS.project_coefficients(T, U, component=components[index])
 
                 # Transform back
-                U.project_to_canonical(Potential)
+                if save_canonical is True:
+                    T.project_to_canonical(Potential)
+                    U.project_to_canonical(Potential)
 
                 # Save the mother packet rest
                 fout.save_wavepacket_parameters(T.get_parameters(), timestep=step, block=2*index)
@@ -116,8 +122,9 @@ if __name__ == "__main__":
     # reading values from a configuration file
     parametersout["algorithm"] = "spawning_apost_na"
     parametersout["spawn_threshold"] = 1e-10
-    parametersout["spawn_max_order"] = 3
+    parametersout["spawn_max_order"] = 4
     parametersout["spawn_normed_gaussian"] = False
+    parametersout["spawn_components"] = [1]
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()
@@ -128,7 +135,7 @@ if __name__ == "__main__":
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
 
     # Allocate all the data blocks
-    for i in xrange(2*parametersin["ncomponents"]):
+    for i in xrange(2*len(parametersout["spawn_components"])):
         if i == 0:
             iomout.add_grid(parametersout)
             iomout.save_grid(iomin.load_grid())
@@ -138,7 +145,7 @@ if __name__ == "__main__":
         iomout.add_wavepacket(parametersout, block=i)
     
     # Really do the aposteriori spawning simulation
-    aposteriori_spawning(iomin, iomout, parametersin, parametersout)
+    aposteriori_spawning(iomin, iomout, parametersin, parametersout, components=parametersout["spawn_components"])
 
     # Close the inpout/output files
     iomin.finalize()
