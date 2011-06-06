@@ -22,7 +22,7 @@ def read_data_homogeneous(f):
     """
     parameters = f.get_parameters()
     timegrid = f.load_wavepacket_timegrid()
-    time = timegrid * parameters.dt
+    time = timegrid * parameters["dt"]
 
     Pi = f.load_wavepacket_parameters()
 
@@ -44,7 +44,7 @@ def read_data_inhomogeneous(f):
     Pi = f.load_inhomogwavepacket_parameters()
 
     # Number of components
-    N = parameters.ncomponents
+    N = parameters["ncomponents"]
 
     Phist = [ Pi[i][:,0] for i in xrange(N) ]
     Qhist = [ Pi[i][:,1] for i in xrange(N) ]
@@ -80,9 +80,9 @@ if __name__ == "__main__":
 
     parameters = iom.get_parameters()
 
-    if parameters.algorithm == "hagedorn":
+    if parameters["algorithm"] == "hagedorn":
         data = read_data_homogeneous(iom)
-    elif parameters.algorithm == "multihagedorn":
+    elif parameters["algorithm"] == "multihagedorn":
         data = read_data_inhomogeneous(iom)
     else:
         iom.finalize()

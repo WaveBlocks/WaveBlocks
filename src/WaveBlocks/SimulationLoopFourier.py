@@ -49,7 +49,7 @@ class SimulationLoopFourier(SimulationLoop):
         @raise ValueError: For invalid or missing input data.
         """        
         # Compute the position space grid points
-        nodes = self.parameters.f * sp.pi * sp.arange(-1, 1, 2.0/self.parameters.ngn, dtype=np.complexfloating) 
+        nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating) 
 
         # The potential instance
         potential = PF.create_potential(self.parameters)
@@ -99,7 +99,7 @@ class SimulationLoopFourier(SimulationLoop):
                 hwp.set_parameters(item)
                 
                 # Set the coefficients of the basis functions
-                for index, value in self.parameters.coefficients[level]:
+                for index, value in self.parameters["coefficients"][level]:
                     hwp.set_coefficient(0, index, value)
 
                 iv = hwp.evaluate_at(nodes, component=0, prefactor=True)

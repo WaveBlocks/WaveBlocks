@@ -34,7 +34,7 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         self.IOManager = None
 
         #: The number of time steps we will perform.
-        self.nsteps = parameters.nsteps
+        self.nsteps = parameters["nsteps"]
 
         # Set up serializing of simulation data
         self.IOManager = IOManager()
@@ -52,22 +52,22 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         N = potential.get_number_components()
         
         # Check for enough initial values
-        if self.parameters.leading_component > N:
+        if self.parameters["leading_component"] > N:
             raise ValueError("Leading component index out of range.")
         
-        if len(self.parameters.parameters) < N:
+        if len(self.parameters["parameters"]) < N:
             raise ValueError("Too few initial states given. Parameters are missing.")
             
-        if len(self.parameters.coefficients) < N:
+        if len(self.parameters["coefficients"]) < N:
             raise ValueError("Too few initial states given. Coefficients are missing.")
         
         # Create a suitable wave packet
         packet = HagedornWavepacket(self.parameters)
-        packet.set_parameters(self.parameters.parameters[self.parameters.leading_component])
+        packet.set_parameters(self.parameters["parameters"][self.parameters["leading_component"]])
         packet.set_quadrator(None)
         
         # Set the initial values
-        for component, data in enumerate(self.parameters.coefficients):
+        for component, data in enumerate(self.parameters["coefficients"]):
             for index, value in data:
                 packet.set_coefficient(component, index, value)
         
@@ -75,7 +75,7 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         packet.project_to_canonical(potential)
         
         # Finally create and initialize the propagator instace
-        self.propagator = SpawnAdiabaticPropagator(potential, packet, self.parameters.leading_component, self.parameters)
+        self.propagator = SpawnAdiabaticPropagator(potential, packet, self.parameters["leading_component"], self.parameters)
 
         # Which data do we want to save
         tm = self.parameters.get_timemanager()
@@ -87,7 +87,7 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         self.IOManager.add_wavepacket(self.parameters, block=1)
 
         # Write some initial values to disk
-        nodes = self.parameters.f * sp.pi * sp.arange(-1, 1, 2.0/self.parameters.ngn, dtype=np.complexfloating)
+        nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
         self.IOManager.save_grid(nodes)
 
         packet = self.propagator.get_wavepacket(packet=0)

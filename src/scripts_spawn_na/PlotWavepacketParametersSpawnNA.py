@@ -38,7 +38,7 @@ def read_data_spawn(f, assume_duplicate_mother=False):
 
     # Load the data from each block
     for block in blocks:
-        timegrids.append( parameters.dt * f.load_wavepacket_timegrid(block=block) )
+        timegrids.append( parameters["dt"] * f.load_wavepacket_timegrid(block=block) )
 
         Pi = f.load_wavepacket_parameters(block=block)
         Phist = Pi[:,0]

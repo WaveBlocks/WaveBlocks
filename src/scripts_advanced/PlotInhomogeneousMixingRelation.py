@@ -21,12 +21,12 @@ def load_data(f):
     """
     parameters = f.get_parameters()
     timegrid = f.load_inhomogwavepacket_timegrid()
-    time = timegrid * parameters.dt
+    time = timegrid * parameters["dt"]
     
     Pi = f.load_inhomogwavepacket_parameters()
 
     # Number of components
-    N = parameters.ncomponents
+    N = parameters["ncomponents"]
 
     Phist = [ Pi[i][:,0] for i in xrange(N) ]
     Qhist = [ Pi[i][:,1] for i in xrange(N) ]
@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
     parameters = iom.get_parameters()
 
-    if parameters.algorithm != "multihagedorn":
+    if parameters["algorithm"] != "multihagedorn":
         sys.exit("Can only postprocess multihagedorn algorithm data. Silent return ...")
 
     plot_data(*load_data(iom))

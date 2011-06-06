@@ -38,11 +38,11 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         print(" Timestep # " + str(step))
 
         wave = f.load_wavefunction(timestep=step)
-        values = [ wave[j,...] for j in xrange(parameters.ncomponents) ]
+        values = [ wave[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Transform the values to the eigenbasis
         # TODO: improve this:
-        if parameters.algorithm == "fourier":
+        if parameters["algorithm"] == "fourier":
             ve = Potential.project_to_eigen(grid, values, eigenvectors)
         else:
             ve = values
@@ -51,7 +51,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         fig = figure(figsize=imgsize)
         
         for index, component in enumerate(ve):
-            ax = fig.add_subplot(parameters.ncomponents,1,index+1)
+            ax = fig.add_subplot(parameters["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             
             if plotcomponents is True:
@@ -72,7 +72,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
                 ax.set_xlim(view[:2])
                 ax.set_ylim(view[2:])
             
-        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters.dt)+r"$")
+        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
         fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
         

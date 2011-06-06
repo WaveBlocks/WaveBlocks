@@ -99,8 +99,8 @@ def plot_frames_inhomogeneous(f, view=None):
 
 
 def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(12,9)):
-    n = parameters.ncomponents
-    k = array(range(parameters.basis_size))
+    n = parameters["ncomponents"]
+    k = array(range(parameters["basis_size"]))
     
     # Start new plot
     fig = figure(figsize=imgsize)
@@ -128,13 +128,13 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(12,9)
 
         # axis formatting:
         m = max(abs(c))
-        ax2.set_xlim(-1,parameters.basis_size)
+        ax2.set_xlim(-1,parameters["basis_size"])
         ax2.set_ylim(-1.1*m, 1.1*m)
         
         ax2.set_xlabel(r"$k$")
         ax2.set_ylabel(r"$|c|$")
 
-    fig.suptitle(r"Time $"+str(step*parameters.dt)+r"$")
+    fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
     fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
     close(fig)
 
@@ -153,9 +153,9 @@ if __name__ == "__main__":
     # The axes rectangle that is plotted
     view = [-5.5, 5.5, -1.5, 1.5]
 
-    if parameters.algorithm == "hagedorn":
+    if parameters["algorithm"] == "hagedorn":
         plot_frames_homogeneous(iom, view=view)
-    elif parameters.algorithm == "multihagedorn":
+    elif parameters["algorithm"] == "multihagedorn":
         plot_frames_inhomogeneous(iom, view=view)
     else:
         iom.finalize()

@@ -75,7 +75,7 @@ class IOManager:
         # Create the file if it does not yet exist.
         # Otherwise raise an exception and avoid overwriting data.
         if os.path.lexists(filename):
-            raise ValueError("Output file already exists!")        
+            raise IOError("Output file already exists!")        
         else:
             f = self.srf = hdf.File(filename)
             f.attrs["number_blocks"] = 0

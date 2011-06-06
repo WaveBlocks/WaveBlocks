@@ -101,8 +101,8 @@ def plot_frames_inhomogeneous(f, view=None):
 
 
 def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12)):
-    n = parameters.ncomponents
-    k = array(range(parameters.basis_size))
+    n = parameters["ncomponents"]
+    k = array(range(parameters["basis_size"]))
 
     # This is only for a single level
     y = values[0]
@@ -167,12 +167,12 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     # axis formatting:
     m = max(abs(cb))
-    ax4.set_xlim(K0-1,parameters.basis_size)
+    ax4.set_xlim(K0-1,parameters["basis_size"])
     ax4.set_ylim(0, 1.1*m)
     ax4.set_xlabel(r"$k \ge K_0$")
     ax4.set_ylabel(r"$|c|$")
 
-    fig.suptitle(r"Time $"+str(step*parameters.dt)+r"$")
+    fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
     fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
     close(fig)
 

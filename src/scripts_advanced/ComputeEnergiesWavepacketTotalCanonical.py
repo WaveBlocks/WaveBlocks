@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     parameters = iom.get_parameters()
 
-    if parameters.algorithm == "hagedorn":
+    if parameters["algorithm"] == "hagedorn":
         compute_energy(iom)
 
     else:
