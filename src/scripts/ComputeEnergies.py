@@ -22,27 +22,24 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    # Iterate over all blocks
+    for block in xrange(iom.get_number_blocks()):
+        print("Computing the energies in data block "+str(block))
 
-    if parameters["algorithm"] == "fourier":
-        import EnergiesWavefunction
-        EnergiesWavefunction.compute_energy(iom)
+        # See if we have an inhomogeneous wavepacket in the current data block
+        if iom.has_inhomogwavepacket(block=block):
+            import EnergiesWavepacketInhomog
+            EnergiesWavepacketInhomog.compute_energy(iom, block=block)
+        # If not, we test for a homogeneous wavepacket next
+        elif iom.has_wavepacket(block=block):
+            import EnergiesWavepacket
+            EnergiesWavepacket.compute_energy(iom, block=block)
+        # If we have no wavepacket, then we try for a wavefunction
+        elif iom.has_wavefunction(block=block):
+            import EnergiesWavefunction
+            EnergiesWavefunction.compute_energy(iom, block=block)
+        # If there is also no wavefunction, then there is nothing to compute the energies
+        else:
+            print("Warning: Not computing any energies in block "+str(block)+"!")
 
-    elif parameters["algorithm"] == "hagedorn":
-        import EnergiesWavepacket
-        EnergiesWavepacket.compute_energy(iom)
-
-    elif parameters["algorithm"] == "multihagedorn":
-        import EnergiesWavepacketInhomog
-        EnergiesWavepacketInhomog.compute_energy(iom)
-
-    elif (parameters["algorithm"] == "spawning_apost" or
-          parameters["algorithm"] == "spawning_adiabatic"):
-        import EnergiesWavepacket
-        EnergiesWavepacket.compute_energy(iom, datablock=0)
-        EnergiesWavepacket.compute_energy(iom, datablock=1)
-        
-    else:
-        raise ValueError("Unknown propagator algorithm.")
-    
     iom.finalize()

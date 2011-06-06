@@ -13,33 +13,32 @@ import sys
 from numpy import real, imag, abs
 from matplotlib.pyplot import *
 
-from WaveBlocks import ComplexMath 
+from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = iom.get_parameters()
-    ndb = iom.get_number_blocks()
-
     # Iterate over all blocks and plot their data
-    for block in xrange(ndb):
+    for block in xrange(iom.get_number_blocks()):
         if iom.has_wavepacket(block=block):
             plot_parameters(read_data_homogeneous(iom, block=block), index=block)
         elif  iom.has_inhomogwavepacket():
             plot_parameters(read_data_inhomogeneous(iom, block=block), index=block)
 
 
-def read_data_homogeneous(f, block=0):
+def read_data_homogeneous(iom, block=0):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_wavepacket_timegrid(block=block)
+    parameters = iom.get_parameters()
+    timegrid = iom.load_wavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 
-    Pi = f.load_wavepacket_parameters(block=block)
+    Pi = iom.load_wavepacket_parameters(block=block)
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -50,15 +49,16 @@ def read_data_homogeneous(f, block=0):
     return (time, Phist, Qhist, Shist, phist, qhist)
 
 
-def read_data_inhomogeneous(f, block=0):
+def read_data_inhomogeneous(iom, block=0):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_inhomogwavepacket_timegrid(block=block)
+    parameters = iom.get_parameters()
+    timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
-    
-    Pi = f.load_inhomogwavepacket_parameters(block=block)
+
+    Pi = iom.load_inhomogwavepacket_parameters(block=block)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -76,8 +76,10 @@ def plot_parameters(data, index=0):
     """Plot the data parameters (P, Q, S, p, q) over time.
     For each new I{index} we start a new figure.
     """
+    print("Plotting the parameters of data block "+str(index))
+
     timegrid, Phist, Qhist, Shist, phist, qhist = data
-        
+
     # Plot the time evolution of the parameters P, Q, S, p and q
     fig = figure(figsize=(12,12))
 

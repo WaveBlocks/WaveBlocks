@@ -11,30 +11,35 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
 
 
-def compute_norm(f, datablock=0):
+def compute_norm(iom, block=0):
     """Compute the norm of a wavepacket timeseries.
-    @param f: An I{IOManager} instance providing the simulation data.
-    @keyword datablock: The data block where the results are.
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
     """
-    p = f.get_parameters()
+    parameters = iom.get_parameters()
 
     # Number of time steps we saved
-    timesteps = f.load_wavepacket_timegrid(block=datablock)
+    timesteps = iom.load_wavepacket_timegrid(block=block)
     nrtimesteps = timesteps.shape[0]
 
-    # We want to save norms, thus add a data slot to the data file
-    f.add_norm(p, timeslots=nrtimesteps, block=datablock)
+    Potential = PotentialFactory.create_potential(parameters)
 
-    Potential = PotentialFactory.create_potential(p)
-    
-    params = f.load_wavepacket_parameters(block=datablock)
-    coeffs = f.load_wavepacket_coefficients(block=datablock)
+    # Retrieve simulation data
+    params = iom.load_wavepacket_parameters(block=block)
+    coeffs = iom.load_wavepacket_coefficients(block=block)
 
     # A data transformation needed by API specification
-    coeffs = [ [ coeffs[i,j,:] for j in xrange(p["ncomponents"]) ] for i in xrange(nrtimesteps)]
+    coeffs = [ [ coeffs[i,j,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps)]
+
+    # We want to save norms, thus add a data slot to the data file
+    iom.add_norm(parameters, timeslots=nrtimesteps, block=block)
+
+    # Hack for allowing data blocks with different basis size than the global one
+    # todo: remove when we got local parameter sets
+    parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     # Initialize a Hagedorn wavepacket with the data
-    HAWP = HagedornWavepacket(p)
+    HAWP = HagedornWavepacket(parameters)
     HAWP.set_quadrator(None)
 
     # Iterate over all timesteps
@@ -50,4 +55,4 @@ def compute_norm(f, datablock=0):
         norm = HAWP.get_norm()
 
         # Save the norms
-        f.save_norm(norm, timestep=step, block=datablock)
+        iom.save_norm(norm, timestep=step, block=block)
