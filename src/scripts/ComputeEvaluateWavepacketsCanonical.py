@@ -14,36 +14,28 @@ from WaveBlocks import IOManager
 
 
 if __name__ == "__main__":
-    
+
     iom = IOManager()
-    
+
     # Read file with simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
         iom.open_file()
-        
-    parameters = iom.get_parameters()
 
-    if parameters["algorithm"] == "fourier":
-        # Nothing to do for Fourier propagator
-        pass
+    # Iterate over all blocks
+    for block in xrange(iom.get_number_blocks()):
+        print("Evaluating wavepackets in data block "+str(block))
+        # See if we have an inhomogeneous wavepacket in the current data block
+        if iom.has_inhomogwavepacket(block=block):
+            import EvaluateWavepacketsInhomog
+            EvaluateWavepacketsInhomog.compute_evaluate_wavepackets(iom, block=block, basis="canonical")
+        # If not, we test for a homogeneous wavepacket next
+        elif iom.has_wavepacket(block=block):
+            import EvaluateWavepackets
+            EvaluateWavepackets.compute_evaluate_wavepackets(iom, block=block, basis="canonical")
+        # If there is also no wavefunction, then there is nothing to compute the norm
+        else:
+            print("Warning: Not evaluating any wavepackets in block "+str(block)+"!")
 
-    elif parameters["algorithm"] == "hagedorn":
-        import EvaluateWavepackets
-        EvaluateWavepackets.compute_evaluate_wavepackets(iom, basis="canonical")
-
-    elif parameters["algorithm"] == "multihagedorn":
-        import EvaluateWavepacketsInhomog
-        EvaluateWavepacketsInhomog.compute_evaluate_wavepackets(iom, basis="canonical")
-
-    elif (parameters["algorithm"] == "spawning_apost" or
-          parameters["algorithm"] == "spawning_adiabatic"):
-        import EvaluateWavepackets
-        EvaluateWavepackets.compute_evaluate_wavepackets(iom, basis="canonical")
-        EvaluateWavepackets.compute_evaluate_wavepackets(iom, basis="canonical", datablock=1)
-        
-    else:
-        raise ValueError("Unknown propagator algorithm.")
-    
     iom.finalize()

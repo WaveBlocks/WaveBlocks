@@ -8,8 +8,6 @@ This file contains the Hagedorn propagator class for inhomogeneous wavepackets.
 """
 
 from functools import partial
-import numpy as np
-import scipy as sp
 
 import GlobalDefaults
 from WaveFunction import WaveFunction

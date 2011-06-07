@@ -1,6 +1,6 @@
 """The WaveBlocks Project
 
-Plot the wavefunctions probability densities in the eigenbase.
+Plot the wavefunctions probability densities in the eigenbasis.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
@@ -16,28 +16,27 @@ from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf
 
 
-def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
+def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     @keyword view: The aspect ratio.
     @keyword plotphase: Whether to plot the complex phase. (slow)
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
     @keyword plotabssqr: Whether to plot the absolute value squared.
     """
-    parameters = f.get_parameters()
-    
-    grid = f.load_grid()
+    parameters = iom.get_parameters()
+
+    grid = iom.load_grid(block=block)
+    timegrid = iom.load_wavefunction_timegrid(block=block)
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
-    timegrid = f.load_wavefunction_timegrid()
-
     for step in timegrid:
-        print(" Timestep # " + str(step))
+        print(" Plotting frame of timestep # " + str(step))
 
-        wave = f.load_wavefunction(timestep=step)
+        wave = iom.load_wavefunction(block=block, timestep=step)
         values = [ wave[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Transform the values to the eigenbasis
@@ -49,11 +48,11 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
 
         # Plot the probability densities projected to the eigenbasis
         fig = figure(figsize=imgsize)
-        
+
         for index, component in enumerate(ve):
             ax = fig.add_subplot(parameters["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
-            
+
             if plotcomponents is True:
                 ax.plot(grid, real(component))
                 ax.plot(grid, imag(component))
@@ -64,33 +63,40 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
             if plotphase is True:
                 plotcf(grid, angle(component), component*conj(component))
                 ax.set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
-            
+
             ax.set_xlabel(r"$x$")
 
             # Set the aspect window
             if view is not None:
                 ax.set_xlim(view[:2])
                 ax.set_ylim(view[2:])
-            
+
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
+        fig.savefig("wavefunction_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +".png")
         close(fig)
-        
+
     print(" Plotting frames finished")
 
 
 if __name__ == "__main__":
     iom = IOManager()
-    
+
     # Read file with simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
         iom.open_file()
-    
+
     # The axes rectangle that is plotted
     view = [-3.5, 3.5, -0.1, 3.5]
-    
-    plot_frames(iom, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
-    
+
+    # Iterate over all blocks and plot their data
+    for block in xrange(iom.get_number_blocks()):
+        print("Plotting frames of data block "+str(block))
+        # See if we have wavefunction values
+        if iom.has_wavefunction(block=block):
+            plot_frames(iom, block=block, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
+        else:
+            print("Warning: Not plotting any wavefunctions in block "+str(block)+"!")
+
     iom.finalize()

@@ -138,7 +138,6 @@ class NonAdiabaticSpawner(Spawner):
 
         # Quadrature rule, assume same quadrature order for both packets
         QR = mother.get_quadrator()
-        R = QR.get_order()
 
         # Mix the parameters for quadrature
         (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
@@ -166,6 +165,7 @@ class NonAdiabaticSpawner(Spawner):
 
         # Project to the basis of the spawned wavepacket
         # Original, inefficient code for projection
+        # R = QR.get_order()
         # for i in xrange(max_order):
         #     # Loop over all quadrature points
         #     tmp = 0.0j

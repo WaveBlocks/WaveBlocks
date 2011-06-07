@@ -10,7 +10,6 @@ for wavepackets and gaussian spawning.
 
 from functools import partial
 import numpy as np
-import scipy as sp
 import scipy.linalg as spla
 
 from Propagator import Propagator
