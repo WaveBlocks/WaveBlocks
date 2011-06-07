@@ -23,7 +23,7 @@ class SpawnAdiabaticPropagator(Propagator):
     Hagedorn wavepacket."""
 
     def __init__(self, potential, packet, leading_component, parameters):
-        """Initialize a new I{HagedornPropagator} instance. 
+        """Initialize a new I{HagedornPropagator} instance.
         @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
         @param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.
         @param leading_component: The leading component index $\chi$.
@@ -32,7 +32,7 @@ class SpawnAdiabaticPropagator(Propagator):
         """
         if packet.get_number_components() != potential.get_number_components():
             raise ValueError("Wave packet does not match to the given potential!")
-        
+
         #: The potential $V\ofs{x}$ the packet feels.
         self.potential = potential
 
@@ -60,22 +60,14 @@ class SpawnAdiabaticPropagator(Propagator):
         self.already_spawned = False
 
         # Decide about the matrix exponential algorithm to use
-        if parameters.has_key("matrix_exponential"):
-            method = parameters["matrix_exponential"]
-        else:
-            method = GlobalDefaults.matrix_exponential
+        method = parameters["matrix_exponential"]
 
         if method == "pade":
             from MatrixExponential import matrix_exp_pade
             self.__dict__["matrix_exponential"] = matrix_exp_pade
         elif method == "arnoldi":
             from MatrixExponential import matrix_exp_arnoldi
-
-            if parameters.has_key("arnoldi_steps"):
-                arnoldi_steps = parameters["arnoldi_steps"]
-            else:
-                arnoldi_steps = min(parameters["basis_size"], GlobalDefaults.arnoldi_steps)
-
+            arnoldi_steps = min(parameters["basis_size"], parameters["arnoldi_steps"])
             self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
         else:
             raise ValueError("Unknown matrix exponential algorithm")
@@ -83,13 +75,13 @@ class SpawnAdiabaticPropagator(Propagator):
         # Precalculate the potential splitting
         self.potential.calculate_local_quadratic(diagonal_component=self.leading)
         self.potential.calculate_local_remainder(diagonal_component=self.leading)
-        
-        
+
+
     def __str__(self):
         """Prepare a printable string representing the I{HagedornPropagator} instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components.\n Leading component is " + str(self.leading) + "."
-        
-        
+
+
     def get_number_components(self):
         """@return: The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$."""
         return self.number_components
@@ -129,7 +121,7 @@ class SpawnAdiabaticPropagator(Propagator):
 
             # Initialize a Spawner
             AS = AdiabaticSpawner(self.parameters)
-            
+
             # Spawn a new packet
             ps = AS.estimate_parameters(self.packets[-1], 0)
 
@@ -140,27 +132,27 @@ class SpawnAdiabaticPropagator(Propagator):
                 self.number_packets += 1
                 self.packets.append(SWP)
 
-        
+
         # Propagate all packets
-        for packet in self.packets:            
+        for packet in self.packets:
             # Do a kinetic step of dt/2
             packet.q = packet.q + 0.5*dt * packet.p
             packet.Q = packet.Q + 0.5*dt * packet.P
             packet.S = packet.S + 0.25*dt * packet.p**2
-            
-            # Do a potential step with the local quadratic part            
+
+            # Do a potential step with the local quadratic part
             V = self.potential.evaluate_local_quadratic_at(packet.q)
-            
+
             packet.p = packet.p - dt * V[1]
             packet.P = packet.P - dt * V[2] * packet.Q
             packet.S = packet.S - dt * V[0]
-            
+
             # Do a potential step with the local non-quadratic taylor remainder
             F = packet.matrix(self.potential.evaluate_local_remainder_at)
-            coefficients = packet.get_coefficient_vector()            
+            coefficients = packet.get_coefficient_vector()
             coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
             packet.set_coefficient_vector(coefficients)
-            
+
             # Do a kinetic step of dt/2
             packet.q = packet.q + 0.5 * dt * packet.p
             packet.Q = packet.Q + 0.5 * dt * packet.P
@@ -175,7 +167,7 @@ class SpawnAdiabaticPropagator(Propagator):
 
         c = self.packets[0].get_coefficients()
         c = np.squeeze(c[0][:])
-        
+
         c_low = c[:self.K]
         c_high = c[self.K:]
 

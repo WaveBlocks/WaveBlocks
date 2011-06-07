@@ -26,7 +26,7 @@ class ParameterProvider:
     def __getattr__(self, key):
         print(" Depreceated __getattr__ for key "+str(key)+" at ParameterProvider instance!")
         return self.params[key]
-    
+
 
     def __getitem__(self, key):
         # See if we have a parameter with specified name
@@ -34,11 +34,12 @@ class ParameterProvider:
             return self.params[key]
         else:
             # If not, try to find a global default value for it and copy over this value
+            print("Warning: parameter '"+str(key)+"' not found, now trying global defaults!")
             if GlobalDefaults.__dict__.has_key(key):
                 self.__setitem__(key, deepcopy(GlobalDefaults.__dict__[key]))
                 return self.params[key]
             else:
-                raise ValueError("Could not find (default) value for the parameter " + str(key))
+                raise KeyError("Could not find a default value for parameter "+str(key)+"!")
 
 
     def __setitem__(self, key, value):
@@ -46,7 +47,7 @@ class ParameterProvider:
 
 
     def __contains__(self, key):
-        return self.has_key(key)
+        return self.params.has_key(key)
 
 
     def __iter__(self):
@@ -61,7 +62,7 @@ class ParameterProvider:
 
     def has_key(self, key):
         return self.params.has_key(key)
-    
+
 
     def get_configuration_variables(self, _scriptcode):
         """Clean environment for reading in local parameters.
@@ -73,7 +74,7 @@ class ParameterProvider:
         # Filter out private variables (the ones prefixed by "_")
         # instances like "self" and imported modules.
         parameters = locals().items()
-        
+
         parameters = [ item for item in parameters if not type(item[1]) == types.ModuleType ]
         parameters = [ item for item in parameters if not type(item[1]) == types.InstanceType ]
         parameters = [ item for item in parameters if not item[0].startswith("_") ]
@@ -87,7 +88,7 @@ class ParameterProvider:
         # Perform the computation only if the basic values are available.
         # This is necessary to add flexibility and essentially read in *any*
         # parameter file with heavily incomplete value sets. (F.e. spawn configs)
-        if self.has_key("T") and self.has_key("dt"):
+        if self.params.has_key("T") and self.params.has_key("dt"):
             self._tm = TimeManager()
             self._tm.set_T(self["T"])
             self._tm.set_dt(self["dt"])
@@ -96,12 +97,13 @@ class ParameterProvider:
             self._tm.set_interval(self["write_nth"])
 
             # Set the fixed times for saving data
-            self._tm.add_to_savelist(self["save_at"])
+            if self.has_key("save_at"):
+                self._tm.add_to_savelist(self["save_at"])
 
             # The number of time steps we will perform.
             self.params["nsteps"] = self._tm.compute_number_timesteps()
 
-        if self.has_key("potential"):
+        if self.params.has_key("potential"):
             # Ugly hack. Should improve handling of potential libraries
             Potential = PF.create_potential(self)
             # Number of components of $\Psi$
@@ -152,12 +154,12 @@ class ParameterProvider:
         """
         if isinstance(params, ParameterProvider):
             params = params.get_parameters()
-        
+
         for key, value in params.iteritems():
             self.__setitem__(key, value)
         # Compute some values on top of the given input parameters
         self.compute_parameters()
-        
+
 
     def get_timemanager(self):
         """Return the embedded I{TimeManager} instance.
@@ -192,14 +194,14 @@ class ParameterProvider:
 
         except KeyError:
             pass
-            
+
         s += "------------------------------------\n"
         s += "All parameters provided\n"
         s += "------------------------------------\n"
 
         keys = self.params.keys()
         keys.sort()
-        
+
         for key in keys:
             s += "  " + str(key) + ": " + str(self.params[key]) + "\n"
 
