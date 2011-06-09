@@ -1,6 +1,6 @@
 """The WaveBlocks Project
 
-function for stem-plotting functions of the type f:I -> C
+Function for stem-plotting functions of the type f:I -> C
 with abs(f) as y-value and phase(f) as color code.
 This function makes a stem plot.
 

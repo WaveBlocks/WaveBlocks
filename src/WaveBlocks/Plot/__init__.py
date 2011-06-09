@@ -8,3 +8,8 @@
 from legend import legend
 from plotcf import plotcf
 from stemcf import stemcf
+
+try:
+    from surfcf import surfcf
+except ImportError:
+    pass
