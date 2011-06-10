@@ -13,21 +13,21 @@ from enthought.mayavi import mlab
 from WaveBlocks.Plot import surfcf
 
 
-x, y = np.mgrid[-2*np.pi:2*np.pi:0.05, -2*np.pi:2*np.pi:0.05]
+x, y = np.mgrid[0:5*np.pi:0.05, 0:5*np.pi:0.05]
 
 # Plane waves:
-k = 5
-l = 3
-z = np.exp(-1.0j*k*x)*np.exp(-1.0j*l*y)
+k = 1
+l = 0
+z = np.exp(1.0j*k*x)*np.exp(1.0j*l*y)
 
 surfcf(x, y, np.angle(z), np.real(z))
-mlab.savefig("plane_wave_real.png")
+mlab.savefig("planewave_real_surfplot.png")
 mlab.close()
 
 surfcf(x, y, np.angle(z), np.imag(z))
-mlab.savefig("plane_wave_imag.png")
+mlab.savefig("planewave_imag_surfplot.png")
 mlab.close()
 
 surfcf(x, y, np.angle(z), np.conj(z)*z)
-mlab.savefig("plane_wave_abs.png")
+mlab.savefig("planewave_abs_surfplot.png")
 mlab.close()
