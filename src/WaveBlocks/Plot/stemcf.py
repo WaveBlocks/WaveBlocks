@@ -9,7 +9,7 @@ This function makes a stem plot.
 @license: Modified BSD License
 """
 
-from numpy import pi, empty, array, zeros, real
+from numpy import pi, empty, array, zeros, real, sign
 from matplotlib.colors import hsv_to_rgb
 from matplotlib.collections import LineCollection
 from matplotlib.pyplot import gca
@@ -29,7 +29,7 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
     """
     # Color mapping
     hsv_colors = empty((1, len(grid), 3))
-    hsv_colors[:, :, 0] = 0.5*(pi+phase)/pi
+    hsv_colors[:, :, 0] = 0.5*(phase+(1-sign(phase))*pi)/pi
     hsv_colors[:, :, 1] = 1.0
     hsv_colors[:, :, 2] = 1.0
     rgb_colors = hsv_to_rgb(hsv_colors)
@@ -58,3 +58,4 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
         axes.plot(grid, modulus, linestyle="", marker=markerp, color=color, **kwargs)
     # Plot the ground line
     axes.plot(grid, zeros(grid.shape), linestyle=linestylep, color="k", **kwargs)
+
