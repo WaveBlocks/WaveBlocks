@@ -8,7 +8,6 @@
 \usepackage{url}
 
 
-
 \title{The \texttt{WaveBlocks} Manual}
 \author{Raoul Bourquin}
 
@@ -36,13 +35,13 @@ name - that are well tested and reliable. The included features range from very
 simple mathematical things like specialised quadrature rules to basic data
 structures for semi-classical wavepackets to more high-level simulation algorithms
 and some non-standard plotting functions. Of course there are also routines
-included for saving, managing and evaluating simulations results in a flexible
+included for saving, managing and evaluating simulation results in a flexible
 manner. And all of these components are put together in an easy to use and easy
 to extend framework.
 
 The whole project is written in the \emph{python} programming language and put
 a strong emphasis on readable code and a clean software design, speed and
-efficiency are not the main concern.
+efficiency are not the main concern for the moment.
 
 \section{Download}
 
@@ -54,9 +53,12 @@ and the latest version can be found in the svn repository at
 \begin{center}
   \url{https://svn.origo.ethz.ch/waveblocks/}
 \end{center}
-Check out the \texttt{trunk} for the development version or
-one of the \texttt{tags} for stable and released versions.
-There are also older stable versions available as tarballs.
+Check out the \texttt{trunk} for the main development version or
+one of the \texttt{tags} for stable and released versions. There
+are also \texttt{branches} used for developing special features
+before they are ready to get merged into the trunk. Older stable
+versions are available as complete self-consistent tarballs.
+
 
 \section{Dependencies}
 
@@ -81,7 +83,13 @@ need the package.
         Matplotlib is used for plotting.
   \item \texttt{h5py}, available from \url{http://h5py.alfven.org/} \\
         H5py is the interface to the \emph{Hierarchical Data Format}.
+  \item \texttt{mayavi2}, available from \url{http://code.enthought.com/projects/mayavi/} \\
+        Mayavi2 is used for 3-dimensional plotting.
 \end{itemize}
+
+The \texttt{mayavi2} dependency is weak in the sense that the whole \texttt{WaveBlocks}
+code runs fine without it and only the (experimental) 3-dimensional plot functions
+are not available.
 
 The package \texttt{numdifftools} is already included in the program archive.
 You should put it somewhere within your \emph{python path}. (In the example installation
@@ -94,26 +102,104 @@ in case you want to look for a newer version.
 
 \section{Installation}
 
-Installing the \texttt{WaveBlocks} code itself is trivial. You just have to unpack
-the program archive and place the \texttt{WaveBlocks} directory (which contains the
-library part) somewhere in your file system. Make sure the location is within
-your \textit{python path} otherwise you'll have to adapt the environment variable
-\texttt{PYTHONPATH}. For example if you place the files at \verb|~/python/WaveBlocks/|
-then you have to adapt the python path as follows:
+In the following sections be sure not to mix up the name \texttt{WaveBlocks}
+that stands for the whole project and the subdirectory \texttt{WaveBlocks}
+which is the python library and a small subset of the whole project.
+
+\subsection*{Using a tarball}
+
+Installing the \texttt{WaveBlocks} code itself is trivial if you use one of the
+provided tarballs you just have to unpack the program archive and place the
+directories \texttt{src/WaveBlocks} (which contains the library part of \texttt{WaveBlocks})
+and \texttt{src/numdifftools} somewhere in your file system. Make sure the
+location is within your \textit{python path} otherwise you'll have to adapt the
+environment variable \texttt{PYTHONPATH}.
+
+For example if you place these two directories below \verb|~/python| then you have
+to adapt the python path as follows:
 
 \begin{verbatim}
   export PYTHONPATH="$PYTHONPATH:~/python"
 \end{verbatim}
 
 You can write this line into your \texttt{.bashrc} file or any comparable file
-for you default shell.
+for your default shell. (Otherwise this information is gone when you close the
+shell.)
 
-The scripts that perform simulations, data evaluation and plotting can now be
-called from anywhere. It's best to put them all together in a directory where
-you plan to work and perform simulations.
+\subsection*{From the repository}
+
+If you want to check out the source code from the repository, the necessary
+steps are similar. First check out the code (we assume here you want to use
+the trunk) into a new directory (here \verb|~/WBT|)
+
+\begin{verbatim}
+  svn co https://svn.origo.ethz.ch/waveblocks/trunk ~/WBT
+\end{verbatim}
+
+The directory listing should now look like
+
+\begin{verbatim}
+  ls ~/WBT/
+  demos  doc  src ...
+\end{verbatim}
+
+and we find the source code below \texttt{src},
+
+\begin{verbatim}
+  ls ~/WBT/src
+  numdifftools  plotters_simple  README  scripts
+  scripts_advanced  tests  WaveBlocks ...
+\end{verbatim}
+
+Assume we want to install any custom python software locally below \verb|~/python|
+so we create this directory and put all the things there. We start
+with the \texttt{numdifftools} python package.
+
+\begin{verbatim}
+  mkdir ~/python
+  cp -r ~/WBT/src/numdifftools/ ~/python
+\end{verbatim}
+
+We can just copy the files as they won't change in the svn repository
+often. But it's a wise idea not to copy \verb|~/WBT/src/WaveBlocks| but
+just use symbolic links. (If you have multiple checkouts this is also
+a way to choose which one will be used when you just type \texttt{import WaveBlocks}
+at a python prompt.) You may just follow the shell commands given
+here for a working sample setup. First we create the necessary
+directory structure and the we soft-link the files.
+
+\begin{verbatim}
+  mkdir ~/python/WaveBlocks
+  mkdir ~/python/WaveBlocks/Plot
+  ln -s ~/WBT/src/WaveBlocks/*.py ~/python/WaveBlocks/
+  ln -s ~/WBT/src/WaveBlocks/Plot/*.py ~/python/WaveBlocks/Plot/
+\end{verbatim}
+
+Finally we have to adapt the \emph{python path} to include the directory
+\verb|~/python| which can be done as follows:
+
+\begin{verbatim}
+  export PYTHONPATH="$PYTHONPATH:~/python"
+\end{verbatim}
+
+You can write this line into your \texttt{.bashrc} file or any comparable file
+for your default shell. (Otherwise this information is gone when you close the
+shell.)
+
+\subsection*{The scripts}
+
+The scripts (everything in \texttt{src/scripts*}, \texttt{src/plotters*} and \texttt{src/tests*})
+that perform simulations, data evaluation and plotting can now be put and called
+from anywhere as these file are just plain python scripts that \emph{import} the
+\texttt{WaveBlocks} python module. It's best to put these scripts all together
+in a directory where you plan to work and perform simulations.
+
+\section{Supported computing platforms}
 
 The \texttt{WaveBlocks} code should run on Windows and Mac OS X too provided
 that the required python dependencies are installed. However, we did not test it.
+
+
 
 
 \chapter{Using \texttt{WaveBlocks} for performing simulations}
