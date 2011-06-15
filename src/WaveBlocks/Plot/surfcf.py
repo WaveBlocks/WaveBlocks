@@ -9,7 +9,7 @@ This function makes a 3D surface plot.
 @license: Modified BSD License
 """
 
-from numpy import linspace, pi, exp, angle, squeeze, ones, real, sign
+from numpy import linspace, pi, exp, angle, squeeze, ones, real, fmod
 from matplotlib.colors import hsv_to_rgb
 from enthought.mayavi import mlab
 
@@ -19,7 +19,7 @@ def compute_color_map():
     """
     k = linspace(-pi, pi, 256, endpoint=True)
     hsv_colors = ones((1, k.shape[0], 3))
-    hsv_colors[:,:, 0] = 0.5*(k+(1-sign(k))*pi)/pi
+    hsv_colors[:,:, 0] = 0.5*fmod(k+2*pi,2*pi)/pi
     return 255*squeeze(hsv_to_rgb(hsv_colors))
 
 
