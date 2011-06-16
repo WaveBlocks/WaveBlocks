@@ -44,10 +44,10 @@ class FourierPropagator(Propagator):
         #: The momentum space nodes $\omega$.
         self.omega = arange(0, para["ngn"]/2.0)
         self.omega = append(self.omega, arange(para["ngn"]/2.0, 0, -1))
-        
+
         #: The kinetic operator $T$ defined in momentum space.
         self.T = 0.5 * para["eps"]**4 * self.omega**2 / para["f"]**2
-        
+
         #: Exponential $\exp\ofs{T}$ of $T$ used in the Strang splitting.
         self.TE = exp(-0.5j * para["dt"] * para["eps"]**2 * self.omega**2 / para["f"]**2)
 
@@ -64,7 +64,7 @@ class FourierPropagator(Propagator):
     def get_number_components(self):
         """@return: The number of components of $\Ket{\Psi}$."""
         return self.potential.get_number_components()
-        
+
 
     def get_potential(self):
         """@return: The I{MatrixPotential} instance used for time propagation."""
@@ -89,27 +89,27 @@ class FourierPropagator(Propagator):
         """
         # How many states we have
         nst = self.Psi.get_number_components()
-        
+
         # Read values out of current WaveFunction state
         vals = self.Psi.get_values()
-        
+
         # Do the propagation
         tmp = [ zeros(vals[0].shape, dtype=complexfloating) for item in vals ]
         for row in xrange(0, nst):
             for col in xrange(0, nst):
                 tmp[row] = tmp[row] + self.VE[row*nst+col] * vals[col]
-                
+
         tmp = tuple([ fft(item) for item in tmp ])
-    
+
         tmp = tuple([ self.TE * item for item in tmp ])
-        
+
         tmp = tuple([ ifft(item) for item in tmp ])
-        
+
         values = [ zeros(tmp[0].shape, dtype=complexfloating) for item in tmp ]
         for row in xrange(0, nst):
             for col in xrange(0, nst):
                 values[row] = values[row] + self.VE[row*nst+col] * tmp[col]
-                
+
         # Write values back to WaveFunction object
         self.Psi.set_values(values)
 
@@ -127,6 +127,6 @@ class FourierPropagator(Propagator):
         """This method just delegates the calculation of potential energies to the
         embedded I{WaveFunction} object.
         @keyword summed: Whether to sum up the potential energies of the individual components.
-        @return: The potential energies. 
+        @return: The potential energies.
         """
         return self.Psi.potential_energy(self.V, summed=summed)
