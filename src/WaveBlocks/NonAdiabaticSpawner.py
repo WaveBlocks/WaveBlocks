@@ -1,7 +1,7 @@
 """The WaveBlocks Project
 
 This file conatins the code for spawning new wavepackets depending
-on some criterion. 
+on some criterion.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2011 R. Bourquin
@@ -75,15 +75,14 @@ class NonAdiabaticSpawner(Spawner):
 
         # Compute other parameters
         # todo: Check about first term
-        A = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
-        B = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
+        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
+        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
         #A = self.eps**2/(2*w) * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
         #B = self.eps**2/(2*w) * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
 
         # Transform
-        # Why?
-        A = np.sqrt(A)
-        B = (np.sqrt(A**2 * B - 1.0 + 0.0j) + 1.0j) / A
+        A = np.sqrt(Aabs2)
+        B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
 
         return (B, A, S, b, a)
 
@@ -142,13 +141,13 @@ class NonAdiabaticSpawner(Spawner):
         # Mix the parameters for quadrature
         (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
         (Ps, Qs, Ss, ps, qs) = child.get_parameters()
-        
+
         rm = Pm/Qm
         rs = Ps/Qs
-        
+
         r = np.conj(rm)-rs
         s = np.conj(rm)*qm - rs*qs
-        
+
         q0 = np.imag(s) / np.imag(r)
         Q0 = -0.5 * np.imag(r)
         QS = 1 / np.sqrt(Q0)
@@ -170,7 +169,7 @@ class NonAdiabaticSpawner(Spawner):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
-        #         tmp += np.conj(np.dot( c_old[:,0], basis_m[:,r] )) * basis_s[i,r] * weights[0,r]                
+        #         tmp += np.conj(np.dot( c_old[:,0], basis_m[:,r] )) * basis_s[i,r] * weights[0,r]
         #     c_new_s[i,0] = self.eps * QS * tmp
 
         # Optimised and vectorised code (in ugly formatting)
