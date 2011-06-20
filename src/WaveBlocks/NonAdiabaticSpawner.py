@@ -27,19 +27,25 @@ class NonAdiabaticSpawner(Spawner):
         # Configuration parameters related to spawning
         self.eps = parameters["eps"]
         self.threshold = parameters["spawn_threshold"]
-        if parameters.has_key("spawn_normed_gaussian"):
-            self.spawn_normed_gaussian = parameters["spawn_normed_gaussian"]
-        else:
-            self.spawn_normed_gaussian = True
-        if parameters.has_key("spawn_max_order"):
-            self.max_order = parameters["spawn_max_order"]
-        else:
-            self.max_order = 1
+
+        # The spawning method used, default is "lumping"
+        self.spawn_method = parameters["spawn_method"] if "spawn_method" in parameters else "lumping"
+
+        # The value of k for the (2*k+1) in the parameter estimation formula
+        # Do not confuse this with the K in the adiabatic spawning!
+        # The default 0 Corresponds to a Gaussian.
+        self.order = parameters["spawn_order"] if "spawn_order" in parameters else 0
+
+        # Only used for spawning method "projection"
+        self.max_order = parameters["spawn_max_order"] if "spawn_max_order" in  parameters else 1
 
 
-    def estimate_parameters(self, packet, component=0):
+    def estimate_parameters(self, packet, component=0, order=None):
         """Compute the parameters for a new wavepacket.
         """
+        if order is None:
+            order = self.order
+
         P, Q, S, p, q = packet.get_parameters(component=component)
 
         c = packet.get_coefficients(component=component)
@@ -74,35 +80,40 @@ class NonAdiabaticSpawner(Spawner):
         theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
 
         # Compute other parameters
-        # todo: Check about first term
-        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
-        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
-        #A = self.eps**2/(2*w) * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
-        #B = self.eps**2/(2*w) * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
+        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) ) / (2*order+1)
+        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) ) / (2*order+1)
 
         # Transform
         A = np.sqrt(Aabs2)
         B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
 
+        # Check out the last ambiguity of the sign
+        # TODO
+
         return (B, A, S, b, a)
 
 
-    def project_coefficients(self, mother, child, component=0):
+    def project_coefficients(self, mother, child, component=0, order=None):
         """Update the superposition coefficients of mother and
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
-        if self.spawn_normed_gaussian is True:
-            return self.normed_gaussian(mother, child, component)
+        if self.spawn_method == "lumping":
+            return self.spawn_lumping(mother, child, component, order=order)
+        elif self.spawn_method == "projection":
+            return self.spawn_basis_projection(mother, child, component, order=order)
         else:
-            return self.full_basis_projection(mother, child, component)
+            raise ValueError("Unknown spawning method '" + self.spawn_method + "'!")
 
 
-    def normed_gaussian(self, mother, child, component):
+    def spawn_lumping(self, mother, child, component, order=None):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
         takes the full norm <w|w> of w.
         """
+        if order is None:
+            order = self.order
+
         c_old = mother.get_coefficients(component=component)
         w = spla.norm(np.squeeze(c_old))
 
@@ -111,8 +122,8 @@ class NonAdiabaticSpawner(Spawner):
 
         # Spawned packet
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
-        # pure Gaussian
-        c_new_s[0,0] = 1.0
+        # Pure $\phi_order$ function
+        c_new_s[order,0] = 1.0
         # But normalized
         c_new_s = w * c_new_s
 
@@ -122,7 +133,7 @@ class NonAdiabaticSpawner(Spawner):
         return (mother, child)
 
 
-    def full_basis_projection(self, mother, child, component):
+    def spawn_basis_projection(self, mother, child, component, order=None):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.

@@ -7,6 +7,7 @@
 
 from QuadratureRule import QuadratureRule
 from GaussHermiteQR import GaussHermiteQR
+from TrapezoidalQR import TrapezoidalQR
 
 from HagedornWavepacket import HagedornWavepacket
 from HagedornMultiWavepacket import HagedornMultiWavepacket

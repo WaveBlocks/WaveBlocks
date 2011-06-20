@@ -1,7 +1,7 @@
 """The WaveBlocks Project
 
 This file conatins the code for spawning new wavepackets depending
-on some criterion. 
+on some criterion.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
@@ -27,14 +27,12 @@ class AdiabaticSpawner(Spawner):
         self.eps = parameters["eps"]
         self.K = parameters["spawn_K0"]
         self.threshold = parameters["spawn_threshold"]
-        if parameters.has_key("spawn_normed_gaussian"):
-            self.spawn_normed_gaussian = parameters["spawn_normed_gaussian"]
-        else:
-            self.spawn_normed_gaussian = True
-        if parameters.has_key("spawn_max_order"):
-            self.max_order = parameters["spawn_max_order"]
-        else:
-            self.max_order = 1
+
+        # The spawning method used, default is "lumping"
+        self.spawn_method = parameters["spawn_method"] if "spawn_method" in parameters else "lumping"
+
+        # Only used for spawning method "projection"
+        self.max_order = parameters["spawn_max_order"] if "spawn_max_order" in  parameters else 1
 
 
     def estimate_parameters(self, packet, component):
@@ -90,13 +88,15 @@ class AdiabaticSpawner(Spawner):
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
-        if self.spawn_normed_gaussian is True:
-            return self.normed_gaussian(mother, child, component)
+        if self.spawn_method == "lumping":
+            return self.spawn_lumping(mother, child, component)
+        elif self.spawn_method == "projection":
+            return self.spawn_basis_projection(mother, child, component)
         else:
-            return self.full_basis_projection(mother, child, component)
+            raise ValueError("Unknown spawning method '" + self.spawn_method + "'!")
 
 
-    def normed_gaussian(self, mother, child, component):
+    def spawn_lumping(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
         takes the full norm <w|w> of w.
@@ -121,7 +121,7 @@ class AdiabaticSpawner(Spawner):
         return (mother, child)
 
 
-    def full_basis_projection(self, mother, child, component):
+    def spawn_basis_projection(self, mother, child, component):
         """Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
@@ -141,13 +141,13 @@ class AdiabaticSpawner(Spawner):
         # Mix the parameters for quadrature
         (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
         (Ps, Qs, Ss, ps, qs) = child.get_parameters()
-        
+
         rm = Pm/Qm
         rs = Ps/Qs
-        
+
         r = np.conj(rm)-rs
         s = np.conj(rm)*qm - rs*qs
-        
+
         q0 = np.imag(s) / np.imag(r)
         Q0 = -0.5 * np.imag(r)
         QS = 1 / np.sqrt(Q0)
@@ -169,7 +169,7 @@ class AdiabaticSpawner(Spawner):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
-        #         tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[i,r] * weights[r]   
+        #         tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[i,r] * weights[r]
         #
         #     c_new_s[i,0] = self.eps * QS * tmp
 

@@ -5,7 +5,10 @@ algorithm = "spawning_apost"
 spawn_threshold = 1e-10
 
 # Index of the coefficient defining the intervall of relevant coefficients [K0, ..., Kmax]
-spawn_K0 = 100
+spawn_K0 = 0
 
-# Spawn a Gaussian by copying over the norm
-spawn_normed_gaussian = True
+# Spawn a packet $\phi_order$ by copying over the norm
+spawn_method = "projection"
+
+# Basis size of the spawned packet
+spawn_max_order = 12
