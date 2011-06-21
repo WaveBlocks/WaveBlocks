@@ -24,12 +24,12 @@ from WaveBlocks import NonAdiabaticSpawner
 def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
     """
     @param f: An I{IOManager} instance providing the simulation data.
-    @keyword datablock: The data block where the results are.    
+    @keyword datablock: The data block where the results are.
     """
     # Number of time steps we saved
     timesteps = fin.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
-    
+
     params = fin.load_wavepacket_parameters()
     coeffs = fin.load_wavepacket_coefficients()
 
@@ -42,7 +42,7 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
     HAWP.set_quadrator(None)
-    
+
     # Initialize an empty wavepacket for spawning
     SWP = HagedornWavepacket(pout)
     SWP.set_quadrator(None)
@@ -74,10 +74,39 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
 
         for index, ps in enumerate(estps):
             if ps is not None:
+                # One choice of the sign
                 U = SWP.clone()
                 U.set_parameters(ps)
-                
                 # Project the coefficients to the spawned packet
+                tmp = T.clone()
+                NAS.project_coefficients(tmp, U, component=components[index])
+
+                # Other choice of the sign
+                V = SWP.clone()
+                # Transform parameters
+                psm = list(ps)
+                B = ps[0]
+                Bm = -np.real(B)+1.0j*np.imag(B)
+                psm[0] = Bm
+                V.set_parameters(psm)
+                # Project the coefficients to the spawned packet
+                tmp = T.clone()
+                NAS.project_coefficients(tmp, V, component=components[index])
+
+                # Compute some inner products to finally determine which parameter set we use
+                parameters = {"eps":SWP.eps}
+                ou = abs(inner(parameters, T, U))
+                ov = abs(inner(parameters, T, V))
+
+                # Choose the packet which maximizes the inner product.
+                # This is the main point!
+                if ou >= ov:
+                    U = U
+                else:
+                    U = V
+
+                # Finally do the spawning, this is essentially to get the remainder T right
+                # The packet U is already ok by now.
                 NAS.project_coefficients(T, U, component=components[index])
 
                 # Transform back
@@ -92,6 +121,54 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
                 # Save the spawned packet
                 fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, block=2*index+1)
                 fout.save_wavepacket_coefficients(U.get_coefficients(), timestep=step, block=2*index+1)
+
+
+
+def inner(parameters, P1, P2, QR=None):
+    """Compute the inner product between two wavepackets.
+    """
+    # todo: Refactor this and put it into an own file/class!
+
+    # Quadrature for <orig, s1>
+    c1 = P1.get_coefficients(component=0)
+    c2 = P2.get_coefficients(component=0)
+
+    # Assuming same quadrature rule for both packets
+    # Implies same basis size!
+    if QR is None:
+        QR = P1.get_quadrator()
+
+    # Mix the parameters for quadrature
+    (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
+    (Ps, Qs, Ss, ps, qs) = P2.get_parameters()
+
+    rm = Pm/Qm
+    rs = Ps/Qs
+
+    r = np.conj(rm)-rs
+    s = np.conj(rm)*qm - rs*qs
+
+    q0 = np.imag(s) / np.imag(r)
+    Q0 = -0.5 * np.imag(r)
+    QS = 1 / np.sqrt(Q0)
+
+    # The quadrature nodes and weights
+    nodes = q0 + parameters["eps"] * QS * QR.get_nodes()
+    weights = QR.get_weights()
+
+    # Basis sets for both packets
+    basis_1 = P1.evaluate_base_at(nodes, prefactor=True)
+    basis_2 = P2.evaluate_base_at(nodes, prefactor=True)
+
+    R = QR.get_order()
+
+    # Loop over all quadrature points
+    tmp = 0.0j
+    for r in xrange(R):
+        tmp += np.conj(np.dot( c1[:,0], basis_1[:,r] )) * np.dot( c2[:,0], basis_2[:,r]) * weights[0,r]
+    result = parameters["eps"] * QS * tmp
+
+    return result
 
 
 
@@ -119,7 +196,7 @@ if __name__ == "__main__":
     if parametersin["algorithm"] != "hagedorn":
         iomin.finalize()
         raise ValueError("Unknown propagator algorithm.")
-    
+
     # Parameters for spawning simulation
     parametersout = ParameterProvider()
 
@@ -132,7 +209,7 @@ if __name__ == "__main__":
     # How much time slots do we need
     tm = parametersout.get_timemanager()
     slots = tm.compute_number_saves()
-    
+
     # Second IOM for output data of the spawning simulation
     iomout = IOManager()
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
@@ -151,7 +228,7 @@ if __name__ == "__main__":
         else:
             # Block for spawned packet
             iomout.add_wavepacket(parametersout, block=i)
-    
+
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)
 
