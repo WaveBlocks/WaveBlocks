@@ -457,7 +457,7 @@ class HagedornWavepacket:
         @note: This is the inverse of the method I{to_real_space()}.
         """
         # The Fourier transformed parameters
-        Pihat = (self.Q, self.P, self.S, -self.q, self.p)
+        Pihat = (1.0*self.Q, -1.0*self.P, self.S, -self.q, self.p)
         # Compute phase coming from the transformation
         k = arange(0, self.basis_size).reshape((self.basis_size, 1))
         phase = (-1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
@@ -481,18 +481,18 @@ class HagedornWavepacket:
         @note: This is the inverse of the method I{to_fourier_space()}.
         """
         # The Fourier transformed parameters
-        Pihat = (self.Q, self.P, self.S, self.q, -self.p)
+        Pi = (-1.0*self.Q, 1.0*self.P, self.S, self.q, -self.p)
         # Compute phase coming from the transformation
         k = arange(0, self.basis_size).reshape((self.basis_size, 1))
-        phase = (-1.0j)**k * exp(1.0j*self.p*self.q / self.eps**2)
+        phase = (1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
         # Absorb phase into the coefficients
-        coeffshat = [ phase * coeff for coeff in self.get_coefficients() ]
+        coeffs = [ phase * coeff for coeff in self.get_coefficients() ]
 
         if assign is True:
-            self.set_parameters(Pihat)
-            self.set_coefficients(coeffshat)
+            self.set_parameters(Pi)
+            self.set_coefficients(coeffs)
         else:
             RWP = self.clone()
-            RWP.set_parameters(Pihat)
-            RWP.set_coefficients(coeffshat)
+            RWP.set_parameters(Pi)
+            RWP.set_coefficients(coeffs)
             return RWP
