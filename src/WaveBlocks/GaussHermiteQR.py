@@ -66,13 +66,13 @@ class GaussHermiteQR(QuadratureRule):
     def get_nodes(self):
         """@return: An array containing the quadrature nodes $\gamma_i$.
         """
-        return self.nodes
+        return self.nodes.copy()
 
 
     def get_weights(self):
         """@return: An array containing the quadrature weights $\omega_i$.
         """
-        return self.weights
+        return self.weights.copy()
 
 
     def hermite_recursion(self, nodes):

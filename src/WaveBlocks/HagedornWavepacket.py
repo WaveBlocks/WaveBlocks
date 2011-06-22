@@ -8,7 +8,7 @@ This file contains the class which represents a homogeneous Hagedorn wavepacket.
 """
 
 from functools import partial
-from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, transpose, squeeze
+from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, transpose, squeeze, arange
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
@@ -72,7 +72,7 @@ class HagedornWavepacket:
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
         other._cont_sqrt_cache = self._cont_sqrt_cache
-        
+
         return other
 
 
@@ -411,7 +411,7 @@ class HagedornWavepacket:
             self.set_coefficient_vector(d)
         else:
             return d
-    
+
 
     def project_to_eigen(self, potential, assign=True):
         """Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.
@@ -424,7 +424,7 @@ class HagedornWavepacket:
         # The canonical and eigenbasis are identical here.
         if potential.get_number_components() == 1:
             return
-        
+
         potential.calculate_eigenvectors()
 
         # Basically an ugly hack to overcome some shortcomings of the matrix function
@@ -448,3 +448,51 @@ class HagedornWavepacket:
             self.set_coefficient_vector(d)
         else:
             return d
+
+
+    def to_fourier_space(self, assign=True):
+        """Transform the wavepacket to Fourier space.
+        @keyword assign: Whether to assign the transformation to
+        this packet or return a cloned packet.
+        @note: This is the inverse of the method I{to_real_space()}.
+        """
+        # The Fourier transformed parameters
+        Pihat = (self.Q, self.P, self.S, -self.q, self.p)
+        # Compute phase coming from the transformation
+        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
+        phase = (-1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
+        # Absorb phase into the coefficients
+        coeffshat = [ phase * coeff for coeff in self.get_coefficients() ]
+
+        if assign is True:
+            self.set_parameters(Pihat)
+            self.set_coefficients(coeffshat)
+        else:
+            FWP = self.clone()
+            FWP.set_parameters(Pihat)
+            FWP.set_coefficients(coeffshat)
+            return FWP
+
+
+    def to_real_space(self, assign=True):
+        """Transform the wavepacket to real space.
+        @keyword assign: Whether to assign the transformation to
+        this packet or return a cloned packet.
+        @note: This is the inverse of the method I{to_fourier_space()}.
+        """
+        # The Fourier transformed parameters
+        Pihat = (self.Q, self.P, self.S, self.q, -self.p)
+        # Compute phase coming from the transformation
+        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
+        phase = (-1.0j)**k * exp(1.0j*self.p*self.q / self.eps**2)
+        # Absorb phase into the coefficients
+        coeffshat = [ phase * coeff for coeff in self.get_coefficients() ]
+
+        if assign is True:
+            self.set_parameters(Pihat)
+            self.set_coefficients(coeffshat)
+        else:
+            RWP = self.clone()
+            RWP.set_parameters(Pihat)
+            RWP.set_coefficients(coeffshat)
+            return RWP
