@@ -8,7 +8,7 @@ This file contains the class which represents an inhomogeneous Hagedorn wavepack
 """
 
 from functools import partial
-from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, imag, transpose, squeeze
+from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, imag, transpose, squeeze, arange
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
@@ -36,7 +36,7 @@ class HagedornMultiWavepacket:
 
         if self.basis_size < 2:
             raise ValueError("Number of basis fucntions for hagedorn wavepacket has to be >= 2.")
-        
+
         # Cache the parameter values epsilon we will use over and over again.
         self.eps = parameters["eps"]
 
@@ -50,13 +50,30 @@ class HagedornMultiWavepacket:
         self.quadrator = None
 
         self._cont_sqrt_cache = [ 0.0 for i in xrange(self.number_components) ]
-        
+
 
     def __str__(self):
         """@return: A string describing the Hagedorn wavepacket.
         """
         s =  "Hagedorn multi wave packet for "+str(self.number_components)+" states\n"
         return s
+
+
+    def clone(self):
+        # Parameters of this packet
+        params = {"ncomponents": self.number_components,
+                  "basis_size":  self.basis_size,
+                  "eps":         self.eps}
+
+        # Create a new Packet
+        other = HagedornMultiWavepacket(params)
+        # And copy over all (private) data
+        other.set_quadrator(self.get_quadrator())
+        other.set_parameters(self.get_parameters())
+        other.set_coefficients(self.get_coefficients())
+        other._cont_sqrt_cache = [ cache for cache in self._cont_sqrt_cache ]
+
+        return other
 
 
     def get_number_components(self):
@@ -70,9 +87,9 @@ class HagedornMultiWavepacket:
 
 
     def set_coefficients(self, values, component=None):
-        """Update the coefficients $c$ of $\Psi$. 
+        """Update the coefficients $c$ of $\Psi$.
         @param values: The new values of the coefficients $c^i$ of $\Phi_i$.
-        @param component: The index $i$ of the component we want to update with new coefficients. 
+        @param component: The index $i$ of the component we want to update with new coefficients.
         @note: This function can either set new coefficients for a single component
         $\Phi_i$ only if the I{component} attribute is set or for all components
         simultaneously if I{values} is a list of arrays.
@@ -199,7 +216,7 @@ class HagedornMultiWavepacket:
         if prefactor is True:
             sqrtQ, self._cont_sqrt_cache[component] = cont_sqrt(Q, reference=self._cont_sqrt_cache[component])
             H = 1.0/sqrtQ*H
-        
+
         return H
 
 
@@ -302,7 +319,7 @@ class HagedornMultiWavepacket:
 
         for row in xrange(self.number_components):
             for col in xrange(self.number_components):
-                
+
                 (Pr, Qr, Sr, pr, qr) = self.parameters[row]
                 (Pc, Qc, Sc, pc, qc) = self.parameters[col]
 
@@ -429,7 +446,7 @@ class HagedornMultiWavepacket:
         # The canonical and eigenbasis are identical here.
         if potential.get_number_components() == 1:
             return
- 
+
         potential.calculate_eigenvectors()
 
         # Basically an ugly hack to overcome some shortcomings of the matrix function
@@ -472,3 +489,52 @@ class HagedornMultiWavepacket:
         c = self.get_coefficient_vector()
         d = dot(F, c)
         self.set_coefficient_vector(d)
+
+
+    def to_fourier_space(self, assign=True):
+        """Transform the wavepacket to Fourier space.
+        @keyword assign: Whether to assign the transformation to
+        this packet or return a cloned packet.
+        @note: This is the inverse of the method I{to_real_space()}.
+        """
+        # The Fourier transformed parameters
+        Pihats = [ (1.0j*Q, -1.0j*P, S, -q, p) for P,Q,S,p,q in self.parameters ]
+        # Compute phase coming from the transformation
+        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
+        phases = [ (-1.0j)**k * exp(-1.0j*p*q / self.eps**2) for P,Q,S,p,q in self.parameters ]
+        # Absorb phase into the coefficients
+        coeffshat = [ phase * coeffs for phase, coeffs in zip(phases, self.get_coefficients()) ]
+
+        if assign is True:
+            self.set_parameters(Pihats)
+            self.set_coefficients(coeffshat)
+        else:
+            FWP = self.clone()
+            FWP.set_parameters(Pihats)
+            FWP.set_coefficients(coeffshat)
+            return FWP
+
+
+    def to_real_space(self, assign=True):
+        """Transform the wavepacket to real space.
+        @keyword assign: Whether to assign the transformation to
+        this packet or return a cloned packet.
+        @note: This is the inverse of the method I{to_fourier_space()}.
+        """
+        # The inverse Fourier transformed parameters
+        Pi = [ (1.0j*Q, -1.0j*P, S, q, -p) for P,Q,S,p,q in self.parameters ]
+        # Compute phase coming from the transformation
+        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
+        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
+        phases = [ (1.0j)**k * exp(-1.0j*p*q / self.eps**2) for P,Q,S,p,q in self.parameters ]
+        # Absorb phase into the coefficients
+        coeffs = [ phase * coeffs for phase, coeffs in zip(phases, self.get_coefficients()) ]
+
+        if assign is True:
+            self.set_parameters(Pi)
+            self.set_coefficients(coeffs)
+        else:
+            RWP = self.clone()
+            RWP.set_parameters(Pi)
+            RWP.set_coefficients(coeffs)
+            return RWP

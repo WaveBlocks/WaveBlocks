@@ -457,7 +457,7 @@ class HagedornWavepacket:
         @note: This is the inverse of the method I{to_real_space()}.
         """
         # The Fourier transformed parameters
-        Pihat = (1.0*self.Q, -1.0*self.P, self.S, -self.q, self.p)
+        Pihat = (1.0j*self.Q, -1.0j*self.P, self.S, -self.q, self.p)
         # Compute phase coming from the transformation
         k = arange(0, self.basis_size).reshape((self.basis_size, 1))
         phase = (-1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
@@ -480,8 +480,8 @@ class HagedornWavepacket:
         this packet or return a cloned packet.
         @note: This is the inverse of the method I{to_fourier_space()}.
         """
-        # The Fourier transformed parameters
-        Pi = (-1.0*self.Q, 1.0*self.P, self.S, self.q, -self.p)
+        # The inverse Fourier transformed parameters
+        Pi = (1.0j*self.Q, -1.0j*self.P, self.S, self.q, -self.p)
         # Compute phase coming from the transformation
         k = arange(0, self.basis_size).reshape((self.basis_size, 1))
         phase = (1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
