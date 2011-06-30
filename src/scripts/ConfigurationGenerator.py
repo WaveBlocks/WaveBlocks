@@ -27,17 +27,17 @@ def sort_statements(alist):
     # todo: Rewrite and improve this using reflection
 
     ordered_statements= []
-    
+
     while len(alist) > 0:
         curlen = len(alist)
-        
+
         # Try to execute each statement right now
         for item in alist:
             try:
-                exec(item)                
+                exec(item)
             except NameError:
                 continue
-            
+
             # Ah, we suceeded, append the statement to the ordered list.
             ordered_statements.append(item)
             alist.remove(item)
@@ -124,9 +124,9 @@ def generate_configurations(gp, lp, cfname="Parameters", cfpath=GlobalDefaults.p
     @keyword cfpath: The path where the new configuration files will be placed.
     It is interpreted relative to ".".
     """
-    # Check if the destination for the new configuration files is prepared                                                                                 
+    # Check if the destination for the new configuration files is prepared
     configpath = os.path.join(".", cfpath)
-    
+
     if not os.path.lexists(configpath):
         os.mkdir(configpath)
     else:
@@ -137,7 +137,7 @@ def generate_configurations(gp, lp, cfname="Parameters", cfpath=GlobalDefaults.p
 
     print("Local parameters:")
     print(lp)
-    
+
     # Sort into keys and values
     lpk = [ k for k in lp.iterkeys() ]
     lpv = [ v for v in lp.itervalues() ]
@@ -149,7 +149,7 @@ def generate_configurations(gp, lp, cfname="Parameters", cfpath=GlobalDefaults.p
     i = 0
     for cv in VG:
         i += 1
-           
+
         # Too bad dict comprehensions only available in python >= 2.7
         params = dict([ item for item in zip(lpk, cv) ])
 
@@ -170,7 +170,7 @@ def generate_configurations(gp, lp, cfname="Parameters", cfpath=GlobalDefaults.p
 
 if __name__ == "__main__":
     """Remarks:
-    
+
     - You can use any valid python statement as value
     - All statements are written to a pure python code file
     - You can write numbers, lists etc as plain text strings
@@ -178,10 +178,10 @@ if __name__ == "__main__":
     - Remember to escape python strings twice
     - You can use variable references but with great care!
     - The ordering of the statements in the output file is such that
-      all statements can be executed w.r.t. local variables. This is 
+      all statements can be executed w.r.t. local variables. This is
       some kind of topological sorting. Be warned, it's implemented
       using black magic and may fail now and then!
-      
+
     That should be all ...
     """
 
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     f = open(filepath)
     content = f.read()
     f.close()
-    
+
     # Execute the metaconfiguration file
     # Assuming that it defines the two dicts 'GP' and 'LP' in the toplevel namespace.
     exec(content)

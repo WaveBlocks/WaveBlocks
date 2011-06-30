@@ -28,19 +28,19 @@ PA.read_parameters(parametersfile)
 print(PA)
 
 # Decide which simulation loop to use
-if PA.algorithm == "fourier":
+if PA["algorithm"] == "fourier":
     from WaveBlocks import SimulationLoopFourier
     SL = SimulationLoopFourier(PA)
-    
-elif PA.algorithm == "hagedorn":
+
+elif PA["algorithm"] == "hagedorn":
     from WaveBlocks import SimulationLoopHagedorn
     SL = SimulationLoopHagedorn(PA)
-    
-elif PA.algorithm == "multihagedorn":
+
+elif PA["algorithm"] == "multihagedorn":
     from WaveBlocks import SimulationLoopMultiHagedorn
     SL = SimulationLoopMultiHagedorn(PA)
 
-elif PA.algorithm == "spawning_adiabatic":
+elif PA["algorithm"] == "spawning_adiabatic":
     from WaveBlocks import SimulationLoopSpawnAdiabatic
     SL = SimulationLoopSpawnAdiabatic(PA)
 

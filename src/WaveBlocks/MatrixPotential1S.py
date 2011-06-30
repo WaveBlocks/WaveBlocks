@@ -22,7 +22,7 @@ class MatrixPotential1S(MatrixPotential):
     splitting the potential into a Taylor expansion and for basis transformations
     between canonical and eigenbasis.
     """
-    
+
     def __init__(self, expression, variables):
         """Create a new I{MatrixPotential1S} instance for a given potential matrix $V\ofs{x}$.
         @param expression: An expression representing the potential.
@@ -49,14 +49,14 @@ class MatrixPotential1S(MatrixPotential):
         """
         return """Scalar potential given by the expression:\n""" + str(self.potential)
 
-        
+
     def get_number_components(self):
         """@return: The number $N$ of components the potential supports. In the
         one dimensional case, it's just 1.
         """
         return 1
-        
-        
+
+
     def evaluate_at(self, nodes, component=0, as_matrix=False):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
@@ -66,9 +66,9 @@ class MatrixPotential1S(MatrixPotential):
         """
         result = tuple([ numpy.array(self.functions(nodes), dtype=numpy.complexfloating) ])
         return result
-        
-        
-    def calculate_eigenvalues(self):        
+
+
+    def calculate_eigenvalues(self):
         """Calculate the eigenvalue $\lambda_0\ofs{x}$ of the potential $V\ofs{x}$.
         In the scalar case this is just the matrix entry $V_{0,0}$.
         @note: Note: the eigenvalues are memoized for later reuse.
@@ -78,8 +78,8 @@ class MatrixPotential1S(MatrixPotential):
             self.eigf = sympy.vectorize(0)(sympy.lambdify(self.x, self.potential, "numpy"))
             # Ok, now we have valid eigenvalues at hand
             self.__valid_eigenvalues = True
-        
-        
+
+
     def evaluate_eigenvalues_at(self, nodes, diagonal_component=None, as_matrix=True):
         """Evaluate the eigenvalue $\lambda_0\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalue at.
@@ -88,11 +88,11 @@ class MatrixPotential1S(MatrixPotential):
         @return: A list with the single eigenvalue evaluated at the nodes.
         """
         self.calculate_eigenvalues()
-        
+
         result = tuple([ numpy.array(self.eigf(nodes)) ])
         return result
-        
-        
+
+
     def calculate_eigenvectors(self):
         """Calculate the eigenvector $nu_0\ofs{x}$ of the potential $V\ofs{x}$.
         In the scalar case this is just the value $1$.
@@ -103,19 +103,19 @@ class MatrixPotential1S(MatrixPotential):
             self.eigenvectors_n = sympy.vectorize(0)(sympy.lambdify(self.x, 1, "numpy"))
             # Ok, now we have valid eigenvectors at hand
             self.__valid_eigenvectors = True
-            
-            
+
+
     def evaluate_eigenvectors_at(self, nodes):
         """Evaluate the eigenvector $nu_0\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvector at.
         @return: A list with the eigenvector evaluated at the given nodes.
         """
         self.calculate_eigenvectors()
-        
+
         result = numpy.ones((1, len(nodes)), dtype=numpy.floating)
         return tuple([ result ])
-        
-        
+
+
     def project_to_eigen(self, nodes, values, basis=None):
         """Project a given vector from the canonical basis to the eigenbasis of the potential.
         @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
@@ -134,8 +134,8 @@ class MatrixPotential1S(MatrixPotential):
         @return: This method does nothing and return the values.
         """
         return values[:]
-        
-        
+
+
     def calculate_exponential(self, factor=1):
         """Calculate the matrix exponential $E = \exp\ofs{\alpha M}$. In this case
         the matrix is of size $1 \times 1$ thus the exponential simplifies to
@@ -143,8 +143,8 @@ class MatrixPotential1S(MatrixPotential):
         @keyword factor: A prefactor $\alpha$ in the exponential.
         """
         self.exponential = sympy.simplify( sympy.exp(factor*self.potential) )
-        
-        
+
+
     def evaluate_exponential_at(self, nodes):
         """Evaluate the exponential of the potential matrix $V$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
@@ -153,23 +153,23 @@ class MatrixPotential1S(MatrixPotential):
         # Hack for older sympy versions, see recent issue:
         # http://www.mail-archive.com/sympy@googlegroups.com/msg05137.html
         lookup = {"I" : 1j}
-        
+
         # prepare the function of every potential matrix exponential cell for
         # numerical evaluation
         self.expfunctions = sympy.vectorize(0)(sympy.lambdify(self.x, self.exponential, (lookup, "numpy")))
 
         result = tuple([ numpy.array(self.expfunctions(nodes)) ])
         return result
-        
-        
+
+
     def calculate_jacobian(self):
         """Calculate the jacobian matrix for the component $V_{0,0}$ of the potential.
         For potentials which depend only one variable $x$, this equals the first derivative.
         """
-        self.jacobian = sympy.diff(self.potential, self.x)            
+        self.jacobian = sympy.diff(self.potential, self.x)
         self.jacobian_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.jacobian, "numpy"))
-        
-        
+
+
     def evaluate_jacobian_at(self, nodes, component=None):
         """Evaluate the potential's jacobian at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
@@ -178,7 +178,7 @@ class MatrixPotential1S(MatrixPotential):
         """
         values = tuple([ self.jacobian_n(nodes) ])
         return values
-        
+
 
     def calculate_hessian(self):
         """Calculate the hessian matrix for component $V_{0,0}$ of the potential.
@@ -206,17 +206,17 @@ class MatrixPotential1S(MatrixPotential):
         self.calculate_eigenvalues()
         self.calculate_jacobian()
         self.calculate_hessian()
-        
+
         self.quadratic_s = []
-            
+
         self.quadratic_s.append(self.eigenvalues_s)
         self.quadratic_s.append(self.jacobian)
         self.quadratic_s.append(self.hessian)
 
         # Construct function to evaluate the approximation at point q at the given nodes
         self.quadratic_n = [ sympy.vectorize(0)(sympy.lambdify([self.x], item, "numpy")) for item in self.quadratic_s ]
-            
-                        
+
+
     def evaluate_local_quadratic_at(self, nodes):
         """Numerically evaluate the local quadratic approximation $U$ of
         the potential's eigenvalue $\lambda$ at the given grid nodes $\gamma$.
@@ -240,7 +240,7 @@ class MatrixPotential1S(MatrixPotential):
 
         # point where the taylor series is computed
         q = sympy.Symbol("q")
-        
+
         p = f.subs(self.x, q)
         j = sympy.diff(f, self.x)
         j = j.subs(self.x, q)
@@ -251,11 +251,11 @@ class MatrixPotential1S(MatrixPotential):
 
         # Symbolic expression for the taylor expansion remainder term
         self.nonquadratic_s = sympy.simplify(self.potential - quadratic)
-        
+
         # Construct functions to evaluate the approximation at point q at the given nodes
         self.nonquadratic_n = sympy.vectorize(1)(sympy.lambdify([q, self.x], self.nonquadratic_s, "numpy"))
-        
-        
+
+
     def evaluate_local_remainder_at(self, position, nodes, component=None):
         """Numerically evaluate the non-quadratic remainder $W$ of the quadratic
         approximation $U$ of the potential's eigenvalue $\lambda$ at the given nodes $\gamma$.
@@ -277,8 +277,8 @@ class MatrixPotential1S(MatrixPotential):
         @raise ValueError: There are no inhomogeneous wavepackets with a single component.
         """
         raise ValueError("There are no inhomogeneous wavepackets with a single component!")
-    
-    
+
+
     def evaluate_local_quadratic_multi_at(self, nodes, component=None):
         """Numerically evaluate the local quadratic approximation $U$ of
         the potential's eigenvalue $\lambda$ at the given grid nodes $\gamma$.
