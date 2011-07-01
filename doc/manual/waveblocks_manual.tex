@@ -130,23 +130,23 @@ shell.)
 
 If you want to check out the source code from the repository, the necessary
 steps are similar. First check out the code (we assume here you want to use
-the trunk) into a new directory (here \verb|~/WBT|)
+the trunk) into a new directory (here \verb|~/WB|)
 
 \begin{verbatim}
-  svn co https://svn.origo.ethz.ch/waveblocks/trunk ~/WBT
+  svn co https://svn.origo.ethz.ch/waveblocks/trunk ~/WB
 \end{verbatim}
 
 The directory listing should now look like
 
 \begin{verbatim}
-  ls ~/WBT/
+  ls ~/WB/
   demos  doc  src ...
 \end{verbatim}
 
 and we find the source code below \texttt{src},
 
 \begin{verbatim}
-  ls ~/WBT/src
+  ls ~/WB/src
   numdifftools  plotters_simple  README  scripts
   scripts_advanced  tests  WaveBlocks ...
 \end{verbatim}
@@ -157,22 +157,18 @@ with the \texttt{numdifftools} python package.
 
 \begin{verbatim}
   mkdir ~/python
-  cp -r ~/WBT/src/numdifftools/ ~/python
+  cp -r ~/WB/src/numdifftools/ ~/python
 \end{verbatim}
 
 We can just copy the files as they won't change in the svn repository
-often. But it's a wise idea not to copy \verb|~/WBT/src/WaveBlocks| but
-just use symbolic links. (If you have multiple checkouts this is also
-a way to choose which one will be used when you just type \texttt{import WaveBlocks}
-at a python prompt.) You may just follow the shell commands given
-here for a working sample setup. First we create the necessary
-directory structure and the we soft-link the files.
+often. But it's a wise idea not to copy \verb|~/WB/src/WaveBlocks| but
+just use symbolic links. (If you have multiple checkouts this is also a simple
+way to choose which one will be used when you just type \texttt{import WaveBlocks}
+at a python prompt. This is similar to the \emph{alternatives} framework in Debian.)
+You may just follow the shell command given here for a working sample setup.
 
 \begin{verbatim}
-  mkdir ~/python/WaveBlocks
-  mkdir ~/python/WaveBlocks/Plot
-  ln -s ~/WBT/src/WaveBlocks/*.py ~/python/WaveBlocks/
-  ln -s ~/WBT/src/WaveBlocks/Plot/*.py ~/python/WaveBlocks/Plot/
+  ln -s ~/WB/src/WaveBlocks WaveBlocks
 \end{verbatim}
 
 Finally we have to adapt the \emph{python path} to include the directory
@@ -182,7 +178,7 @@ Finally we have to adapt the \emph{python path} to include the directory
   export PYTHONPATH="$PYTHONPATH:~/python"
 \end{verbatim}
 
-You can write this line into your \texttt{.bashrc} file or any comparable file
+You can write this last line into your \texttt{.bashrc} file or any comparable file
 for your default shell. (Otherwise this information is gone when you close the
 shell.)
 
