@@ -20,7 +20,7 @@ def get_result_dirs(path):
     """
     dirs = [ os.path.join(path, dir) for dir in os.listdir(path) ]
     return dirs
-    
+
 
 def get_parameters_file(path):
     """Search for a configuration file containing the simulation parameters under a given path.
@@ -29,14 +29,17 @@ def get_parameters_file(path):
     @note: In case there are more than one .py file under the given path we just return the first one found!
     """
     parameters_file = None
-    
+
     for file in os.listdir(path):
         if file[-3:] == ".py":
             parameters_file = file
             break
-    
+
+    if parameters_file is None:
+        raise IOError("No configuration .py file found!")
+
     parameters_file = os.path.join(path, parameters_file)
-    return parameters_file    
+    return parameters_file
 
 
 def get_results_file(path):
@@ -52,6 +55,9 @@ def get_results_file(path):
         if file[-5:] == ".hdf5":
             results_file = file
             break
+
+    if results_file is None:
+        raise IOError("No results .hdf5 file found!")
 
     results_file = os.path.join(path, results_file)
     return results_file
@@ -78,7 +84,7 @@ def name_contains(name, pattern):
 def gather_all(stringlist, pattern):
     """Collects all simulation IDs which contain a specific pattern from a given list.
     @parameter stringlist: A list with the simulation IDs
-    @parameter pattern: The pattern 
+    @parameter pattern: The pattern
     @return: A list of simulation IDs that contain the given pattern.
     """
     gathered = [ s for s in stringlist if name_contains(s, pattern) ]
@@ -135,7 +141,7 @@ def group_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
                 # Concatenate the fragments again
                 groups[index].append( reduce(lambda x,y: x+y, item) )
                 break
-    
+
     return groups
 
 
@@ -198,7 +204,7 @@ def sort_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=False):
     # Remove numeric value and concatenate the fragments again
     f = lambda x,y: x+y
     sorted_list = [ reduce(f, s[:-1]) for s in tmp ]
-    
+
     return sorted_list
 
 
