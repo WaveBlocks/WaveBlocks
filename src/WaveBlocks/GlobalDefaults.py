@@ -16,6 +16,12 @@ file_metaconfiguration = "metaconfiguration.py"
 file_resultdatafile = "simulation_results.hdf5"
 file_batchconfiguration = "batchconfiguration.py"
 
+# Left, middle and right delimiter for key->value pairs
+# encoded into filenames (as used by the FileTools)
+kvp_ldel = "["
+kvp_mdel = "="
+kvp_rdel = "]"
+
 # Matrix exponential algorithm
 matrix_exponential = "pade"
 arnoldi_steps = 20

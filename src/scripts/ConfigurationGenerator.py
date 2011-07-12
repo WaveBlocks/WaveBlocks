@@ -56,7 +56,7 @@ def construct_name(filename, adict):
     @param names: A dict containing the key=value pairs.
     """
     # Put all key=value pairs as string into a list
-    kvs = [ "_" + str(k) + "=" + str(v) for k, v in adict.iteritems() ]
+    kvs = [ GlobalDefaults.kvp_ldel + str(k) + GlobalDefaults.kvp_mdel + str(v) + GlobalDefaults.kvp_rdel for k, v in adict.iteritems() ]
 
     # Concatenate all key=value pairs in a string
     if len(kvs) == 0:
@@ -64,7 +64,12 @@ def construct_name(filename, adict):
     else:
         s = reduce(lambda x, y: x+y, kvs)
 
+    # Remove duplicate kvp delimiters
+    if GlobalDefaults.kvp_ldel == GlobalDefaults.kvp_rdel:
+        s = s.replace(GlobalDefaults.kvp_ldel+GlobalDefaults.kvp_rdel, GlobalDefaults.kvp_ldel)
+
     # Remove some possibly harmful characters
+    # Warning: destroys meaning of filename if some of them are used as kvp delimiters!
     s = s.replace("\"", "")
     s = s.replace("\\", "")
     s = s.replace("*", "")

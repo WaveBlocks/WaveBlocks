@@ -12,6 +12,8 @@ ID is just the basename of the path or the configuration file.
 
 import os
 
+import GlobalDefaults as GD
+
 
 def get_result_dirs(path):
     """Lists all simulations (IDs) that can be found under the given path.
@@ -91,7 +93,7 @@ def gather_all(stringlist, pattern):
     return gathered
 
 
-def compare_by(namea, nameb, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
+def compare_by(namea, nameb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
     """Compare two simulation IDs with respect to a (numerical) value in the ID.
     @parameter namea: The first name in the comparison
     @parameter nameb: The second name in the comparison
@@ -116,7 +118,7 @@ def compare_by(namea, nameb, pattern, ldel="_", mdel="=", rdel="_", as_string=Tr
     return part1[2] == part2[2]
 
 
-def group_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
+def group_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
     """Groups simulation IDs with respect to a pattern.
     @parameter stringlist: A list with the simulation IDs
     @parameter pattern: The pattern used for grouping
@@ -145,7 +147,7 @@ def group_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
     return groups
 
 
-def intersect_by(lista, listb, pattern, ldel="_", mdel="=", rdel="_", as_string=True):
+def intersect_by(lista, listb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
     """Find the intersection of two lists containing simulation IDs.
     @parameter lista: A first list with the simulation IDs
     @parameter listb: A second list with the simulation IDs
@@ -169,7 +171,7 @@ def intersect_by(lista, listb, pattern, ldel="_", mdel="=", rdel="_", as_string=
     return result
 
 
-def sort_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=False):
+def sort_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
     """Sorts simulation IDs with respect to a (numerical) value in the ID.
     @parameter stringlist: A list with the simulation IDs
     @parameter pattern: The pattern whose (numerical) value is used for sorting
@@ -208,7 +210,7 @@ def sort_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=False):
     return sorted_list
 
 
-def get_max_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=False):
+def get_max_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
     """Get the maximum of a list with simulation IDs with respect to a (numerical) value in the ID.
     @parameter stringlist: A list with the simulation IDs
     @parameter pattern: The pattern whose (numerical) value is used for sorting
@@ -224,7 +226,7 @@ def get_max_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=Fals
     return sortedlist[-1]
 
 
-def get_min_by(stringlist, pattern, ldel="_", mdel="=", rdel="_", as_string=False):
+def get_min_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
     """Get the minimum of a list with simulation IDs with respect to a (numerical) value in the ID.
     @parameter stringlist: A list with the simulation IDs
     @parameter pattern: The pattern whose (numerical) value is used for sorting
