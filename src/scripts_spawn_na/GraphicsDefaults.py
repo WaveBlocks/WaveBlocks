@@ -12,4 +12,4 @@ import itertools
 import matplotlib.pyplot
 
 # Output plot file format
-output_format = ".pdf"
+output_format = ".png"
