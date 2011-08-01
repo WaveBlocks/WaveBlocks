@@ -29,7 +29,7 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
     """
     parameters_o = data_o.get_parameters()
     parameters_s = data_s.get_parameters()
-    
+
     grid_o = data_o.load_grid()
     grid_s = data_s.load_grid()
 
@@ -40,15 +40,15 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
 
         # Retrieve reference data
         wave_o = data_o.load_wavefunction(timestep=step)
-        values_o = [ wave_o[j,...] for j in xrange(parameters_o.ncomponents) ]
+        values_o = [ wave_o[j,...] for j in xrange(parameters_o["ncomponents"]) ]
 
         # Retrieve spawn data for both packets
         values_s = []
         try:
             for blocknr in xrange(data_s.get_number_blocks()):
                 wave = data_s.load_wavefunction(timestep=step, block=blocknr)
-                values_s.append( [ wave[j,...] for j in xrange(parameters_s.ncomponents) ] )
-        
+                values_s.append( [ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ] )
+
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False
@@ -60,7 +60,7 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
         axes = []
 
         for index, component in enumerate(values_o):
-            ax = fig.add_subplot(parameters_o.ncomponents,1,index+1)
+            ax = fig.add_subplot(parameters_o["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
 
@@ -96,10 +96,10 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
                 axes[index].set_xlim(view[:2])
                 axes[index].set_ylim(view[2:])
 
-        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters_o.dt)+r"$")
+        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters_o["dt"])+r"$")
         fig.savefig("wavefunction_compare_spawned_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
-        
+
     print(" Plotting frames finished")
 
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     iom_o = IOManager()
 
     # NOTE
-    # 
+    #
     # first cmd-line data file is spawning data
     # second cmd-line data file is reference data
 
@@ -117,17 +117,17 @@ if __name__ == "__main__":
         iom_s.open_file(filename=sys.argv[1])
     except IndexError:
         iom_s.open_file()
-    
+
     # Read file with original reference simulation data
     try:
         iom_o.open_file(filename=sys.argv[2])
     except IndexError:
         iom_o.open_file()
-    
+
     # The axes rectangle that is plotted
     view = [-8.5, 8.5, -0.01, 0.6]
-    
+
     plot_frames(iom_s, iom_o, view=view)
-    
+
     iom_s.finalize()
     iom_o.finalize()

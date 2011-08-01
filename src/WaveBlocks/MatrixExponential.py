@@ -17,7 +17,7 @@ from scipy.linalg import norm, expm
 def matrix_exp_pade(A, coefficients, factor):
     """Compute the solution of v' = A v with a full matrix exponential via Pade approximation.
     @param A: The matrix.
-    @param v: The vector.
+    @param coefficients: The vector with the coefficients.
     @param factor: An additional factor, usually contains at least the timestep.
     """
     return dot(expm(-1.0j*A*factor), coefficients)

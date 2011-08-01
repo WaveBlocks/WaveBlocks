@@ -23,9 +23,9 @@ def read_data(f):
     """
     params = f.get_parameters()    
     timegrid0 = f.load_energy_timegrid()
-    time0 = timegrid0 * params.dt
+    time0 = timegrid0 * params["dt"]
     timegrid1 = f.load_energy_timegrid(block=1)
-    time1 = timegrid1 * params.dt
+    time1 = timegrid1 * params["dt"]
 
     # Load data of original packet
     ekin0, epot0 = f.load_energy(split=True)

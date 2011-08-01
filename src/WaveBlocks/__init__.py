@@ -7,6 +7,7 @@
 
 from QuadratureRule import QuadratureRule
 from GaussHermiteQR import GaussHermiteQR
+from TrapezoidalQR import TrapezoidalQR
 
 from HagedornWavepacket import HagedornWavepacket
 from HagedornMultiWavepacket import HagedornMultiWavepacket
@@ -36,6 +37,7 @@ from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
 from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 
 from AdiabaticSpawner import AdiabaticSpawner
+from NonAdiabaticSpawner import NonAdiabaticSpawner
 
 # Just functions inside this modules.
 #from GlobalDefaults import GlobalDefaults

@@ -77,6 +77,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="__contains__"></a><span class="summary-sig-name">__contains__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">key</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.__contains__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="__getattr__"></a><span class="summary-sig-name">__getattr__</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">key</span>)</span></td>
           <td align="right" valign="top">
@@ -228,6 +245,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#get_parameters" class="summary-sig-name">get_parameters</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return a copy of the dict containing all parameters.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.get_parameters">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="get_timemanager"></a><span class="summary-sig-name">get_timemanager</span>(<span class="summary-sig-arg">self</span>)</span><br />
       Return the embedded <i>TimeManager</i> instance.</td>
           <td align="right" valign="top">
@@ -262,10 +296,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="incompletion_tolerance"></a><span class="summary-sig-name">incompletion_tolerance</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Be fault tolerant for some incomplete configurations.</td>
+          <td><span class="summary-sig"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#read_parameters" class="summary-sig-name">read_parameters</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">filepath</span>)</span><br />
+      Read the parameters from a configuration file.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.incompletion_tolerance">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.read_parameters">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -279,11 +314,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#read_parameters" class="summary-sig-name">read_parameters</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">filepath</span>)</span><br />
-      Read the parameters from a configuration file.</td>
+          <td><span class="summary-sig"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#set_parameters" class="summary-sig-name">set_parameters</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">params</span>)</span><br />
+      Overwrite the dict containing all parameters with a newly provided 
+      dict with (possibly) changed parameters.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.read_parameters">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.set_parameters">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#update_parameters" class="summary-sig-name">update_parameters</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">params</span>)</span><br />
+      Overwrite the dict containing all parameters with a newly provided 
+      dict with (possibly) changed parameters.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.update_parameters">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -334,6 +389,28 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="get_parameters"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_parameters</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.get_parameters">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a copy of the dict containing all parameters.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A copy of the dict containing all parameters. The dict will be 
+          copied.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="read_parameters"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -354,6 +431,60 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>filepath</code></strong> - Path to the configuration file.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_parameters"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_parameters</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">params</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.set_parameters">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overwrite the dict containing all parameters with a newly provided 
+  dict with (possibly) changed parameters.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>params</code></strong> - A <i>ParameterProvider</i> instance or a dict with new 
+          parameters. The values will be deep-copied. No old values will 
+          remain.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="update_parameters"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">update_parameters</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">params</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.ParameterProvider%27-pysrc.html#ParameterProvider.update_parameters">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overwrite the dict containing all parameters with a newly provided 
+  dict with (possibly) changed parameters.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>params</code></strong> - A <i>ParameterProvider</i> instance or a dict with new 
+          parameters. The values will be deep-copied. Old values are only 
+          overwritten if we have got new values.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -382,7 +513,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 20 19:31:35 2011
+    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:59 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

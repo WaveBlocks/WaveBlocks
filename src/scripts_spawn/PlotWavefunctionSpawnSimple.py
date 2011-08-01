@@ -43,7 +43,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         # Retrieve spawn data for both packets
         try:
             wave_m = f.load_wavefunction(timestep=step, block=0)
-            values_m = [ wave_m[j,...] for j in xrange(parameters.ncomponents) ]
+            values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_mother_data = True
         except ValueError:
             have_mother_data = False
@@ -51,7 +51,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         # Retrieve spawn data
         try:
             wave_s = f.load_wavefunction(timestep=step, block=1)
-            values_s = [ wave_s[j,...] for j in xrange(parameters.ncomponents) ]
+            values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False
@@ -64,7 +64,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
         axes = []
 
         for index, component in enumerate(values_m):
-            ax = fig.add_subplot(parameters.ncomponents,1,index+1)
+            ax = fig.add_subplot(parameters["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
 
@@ -97,7 +97,7 @@ def plot_frames(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=F
                 axes[index].set_xlim(view[:2])
                 axes[index].set_ylim(view[2:])
 
-        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters.dt)+r"$")
+        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
         fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
         
@@ -133,7 +133,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
         # Retrieve spawn data for both packets and split the data as necessary
         try:
             wave_m = f.load_wavefunction(timestep=step, block=0)
-            values_m = [ wave_m[j,...] for j in xrange(parameters.ncomponents) ]
+            values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             yl = values_m[0][grid<=X0]
             yr = values_m[0][grid>X0]
             have_mother_data = True
@@ -143,7 +143,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
         # Retrieve spawn data
         try:
             wave_s = f.load_wavefunction(timestep=step, block=1)
-            values_s = [ wave_s[j,...] for j in xrange(parameters.ncomponents) ]
+            values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             ysl = values_s[0][grid<=X0]
             ysr = values_s[0][grid>X0]
             have_spawn_data = True
@@ -187,7 +187,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
         ax2.set_xlabel(r"$x > 0$")
         ax2.set_ylabel(r"$\langle\varphi |\varphi \rangle$")
 
-        fig.suptitle(r"Time $"+str(step*parameters.dt)+r"$")
+        fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
         fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
 

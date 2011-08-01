@@ -41,7 +41,7 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
         # Retrieve spawn data for both packets
         try:
             wave_m = f.load_wavefunction(timestep=step, block=0)
-            values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters.ncomponents) ]
+            values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters["ncomponents"]) ]
             have_mother_data = True
         except ValueError:
             have_mother_data = False
@@ -49,7 +49,7 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
         # Retrieve spawn data
         try:
             wave_s = f.load_wavefunction(timestep=step, block=1)
-            values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters.ncomponents) ]
+            values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters["ncomponents"]) ]
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False
@@ -61,7 +61,7 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
         axes = []
 
         for index, component in enumerate(values_m):
-            ax = fig.add_subplot(parameters.ncomponents,1,index+1)
+            ax = fig.add_subplot(parameters["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
 
@@ -102,7 +102,7 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
                 axes[index].set_xlim(view[:2])
                 axes[index].set_ylim(view[2:])
 
-        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters.dt)+r"$")
+        fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
         fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
         

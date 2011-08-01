@@ -22,15 +22,15 @@ def load_data(iom):
     parameters = iom.get_parameters()
     
     timegrid = iom.load_energy_timegrid()
-    times = timegrid * parameters.dt
+    times = timegrid * parameters["dt"]
 
     # Load kinetic, potential and total energies
     ekin, epot = iom.load_energy()
     etot = iom.load_energy_total()
 
     # Some data transformation
-    ekin = [ ekin[:,c] for c in xrange(parameters.ncomponents) ]
-    epot = [ epot[:,c] for c in xrange(parameters.ncomponents) ]
+    ekin = [ ekin[:,c] for c in xrange(parameters["ncomponents"]) ]
+    epot = [ epot[:,c] for c in xrange(parameters["ncomponents"]) ]
 
     # Calculate the sum of all energies
     ekinsum = reduce(lambda x,y: x+y, ekin)

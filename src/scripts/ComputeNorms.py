@@ -22,27 +22,24 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    # Iterate over all blocks
+    for block in xrange(iom.get_number_blocks()):
+        print("Computing the norms in data block "+str(block))
 
-    if parameters["algorithm"] == "fourier":
-        import NormWavefunction 
-        NormWavefunction.compute_norm(iom)
+        # See if we have an inhomogeneous wavepacket in the current data block
+        if iom.has_inhomogwavepacket(block=block):
+            import NormWavepacketInhomog
+            NormWavepacketInhomog.compute_norm(iom, block=block)
+        # If not, we test for a homogeneous wavepacket next
+        elif iom.has_wavepacket(block=block):
+            import NormWavepacket
+            NormWavepacket.compute_norm(iom, block=block)
+        # If we have no wavepacket, then we try for a wavefunction
+        elif iom.has_wavefunction(block=block):
+            import NormWavefunction
+            NormWavefunction.compute_norm(iom, block=block)
+        # If there is also no wavefunction, then there is nothing to compute the norm
+        else:
+            print("Warning: Not computing any norm in block "+str(block)+"!")
 
-    elif parameters["algorithm"] == "hagedorn":
-        import NormWavepacket
-        NormWavepacket.compute_norm(iom)
-
-    elif parameters["algorithm"] == "multihagedorn":
-        import NormWavepacketInhomog
-        NormWavepacketInhomog.compute_norm(iom)
-
-    elif (parameters["algorithm"] == "spawning_apost" or
-          parameters["algorithm"] == "spawning_adiabatic"):
-        import NormWavepacket
-        NormWavepacket.compute_norm(iom, datablock=0)
-        NormWavepacket.compute_norm(iom, datablock=1)
-
-    else:
-        raise ValueError("Unknown propagator algorithm.")
-    
     iom.finalize()

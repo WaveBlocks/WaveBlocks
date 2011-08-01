@@ -8,10 +8,7 @@ This file contains the Hagedorn propagator class for homogeneous wavepackets.
 """
 
 from functools import partial
-import numpy as np
-import scipy as sp
 
-import GlobalDefaults
 from WaveFunction import WaveFunction
 from Propagator import Propagator
 
@@ -22,7 +19,7 @@ class HagedornPropagator(Propagator):
     Hagedorn wavepacket."""
 
     def __init__(self, potential, packet, leading_component, parameters):
-        """Initialize a new I{HagedornPropagator} instance. 
+        """Initialize a new I{HagedornPropagator} instance.
         @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
         @param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.
         @param leading_component: The leading component index $\chi$.
@@ -31,7 +28,7 @@ class HagedornPropagator(Propagator):
         """
         if packet.get_number_components() != potential.get_number_components():
             raise ValueError("Wave packet does not match to the given potential!")
-    	
+
         #: The potential $V\ofs{x}$ the packet feels.
         self.potential = potential
 
@@ -50,40 +47,32 @@ class HagedornPropagator(Propagator):
 
         # Cache some parameter values for efficiency
         self.parameters = parameters
-        self.dt = parameters.dt
-        self.eps = parameters.eps
+        self.dt = parameters["dt"]
+        self.eps = parameters["eps"]
 
         # Decide about the matrix exponential algorithm to use
-        if parameters.has_key("matrix_exponential"):
-            method = parameters["matrix_exponential"]
-        else:
-            method = GlobalDefaults.matrix_exponential
+        method = parameters["matrix_exponential"]
 
         if method == "pade":
             from MatrixExponential import matrix_exp_pade
             self.__dict__["matrix_exponential"] = matrix_exp_pade
         elif method == "arnoldi":
             from MatrixExponential import matrix_exp_arnoldi
-
-            if parameters.has_key("arnoldi_steps"):
-                arnoldi_steps = parameters["arnoldi_steps"]
-            else:
-                arnoldi_steps = min(parameters["basis_size"], GlobalDefaults.arnoldi_steps)
-
+            arnoldi_steps = min(parameters["basis_size"], parameters["arnoldi_steps"])
             self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
         else:
             raise ValueError("Unknown matrix exponential algorithm")
-        
+
         # Precalculate the potential splitting
         self.potential.calculate_local_quadratic(diagonal_component=self.leading)
         self.potential.calculate_local_remainder(diagonal_component=self.leading)
-        
-        
+
+
     def __str__(self):
         """Prepare a printable string representing the I{HagedornPropagator} instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components.\n Leading component is " + str(self.leading) + "."
-        
-        
+
+
     def get_number_components(self):
         """@return: The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$."""
         return self.number_components
@@ -119,19 +108,19 @@ class HagedornPropagator(Propagator):
         at time $t + \tau$. We perform exactly one timestep $\tau$ here.
         """
         dt = self.dt
-        
+
         # Do a kinetic step of dt/2
         self.packet.q = self.packet.q + 0.5*dt * self.packet.p
         self.packet.Q = self.packet.Q + 0.5*dt * self.packet.P
         self.packet.S = self.packet.S + 0.25*dt * self.packet.p**2
 
-        # Do a potential step with the local quadratic part            
+        # Do a potential step with the local quadratic part
         V = self.potential.evaluate_local_quadratic_at(self.packet.q)
-        
+
         self.packet.p = self.packet.p - dt * V[1]
         self.packet.P = self.packet.P - dt * V[2] * self.packet.Q
         self.packet.S = self.packet.S - dt * V[0]
-        
+
         # Do a potential step with the local non-quadratic taylor remainder
         F = self.packet.matrix(self.potential.evaluate_local_remainder_at)
         coefficients = self.packet.get_coefficient_vector()

@@ -15,28 +15,40 @@ from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
 
-def read_data(f):
+def read_all_datablocks(iom):
+    """Read the data from all blocks that contain any usable data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    # Iterate over all blocks and plot their data
+    for block in xrange(iom.get_number_blocks()):
+        plot_energies(read_data(iom, block=block), index=block)
+
+
+def read_data(iom, block=0):
     """
-    params = f.get_parameters()    
-    timegrid = f.load_energy_timegrid()
-    time = timegrid * params.dt
-        
-    ekin, epot = f.load_energy(split=True)
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
+    """
+    parameters = iom.get_parameters()
+    timegrid = iom.load_energy_timegrid(block=block)
+    time = timegrid * parameters["dt"]
+
+    ekin, epot = iom.load_energy(block=block, split=True)
 
     # Compute the sum of all energies
     ekinsum = reduce(lambda x,y: x+y, ekin)
     epotsum = reduce(lambda x,y: x+y, epot)
-    
+
     ekin.append(ekinsum)
     epot.append(epotsum)
 
     return (time, ekin, epot)
 
 
-def plot_energy(timegrid, ekin, epot):
-    print("Plotting the energies")
+def plot_energies(data, index=0):
+    print("Plotting the energies of data block "+str(index))
+
+    timegrid, ekin, epot = data
 
     # Plot the energies
     fig = figure()
@@ -61,13 +73,13 @@ def plot_energy(timegrid, ekin, epot):
     # Plot the overall energy of all wave packets
     ax.plot(timegrid, ekin[-1] + epot[-1], label=r"$\sum_i E^{kin}_i + \sum_i E^{pot}_i$")
 
-    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
     ax.set_xlabel(r"Time $t$")
     legend(loc="outer right")
     ax.set_title(r"Energies of the wavepacket $\Psi$")
 
-    fig.savefig("energies.png")
+    fig.savefig("energies_block"+str(index)+".png")
     close(fig)
 
 
@@ -79,14 +91,14 @@ def plot_energy(timegrid, ekin, epot):
     ax = fig.gca()
 
     ax.plot(timegrid, data, label=r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
-    
+
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
     ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
     ax.set_title(r"Energy drift of the wavepacket $\Psi$")
 
-    fig.savefig("energy_drift.png")
+    fig.savefig("energy_drift_block"+str(index)+".png")
     close(fig)
 
 
@@ -97,9 +109,8 @@ if __name__ == "__main__":
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.open_file()      
+        iom.open_file()
 
-    data = read_data(iom)
-    plot_energy(*data)
+    read_all_datablocks(iom)
 
     iom.finalize()

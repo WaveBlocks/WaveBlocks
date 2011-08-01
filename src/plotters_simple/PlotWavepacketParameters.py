@@ -13,19 +13,32 @@ import sys
 from numpy import real, imag, abs
 from matplotlib.pyplot import *
 
-from WaveBlocks import ComplexMath 
+from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
 
-def read_data_homogeneous(f):
+def read_all_datablocks(iom):
+    """Read the data from all blocks that contains any usable data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    @param f: An I{IOManager} instance providing the simulation data.
-    """
-    parameters = f.get_parameters()
-    timegrid = f.load_wavepacket_timegrid()
-    time = timegrid * parameters.dt
+    # Iterate over all blocks and plot their data
+    for block in xrange(iom.get_number_blocks()):
+        if iom.has_wavepacket(block=block):
+            plot_parameters(read_data_homogeneous(iom, block=block), index=block)
+        elif  iom.has_inhomogwavepacket():
+            plot_parameters(read_data_inhomogeneous(iom, block=block), index=block)
 
-    Pi = f.load_wavepacket_parameters()
+
+def read_data_homogeneous(iom, block=0):
+    """
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
+    """
+    parameters = iom.get_parameters()
+    timegrid = iom.load_wavepacket_timegrid(block=block)
+    time = timegrid * parameters["dt"]
+
+    Pi = iom.load_wavepacket_parameters(block=block)
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -36,19 +49,19 @@ def read_data_homogeneous(f):
     return (time, Phist, Qhist, Shist, phist, qhist)
 
 
-def read_data_inhomogeneous(f):
+def read_data_inhomogeneous(iom, block=0):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @keyword block: The data block from which the values are read.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_inhomogwavepacket_timegrid()
-    time = timegrid * parameters.dt
-    
-    timegrid = f.load_inhomogwavepacket_timegrid()
-    Pi = f.load_inhomogwavepacket_parameters()
+    parameters = iom.get_parameters()
+    timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
+    time = timegrid * parameters["dt"]
+
+    Pi = iom.load_inhomogwavepacket_parameters(block=block)
 
     # Number of components
-    N = parameters.ncomponents
+    N = parameters["ncomponents"]
 
     Phist = [ Pi[i][:,0] for i in xrange(N) ]
     Qhist = [ Pi[i][:,1] for i in xrange(N) ]
@@ -59,7 +72,14 @@ def read_data_inhomogeneous(f):
     return (time, Phist, Qhist, Shist, phist, qhist)
 
 
-def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
+def plot_parameters(data, index=0):
+    """Plot the data parameters (P, Q, S, p, q) over time.
+    For each new I{index} we start a new figure.
+    """
+    print("Plotting the parameters of data block "+str(index))
+
+    timegrid, Phist, Qhist, Shist, phist, qhist = data
+
     # Plot the time evolution of the parameters P, Q, S, p and q
     fig = figure(figsize=(12,12))
 
@@ -68,37 +88,37 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
         ax.plot(timegrid, real(item), label=r"$\Re P$")
     ax.grid(True)
     ax.set_title(r"$\Re P$")
-    
+
     ax = fig.add_subplot(4,2,2)
     for item in Phist:
         ax.plot(timegrid, imag(item), label=r"$\Im P$")
     ax.grid(True)
     ax.set_title(r"$\Im P$")
-    
+
     ax = fig.add_subplot(4,2,3)
     for item in Qhist:
         ax.plot(timegrid, real(item), label=r"$\Re Q$")
     ax.grid(True)
     ax.set_title(r"$\Re Q$")
-    
+
     ax = fig.add_subplot(4,2,4)
     for item in Qhist:
         ax.plot(timegrid, imag(item), label=r"$\Im Q$")
     ax.grid(True)
     ax.set_title(r"$\Im Q$")
-    
+
     ax = fig.add_subplot(4,2,5)
     for item in qhist:
         ax.plot(timegrid, real(item), label=r"$q$")
     ax.grid(True)
     ax.set_title(r"$q$")
-    
+
     ax = fig.add_subplot(4,2,6)
     for item in phist:
         ax.plot(timegrid, real(item), label=r"$p$")
     ax.grid(True)
     ax.set_title(r"$p$")
-    
+
     ax = fig.add_subplot(4,2,7)
     for item in Shist:
         ax.plot(timegrid, real(item), label=r"$S$")
@@ -106,7 +126,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket parameters")
-    fig.savefig("wavepacket_parameters.png")
+    fig.savefig("wavepacket_parameters_block"+str(index)+".png")
     close(fig)
 
 
@@ -119,37 +139,37 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
         ax.plot(timegrid, abs(item), label=r"$|P|$")
     ax.grid(True)
     ax.set_title(r"$|P|$")
-    
+
     ax = fig.add_subplot(4,2,2)
     for item in Phist:
         ax.plot(timegrid, ComplexMath.cont_angle(item), label=r"$\arg P$")
     ax.grid(True)
     ax.set_title(r"$\arg P$")
-    
+
     ax = fig.add_subplot(4,2,3)
     for item in Qhist:
         ax.plot(timegrid, abs(item), label=r"$|Q|$")
     ax.grid(True)
     ax.set_title(r"$|Q|$")
-    
+
     ax = fig.add_subplot(4,2,4)
     for item in Qhist:
         ax.plot(timegrid, ComplexMath.cont_angle(item), label=r"$\arg Q$")
     ax.grid(True)
     ax.set_title(r"$\arg Q$")
-    
+
     ax = fig.add_subplot(4,2,5)
     for item in qhist:
         ax.plot(timegrid, real(item), label=r"$q$")
     ax.grid(True)
     ax.set_title(r"$q$")
-    
+
     ax = fig.add_subplot(4,2,6)
     for item in phist:
         ax.plot(timegrid, real(item), label=r"$p$")
     ax.grid(True)
     ax.set_title(r"$p$")
-    
+
     ax = fig.add_subplot(4,2,7)
     for item in Shist:
         ax.plot(timegrid, abs(item), label=r"$S$")
@@ -157,7 +177,7 @@ def plot_parameters(timegrid, Phist, Qhist, Shist, phist, qhist):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket parameters")
-    fig.savefig("wavepacket_parameters_abs_ang.png")
+    fig.savefig("wavepacket_parameters_abs_ang_block"+str(index)+".png")
     close(fig)
 
 
@@ -171,16 +191,7 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
-
-    if parameters.algorithm == "hagedorn":
-        data = read_data_homogeneous(iom)
-    elif parameters.algorithm == "multihagedorn":
-        data = read_data_inhomogeneous(iom)
-    else:
-        iom.finalize()
-        sys.exit("Can only postprocess (multi)hagedorn algorithm data. Silent return ...")
-        
-    plot_parameters(*data)
+    # Read the data and plot it, one plot for each data block.
+    read_all_datablocks(iom)
 
     iom.finalize()

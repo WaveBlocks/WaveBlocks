@@ -20,14 +20,14 @@ def add_norm(self, parameters, timeslots=None, block=0):
     
     if timeslots is None:
         # This case is event based storing
-        daset_n = grp_no.create_dataset("norm", (1, parameters.ncomponents), dtype=np.floating, chunks=(1, parameters.ncomponents))
+        daset_n = grp_no.create_dataset("norm", (1, parameters["ncomponents"]), dtype=np.floating, chunks=(1, parameters["ncomponents"]))
         daset_tg = grp_no.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
         
         daset_n.resize(0, axis=0)
         daset_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_n = grp_no.create_dataset("norm", (timeslots, parameters.ncomponents), dtype=np.floating)
+        daset_n = grp_no.create_dataset("norm", (timeslots, parameters["ncomponents"]), dtype=np.floating)
         daset_tg = grp_no.create_dataset("timegrid", (timeslots,), dtype=np.integer)
         
     daset_tg.attrs["pointer"] = 0

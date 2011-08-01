@@ -43,7 +43,7 @@ class IOManager:
         # Plugin name convention, we only trigger plugin loading
         # for requests starting with "add", "load" or "save".
         # However, IF we load a plugin, we load ALL functions it defines.
-        if parts[0] not in ("add", "delete", "load", "save"):
+        if parts[0] not in ("add", "delete", "has", "load", "save"):
             return
         else:
             print("Requested function: "+key)
@@ -75,7 +75,7 @@ class IOManager:
         # Create the file if it does not yet exist.
         # Otherwise raise an exception and avoid overwriting data.
         if os.path.lexists(filename):
-            raise ValueError("Output file already exists!")        
+            raise IOError("Output file already exists!")        
         else:
             f = self.srf = hdf.File(filename)
             f.attrs["number_blocks"] = 0
@@ -146,11 +146,10 @@ class IOManager:
 
 
     def update_simulation_parameters(self, parameters):
-        # Brute force implementation which will fail
-        # if the new parameters are not a superset of
-        # the old ones!
+        params = self.get_parameters()
         self.delete_simulation_parameters()
-        self.save_simulation_parameters(parameters)
+        params.update_parameters(parameters)
+        self.save_simulation_parameters(params)
     
 
     def delete_simulation_parameters(self):

@@ -24,17 +24,17 @@ def read_data_spawn(f):
 
     timegrid0 = f.load_wavepacket_timegrid()
     timegrid1 = f.load_wavepacket_timegrid(block=1)
-    time0 = timegrid0 * parameters.dt
-    time1 = timegrid1 * parameters.dt
+    time0 = timegrid0 * parameters["dt"]
+    time1 = timegrid1 * parameters["dt"]
     
     C0 = f.load_wavepacket_coefficients()
     coeffs0 = []
-    for i in xrange(parameters.ncomponents):
+    for i in xrange(parameters["ncomponents"]):
         coeffs0.append(squeeze(C0[:,i,:]))
 
     C1 = f.load_wavepacket_coefficients(block=1)
     coeffs1 = []
-    for i in xrange(parameters.ncomponents):
+    for i in xrange(parameters["ncomponents"]):
         coeffs1.append(squeeze(C1[:,i,:]))
 
     return (parameters, time0, time1, coeffs0, coeffs1)
@@ -54,9 +54,9 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
     
     i = 1
     for coeff in xrange(amount):
-        for component in xrange(parameters.ncomponents):
+        for component in xrange(parameters["ncomponents"]):
             print(" plotting coefficient " + str(coeff) + " of component " + str(component))
-            ax = fig.add_subplot(amount, parameters.ncomponents, i)
+            ax = fig.add_subplot(amount, parameters["ncomponents"], i)
             
             ax.plot(timegrid0, real(coeffs0[component][:,coeff]))
             ax.plot(timegrid0, imag(coeffs0[component][:,coeff]))
@@ -78,10 +78,10 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
     fig = figure(figsize=imgsize)
     
     i = 1
-    for coeff in reversed(xrange(parameters.basis_size-amount,parameters.basis_size)):
-        for component in xrange(parameters.ncomponents):
+    for coeff in reversed(xrange(parameters["basis_size"]-amount,parameters["basis_size"])):
+        for component in xrange(parameters["ncomponents"]):
             print(" plotting coefficient " + str(coeff) + " of component " + str(component))
-            ax = fig.add_subplot(amount, parameters.ncomponents, i)
+            ax = fig.add_subplot(amount, parameters["ncomponents"], i)
 
             ax.plot(timegrid0, real(coeffs0[component][:,coeff]))
             ax.plot(timegrid0, imag(coeffs0[component][:,coeff]))

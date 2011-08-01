@@ -24,7 +24,7 @@ print("Testing configuration from file: " + parametersfile)
 PA = ParameterProvider()
 PA.read_parameters(parametersfile)
 
-if not PA.dt <= PA.eps ** 2:
+if not PA["dt"] <= PA["eps"] ** 2:
     print(" The parameters violate the timestep constraint!")
 else:
     print(" Ok")

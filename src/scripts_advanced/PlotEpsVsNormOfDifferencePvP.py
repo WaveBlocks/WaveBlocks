@@ -66,7 +66,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             parameters_h = iom_h.get_parameters()
             
             # Scalar parameter of the x axis
-            axisdata[index].append(parameters_h.dt)
+            axisdata[index].append(parameters_h["dt"])
 
             # Get the data
             grid = iom_h.load_grid()
@@ -108,7 +108,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
         # We add this here because the simulation parameters are
         # already loaded but not overwritten yet be the next iteration
         # Remember: we need only a single epsilon out of each eps_group.
-        epsdata[index] = parameters_h.eps
+        epsdata[index] = parameters_h["eps"]
     
     iom_h.finalize()
     iom_min.finalize()

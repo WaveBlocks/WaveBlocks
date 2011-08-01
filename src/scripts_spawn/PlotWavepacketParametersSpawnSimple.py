@@ -25,8 +25,8 @@ def read_data_spawn(f):
 
     timegrid0 = f.load_wavepacket_timegrid()
     timegrid1 = f.load_wavepacket_timegrid(block=1)
-    time0 = timegrid0 * parameters.dt
-    time1 = timegrid1 * parameters.dt
+    time0 = timegrid0 * parameters["dt"]
+    time1 = timegrid1 * parameters["dt"]
 
     Pi0 = f.load_wavepacket_parameters()
 

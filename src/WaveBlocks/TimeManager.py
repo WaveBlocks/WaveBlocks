@@ -103,6 +103,10 @@ class TimeManager:
         """
         timesteps = []
 
+        # If the list is empty (global default), shortcut
+        if len(alist) == 0:
+            return
+
         # Integers are interpreted as timesteps, floats are interpreted as times (and converted to timesteps)
         for item in alist:
             if type(item) == int:

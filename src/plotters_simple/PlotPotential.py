@@ -15,16 +15,17 @@ from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
 
-def plot_potential(grid, potential, imgsize=(8,6)):
+def plot_potential(grid, potential, fill=True, imgsize=(8,6)):
     # Create potential and evaluate eigenvalues
     potew = potential.evaluate_eigenvalues_at(grid)
 
     # Plot the energy surfaces of the potential
     fig = figure()
     ax = fig.gca()
-    
+
     for index, ew in enumerate(potew):
-        ax.fill(grid, ew, facecolor="blue", alpha=0.25)
+        if fill:
+            ax.fill(grid, ew, facecolor="blue", alpha=0.25)
         ax.plot(grid, ew, label=r"$\lambda_"+str(index)+r"$")
 
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
@@ -39,17 +40,17 @@ def plot_potential(grid, potential, imgsize=(8,6)):
 
 if __name__ == "__main__":
     iom = IOManager()
-    
+
     # Read file with simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
         iom.open_file()
-    
+
     parameters = iom.get_parameters()
     potential = PotentialFactory.create_potential(parameters)
     grid = iom.load_grid()
 
-    plot_potential(grid, potential)
+    plot_potential(grid, potential, fill=False)
 
     iom.finalize()

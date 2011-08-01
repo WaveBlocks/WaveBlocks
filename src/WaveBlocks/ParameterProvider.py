@@ -11,6 +11,7 @@ provides these values to the simulation as global singleton.
 import types
 from copy import deepcopy
 
+import GlobalDefaults
 from PotentialFactory import PotentialFactory as PF
 from TimeManager import TimeManager
 
@@ -23,16 +24,30 @@ class ParameterProvider:
 
 
     def __getattr__(self, key):
-        # todo: This is slow, speed up necessary?
+        print(" Depreceated __getattr__ for key "+str(key)+" at ParameterProvider instance!")
         return self.params[key]
-    
+
 
     def __getitem__(self, key):
-        return self.params[key]
+        # See if we have a parameter with specified name
+        if self.params.has_key(key):
+            return self.params[key]
+        else:
+            # If not, try to find a global default value for it and copy over this value
+            print("Warning: parameter '"+str(key)+"' not found, now trying global defaults!")
+            if GlobalDefaults.__dict__.has_key(key):
+                self.__setitem__(key, deepcopy(GlobalDefaults.__dict__[key]))
+                return self.params[key]
+            else:
+                raise KeyError("Could not find a default value for parameter "+str(key)+"!")
 
 
     def __setitem__(self, key, value):
-        self.params[key] = value
+        self.params[key] = deepcopy(value)
+
+
+    def __contains__(self, key):
+        return self.params.has_key(key)
 
 
     def __iter__(self):
@@ -47,7 +62,7 @@ class ParameterProvider:
 
     def has_key(self, key):
         return self.params.has_key(key)
-    
+
 
     def get_configuration_variables(self, _scriptcode):
         """Clean environment for reading in local parameters.
@@ -59,7 +74,7 @@ class ParameterProvider:
         # Filter out private variables (the ones prefixed by "_")
         # instances like "self" and imported modules.
         parameters = locals().items()
-        
+
         parameters = [ item for item in parameters if not type(item[1]) == types.ModuleType ]
         parameters = [ item for item in parameters if not type(item[1]) == types.InstanceType ]
         parameters = [ item for item in parameters if not item[0].startswith("_") ]
@@ -67,42 +82,32 @@ class ParameterProvider:
         return dict(parameters)
 
 
-    def incompletion_tolerance(self):
-        """Be fault tolerant for some incomplete configurations.
-        """
-        # todo: Improve or remove
-        if not "write_nth" in self.params:
-            self.params["write_nth"] = 0
-
-        if not "save_at" in self.params:
-            self.params["save_at"] = []
-
-        # Number of space dimensions
-        self.params["dimension"] = 1
-
-
     def compute_parameters(self):
         """Compute some further parameters from the given ones.
         """
-        self._tm = TimeManager()
-        self._tm.set_T(self.params["T"])
-        self._tm.set_dt(self.params["dt"])
+        # Perform the computation only if the basic values are available.
+        # This is necessary to add flexibility and essentially read in *any*
+        # parameter file with heavily incomplete value sets. (F.e. spawn configs)
+        if self.params.has_key("T") and self.params.has_key("dt"):
+            self._tm = TimeManager()
+            self._tm.set_T(self["T"])
+            self._tm.set_dt(self["dt"])
 
-        # todo: Fix and improve, decide what to do if not all data are given.
+            # Set the interval for saving data
+            self._tm.set_interval(self["write_nth"])
 
-        # Set the interval for saving data
-        self._tm.set_interval(self.params["write_nth"])
+            # Set the fixed times for saving data
+            if self.has_key("save_at"):
+                self._tm.add_to_savelist(self["save_at"])
 
-        # Set the fixed times for saving data
-        self._tm.add_to_savelist(self.params["save_at"])
+            # The number of time steps we will perform.
+            self.params["nsteps"] = self._tm.compute_number_timesteps()
 
-        # The number of time steps we will perform.
-        self.params["nsteps"] = self._tm.compute_number_timesteps()
-
-        # Ugly hack. Should improve handling of potential libraries
-        Potential = PF.create_potential(self)
-        # Number of components of $\Psi$
-        self.params["ncomponents"] = Potential.get_number_components()
+        if self.params.has_key("potential"):
+            # Ugly hack. Should improve handling of potential libraries
+            Potential = PF.create_potential(self)
+            # Number of components of $\Psi$
+            self.params["ncomponents"] = Potential.get_number_components()
 
 
     def read_parameters(self, filepath):
@@ -121,9 +126,6 @@ class ParameterProvider:
         for key, value in params.iteritems():
             self.params[key] = deepcopy(value)
 
-        # Compensate for some missing values
-        self.incompletion_tolerance()
-
         # Compute some values on top of the given input parameters
         self.compute_parameters()
 
@@ -131,13 +133,30 @@ class ParameterProvider:
     def set_parameters(self, params):
         """Overwrite the dict containing all parameters with a
         newly provided dict with (possibly) changed parameters.
-        @param params: Dict with new parameters. The dict will be copied.
+        @param params: A I{ParameterProvider} instance or a dict
+        with new parameters. The values will be deep-copied. No
+        old values will remain.
         """
+        if isinstance(params, ParameterProvider):
+            params = params.get_parameters()
+
         self.params = deepcopy(params)
+        # Compute some values on top of the given input parameters
+        self.compute_parameters()
 
-        # Compensate for some missing values
-        self.incompletion_tolerance()
 
+    def update_parameters(self, params):
+        """Overwrite the dict containing all parameters with a
+        newly provided dict with (possibly) changed parameters.
+        @param params: A I{ParameterProvider} instance or a dict
+        with new parameters. The values will be deep-copied. Old
+        values are only overwritten if we have got new values.
+        """
+        if isinstance(params, ParameterProvider):
+            params = params.get_parameters()
+
+        for key, value in params.iteritems():
+            self.__setitem__(key, value)
         # Compute some values on top of the given input parameters
         self.compute_parameters()
 
@@ -175,14 +194,14 @@ class ParameterProvider:
 
         except KeyError:
             pass
-            
+
         s += "------------------------------------\n"
         s += "All parameters provided\n"
         s += "------------------------------------\n"
 
         keys = self.params.keys()
         keys.sort()
-        
+
         for key in keys:
             s += "  " + str(key) + ": " + str(self.params[key]) + "\n"
 

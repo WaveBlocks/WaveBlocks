@@ -26,7 +26,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
     parameters = f.get_parameters()
     
     grid = f.load_grid()
-    k = array(range(parameters.basis_size))
+    k = array(range(parameters["basis_size"]))
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
@@ -40,7 +40,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
         # Retrieve spawn data for both packets
         try:
             wave_m = f.load_wavefunction(timestep=step, block=0)
-            values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters.ncomponents) ]
+            values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters["ncomponents"]) ]
             coeffs_m = squeeze(f.load_wavepacket_coefficients(timestep=step, block=0))
             have_mother_data = True
         except ValueError:
@@ -49,7 +49,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
         # Retrieve spawn data
         try:
             wave_s = f.load_wavefunction(timestep=step, block=1)
-            values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters.ncomponents) ]
+            values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters["ncomponents"]) ]
             coeffs_s = squeeze(f.load_wavepacket_coefficients(timestep=step, block=1))
             have_spawn_data = True
         except ValueError:
@@ -99,7 +99,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
             ax2 = subplot2grid((2,2), (1,0))
             ax2.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             stemcf(k, angle(coeffs_m), abs(coeffs_m))
-            ax2.set_xlim((-1, parameters.basis_size))
+            ax2.set_xlim((-1, parameters["basis_size"]))
             ax2.set_xlabel(r"$k$")
             ax2.set_ylabel(r"$|c|$")
             ax2.set_title(r"Mother packet $| \Psi^m \rangle$")
@@ -109,12 +109,12 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
             ax3 = subplot2grid((2,2), (1,1))
             ax3.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             stemcf(k, angle(coeffs_s), abs(coeffs_s))
-            ax3.set_xlim((-1, parameters.basis_size))
+            ax3.set_xlim((-1, parameters["basis_size"]))
             ax3.set_xlabel(r"$k$")
             ax3.set_ylabel(r"$|c|$")
             ax3.set_title(r"Spawned packet $| \Psi^s \rangle$")
 
-        fig.suptitle(r"Time $"+str(step*parameters.dt)+r"$")
+        fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
         fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
         close(fig)
 

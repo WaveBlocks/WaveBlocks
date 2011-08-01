@@ -23,9 +23,9 @@ def read_data(f):
     parameters = f.get_parameters()
 
     timegrid0 = f.load_norm_timegrid()
-    time0 = timegrid0 * parameters.dt
+    time0 = timegrid0 * parameters["dt"]
     timegrid1 = f.load_norm_timegrid(block=1)
-    time1 = timegrid1 * parameters.dt
+    time1 = timegrid1 * parameters["dt"]
     
     # Load data of original packet
     norms0 = f.load_norm(split=True)

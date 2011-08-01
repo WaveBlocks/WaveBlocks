@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.ComplexMath</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;ComplexMath
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.ComplexMath-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.ComplexMath-module.html">Module WaveBlocks.ComplexMath</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">Some selected functions for complex math.</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2011 R. Bourquin</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">numpy</tt> <tt class="py-keyword">import</tt> <tt class="py-name">array</tt><tt class="py-op">,</tt> <tt class="py-name">hstack</tt><tt class="py-op">,</tt> <tt class="py-name">cumsum</tt><tt class="py-op">,</tt> <tt class="py-name">diff</tt><tt class="py-op">,</tt> <tt class="py-name">around</tt><tt class="py-op">,</tt> <tt class="py-name">abs</tt><tt class="py-op">,</tt> <tt class="py-name">angle</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Variable WaveBlocks.FourierPropagator'.exp=WaveBlocks.FourierPropagator%27-module.html#exp,Variable WaveBlocks.GaussHermiteQR'.exp=WaveBlocks.GaussHermiteQR%27-module.html#exp,Variable WaveBlocks.HagedornMultiWavepacket'.exp=WaveBlocks.HagedornMultiWavepacket%27-module.html#exp,Variable WaveBlocks.HagedornWavepacket'.exp=WaveBlocks.HagedornWavepacket%27-module.html#exp"><a title="WaveBlocks.FourierPropagator'.exp
+WaveBlocks.GaussHermiteQR'.exp
+WaveBlocks.HagedornMultiWavepacket'.exp
+WaveBlocks.HagedornWavepacket'.exp" class="py-name" href="#" onclick="return doclink('link-0', 'exp', 'link-0');">exp</a></tt><tt class="py-op">,</tt> <tt class="py-name">sqrt</tt><tt class="py-op">,</tt> <tt id="link-1" class="py-name" targets="Variable WaveBlocks.GaussHermiteQR'.pi=WaveBlocks.GaussHermiteQR%27-module.html#pi,Variable WaveBlocks.HagedornMultiWavepacket'.pi=WaveBlocks.HagedornMultiWavepacket%27-module.html#pi,Variable WaveBlocks.HagedornWavepacket'.pi=WaveBlocks.HagedornWavepacket%27-module.html#pi,Variable WaveBlocks.Plot.plotcf'.pi=WaveBlocks.Plot.plotcf%27-module.html#pi,Variable WaveBlocks.Plot.stemcf'.pi=WaveBlocks.Plot.stemcf%27-module.html#pi,Variable WaveBlocks.WaveFunction'.pi=WaveBlocks.WaveFunction%27-module.html#pi"><a title="WaveBlocks.GaussHermiteQR'.pi
+WaveBlocks.HagedornMultiWavepacket'.pi
+WaveBlocks.HagedornWavepacket'.pi
+WaveBlocks.Plot.plotcf'.pi
+WaveBlocks.Plot.stemcf'.pi
+WaveBlocks.WaveFunction'.pi" class="py-name" href="#" onclick="return doclink('link-1', 'pi', 'link-1');">pi</a></tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="continuate"></a><div id="continuate-def"><a name="L13"></a><tt class="py-lineno">13</tt> <a class="py-toggle" href="#" id="continuate-toggle" onclick="return toggle('continuate');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ComplexMath-module.html#continuate">continuate</a><tt class="py-op">(</tt><tt class="py-param">data</tt><tt class="py-op">,</tt> <tt class="py-param">jump</tt><tt class="py-op">=</tt><tt class="py-number">2.0</tt><tt class="py-op">*</tt><tt id="link-2" class="py-name"><a title="WaveBlocks.GaussHermiteQR'.pi
+WaveBlocks.HagedornMultiWavepacket'.pi
+WaveBlocks.HagedornWavepacket'.pi
+WaveBlocks.Plot.plotcf'.pi
+WaveBlocks.Plot.stemcf'.pi
+WaveBlocks.WaveFunction'.pi" class="py-name" href="#" onclick="return doclink('link-2', 'pi', 'link-1');">pi</a></tt><tt class="py-op">,</tt> <tt class="py-param">reference</tt><tt class="py-op">=</tt><tt class="py-number">0.0</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="continuate-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="continuate-expanded"><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-docstring">"""Make the given data continuous by removing all jumps of size k*jump</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring">    but not touching jumps of any other size. This can be used to overcome</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">    issues with the branch cut along the negative axis.</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    @param data: An array with the input data.</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">    @keyword jump: The basic size of jumps which will be removed. Default is 2*pi.</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">    @keyword reference: This value allows the specify the starting point for</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">    continuation explicitely. It can be used together with I{data} beeing a single number.</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">    @Note: There may be issues with jumps that are of size nearly k*jump.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt class="py-name">data</tt> <tt class="py-op">=</tt> <tt class="py-name">hstack</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">array</tt><tt class="py-op">(</tt><tt class="py-name">reference</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">array</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-name">data</tt> <tt class="py-op">-</tt> <tt class="py-name">jump</tt><tt class="py-op">*</tt><tt class="py-name">hstack</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> <tt class="py-number">0.0</tt><tt class="py-op">,</tt> <tt class="py-name">cumsum</tt><tt class="py-op">(</tt><tt class="py-name">around</tt><tt class="py-op">(</tt> <tt class="py-name">diff</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-name">jump</tt> <tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"> </tt>
+<a name="cont_angle"></a><div id="cont_angle-def"><a name="L27"></a><tt class="py-lineno">27</tt> <a class="py-toggle" href="#" id="cont_angle-toggle" onclick="return toggle('cont_angle');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ComplexMath-module.html#cont_angle">cont_angle</a><tt class="py-op">(</tt><tt class="py-param">data</tt><tt class="py-op">,</tt> <tt class="py-param">reference</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="cont_angle-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="cont_angle-expanded"><a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-docstring">"""Compute the angle of a complex number *not* constrained to</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"><tt class="py-docstring">    the principal value and avoiding discontinuities at the branch cut.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-docstring">    @param data: An array with the input data.</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-docstring">    @keyword reference: This value allows the specify the starting point for</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-docstring">    continuation explicitely. It can be used together with I{data} beeing a single number.</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-docstring">    @note: This function just applies 'continuate(.)' to the complex phase.</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">reference</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-comment"># Return just cont_f(x)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-3" class="py-name" targets="Function WaveBlocks.ComplexMath.continuate()=WaveBlocks.ComplexMath-module.html#continuate"><a title="WaveBlocks.ComplexMath.continuate" class="py-name" href="#" onclick="return doclink('link-3', 'continuate', 'link-3');">continuate</a></tt><tt class="py-op">(</tt><tt class="py-name">angle</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-comment"># Return a 2-tuple ( cont_f(x), new_reference )</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-number">2</tt><tt class="py-op">*</tt><tt class="py-op">(</tt> <tt id="link-4" class="py-name"><a title="WaveBlocks.ComplexMath.continuate" class="py-name" href="#" onclick="return doclink('link-4', 'continuate', 'link-3');">continuate</a></tt><tt class="py-op">(</tt><tt class="py-name">angle</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">reference</tt><tt class="py-op">=</tt><tt class="py-name">reference</tt><tt class="py-op">)</tt> <tt class="py-op">,</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt>
+<a name="cont_sqrt"></a><div id="cont_sqrt-def"><a name="L43"></a><tt class="py-lineno">43</tt> <a class="py-toggle" href="#" id="cont_sqrt-toggle" onclick="return toggle('cont_sqrt');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.ComplexMath-module.html#cont_sqrt">cont_sqrt</a><tt class="py-op">(</tt><tt class="py-param">data</tt><tt class="py-op">,</tt> <tt class="py-param">reference</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="cont_sqrt-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="cont_sqrt-expanded"><a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt class="py-docstring">"""Compute the complex square root (following the Riemann surface)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"><tt class="py-docstring">    yields a result *not* constrained to the principal value and avoiding</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-docstring">    discontinuities at the branch cut.</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-docstring">    @param data: An array with the input data.</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"><tt class="py-docstring">    @keyword reference: This value allows the specify the starting point for</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt class="py-docstring">    continuation explicitely. It can be used together with I{data} beeing a single number.</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"><tt class="py-docstring">    @note: This function applies 'continuate(.)' to the complex phase</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"><tt class="py-docstring">    and computes the complex square root according to the formula</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt class="py-docstring">    $\sqrt{z} = \sqrt{r} \cdot \exp \left( i \cdot \frac{\phi}{2} \right)$</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">reference</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-comment"># Return just cont_f(x)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">sqrt</tt><tt class="py-op">(</tt><tt class="py-name">abs</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">*</tt><tt id="link-5" class="py-name"><a title="WaveBlocks.FourierPropagator'.exp
+WaveBlocks.GaussHermiteQR'.exp
+WaveBlocks.HagedornMultiWavepacket'.exp
+WaveBlocks.HagedornWavepacket'.exp" class="py-name" href="#" onclick="return doclink('link-5', 'exp', 'link-0');">exp</a></tt><tt class="py-op">(</tt><tt class="py-number">1.0j</tt><tt class="py-op">*</tt><tt id="link-6" class="py-name"><a title="WaveBlocks.ComplexMath.continuate" class="py-name" href="#" onclick="return doclink('link-6', 'continuate', 'link-3');">continuate</a></tt><tt class="py-op">(</tt><tt class="py-name">angle</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-comment"># Return a 2-tuple ( cont_f(x), new_reference )</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-name">phi</tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name"><a title="WaveBlocks.ComplexMath.continuate" class="py-name" href="#" onclick="return doclink('link-7', 'continuate', 'link-3');">continuate</a></tt><tt class="py-op">(</tt><tt class="py-name">angle</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">reference</tt><tt class="py-op">=</tt><tt class="py-name">reference</tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-name">sqrt</tt><tt class="py-op">(</tt><tt class="py-name">abs</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">*</tt><tt id="link-8" class="py-name"><a title="WaveBlocks.FourierPropagator'.exp
+WaveBlocks.GaussHermiteQR'.exp
+WaveBlocks.HagedornMultiWavepacket'.exp
+WaveBlocks.HagedornWavepacket'.exp" class="py-name" href="#" onclick="return doclink('link-8', 'exp', 'link-0');">exp</a></tt><tt class="py-op">(</tt><tt class="py-number">1.0j</tt><tt class="py-op">*</tt><tt class="py-name">phi</tt><tt class="py-op">/</tt><tt class="py-number">2</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">phi</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:59 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -8,10 +8,7 @@ This file contains the Hagedorn propagator class for inhomogeneous wavepackets.
 """
 
 from functools import partial
-import numpy as np
-import scipy as sp
 
-import GlobalDefaults
 from WaveFunction import WaveFunction
 from Propagator import Propagator
 
@@ -19,10 +16,10 @@ from Propagator import Propagator
 class HagedornMultiPropagator(Propagator):
     """This class can numerically propagate given initial values $\Ket{\Psi}$ in
     a potential $V\ofs{x}$. The propagation is done for a given inhomogeneous
-    Hagedorn wavepacket."""    
-    
+    Hagedorn wavepacket."""
+
     def __init__(self, potential, packet, parameters):
-        """Initialize a new I{HagedornMultiPropagator} instance. 
+        """Initialize a new I{HagedornMultiPropagator} instance.
         @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
         @param packet: The initial inhomogeneous Hagedorn wavepacket we propagate in time.
         @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
@@ -39,29 +36,21 @@ class HagedornMultiPropagator(Propagator):
 
         #: The Hagedorn wavepacket.
         self.packet = packet
-        
+
         # Cache some parameter values for efficiency
         self.parameters = parameters
-        self.dt = parameters.dt
-        self.eps = parameters.eps
+        self.dt = parameters["dt"]
+        self.eps = parameters["eps"]
 
         # Decide about the matrix exponential algorithm to use
-        if parameters.has_key("matrix_exponential"):
-            method = parameters["matrix_exponential"]
-        else:
-            method = GlobalDefaults.matrix_exponential
+        method = parameters["matrix_exponential"]
 
         if method == "pade":
             from MatrixExponential import matrix_exp_pade
             self.__dict__["matrix_exponential"] = matrix_exp_pade
         elif method == "arnoldi":
             from MatrixExponential import matrix_exp_arnoldi
-
-            if parameters.has_key("arnoldi_steps"):
-                arnoldi_steps = parameters["arnoldi_steps"]
-            else:
-                arnoldi_steps = min(parameters["basis_size"], GlobalDefaults.arnoldi_steps)
-
+            arnoldi_steps = min(parameters["basis_size"], parameters["arnoldi_steps"])
             self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
         else:
             raise ValueError("Unknown matrix exponential algorithm")
@@ -74,18 +63,18 @@ class HagedornMultiPropagator(Propagator):
     def __str__(self):
         """Prepare a printable string representing the I{HagedornMultiPropagator} instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components."
-        
-        
+
+
     def get_number_components(self):
         """@return: The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$."""
-        return self.number_components        
+        return self.number_components
 
 
     def get_potential(self):
         """@return: The I{MatrixPotential} instance used for time propagation."""
         return self.potential
-        
-        
+
+
     def get_wavepacket(self):
         """@return: The I{HagedornMultiWavepacket} instance that represents the
         current wavepacket $\Ket{\Psi}$."""
@@ -115,7 +104,7 @@ class HagedornMultiPropagator(Propagator):
         # Do a kinetic step of dt/2
         for component in xrange(self.number_components):
             (P,Q,S,p,q) = self.packet.get_parameters(component=component)
-            
+
             q = q + 0.5*dt * p
             Q = Q + 0.5*dt * P
             S = S + 0.25*dt * p**2
@@ -133,7 +122,7 @@ class HagedornMultiPropagator(Propagator):
             S = S - dt * V[0]
 
             self.packet.set_parameters((P,Q,S,p,q), component=component)
-        
+
         # Do a potential step with the local non-quadratic taylor remainder
         F = self.packet.matrix(self.potential.evaluate_local_remainder_at)
         coefficients = self.packet.get_coefficient_vector()
@@ -143,7 +132,7 @@ class HagedornMultiPropagator(Propagator):
         # Do a kinetic step of dt/2
         for component in xrange(self.number_components):
             (P,Q,S,p,q) = self.packet.get_parameters(component=component)
-            
+
             q = q + 0.5 * dt * p
             Q = Q + 0.5 * dt * P
             S = S + 0.25 * dt * p**2

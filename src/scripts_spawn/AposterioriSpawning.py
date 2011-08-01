@@ -34,14 +34,14 @@ def aposteriori_spawning(fin, fout, pin, pout):
     coeffs = fin.load_wavepacket_coefficients()
 
     # A data transformation needed by API specification
-    coeffs = [ [ coeffs[i,j,:] for j in xrange(pin.ncomponents) ] for i in xrange(nrtimesteps) ]
+    coeffs = [ [ coeffs[i,j,:] for j in xrange(pin["ncomponents"]) ] for i in xrange(nrtimesteps) ]
 
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
     HAWP.set_quadrator(None)
     
     # Initialize an empty wavepacket for spawning
-    SWP = HagedornWavepacket(pin)
+    SWP = HagedornWavepacket(pout)
     SWP.set_quadrator(None)
 
     # Initialize a Spawner
@@ -83,6 +83,13 @@ if __name__ == "__main__":
     except IndexError:
         iomin.open_file()
 
+    # Read a configuration file with the spawn parameters
+    try:
+        parametersspawn = ParameterProvider()
+        parametersspawn.read_parameters(sys.argv[2])
+    except IndexError:
+        raise IOError("No spawn configuration given!")
+
     parametersin = iomin.get_parameters()
 
     # Check if we can start a spawning simulation
@@ -94,16 +101,10 @@ if __name__ == "__main__":
     parametersout = ParameterProvider()
 
     # Transfer the simulation parameters
-    parametersout.set_parameters(parametersin.get_parameters())
+    parametersout.set_parameters(parametersin)
 
     # And add spawning related configurations variables
-    # todo: Ugly, remove and replace with better solution
-    # reading values from a configuration file
-    parametersout["algorithm"] = "spawning_apost"
-    parametersout["spawn_K0"] = 100
-    parametersout["spawn_threshold"] = 1e-10
-    #parametersout["spawn_max_order"] = 12
-    parametersout["spawn_normed_gaussian"] = True
+    parametersout.update_parameters(parametersspawn)
 
     # How much time slots do we need
     tm = parametersout.get_timemanager()
@@ -118,7 +119,7 @@ if __name__ == "__main__":
     iomout.save_grid(iomin.load_grid())    
     iomout.add_grid_reference()
 
-    iomout.add_wavepacket(parametersout)
+    iomout.add_wavepacket(parametersin)
     iomout.add_wavepacket(parametersout, block=1)
     
     # Really do the aposteriori spawning simulation

@@ -20,7 +20,8 @@ def add_wavepacket(self, parameters, timeslots=None, block=0):
     if timeslots is None:
         # This case is event based storing
         daset_pi = grp_wp.create_dataset("Pi", (1, 1, 5), dtype=np.complexfloating, chunks=(1, 1, 5))
-        daset_c = grp_wp.create_dataset("coefficients", (1, parameters.ncomponents, parameters.basis_size), dtype=np.complexfloating, chunks=(1, parameters.ncomponents, parameters.basis_size))
+        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], parameters["basis_size"]),
+                                        dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], parameters["basis_size"]))
         daset_tg = grp_wp.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
 
         daset_pi.resize(0, axis=0)
@@ -28,8 +29,8 @@ def add_wavepacket(self, parameters, timeslots=None, block=0):
         daset_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), dtype=np.complexfloating)        
-        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters.ncomponents, parameters.basis_size), dtype=np.complexfloating)
+        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), dtype=np.complexfloating)
+        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters["ncomponents"], parameters["basis_size"]), dtype=np.complexfloating)
         daset_tg = grp_wp.create_dataset("timegrid", (timeslots,), dtype=np.integer)
 
     # Attach pointer to data instead timegrid
@@ -45,6 +46,12 @@ def delete_wavepacket(self, block=0):
         del self.srf["datablock_"+str(block)+"/wavepacket"]
     except KeyError:
         pass
+
+
+def has_wavepacket(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return "wavepacket" in self.srf["datablock_"+str(block)].keys()
 
 
 def save_wavepacket_parameters(self, parameters, timestep=None, block=0):

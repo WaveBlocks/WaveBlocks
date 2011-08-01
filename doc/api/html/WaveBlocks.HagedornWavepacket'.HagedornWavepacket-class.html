@@ -117,6 +117,22 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="clone"></a><span class="summary-sig-name">clone</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.clone">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#evaluate_at" class="summary-sig-name">evaluate_at</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">nodes</span>,
         <span class="summary-sig-arg">component</span>=<span class="summary-sig-default">None</span>,
@@ -138,11 +154,30 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#evaluate_base_at" class="summary-sig-name">evaluate_base_at</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">nodes</span>)</span><br />
+        <span class="summary-sig-arg">nodes</span>,
+        <span class="summary-sig-arg">prefactor</span>=<span class="summary-sig-default">False</span>)</span><br />
       Evaluate the Hagedorn functions $\phi_k$ recursively at the given
       nodes $\gamma$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.evaluate_base_at">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_basis_size" class="summary-sig-name">get_basis_size</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+      The size of the basis, i.e.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_basis_size">source&nbsp;code</a></span>
 
           </td>
         </tr>
@@ -231,10 +266,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_parameters" class="summary-sig-name">get_parameters</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_parameters" class="summary-sig-name">get_parameters</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">component</span>=<span class="summary-sig-default">None</span>)</span><br />
       Get the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_parameters">source&nbsp;code</a></span>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#get_quadrator" class="summary-sig-name">get_quadrator</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the <i>GaussHermiteQR</i> instance used for quadrature.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_quadrator">source&nbsp;code</a></span>
 
           </td>
         </tr>
@@ -325,7 +378,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#project_to_canonical" class="summary-sig-name">project_to_canonical</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">potential</span>)</span><br />
+        <span class="summary-sig-arg">potential</span>,
+        <span class="summary-sig-arg">assign</span>=<span class="summary-sig-default">True</span>)</span><br />
       Project the Hagedorn wavepacket into the canonical basis.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.project_to_canonical">source&nbsp;code</a></span>
@@ -343,7 +397,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#project_to_eigen" class="summary-sig-name">project_to_eigen</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">potential</span>)</span><br />
+        <span class="summary-sig-arg">potential</span>,
+        <span class="summary-sig-arg">assign</span>=<span class="summary-sig-default">True</span>)</span><br />
       Project the Hagedorn wavepacket into the eigenbasis of a given
       potential $V$.</td>
           <td align="right" valign="top">
@@ -584,7 +639,8 @@ ight)^{-rac{1}{2}}$.</li>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">evaluate_base_at</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">nodes</span>)</span>
+        <span class="sig-arg">nodes</span>,
+        <span class="sig-arg">prefactor</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.evaluate_base_at">source&nbsp;code</a></span>&nbsp;
@@ -597,11 +653,35 @@ ight)^{-rac{1}{2}}$.</li>
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>nodes</code></strong> - The nodes $\gamma$ at which the Hagedorn functions are evaluated.</li>
+        <li><strong class="pname"><code>prefactor</code></strong> - Whether to include a factor of
+          $\left(\det\ofs{Q}
+ight)^{-rac{1}{2}}$.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Returns a twodimensional array $H$ where the entry $H[k,i]$ is
           the value of the $k$-th Hagedorn function evaluated at the node
           $i$.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_basis_size"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_basis_size</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_basis_size">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+
+
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The size of the basis, i.e. the number $K$ of ${\phi_k}_{k=1}^K$.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -625,7 +705,11 @@ ight)^{-rac{1}{2}}$.</li>
         <dd>The coefficients $c^i$ of all components $\Phi_i$ as a single
           long column vector.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        This function does *NOT* copy the output data! This is for
+        efficiency as this routine is used in the innermost loops.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="get_coefficients"></a>
 <div>
@@ -653,7 +737,10 @@ ight)^{-rac{1}{2}}$.</li>
         <dd>The coefficients $c^i$ either for all components $\Phi_i$ or for
           a specified one.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        This function *DOES* copy the output data!
+      </p>
+</div></td></tr></table>
 </div>
 <a name="get_norm"></a>
 <div>
@@ -713,7 +800,8 @@ ight)^{-rac{1}{2}}$.</li>
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_parameters</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_parameters</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">component</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_parameters">source&nbsp;code</a></span>&nbsp;
@@ -722,9 +810,35 @@ ight)^{-rac{1}{2}}$.</li>
 
   <p>Get the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>component</code></strong> - Dummy parameter for API compatibility with the inhomogeneous
+          packets.</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this
           order.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_quadrator"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_quadrator</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.get_quadrator">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+
+  <p>Return the <i>GaussHermiteQR</i> instance used for quadrature.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The current instance of the quadrature rule.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -850,7 +964,8 @@ ight)^{-rac{1}{2}}$.</li>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">project_to_canonical</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">potential</span>)</span>
+        <span class="sig-arg">potential</span>,
+        <span class="sig-arg">assign</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.project_to_canonical">source&nbsp;code</a></span>&nbsp;
@@ -863,11 +978,14 @@ ight)^{-rac{1}{2}}$.</li>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>potential</code></strong> - The potential $V$ whose eigenvectors $nu_l$ are used for the
           transformation.</li>
+        <li><strong class="pname"><code>assign</code></strong> - Whether to assign the new coefficient values to the wavepacket.
+          Default true.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This function is expensive and destructive! It modifies the
-        coefficients of the <i>self</i> instance.
+        coefficients of the <i>self</i> instance if the <i>assign</i>
+        parameter is True (default).
       </p>
 </div></td></tr></table>
 </div>
@@ -879,7 +997,8 @@ ight)^{-rac{1}{2}}$.</li>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">project_to_eigen</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">potential</span>)</span>
+        <span class="sig-arg">potential</span>,
+        <span class="sig-arg">assign</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.HagedornWavepacket%27-pysrc.html#HagedornWavepacket.project_to_eigen">source&nbsp;code</a></span>&nbsp;
@@ -893,11 +1012,14 @@ ight)^{-rac{1}{2}}$.</li>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>potential</code></strong> - The potential $V$ whose eigenvectors $nu_l$ are used for the
           transformation.</li>
+        <li><strong class="pname"><code>assign</code></strong> - Whether to assign the new coefficient values to the wavepacket.
+          Default true.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This function is expensive and destructive! It modifies the
-        coefficients of the <i>self</i> instance.
+        coefficients of the <i>self</i> instance if the <i>assign</i>
+        parameter is True (default).
       </p>
 </div></td></tr></table>
 </div>
@@ -989,7 +1111,11 @@ ightarrow R^{N  imes N}.$</li>
           vector.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        This function does *NOT* copy the input data! This is for
+        efficiency as this routine is used in the innermost loops.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="set_coefficients"></a>
 <div>
@@ -1024,7 +1150,7 @@ ightarrow R^{N  imes N}.$</li>
         This function can either set new coefficients for a single
         component $\Phi_i$ only if the <i>component</i> attribute is set or
         for all components simultaneously if <i>values</i> is a list of
-        arrays.
+        arrays. This function *DOES* copy the input data!
       </p>
 </div></td></tr></table>
 </div>
@@ -1102,7 +1228,7 @@ ightarrow R^{N  imes N}.$</li>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 20 19:31:35 2011
+    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:58 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

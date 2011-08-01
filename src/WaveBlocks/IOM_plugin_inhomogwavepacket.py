@@ -19,8 +19,9 @@ def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
     # Create the dataset with appropriate parameters
     if timeslots is None:
         # This case is event based storing
-        daset_pi = grp_wp.create_dataset("Pi", (1, parameters.ncomponents, 5), dtype=np.complexfloating, chunks=(1, parameters.ncomponents, 5))
-        daset_c = grp_wp.create_dataset("coefficients", (1, parameters.ncomponents, parameters.basis_size), dtype=np.complexfloating, chunks=(1, parameters.ncomponents, parameters.basis_size))
+        daset_pi = grp_wp.create_dataset("Pi", (1, parameters["ncomponents"], 5), dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], 5))
+        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], parameters["basis_size"]),
+                                        dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], parameters["basis_size"]))
         daset_tg = grp_wp.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
 
         daset_pi.resize(0, axis=0)
@@ -28,8 +29,8 @@ def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
         daset_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_pi = grp_wp.create_dataset("Pi", (timeslots, parameters.ncomponents, 5), dtype=np.complexfloating)        
-        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters.ncomponents, parameters.basis_size), dtype=np.complexfloating)
+        daset_pi = grp_wp.create_dataset("Pi", (timeslots, parameters["ncomponents"], 5), dtype=np.complexfloating)
+        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters["ncomponents"], parameters["basis_size"]), dtype=np.complexfloating)
         daset_tg = grp_wp.create_dataset("timegrid", (timeslots,), dtype=np.integer)
 
     # Attach pointer to data instead timegrid
@@ -45,6 +46,12 @@ def delete_inhomogwavepacket(self, block=0):
         del self.srf["datablock_"+str(block)+"/wavepacket_inhomog"]
     except KeyError:
         pass
+
+
+def has_inhomogwavepacket(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return "wavepacket_inhomog" in self.srf["datablock_"+str(block)].keys()
 
 
 def save_inhomogwavepacket_parameters(self, parameters, timestep=None, block=0):
@@ -99,9 +106,9 @@ def load_inhomogwavepacket_parameters(self, timestep=None, block=0):
     pathd = "/datablock_"+str(block)+"/wavepacket_inhomog/Pi"
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        params = [ self.srf[pathd][index,i,:] for i in xrange(self.parameters.ncomponents) ]
+        params = [ self.srf[pathd][index,i,:] for i in xrange(self.parameters["ncomponents"]) ]
     else:
-        params = [ self.srf[pathd][...,i,:] for i in xrange(self.parameters.ncomponents) ]
+        params = [ self.srf[pathd][...,i,:] for i in xrange(self.parameters["ncomponents"]) ]
 
     return params
 

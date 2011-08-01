@@ -14,7 +14,7 @@ import h5py as hdf
 def add_grid(self, parameters, block=0):
     """Add storage for a grid.
     """
-    self.srf["datablock_"+str(block)].create_dataset("grid", (parameters.dimension, parameters.ngn), np.floating)
+    self.srf["datablock_"+str(block)].create_dataset("grid", (parameters["dimension"], parameters["ngn"]), np.floating)
 
 
 def delete_grid(self, block=0):
