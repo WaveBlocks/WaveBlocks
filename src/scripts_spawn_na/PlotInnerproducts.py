@@ -132,6 +132,8 @@ def compute(parameters, timegrids, AllPA, AllC):
     C1 = AllC[1]
 
     # Construct the packets from the data
+    QR = None
+
     OWP = HagedornWavepacket(parameters)
     OWP.set_quadrator(QR)
 
@@ -151,7 +153,7 @@ def compute(parameters, timegrids, AllPA, AllC):
 
     # Inner products
     for step in xrange(nrtimesteps):
-        print(step)
+        print("Timestep "+str(step))
 
         # Put the data from the current timestep into the packets
         OWP.set_parameters((P[step], Q[step], S[step], p[step], q[step]))
