@@ -20,18 +20,20 @@ from WaveBlocks import HagedornMultiWavepacket
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames_homogeneous(f, view=None):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
     p = f.get_parameters()
-    
+
     # Get the data
     grid = f.load_grid()
     timesteps = f.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
-    
+
     params = f.load_wavepacket_parameters()
     coeffs = f.load_wavepacket_coefficients()
 
@@ -54,9 +56,9 @@ def plot_frames_homogeneous(f, view=None):
 
         values = HAWP.evaluate_at(grid, prefactor=True)
         coeffi = HAWP.get_coefficients()
-        
+
         plot_frame(step, p, grid, values, coeffi, view=view)
-    
+
     print(" Plotting frames finished")
 
 
@@ -65,12 +67,12 @@ def plot_frames_inhomogeneous(f, view=None):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     p = f.get_parameters()
-    
+
     # Get the data
     grid = f.load_grid()
     timesteps = f.load_inhomogwavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
-    
+
     params = f.load_inhomogwavepacket_parameters()
     coeffs = f.load_inhomogwavepacket_coefficients()
 
@@ -96,7 +98,7 @@ def plot_frames_inhomogeneous(f, view=None):
         coeffi = HAWP.get_coefficients()
 
         plot_frame(step, p, grid, values, coeffi, view=view)
-        
+
     print(" Plotting frames finished")
 
 
@@ -117,7 +119,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
 
     yl = y[grid<=X0]
     yr = y[grid>X0]
-    
+
     cs = c[k<K0]
     cb = c[k>=K0]
 
@@ -156,7 +158,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
     # axis formatting:
     m = max(abs(cs))
     ax3.set_xlim(-1, K0+1)
-    ax3.set_ylim(0, 1.1*m)        
+    ax3.set_ylim(0, 1.1*m)
     ax3.set_xlabel(r"$k < K_0$")
     ax3.set_ylabel(r"$|c|$")
 
@@ -173,7 +175,7 @@ def plot_frame(step, parameters, grid, values, coeffs, view=None, imgsize=(16,12
     ax4.set_ylabel(r"$|c|$")
 
     fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
-    fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
+    fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
     close(fig)
 
 
@@ -197,7 +199,7 @@ if __name__ == "__main__":
 
     if parameters["algorithm"] == "hagedorn":
         plot_frames_homogeneous(iom, view=view)
-        
+
     elif parameters["algorithm"] == "multihagedorn":
         plot_frames_inhomogeneous(iom, view=view)
 
@@ -207,5 +209,5 @@ if __name__ == "__main__":
     else:
         iom.finalize()
         sys.exit("Can only postprocess (multi)hagedorn algorithm data. Silent return ...")
-        
+
     iom.finalize()

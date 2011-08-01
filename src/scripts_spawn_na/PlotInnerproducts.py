@@ -18,6 +18,8 @@ from WaveBlocks import IOManager
 from WaveBlocks import TrapezoidalQR
 from WaveBlocks import HagedornWavepacket
 
+import GraphicsDefaults as GD
+
 
 def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     """
@@ -182,7 +184,7 @@ def compute(parameters, timegrids, AllPA, AllC):
     plot(grid_m, abs(ip_s2s2), label=r"$\langle S2|S2\rangle $")
     legend()
     grid(True)
-    savefig("inner_products.png")
+    savefig("inner_products"+GD.output_format)
     close()
 
 

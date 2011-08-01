@@ -16,6 +16,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_data_spawn(f):
     """
@@ -67,7 +69,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$\Re P^s$")
     ax.grid(True)
     ax.set_title(r"$\Re P$")
-    
+
     ax = fig.add_subplot(4,2,2)
     for item in Phist0:
         ax.plot(timegrid0, imag(item), label=r"$\Im P$")
@@ -75,7 +77,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, imag(item), "c", label=r"$\Im P^s$")
     ax.grid(True)
     ax.set_title(r"$\Im P$")
-    
+
     ax = fig.add_subplot(4,2,3)
     for item in Qhist0:
         ax.plot(timegrid0, real(item), label=r"$\Re Q$")
@@ -83,7 +85,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$\Re Q^s$")
     ax.grid(True)
     ax.set_title(r"$\Re Q$")
-    
+
     ax = fig.add_subplot(4,2,4)
     for item in Qhist0:
         ax.plot(timegrid0, imag(item), label=r"$\Im Q$")
@@ -91,7 +93,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, imag(item), "c", label=r"$\Im Q^s$")
     ax.grid(True)
     ax.set_title(r"$\Im Q$")
-    
+
     ax = fig.add_subplot(4,2,5)
     for item in qhist0:
         ax.plot(timegrid0, real(item), label=r"$q$")
@@ -99,7 +101,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$q^s$")
     ax.grid(True)
     ax.set_title(r"$q$")
-    
+
     ax = fig.add_subplot(4,2,6)
     for item in phist0:
         ax.plot(timegrid0, real(item), label=r"$p$")
@@ -107,7 +109,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$p^s$")
     ax.grid(True)
     ax.set_title(r"$p$")
-    
+
     ax = fig.add_subplot(4,2,7)
     for item in Shist0:
         ax.plot(timegrid0, real(item), label=r"$S$")
@@ -117,7 +119,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_spawned.png")
+    fig.savefig("wavepacket_parameters_spawned"+GD.output_format)
     close(fig)
 
 
@@ -132,7 +134,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, abs(item), "c", label=r"$|P^s|$")
     ax.grid(True)
     ax.set_title(r"$|P|$")
-    
+
     ax = fig.add_subplot(4,2,2)
     for item in Phist0:
         ax.plot(timegrid0, ComplexMath.cont_angle(item), label=r"$\arg P$")
@@ -140,7 +142,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, ComplexMath.cont_angle(item), "c", label=r"$\arg P^s$")
     ax.grid(True)
     ax.set_title(r"$\arg P$")
-    
+
     ax = fig.add_subplot(4,2,3)
     for item in Qhist0:
         ax.plot(timegrid0, abs(item), label=r"$|Q|$")
@@ -148,7 +150,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, abs(item), "c", label=r"$|Q^s|$")
     ax.grid(True)
     ax.set_title(r"$|Q|$")
-    
+
     ax = fig.add_subplot(4,2,4)
     for item in Qhist0:
         ax.plot(timegrid0, ComplexMath.cont_angle(item), label=r"$\arg Q$")
@@ -156,7 +158,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, ComplexMath.cont_angle(item), "c", label=r"$\arg Q^s$")
     ax.grid(True)
     ax.set_title(r"$\arg Q$")
-    
+
     ax = fig.add_subplot(4,2,5)
     for item in qhist0:
         ax.plot(timegrid0, real(item), label=r"$q$")
@@ -164,7 +166,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$q^s$")
     ax.grid(True)
     ax.set_title(r"$q$")
-    
+
     ax = fig.add_subplot(4,2,6)
     for item in phist0:
         ax.plot(timegrid0, real(item), label=r"$p$")
@@ -172,7 +174,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
         ax.plot(timegrid1, real(item), "c", label=r"$p^s$")
     ax.grid(True)
     ax.set_title(r"$p$")
-    
+
     ax = fig.add_subplot(4,2,7)
     for item in Shist0:
         ax.plot(timegrid0, real(item), label=r"$S$")
@@ -182,7 +184,7 @@ def plot_parameters_spawn(timegrid0, timegrid1, AllPA0, AllPA1):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_abs_ang_spawned.png")
+    fig.savefig("wavepacket_parameters_abs_ang_spawned"+GD.output_format)
     close(fig)
 
 

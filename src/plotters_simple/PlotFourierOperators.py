@@ -15,6 +15,8 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contain any usable data.
@@ -63,7 +65,7 @@ def plot_operators(parameters, omega, grid, opT, opV, index=0):
     ax.set_ylabel(r"$T\left(\omega\right)$")
     legend(loc="outer right")
     ax.set_title(r"The kinetic operator T")
-    fig.savefig("kinetic_operator_block"+str(index)+".png")
+    fig.savefig("kinetic_operator_block"+str(index)+GD.output_format)
     close(fig)
 
     # Plot the potential operator V
@@ -85,7 +87,7 @@ def plot_operators(parameters, omega, grid, opT, opV, index=0):
 
             k += 1
 
-    fig.savefig("potential_operator_block"+str(index)+".png")
+    fig.savefig("potential_operator_block"+str(index)+GD.output_format)
     close(fig)
 
 

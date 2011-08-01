@@ -15,6 +15,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 
+import GraphicsDefaults as GD
+
 
 def compute_data(data_s, data_o):
     """Plot the wave function for a series of timesteps.
@@ -99,7 +101,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.set_xlabel(r"$x$")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
-    fig.savefig("spawn_error_L2-norm.png")
+    fig.savefig("spawn_error_L2-norm"+GD.output_format)
     close(fig)
 
 
@@ -118,7 +120,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.set_xlabel(r"$x$")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
-    fig.savefig("spawn_error_max-norm.png")
+    fig.savefig("spawn_error_max-norm"+GD.output_format)
     close(fig)
 
 
@@ -138,7 +140,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.set_xlabel(r"$x$")
     ax.legend()
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
-    fig.savefig("spawn_error_norm.png")
+    fig.savefig("spawn_error_norm"+GD.output_format)
     close(fig)
 
 

@@ -14,6 +14,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def plot_frames(data_s, data_o, view=None):
     """Plot the wave function for a series of timesteps.
@@ -87,7 +89,7 @@ def plot_frames(data_s, data_o, view=None):
                 axes[index].set_xlim(view)
 
         fig.suptitle(r"$|\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 }$ at time $"+str(step*parameters_o["dt"])+r"$")
-        fig.savefig("wavefunction_spawn_error_"+ (5-len(str(step)))*"0"+str(step) +".png")
+        fig.savefig("wavefunction_spawn_error_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")

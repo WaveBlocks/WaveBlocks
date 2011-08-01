@@ -16,6 +16,8 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=True, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
@@ -26,7 +28,7 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
     @keyword plotabssqr: Whether to plot the absolute value squared.
     """
     parameters = f.get_parameters()
-    
+
     grid = f.load_grid()
 
     # Precompute eigenvectors for efficiency
@@ -103,24 +105,24 @@ def plot_frames(f, view=None, plotphase=False, plotcomponents=False, plotabssqr=
                 axes[index].set_ylim(view[2:])
 
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +".png")
+        fig.savefig("wavefunction_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
-        
+
     print(" Plotting frames finished")
 
 
 if __name__ == "__main__":
     iom = IOManager()
-    
+
     # Read file with simulation data
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
         iom.open_file()
-    
+
     # The axes rectangle that is plotted
     view = [-8.5, 8.5, -0.01, 0.6]
-    
+
     plot_frames(iom, view=view)
-    
+
     iom.finalize()

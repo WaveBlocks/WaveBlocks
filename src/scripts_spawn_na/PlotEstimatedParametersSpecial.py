@@ -15,6 +15,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_data_spawn(f, assume_duplicate_mother=False):
     """
@@ -76,7 +78,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_realparts.png")
+    fig.savefig("test_spawned_PI_realparts"+GD.output_format)
 
 
 
@@ -88,7 +90,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_imagparts.png")
+    fig.savefig("test_spawned_PI_imagparts"+GD.output_format)
 
 
 
@@ -100,7 +102,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_complex_trajectories.png")
+    fig.savefig("test_spawned_PI_complex_trajectories"+GD.output_format)
 
 
 
@@ -112,7 +114,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_angles.png")
+    fig.savefig("test_spawned_PI_angles"+GD.output_format)
 
 
 

@@ -18,13 +18,15 @@ from WaveBlocks import HagedornMultiWavepacket
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = f.get_parameters()
-    
+
     grid = f.load_grid()
     k = array(range(parameters["basis_size"]))
 
@@ -115,7 +117,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
             ax3.set_title(r"Spawned packet $| \Psi^s \rangle$")
 
         fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +".png")
+        fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
 
@@ -136,5 +138,5 @@ if __name__ == "__main__":
     view = [-8, 8, 0.0, 0.6]
 
     plot_frames_homogeneous(iom, view=view)
-            
+
     iom.finalize()

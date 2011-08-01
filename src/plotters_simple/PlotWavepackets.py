@@ -18,6 +18,8 @@ from WaveBlocks import HagedornMultiWavepacket
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames_homogeneous(iom, block=0, view=None):
     """
@@ -147,7 +149,7 @@ def plot_frame(step, parameters, grid, values, coeffs, index=0, view=None, imgsi
         ax2.set_ylabel(r"$|c|$")
 
     fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
-    fig.savefig("wavepackets_block"+str(index)+"_"+ (7-len(str(step)))*"0"+str(step) +".png")
+    fig.savefig("wavepackets_block"+str(index)+"_"+ (7-len(str(step)))*"0"+str(step) +GD.output_format)
     close(fig)
 
 

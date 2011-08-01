@@ -15,6 +15,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
@@ -104,7 +106,7 @@ def plot_coefficients(parameters, data, amount=5, index=0, imgsize=(14,14)):
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
-    fig.savefig("wavepacket_coefficients_first_block"+str(index)+".png")
+    fig.savefig("wavepacket_coefficients_first_block"+str(index)+GD.output_format)
     close(fig)
 
     # And last ones
@@ -129,7 +131,7 @@ def plot_coefficients(parameters, data, amount=5, index=0, imgsize=(14,14)):
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
-    fig.savefig("wavepacket_coefficients_last_block"+str(index)+".png")
+    fig.savefig("wavepacket_coefficients_last_block"+str(index)+GD.output_format)
     close(fig)
 
 

@@ -14,6 +14,8 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def plot_potential(grid, potential, fill=True, imgsize=(8,6)):
     # Create potential and evaluate eigenvalues
@@ -34,7 +36,7 @@ def plot_potential(grid, potential, fill=True, imgsize=(8,6)):
     ax.set_ylabel(r"$\lambda_i\left(x\right)$")
     legend(loc="outer right")
     ax.set_title(r"The eigenvalues $\lambda_i$ of the potential $V\left(x\right)$")
-    fig.savefig("potential.png")
+    fig.savefig("potential"+GD.output_format)
     close(fig)
 
 

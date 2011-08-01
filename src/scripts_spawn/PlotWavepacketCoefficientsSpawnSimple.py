@@ -15,6 +15,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_data_spawn(f):
     """
@@ -26,7 +28,7 @@ def read_data_spawn(f):
     timegrid1 = f.load_wavepacket_timegrid(block=1)
     time0 = timegrid0 * parameters["dt"]
     time1 = timegrid1 * parameters["dt"]
-    
+
     C0 = f.load_wavepacket_coefficients()
     coeffs0 = []
     for i in xrange(parameters["ncomponents"]):
@@ -51,13 +53,13 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
     """
     # First ones
     fig = figure(figsize=imgsize)
-    
+
     i = 1
     for coeff in xrange(amount):
         for component in xrange(parameters["ncomponents"]):
             print(" plotting coefficient " + str(coeff) + " of component " + str(component))
             ax = fig.add_subplot(amount, parameters["ncomponents"], i)
-            
+
             ax.plot(timegrid0, real(coeffs0[component][:,coeff]))
             ax.plot(timegrid0, imag(coeffs0[component][:,coeff]))
             ax.plot(timegrid0, abs(coeffs0[component][:,coeff]))
@@ -71,12 +73,12 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
-    fig.savefig("wavepacket_coefficients_spawn_first.png")
+    fig.savefig("wavepacket_coefficients_spawn_first"+GD.output_format)
     close(fig)
-    
+
     # And last ones
     fig = figure(figsize=imgsize)
-    
+
     i = 1
     for coeff in reversed(xrange(parameters["basis_size"]-amount,parameters["basis_size"])):
         for component in xrange(parameters["ncomponents"]):
@@ -92,14 +94,14 @@ def plot_coefficients_spawn(parameters, timegrid0, timegrid1, coeffs0, coeffs1, 
             ax.plot(timegrid1, abs(coeffs1[component][:,coeff]), "k")
 
             ax.grid(True)
-            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
+            ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             ax.set_title(r"$\Re c^{"+str(component)+"}_{"+str(coeff)+r"}$ and $\Im c^{"+str(component)+"}_{"+str(coeff)+r"}$")
             i += 1
 
-    fig.savefig("wavepacket_coefficients_spawn_last.png")
+    fig.savefig("wavepacket_coefficients_spawn_last"+GD.output_format)
     close(fig)
 
-    
+
 if __name__ == "__main__":
     iom = IOManager()
 

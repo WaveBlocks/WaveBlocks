@@ -15,6 +15,8 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
@@ -72,7 +74,7 @@ def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, p
                 ax.set_ylim(view[2:])
 
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavefunction_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +".png")
+        fig.savefig("wavefunction_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")

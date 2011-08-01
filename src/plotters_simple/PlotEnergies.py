@@ -14,6 +14,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contain any usable data.
@@ -79,7 +81,7 @@ def plot_energies(data, index=0):
     legend(loc="outer right")
     ax.set_title(r"Energies of the wavepacket $\Psi$")
 
-    fig.savefig("energies_block"+str(index)+".png")
+    fig.savefig("energies_block"+str(index)+GD.output_format)
     close(fig)
 
 
@@ -98,7 +100,7 @@ def plot_energies(data, index=0):
     ax.set_ylabel(r"$|E_O^0 - \left( E_k^0 + E_p^0 \right) |$")
     ax.set_title(r"Energy drift of the wavepacket $\Psi$")
 
-    fig.savefig("energy_drift_block"+str(index)+".png")
+    fig.savefig("energy_drift_block"+str(index)+GD.output_format)
     close(fig)
 
 

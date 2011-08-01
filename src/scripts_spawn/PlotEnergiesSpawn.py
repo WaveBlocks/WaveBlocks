@@ -16,12 +16,14 @@ from matplotlib.pyplot import *
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def read_data(f):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    params = f.get_parameters()    
+    params = f.get_parameters()
     timegrid0 = f.load_energy_timegrid()
     time0 = timegrid0 * params["dt"]
     timegrid1 = f.load_energy_timegrid(block=1)
@@ -33,7 +35,7 @@ def read_data(f):
     # Compute the sum of all energies
     ekinsum0 = reduce(lambda x,y: x+y, ekin0)
     epotsum0 = reduce(lambda x,y: x+y, epot0)
-    
+
     ekin0.append(ekinsum0)
     epot0.append(epotsum0)
 
@@ -43,16 +45,16 @@ def read_data(f):
     # Compute the sum of all energies
     ekinsum1 = reduce(lambda x,y: x+y, ekin1)
     epotsum1 = reduce(lambda x,y: x+y, epot1)
-    
+
     ekin1.append(ekinsum1)
     epot1.append(epotsum1)
-    
+
     return (time0, time1, ekin0, epot0, ekin1, epot1)
 
 
 def plot_energy(time0, time1, ekin0, epot0, ekin1, epot1):
     print("Plotting the energies")
-    
+
     # Plot the energies
     fig = figure()
 
@@ -69,7 +71,7 @@ def plot_energy(time0, time1, ekin0, epot0, ekin1, epot1):
     # Plot the overall energy of all wave packets
     ax.plot(time0, ekin0[-1] + epot0[-1], label=r"$\sum_i E^{kin}_i + \sum_i E^{pot}_i$")
 
-    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Energies of the mother packet $\Psi_m$")
@@ -91,25 +93,25 @@ def plot_energy(time0, time1, ekin0, epot0, ekin1, epot1):
     ax.plot(time1, ekin1[-1] + epot1[-1], label=r"$\sum_i E^{kin}_i + \sum_i E^{pot}_i$")
 
     ax.set_xlim(xlims)
-    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y") 
+    ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.grid(True)
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Energies of the spawned packet $\Psi_s$")
 
-    fig.savefig("energies_spawn.png")
+    fig.savefig("energies_spawn"+GD.output_format)
     close(fig)
 
 
     # Data transformation necessary for plotting different parts
     x0 = time0.shape[0]
     x1 = time1.shape[0]
-        
+
     time_sum_pre = time0[:x0-x1]
     time_sum_post = time1
 
     es0 = ekin0[-1] + epot0[-1]
     es1 = ekin1[-1] + epot1[-1]
-    
+
     e0_pre = es0[:x0-x1]
     e0_post = es0[x0-x1:]
 
@@ -136,7 +138,7 @@ def plot_energy(time0, time1, ekin0, epot0, ekin1, epot1):
     legend(loc="outer right")
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Sum $\sum { E_{\Phi} }$ for all spawned packets $\Phi$")
-    fig.savefig("energies_spawn_sum.png")
+    fig.savefig("energies_spawn_sum"+GD.output_format)
     close(fig)
 
 
@@ -150,7 +152,7 @@ def plot_energy(time0, time1, ekin0, epot0, ekin1, epot1):
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
     ax.set_title(r"Drift of the sum of the energies of all spawned packets")
-    fig.savefig("energies_spawn_sum_drift.png")
+    fig.savefig("energies_spawn_sum_drift"+GD.output_format)
     close(fig)
 
 
@@ -163,7 +165,7 @@ if __name__ == "__main__":
     try:
         iom.open_file(filename=sys.argv[1])
     except IndexError:
-        iom.open_file()      
+        iom.open_file()
 
     data = read_data(iom)
     plot_energy(*data)

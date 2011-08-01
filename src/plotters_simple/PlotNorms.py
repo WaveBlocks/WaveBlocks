@@ -14,6 +14,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contain any usable data.
@@ -65,7 +67,7 @@ def plot_norms(data, index=0):
     legend(loc="outer right")
     ax.set_xlabel(r"Time $t$")
     ax.set_ylim([0,1.1*max(norms[:-1])])
-    fig.savefig("norms_block"+str(index)+".png")
+    fig.savefig("norms_block"+str(index)+GD.output_format)
     close(fig)
 
 
@@ -86,7 +88,7 @@ def plot_norms(data, index=0):
     legend(loc="outer right")
     ax.set_xlabel(r"Time $t$")
     ax.set_ylim([0,1.1*max(norms[-1]**2)])
-    fig.savefig("norms_sqr_block"+str(index)+".png")
+    fig.savefig("norms_sqr_block"+str(index)+GD.output_format)
     close(fig)
 
 
@@ -102,7 +104,7 @@ def plot_norms(data, index=0):
     legend(loc="outer right")
     ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$\|\Psi\|_0 - \|\Psi\|_t$")
-    fig.savefig("norms_drift_block"+str(index)+".png")
+    fig.savefig("norms_drift_block"+str(index)+GD.output_format)
     close(fig)
 
 

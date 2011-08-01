@@ -16,6 +16,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
@@ -126,7 +128,7 @@ def plot_parameters(data, index=0):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket parameters")
-    fig.savefig("wavepacket_parameters_block"+str(index)+".png")
+    fig.savefig("wavepacket_parameters_block"+str(index)+GD.output_format)
     close(fig)
 
 
@@ -177,7 +179,7 @@ def plot_parameters(data, index=0):
     ax.set_title(r"$S$")
 
     fig.suptitle("Wavepacket parameters")
-    fig.savefig("wavepacket_parameters_abs_ang_block"+str(index)+".png")
+    fig.savefig("wavepacket_parameters_abs_ang_block"+str(index)+GD.output_format)
     close(fig)
 
 

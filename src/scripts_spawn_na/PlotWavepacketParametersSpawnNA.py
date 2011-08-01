@@ -16,6 +16,8 @@ from matplotlib.pyplot import *
 from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_data_spawn(f, assume_duplicate_mother=False):
     """
@@ -91,7 +93,7 @@ def plot_parameters_spawn(timegrids, AllPA):
         ax[6].set_title(r"$S$")
 
     fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_spawned.png")
+    fig.savefig("wavepacket_parameters_spawned"+GD.output_format)
     close(fig)
 
 
@@ -133,7 +135,7 @@ def plot_parameters_spawn(timegrids, AllPA):
         ax[6].set_title(r"$S$")
 
     fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_abs_ang_spawned.png")
+    fig.savefig("wavepacket_parameters_abs_ang_spawned"+GD.output_format)
     close(fig)
 
 
