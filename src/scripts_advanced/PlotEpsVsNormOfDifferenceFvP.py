@@ -19,6 +19,8 @@ from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultsdir, evaluation_times, which_norm="wf"):
     """This script assumes filename specification: something_eps=..._dt=..._[h|f]_other_things.
@@ -60,11 +62,11 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
 
             resultsfile_h = get_results_file(dir_h)
             iom_h.open_file(filename=resultsfile_h)
-            
+
             # Read the parameters
             parameters_f = iom_f.get_parameters()
             parameters_h = iom_h.get_parameters()
-            
+
             # Scalar parameter of the x axis
             axisdata[index].append(parameters_f["dt"])
 
@@ -96,7 +98,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
                     no = norm( data_diff[0,...] )
                 elif which_norm == "max":
                     no = max( data_diff[0,...] )
-            
+
                 # Append norm values to global data structure
                 normdata[i][index].append(no)
 
@@ -114,7 +116,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
     axisdata = [ array(item) for item in axisdata ]
 
     return (times, epsdata, axisdata, normdata)
- 
+
 
 def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
 
@@ -130,11 +132,11 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         v = log(diff(y))
         return v / u
 
-    for t, time in enumerate(times):        
+    for t, time in enumerate(times):
         # Plot the convergence for all epsilon and fixed times
         fig = figure()
         ax = fig.gca()
-        
+
         for eps, ad, nd in  zip(epsdata, axisdata, normdata[t]):
             ax.loglog(ad, nd, "-o", label=r"$\varepsilon = "+str(eps)+"$")
 
@@ -146,13 +148,13 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         ax.set_ylabel(r"$$\| \phi_f - \phi_h \|_{"+nona+r"}$$")
         ax.set_title(r"Error norm $\| \phi_f - \phi_h \|_{"+nona+r"}$ for time $T=" + str(time) + r"$")
         legend(loc="outer right")
-        fig.savefig("convergence_FvP_time="+str(time)+"_"+nona+".png")
+        fig.savefig("convergence_FvP_time="+str(time)+"_"+nona+GD.output_format)
         close(fig)
 
 
         fig = figure()
         ax = fig.gca()
-        
+
         for eps, ad, nd in  zip(epsdata, axisdata, normdata[t]):
             values = guessor(ad, nd)
             ax.plot(values, "-o", label=r"$\varepsilon = "+str(eps)+"$")
@@ -160,7 +162,7 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_title(r"guessor at time $T=" + str(time) + r"$")
         legend(loc="outer right")
-        fig.savefig("guessor_FvP_time="+str(time)+"_"+nona+".png")
+        fig.savefig("guessor_FvP_time="+str(time)+"_"+nona+GD.output_format)
         close(fig)
 
 

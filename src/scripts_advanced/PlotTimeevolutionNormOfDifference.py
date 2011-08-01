@@ -20,6 +20,8 @@ from WaveBlocks import WaveFunction
 from WaveBlocks import GlobalDefaults
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultspath, which_norm="wf"):
     # Group the data from different simulations
@@ -45,18 +47,18 @@ def load_data(resultspath, which_norm="wf"):
 
         dirs_f = FT.sort_by(dirs_f, "eps", as_string=True)
         dirs_h = FT.sort_by(dirs_h, "eps", as_string=True)
-        
+
         # Loop over all simulations
         for dir_f, dir_h in zip(dirs_f, dirs_h):
-            
+
             print("Comparing simulation " + dir_h + " with " + dir_f)
-     
+
             resultsfile_f = FT.get_results_file(dir_f)
             iom_f.open_file(filename=resultsfile_f)
-            
+
             resultsfile_h = FT.get_results_file(dir_h)
             iom_h.open_file(filename=resultsfile_h)
-            
+
             # Read the parameters
             parameters_f = iom_f.get_parameters()
             parameters_h = iom_h.get_parameters()
@@ -73,12 +75,12 @@ def load_data(resultspath, which_norm="wf"):
 
             # Scalar parameter that discriminates the simulations
             axisdata[index].append((parameters_f, timesteps))
-                        
+
             WF = WaveFunction(parameters_f)
             WF.set_grid(grid)
 
             norms = []
-            
+
             for i, step in enumerate(timesteps):
                 # Load the data that belong to the current timestep
                 data_f = iom_f.load_wavefunction(timestep=step)
@@ -99,7 +101,7 @@ def load_data(resultspath, which_norm="wf"):
                     if parameters_f.ncomponents > 1:
                         nosum = WF.get_norm(summed=True)
                         curnorm = list(curnorm) + [nosum]
-                        
+
                 elif which_norm == "max":
                     curnorm = [ max( abs(data_diff[n,:]) ) for n in xrange(parameters_f.ncomponents) ]
 
@@ -107,7 +109,7 @@ def load_data(resultspath, which_norm="wf"):
                     if parameters_f.ncomponents > 1:
                         nosum = max(curnorm)
                         curnorm = list(curnorm) + [nosum]
-                        
+
                 print(" at time " + str(step*parameters_f.dt) + " the error norm is " + str(curnorm))
                 norms.append(curnorm)
 
@@ -125,7 +127,7 @@ def load_data(resultspath, which_norm="wf"):
     iom_h.finalize()
 
     return (groupdata, axisdata, normdata)
- 
+
 
 def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
 
@@ -135,19 +137,19 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
         # Plot the error time series for each simulation
         fig = figure()
         ax = fig.gca()
-        
+
         for cur_axisd, cur_norm in zip(axisd, normd):
 
             # One single component in |Psi>
             if cur_norm.shape[1] == 1:
                 ax.plot(cur_axisd[1]*cur_axisd[0].dt, cur_norm, label=r"$\varepsilon = $" + str(cur_axisd[0].eps))
-            
+
             # More than one component in |Psi>
             else:
                 # Plot all the error norms for all components individually
                 for i in xrange(cur_norm.shape[1]-1):
                     ax.semilogy(cur_axisd[1]*cur_axisd[0].dt, cur_norm[:,i], label=r"$\varepsilon = $" + str(cur_axisd[0].eps) + r", $c_"+str(i)+r"$")
-                    
+
                 # Plot the overall summed error norm
                 ax.semilogy(cur_axisd[1]*cur_axisd[0].dt, cur_norm[:,-1], label=r"$\varepsilon = $" + str(cur_axisd[0].eps) +r", $\sum_i c_i$")
 
@@ -156,9 +158,9 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
         ax.set_ylabel(r"$\| \phi^F - \phi^H \|_{"+nona+r"}$")
         ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{"+nona+r"}$ ")
         legend()
-        fig.savefig("error_timevolution_"+which_norm+"_all.png")
+        fig.savefig("error_timevolution_"+which_norm+"_all"+GD.output_format)
         close(fig)
-        
+
 
 if __name__ == "__main__":
     # Read simulation data path

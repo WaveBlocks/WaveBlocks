@@ -19,6 +19,8 @@ from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultspath, which_norm="wf"):
     # Sort the data from different simulations
@@ -36,10 +38,10 @@ def load_data(resultspath, which_norm="wf"):
 
     normdata = []
     axisdata = []
-    
+
     iom_f = IOManager()
     iom_h = IOManager()
-    
+
     # Loop over all simulations
     for dir_f, dir_h in zip(dirs_f, dirs_h):
 
@@ -51,11 +53,11 @@ def load_data(resultspath, which_norm="wf"):
 
         resultsfile_h = FT.get_results_file(dir_h)
         iom_h.open_file(filename=resultsfile_h)
-        
+
         # Read the parameters
         parameters_f = iom_f.get_parameters()
         parameters_h = iom_h.get_parameters()
-        
+
         number_components = parameters_f["ncomponents"]
 
         # Scalar parameter that discriminates the simulations
@@ -63,7 +65,7 @@ def load_data(resultspath, which_norm="wf"):
 
         # Get the data
         grid = iom_f.load_grid()
-        timesteps = iom_f.load_wavefunction_timegrid()            
+        timesteps = iom_f.load_wavefunction_timegrid()
         data_f = iom_f.load_wavefunction()
         data_h = iom_h.load_wavefunction()
 
@@ -74,7 +76,7 @@ def load_data(resultspath, which_norm="wf"):
         WF.set_grid(grid)
 
         norms = []
-        
+
         for i, step in enumerate(timesteps):
             if which_norm == "wf":
                 WF.set_values([ data_diff[i,0,:] ])
@@ -83,9 +85,9 @@ def load_data(resultspath, which_norm="wf"):
                 no = norm(data_diff[i,0,:])
             elif which_norm == "max":
                 no = max(data_diff[i,0,:])
-            
+
             norms.append(no)
-        
+
         # Append norm values to global data structure
         norms = array(norms)
         normdata.append(norms)
@@ -94,7 +96,7 @@ def load_data(resultspath, which_norm="wf"):
     iom_h.finalize()
 
     return (axisdata, normdata, number_simulations, number_components)
- 
+
 
 def plot_data(axisdata, normdata, number_simulations, number_components, timeindices=None, which_norm="wf"):
 
@@ -108,7 +110,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components, timeind
     # Plot the time series for each simulation
     fig = figure()
     ax = fig.gca()
-    
+
     for index in xrange(number_simulations):
         ax.plot(normdata[index], label=r"$\varepsilon = $" + str(axisdata[index]))
 
@@ -117,9 +119,9 @@ def plot_data(axisdata, normdata, number_simulations, number_components, timeind
     ax.set_ylabel(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$")
     ax.set_title(r"Timeseries of $\| \phi_f - \phi_h \|_{"+nona+r"}$")
     legend(loc="outer right")
-    fig.savefig("convergence_"+nona+"_all.png")
+    fig.savefig("convergence_"+nona+"_all"+GD.output_format)
     close(fig)
-    
+
 
     # Plot the comparison over versus axisdata
     for t in timeindices:
@@ -132,14 +134,14 @@ def plot_data(axisdata, normdata, number_simulations, number_components, timeind
         fig = figure()
         ax = gca()
         ax.plot(axisdata, tmp, "-o", label=r"$t = " + str(t) + r"$")
-        
+
         ax.grid(True)
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"$\varepsilon$")
         ax.set_ylabel(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$")
         ax.set_title(r"$\| \phi_f - \phi_h \|_{"+nona+r"}$ for different $\varepsilon$ ")
         legend(loc="outer right")
-        fig.savefig("convergence"+str(t)+"_"+nona+"_comparison.png")
+        fig.savefig("convergence"+str(t)+"_"+nona+"_comparison"+GD.output_format)
         close(fig)
 
 

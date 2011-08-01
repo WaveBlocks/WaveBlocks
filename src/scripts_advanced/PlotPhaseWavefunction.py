@@ -16,6 +16,8 @@ from WaveBlocks import IOManager
 from WaveBlocks import ComplexMath
 from WaveBlocks.Plot import plotcf
 
+import GraphicsDefaults as GD
+
 
 def plot_frames(iom, block=0, view=None, imgsize=(12,9)):
     """Plot the phase of a wavefunction for a series of timesteps.
@@ -69,7 +71,7 @@ def plot_frames(iom, block=0, view=None, imgsize=(12,9)):
                 #ax.set_ylim(view[2:])
 
         fig.suptitle(r"$\arg \Psi$ at time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavefunction_phase_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +"_.png")
+        fig.savefig("wavefunction_phase_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")

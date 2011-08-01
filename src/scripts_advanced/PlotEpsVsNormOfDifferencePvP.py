@@ -19,6 +19,8 @@ from WaveBlocks import IOManager
 from WaveBlocks import WaveFunction
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultsdir, evaluation_times, which_norm="wf"):
     """This script assumes filename specification: something_eps=..._dt=..._[h|f]_other_things.
@@ -41,7 +43,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
 
         # Partition into fourier and hagedorn simulations
         dirs_h = gather_all(eps_group, "algorithm=hagedorn")
-        
+
         # And sort by dt value
         dirs_h = sort_by(dirs_h, "dt")
 
@@ -52,19 +54,19 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
         for dir_h in dirs_h:
 
             print("Comparing simulation " + dir_h + " with " + dir_min)
-        
+
             # Why it works when we put the minimal data here instead outside the loop?
             # Open the minimal data
             resultsfile_min = get_results_file(dir_min)
             iom_min.open_file(filename=resultsfile_min)
-        
+
             resultsfile_h = get_results_file(dir_h)
             iom_h.open_file(filename=resultsfile_h)
-            
+
             # Read the parameters
             parameters_min = iom_min.get_parameters()
             parameters_h = iom_h.get_parameters()
-            
+
             # Scalar parameter of the x axis
             axisdata[index].append(parameters_h["dt"])
 
@@ -77,14 +79,14 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             # Convert times to timesteps using the time manager
             tmmin = parameters_min.get_timemanager()
             tmh = parameters_h.get_timemanager()
-            
+
             # Loop over all times
             for t, time in enumerate(evaluation_times):
                 print(" at time T: " + str(time))
-                
+
                 stepmin = tmmin.compute_timestep(time)
                 steph = tmh.compute_timestep(time)
-                
+
                 data_min = iom_min.load_wavefunction(timestep=stepmin)
                 data_h = iom_h.load_wavefunction(timestep=steph)
 
@@ -100,7 +102,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
                     no = norm( data_diff[0,...] )
                 elif which_norm == "max":
                     no = max( data_diff[0,...] )
-            
+
                 # Append norm values to global data structure
                 normdata[t][index].append(no)
 
@@ -109,16 +111,16 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
         # already loaded but not overwritten yet be the next iteration
         # Remember: we need only a single epsilon out of each eps_group.
         epsdata[index] = parameters_h["eps"]
-    
+
     iom_h.finalize()
     iom_min.finalize()
-    
+
     # Convert lists to arrays
     epsdata = array(epsdata)
     axisdata = [ array(item) for item in axisdata ]
 
     return (times, epsdata, axisdata, normdata)
- 
+
 
 def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
 
@@ -138,7 +140,7 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         # Plot the convergence for all epsilon and fixed times
         fig = figure()
         ax = fig.gca()
-        
+
         for eps, ad, nd in  zip(epsdata, axisdata, normdata[t]):
             ax.loglog(ad, nd, "-o", label=r"$\varepsilon = "+str(eps)+"$")
 
@@ -150,7 +152,7 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         ax.set_ylabel(r"$$\| \phi_h - \phi_h \|_{"+nona+r"}$$")
         ax.set_title(r"Error norm $\| \phi_h - \phi_h \|_{"+nona+r"}$ for time $T=" + str(time) + r"$")
         legend(loc="outer right")
-        fig.savefig("convergence_PvP_time="+str(time)+"_"+nona+".png")
+        fig.savefig("convergence_PvP_time="+str(time)+"_"+nona+GD.output_format)
         close(fig)
 
 
@@ -164,7 +166,7 @@ def plot_data(times, epsdata, axisdata, normdata, which_norm="wf"):
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_title(r"guessor at time $T=" + str(time) + r"$")
         legend(loc="outer right")
-        fig.savefig("guessor_PvP_time="+str(time)+"_"+nona+".png")
+        fig.savefig("guessor_PvP_time="+str(time)+"_"+nona+GD.output_format)
         close(fig)
 
 
@@ -177,7 +179,7 @@ if __name__ == "__main__":
 
     # Times for the pointwise comparisons
     times = [0.1, 0.2, 0.3, 0.4, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
-    
+
     data = load_data(path_to_results, times, which_norm="wf")
     plot_data(*data, which_norm="wf")
 

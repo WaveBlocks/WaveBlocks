@@ -14,6 +14,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def load_data(f):
     """
@@ -22,7 +24,7 @@ def load_data(f):
     parameters = f.get_parameters()
     timegrid = f.load_inhomogwavepacket_timegrid()
     time = timegrid * parameters["dt"]
-    
+
     Pi = f.load_inhomogwavepacket_parameters()
 
     # Number of components
@@ -44,11 +46,11 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
     for i in xrange(N):
         for j in xrange(N):
             ax = fig.add_subplot(N,N,i*N+j+1)
-            
+
             data = conj(Phist[i]) / conj(Qhist[i]) - Phist[j] / Qhist[j]
 
-            ax.plot(timegrid, real(data)) 
-            ax.plot(timegrid, imag(data)) 
+            ax.plot(timegrid, real(data))
+            ax.plot(timegrid, imag(data))
 
             ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
@@ -56,26 +58,26 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\Re(\cdot), \Im(\cdot)$")
             ax.set_title(r"$\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}$")
 
-    fig.savefig("wavepacket_parameter_mixing_relation.png")
+    fig.savefig("wavepacket_parameter_mixing_relation"+GD.output_format)
     close(fig)
 
 
     # Plot "commutation" relation
     for i in xrange(N):
         for j in xrange(N):
-    
+
             fig = figure(figsize=(10,10))
             ax = fig.gca()
 
             data1 = conj(Phist[i]) / conj(Qhist[i]) - Phist[j] / Qhist[j]
             data2 = Phist[i] / Qhist[i] - conj(Phist[j]) / conj(Qhist[j])
-            
+
             data3 = -2 * (1 / abs(Qhist[i]**2) + 1/abs(Qhist[j]**2))
-            
+
             ax.plot(timegrid, imag(data1))
             ax.plot(timegrid, imag(data2))
             ax.plot(timegrid, real(data3))
-            
+
             ax.plot(timegrid, imag(data1) - imag(data2))
 
             ax.grid(True)
@@ -84,7 +86,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\Im(\cdot), \Im(\cdot), \Im(\cdot)-\Im(\cdot)$")
             ax.set_title(r"$\Im\left(\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}\right) - \Im\left(\frac{P_"+str(i)+r"}{Q_"+str(i)+r"} - \frac{\overline{P_"+str(j)+r"}}{\overline{Q_"+str(j)+r"}}\right)$")
 
-            fig.savefig("wavepacket_parameter_mixing_exchange"+str(i)+str(j)+".png")
+            fig.savefig("wavepacket_parameter_mixing_exchange"+str(i)+str(j)+GD.output_format)
             close(fig)
 
 
@@ -106,7 +108,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, qhist[i], "b")
             ax.plot(timegrid, qhist[j], "g")
 
-            ax.plot(timegrid, data, "r") 
+            ax.plot(timegrid, data, "r")
 
             ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
@@ -114,7 +116,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\frac{\Im(\overline{r_k}q_k - r_l q_l)}{\Im(\overline{r_k}-r_l)}$")
             ax.set_title(r"Mixing of $q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 
-    fig.savefig("wavepacket_parameter_mixing_q.png")
+    fig.savefig("wavepacket_parameter_mixing_q"+GD.output_format)
     close(fig)
 
 
@@ -136,7 +138,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.plot(timegrid, real(Qhist[j]), "c")
             ax.plot(timegrid, imag(Qhist[j]), "m")
 
-            ax.plot(timegrid, data, "r") 
+            ax.plot(timegrid, data, "r")
 
             ax.grid(True)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
@@ -144,7 +146,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$-\frac{\Im(\overline{r_k}-r_l)}{2}$")
             ax.set_title(r"Mixing of $Q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 
-    fig.savefig("wavepacket_parameter_mixing_Q.png")
+    fig.savefig("wavepacket_parameter_mixing_Q"+GD.output_format)
     close(fig)
 
 

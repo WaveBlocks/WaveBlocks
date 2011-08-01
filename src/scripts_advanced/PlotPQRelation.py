@@ -15,6 +15,8 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import IOManager
 
+import GraphicsDefaults as GD
+
 
 def read_data_homogeneous(f):
     """
@@ -38,8 +40,8 @@ def read_data_inhomogeneous(f):
     """
     parameters = f.get_parameters()
     timegrid = f.load_inhomogwavepacket_timegrid()
-    time = timegrid * params["dt"]
-    
+    time = timegrid * parameters["dt"]
+
     timegrid = f.load_inhomogwavepacket_timegrid()
     Pi = f.load_inhomogwavepacket_parameters()
 
@@ -48,7 +50,7 @@ def read_data_inhomogeneous(f):
 
     Phist = [ Pi[i][:,0] for i in xrange(N) ]
     Qhist = [ Pi[i][:,1] for i in xrange(N) ]
-    
+
     return (time, Phist, Qhist)
 
 
@@ -59,13 +61,13 @@ def plot_parameters(timegrid, Phist, Qhist):
 
     for ptem, qtem in zip(Phist, Qhist):
         ax.plot(timegrid, abs(conj(qtem)*ptem - conj(ptem)*qtem - 2.0j))
-    
+
     ax.grid(True)
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
     ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$| \overline{Q} P - \overline{P} Q - 2i |$")
     ax.set_title(r"Compatibility condition $\overline{Q} P - \overline{P} Q = 2i$")
-    fig.savefig("conjQP-conjPQ.png")
+    fig.savefig("conjQP-conjPQ"+GD.output_format)
     close(fig)
 
 
@@ -87,7 +89,7 @@ if __name__ == "__main__":
     else:
         iom.finalize()
         sys.exit("Can only postprocess (multi)hagedorn algorithm data. Silent return ...")
-        
+
     plot_parameters(*data)
 
     iom.finalize()

@@ -15,12 +15,14 @@ from WaveBlocks import FileTools as FT
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultspath):
     # Sort the data from different simulations according to the filenames
     dirs = FT.get_result_dirs(resultspath)
     resultsdir = FT.sort_by(dirs, "eps")
-    
+
     number_simulations = FT.get_number_simulations(resultspath)
 
     normdata = []
@@ -32,7 +34,7 @@ def load_data(resultspath):
         resultsfile = FT.get_results_file(resultdir)
 
         print(" Reading " + resultsfile)
-        
+
         iom.open_file(filename=resultsfile)
         parameters = iom.get_parameters()
         number_components = parameters["ncomponents"]
@@ -44,7 +46,7 @@ def load_data(resultspath):
     iom.finalize()
 
     return (axisdata, normdata, number_simulations, number_components)
- 
+
 
 def plot_data(axisdata, normdata, number_simulations, number_components):
     colormap = ["b", "g", "r", "c", "m", "y", "b"]
@@ -56,7 +58,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components):
     for index in xrange(number_simulations):
         for jndex in xrange(number_components):
             ax.plot(normdata[index][:,jndex], label=r"$"+str(index)+r":\| \psi_"+str(jndex)+r"\|$", color=colormap[jndex%len(colormap)])
-            
+
     ax.set_ylim(0,1.1)
     ax.grid(True)
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
@@ -64,7 +66,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components):
     ax.set_ylabel(r"$\|\cdot\|$")
     ax.set_title(r"Norms timeseries comparison")
     legend(loc="outer right")
-    fig.savefig("norms_comparison_all.png")
+    fig.savefig("norms_comparison_all"+GD.output_format)
     close(fig)
 
 
@@ -83,7 +85,7 @@ def plot_data(axisdata, normdata, number_simulations, number_components):
     ax.set_ylabel(r"$\|\cdot\|$")
     ax.set_title(r"Norms end of time comparison")
     legend(loc="outer right")
-    fig.savefig("norms_comparison.png")
+    fig.savefig("norms_comparison"+GD.output_format)
     close(fig)
 
 

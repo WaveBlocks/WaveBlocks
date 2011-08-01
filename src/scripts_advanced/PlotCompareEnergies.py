@@ -15,6 +15,8 @@ from WaveBlocks import FileTools as FT
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import legend
 
+import GraphicsDefaults as GD
+
 
 def load_data(resultspath):
     # Sort the data from different simulations
@@ -26,14 +28,14 @@ def load_data(resultspath):
     ekindata = []
     epotdata = []
     axisdata = []
-    
+
     iom = IOManager()
 
     for resultdir in resultsdir:
         resultsfile = FT.get_results_file(resultdir)
 
         print(" Reading " + resultsfile)
-        
+
         iom.open_file(filename=resultsfile)
         parameters = iom.get_parameters()
         number_components = parameters["ncomponents"]
@@ -44,9 +46,9 @@ def load_data(resultspath):
         epotdata.append(epot)
 
     iom.finalize()
-        
+
     return (axisdata, ekindata, epotdata, number_simulations, number_components)
- 
+
 
 def plot_data(axisdata, ekindata, epotdata, number_simulations, number_components):
     colormap = ["b", "g", "r", "c", "m", "y", "b"]
@@ -66,7 +68,7 @@ def plot_data(axisdata, ekindata, epotdata, number_simulations, number_component
     ax.set_ylabel(r"$E$")
     ax.set_title(r"Energies timeseries comparison")
     legend(loc="outer right")
-    fig.savefig("energies_all.png")
+    fig.savefig("energies_all"+GD.output_format)
     close(fig)
 
 
@@ -76,7 +78,7 @@ def plot_data(axisdata, ekindata, epotdata, number_simulations, number_component
     # Plot the comparison over versus axisdata
     fig = figure()
     ax = fig.gca()
-    
+
     # Kinetic and potential energies per component
     for index in xrange(number_components):
         ax.plot(axisdata, endkindata[index], label=r"$E^{kin}_"+str(index)+r"$", marker="o")
@@ -88,7 +90,7 @@ def plot_data(axisdata, ekindata, epotdata, number_simulations, number_component
     ax.set_ylabel(r"$E$")
     ax.set_title(r"Energies end of time comparison")
     legend(loc="outer right")
-    fig.savefig("energies_comparison.png")
+    fig.savefig("energies_comparison"+GD.output_format)
     close(fig)
 
 
