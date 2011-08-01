@@ -136,7 +136,7 @@ def inner(parameters, P1, P2, QR=None):
     # Assuming same quadrature rule for both packets
     # Implies same basis size!
     if QR is None:
-        QR = P1.get_quadrator()
+        QR = P1.get_quadrator().get_qr()
 
     # Mix the parameters for quadrature
     (Pm, Qm, Sm, pm, qm) = P1.get_parameters()

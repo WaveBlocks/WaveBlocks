@@ -136,7 +136,7 @@ class AdiabaticSpawner(Spawner):
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
         # Quadrature rule, assume same quadrature order for both packets
-        QR = mother.get_quadrator()
+        QR = mother.get_quadrator().get_qr()
 
         # Mix the parameters for quadrature
         (Pm, Qm, Sm, pm, qm) = mother.get_parameters()

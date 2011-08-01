@@ -56,6 +56,9 @@ class SpawnAdiabaticPropagator(Propagator):
         self.K = parameters["spawn_K0"]
         self.threshold = parameters["spawn_threshold"]
 
+        # The quadrature instance matching the packet
+        self.quadrator = packet.get_quadrator()
+
         # todo: put this in the ParameterProvider
         self.already_spawned = False
 
@@ -148,7 +151,8 @@ class SpawnAdiabaticPropagator(Propagator):
             packet.S = packet.S - dt * V[0]
 
             # Do a potential step with the local non-quadratic taylor remainder
-            F = packet.matrix(self.potential.evaluate_local_remainder_at)
+            F = self.quadrator.build_matrix(self.packet, self.potential.evaluate_local_remainder_at)
+
             coefficients = packet.get_coefficient_vector()
             coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
             packet.set_coefficient_vector(coefficients)

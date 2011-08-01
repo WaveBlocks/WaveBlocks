@@ -81,6 +81,8 @@ def inner(parameters, P1, P2, QR=None):
     if QR is None:
         QR = P1.get_quadrator()
 
+    QR = QR.get_qr()
+
     # Mix the parameters for quadrature
     (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
     (Ps, Qs, Ss, ps, qs) = P2.get_parameters()

@@ -8,12 +8,12 @@ This file contains the class which represents a homogeneous Hagedorn wavepacket.
 """
 
 from functools import partial
-from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, transpose, squeeze, arange
+from numpy import zeros, complexfloating, array, sum, vstack, vsplit, transpose, arange
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
 from ComplexMath import cont_sqrt
-from GaussHermiteQR import GaussHermiteQR
+from HomogeneousQuadrature import HomogeneousQuadrature
 
 
 class HagedornWavepacket:
@@ -46,8 +46,8 @@ class HagedornWavepacket:
         #: The coefficients $c^i$ of the linear combination for each component $\Phi_k$.
         self.coefficients = [ zeros((self.basis_size,1), dtype=complexfloating) for index in xrange(self.number_components) ]
 
-        #: An object that provides nodes $\gamma$ and weights $\omega$ for Gauss-Hermite quadrature.
-        self.quadrator = None
+        #: An object that can compute brakets via quadrature.
+        self.quadrature = None
 
         self._cont_sqrt_cache = 0.0
 
@@ -171,22 +171,22 @@ class HagedornWavepacket:
         (self.P, self.Q, self.S, self.p, self.q) = parameters
 
 
-    def set_quadrator(self, quadrator):
-        """Set the I{GaussHermiteQR} instance used for quadrature.
-        @param quadrator: The new I{GaussHermiteQR} instance. May be I{None} to use a
-        dafault one of order $K+4$.
+    def set_quadrator(self, quadrature):
+        """Set the I{HomogeneousQuadrature} instance used for evaluating brakets.
+        @param quadrature: The new I{HomogeneousQuadrature} instance. May be I{None}
+        to use a dafault one with a quadrature rule of order $K+4$.
         """
-        if quadrator is None:
-            self.quadrator = GaussHermiteQR(self.basis_size + 4)
+        if quadrature is None:
+            self.quadrature = HomogeneousQuadrature(order=self.basis_size + 4)
         else:
-            self.quadrator = quadrator
+            self.quadrature = quadrature
 
 
     def get_quadrator(self):
-        """Return the I{GaussHermiteQR} instance used for quadrature.
-        @return: The current instance of the quadrature rule.
+        """Return the I{HomogeneousQuadrature} instance used for evaluating brakets.
+        @return: The current instance I{HomogeneousQuadrature}.
         """
-        return self.quadrator
+        return self.quadrature
 
 
     def evaluate_base_at(self, nodes, prefactor=False):
@@ -235,68 +235,6 @@ class HagedornWavepacket:
         return values
 
 
-    def quadrate(self, function, summed=False):
-        """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
-        @param function: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
-        @param summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
-        @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar
-        value or a list of $N^2$ scalar elements.
-        """
-        nodes = self.q + self.eps * abs(self.Q) * self.quadrator.get_nodes()
-        weights = self.quadrator.get_weights()
-        basis = self.evaluate_base_at(nodes)
-        values = function(nodes)
-
-        result = []
-        for i in xrange(self.number_components):
-            for j in xrange(self.number_components):
-                M = zeros((self.basis_size, self.basis_size), dtype=complexfloating)
-
-                vals = values[i*self.number_components + j].reshape((1,self.quadrator.get_number_nodes()))
-                factor = squeeze(self.eps * weights * vals)
-
-                # Summing up matrices over all quadrature nodes
-                for k in xrange(self.quadrator.get_number_nodes()):
-                    tmp = matrix(basis[:,k])
-                    M += factor[k] * tmp.H * tmp
-
-                # And include the coefficients as conj(c)*M*c
-                result.append( dot(conj(self.coefficients[i]).T, dot(M, self.coefficients[j])) )
-
-        if summed is True:
-            result = sum(result)
-
-        return result
-
-
-    def matrix(self, function):
-        """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
-        @param function: A function with two arguments $f:(q, x) -> \mathbb{R}$.
-        @return: A square matrix of size $NK \times NK$.
-        """
-        nodes = self.q + self.eps * abs(self.Q) * self.quadrator.get_nodes()
-        weights = self.quadrator.get_weights()
-        basis = self.evaluate_base_at(nodes)
-        values = function(self.q, nodes)
-
-        result = zeros((self.number_components*self.basis_size, self.number_components*self.basis_size), dtype=complexfloating)
-
-        for i in xrange(self.number_components):
-            for j in xrange(self.number_components):
-                M = zeros((self.basis_size, self.basis_size), dtype=complexfloating)
-                vals = values[i*self.number_components + j].reshape((1,self.quadrator.get_number_nodes()))
-                factor = squeeze(self.eps * weights * vals)
-
-                # Summing up matrices over all quadrature nodes
-                for k in xrange(self.quadrator.get_number_nodes()):
-                    tmp = matrix(basis[:,k])
-                    M += factor[k] * tmp.H * tmp
-
-                result[i*self.basis_size:(i+1)*self.basis_size, j*self.basis_size:(j+1)*self.basis_size] = M
-
-        return result
-
-
     def get_norm(self, component=None, summed=False):
         """Calculate the $L^2$ norm of the wavepacket $\Ket{\Psi}$.
         @keyword component: The component $\Phi_i$ of which the norm is calculated.
@@ -321,9 +259,8 @@ class HagedornWavepacket:
         @keyword summed: Wheter to sum up the individual integrals $\Braket{\Phi_i|V_{i,j}|\Phi_j}$.
         @return: The potential energy of the wavepacket's components $\Phi_i$ or the overall potential energy of $\Psi$.
         """
-
         f = partial(potential, as_matrix=True)
-        Q = self.quadrate(f, summed=False)
+        Q = self.quadrature.quadrature(self, f)
         tmp = [ item[0,0] for item in Q ]
 
         N = self.number_components
@@ -392,7 +329,7 @@ class HagedornWavepacket:
         # Basically an ugly hack to overcome some shortcomings of the matrix function
         # and of the data layout.
         def f(q, x):
-            x = x.reshape((self.quadrator.get_number_nodes(),))
+            x = x.reshape((self.quadrature.get_qr().get_number_nodes(),))
             z = potential.evaluate_eigenvectors_at(x)
 
             result = []
@@ -403,8 +340,7 @@ class HagedornWavepacket:
 
             return result
 
-        F = self.matrix(f)
-        F = transpose(conj(F))
+        F = transpose(conj(self.quadrature.build_matrix(self, f)))
         c = self.get_coefficient_vector()
         d = dot(F, c)
         if assign is True:
@@ -430,7 +366,7 @@ class HagedornWavepacket:
         # Basically an ugly hack to overcome some shortcomings of the matrix function
         # and of the data layout.
         def f(q, x):
-            x = x.reshape((self.quadrator.get_number_nodes(),))
+            x = x.reshape((self.quadrature.get_qr().get_number_nodes(),))
             z = potential.evaluate_eigenvectors_at(x)
 
             result = []
@@ -441,7 +377,7 @@ class HagedornWavepacket:
 
             return result
 
-        F = self.matrix(f)
+        F = self.quadrature.build_matrix(self, f)
         c = self.get_coefficient_vector()
         d = dot(F, c)
         if assign:
