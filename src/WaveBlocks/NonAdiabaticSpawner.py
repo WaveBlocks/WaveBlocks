@@ -88,6 +88,7 @@ class NonAdiabaticSpawner(Spawner):
         B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
 
         # Check out the last ambiguity of the sign
+        # Currently done on client side in the scripts
         # TODO
 
         return (B, A, S, b, a)
