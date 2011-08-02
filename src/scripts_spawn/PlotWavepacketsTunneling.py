@@ -16,7 +16,7 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 
@@ -82,7 +82,7 @@ def plot_frames_inhomogeneous(f, view=None):
     # Initialize a Hagedorn wavepacket with the data
     Potential = PotentialFactory.create_potential(p)
 
-    HAWP = HagedornMultiWavepacket(p)
+    HAWP = HagedornWavepacketInhomogeneous(p)
     HAWP.set_quadrature(None)
 
     # Iterate over all timesteps

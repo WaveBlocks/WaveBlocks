@@ -16,12 +16,12 @@ from ComplexMath import cont_sqrt
 from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
-class HagedornMultiWavepacket:
+class HagedornWavepacketInhomogeneous:
     """This class represents inhomogeneous vector valued wavepackets $\Ket{\Psi}$.
     """
 
     def __init__(self, parameters):
-        """Initialize the I{HagedornMultiWavepacket} object that represents $\Ket{\Psi}$.
+        """Initialize the I{HagedornWavepacketInhomogeneous} object that represents $\Ket{\Psi}$.
         @param parameters: A I{ParameterProvider} instance or a dict containing simulation parameters.
         @raise ValueError: For $N < 1$ or $K < 2$.
         """
@@ -66,7 +66,7 @@ class HagedornMultiWavepacket:
                   "eps":         self.eps}
 
         # Create a new Packet
-        other = HagedornMultiWavepacket(params)
+        other = HagedornWavepacketInhomogeneous(params)
         # And copy over all (private) data
         other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())

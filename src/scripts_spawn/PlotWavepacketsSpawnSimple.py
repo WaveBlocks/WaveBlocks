@@ -14,7 +14,7 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 

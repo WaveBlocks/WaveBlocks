@@ -13,13 +13,13 @@ from WaveFunction import WaveFunction
 from Propagator import Propagator
 
 
-class HagedornMultiPropagator(Propagator):
+class HagedornPropagatorInhomogeneous(Propagator):
     """This class can numerically propagate given initial values $\Ket{\Psi}$ in
     a potential $V\ofs{x}$. The propagation is done for a given inhomogeneous
     Hagedorn wavepacket."""
 
     def __init__(self, potential, packet, parameters):
-        """Initialize a new I{HagedornMultiPropagator} instance.
+        """Initialize a new I{HagedornPropagatorInhomogeneous} instance.
         @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
         @param packet: The initial inhomogeneous Hagedorn wavepacket we propagate in time.
         @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
@@ -64,7 +64,7 @@ class HagedornMultiPropagator(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the I{HagedornMultiPropagator} instance."""
+        """Prepare a printable string representing the I{HagedornPropagatorInhomogeneous} instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components."
 
 
@@ -79,7 +79,7 @@ class HagedornMultiPropagator(Propagator):
 
 
     def get_wavepacket(self):
-        """@return: The I{HagedornMultiWavepacket} instance that represents the
+        """@return: The I{HagedornWavepacketInhomogeneous} instance that represents the
         current wavepacket $\Ket{\Psi}$."""
         return self.packet
 

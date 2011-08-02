@@ -8,7 +8,7 @@ Compute the kinetic and potential energies of the inhomogeneous wavepackets.
 """
 
 from WaveBlocks import PotentialFactory
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 
 
 def compute_energy(iom, block=0):
@@ -40,7 +40,7 @@ def compute_energy(iom, block=0):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     # Initialize a hagedorn wave packet with the data
-    HAWP = HagedornMultiWavepacket(parameters)
+    HAWP = HagedornWavepacketInhomogeneous(parameters)
     HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
