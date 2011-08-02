@@ -37,8 +37,8 @@ elif PA["algorithm"] == "hagedorn":
     SL = SimulationLoopHagedorn(PA)
 
 elif PA["algorithm"] == "multihagedorn":
-    from WaveBlocks import SimulationLoopMultiHagedorn
-    SL = SimulationLoopMultiHagedorn(PA)
+    from WaveBlocks import SimulationLoopHagedornInhomogeneous
+    SL = SimulationLoopHagedornInhomogeneous(PA)
 
 elif PA["algorithm"] == "spawning_adiabatic":
     from WaveBlocks import SimulationLoopSpawnAdiabatic

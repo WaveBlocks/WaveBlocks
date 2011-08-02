@@ -27,7 +27,7 @@ k = omega / (2*params["f"] * pi)
 
 # A HAWP
 HAWP = HagedornWavepacket(params)
-HAWP.set_quadrator(None)
+HAWP.set_quadrature(None)
 
 HAWP.set_parameters((1j, 1, 0, 3, -2))
 HAWP.set_coefficient(0,2,1)

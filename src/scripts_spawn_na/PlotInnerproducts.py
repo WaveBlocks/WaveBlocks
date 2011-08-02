@@ -79,7 +79,9 @@ def inner(parameters, P1, P2, QR=None):
     # Assuming same quadrature rule for both packets
     # Implies same basis size!
     if QR is None:
-        QR = P1.get_quadrator()
+        QR = P1.get_quadrature()
+
+    QR = QR.get_qr()
 
     # Mix the parameters for quadrature
     (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
@@ -101,8 +103,8 @@ def inner(parameters, P1, P2, QR=None):
     weights = QR.get_weights()
 
     # Basis sets for both packets
-    basis_1 = P1.evaluate_base_at(nodes, prefactor=True)
-    basis_2 = P2.evaluate_base_at(nodes, prefactor=True)
+    basis_1 = P1.evaluate_basis_at(nodes, prefactor=True)
+    basis_2 = P2.evaluate_basis_at(nodes, prefactor=True)
 
     R = QR.get_order()
 
@@ -137,13 +139,13 @@ def compute(parameters, timegrids, AllPA, AllC):
     QR = None
 
     OWP = HagedornWavepacket(parameters)
-    OWP.set_quadrator(QR)
+    OWP.set_quadrature(QR)
 
     S1WP = HagedornWavepacket(parameters)
-    S1WP.set_quadrator(QR)
+    S1WP.set_quadrature(QR)
 
     S2WP = HagedornWavepacket(parameters)
-    S2WP.set_quadrator(QR)
+    S2WP.set_quadrature(QR)
 
     nrtimesteps = grid_m.shape[0]
 

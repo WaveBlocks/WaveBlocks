@@ -12,13 +12,13 @@ import numpy as np
 import scipy as sp
 
 from PotentialFactory import PotentialFactory as PF
-from HagedornMultiWavepacket import HagedornMultiWavepacket
-from HagedornMultiPropagator import HagedornMultiPropagator
+from HagedornWavepacketInhomogeneous import HagedornWavepacketInhomogeneous
+from HagedornPropagatorInhomogeneous import HagedornPropagatorInhomogeneous
 from SimulationLoop import SimulationLoop
 from IOManager import IOManager
 
 
-class SimulationLoopMultiHagedorn(SimulationLoop):
+class SimulationLoopHagedornInhomogeneous(SimulationLoop):
     """This class acts as the main simulation loop. It owns a propagator that
     propagates a set of initial values during a time evolution. All values are
     read from the I{Parameters.py} file."""
@@ -58,8 +58,8 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
             raise ValueError("Too few initial states given. Coefficients are missing.")
         
         # Create a suitable wave packet
-        packet = HagedornMultiWavepacket(self.parameters)
-        packet.set_quadrator(None)
+        packet = HagedornWavepacketInhomogeneous(self.parameters)
+        packet.set_quadrature(None)
 
         # Set the parameters for each energy level
         for level, item in enumerate(self.parameters["parameters"]):
@@ -70,11 +70,11 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
             for index, value in data:
                 packet.set_coefficient(component, index, value)
 
-        # Project the initial values to the canonical base
+        # Project the initial values to the canonical basis
         packet.project_to_canonical(potential)
 
         # Finally create and initialize the propagator instace
-        self.propagator = HagedornMultiPropagator(potential, packet, self.parameters)
+        self.propagator = HagedornPropagatorInhomogeneous(potential, packet, self.parameters)
 
         # Which data do we want to save
         tm = self.parameters.get_timemanager()

@@ -8,7 +8,7 @@ Compute the norms of the inhomogeneous wavepackets as well as the sum of all nor
 """
 
 from WaveBlocks import PotentialFactory
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 
 
 def compute_norm(iom, block=0):
@@ -40,8 +40,8 @@ def compute_norm(iom, block=0):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     # Initialize a Hagedorn wavepacket with the data
-    HAWP = HagedornMultiWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP = HagedornWavepacketInhomogeneous(parameters)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -52,7 +52,7 @@ def compute_norm(iom, block=0):
         HAWP.set_coefficients(coeffs[i])
         HAWP.project_to_eigen(Potential)
 
-        # Measure norms in the eigenbase
+        # Measure norms in the eigenbasis
         norm = HAWP.get_norm()
 
         # Save the norms

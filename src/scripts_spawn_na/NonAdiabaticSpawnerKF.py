@@ -120,9 +120,9 @@ class NonAdiabaticSpawnerKF(Spawner):
 
         quadrature = packet.get_quadrature()
 
-        alpha0 = quadrature.quadrate(packet, f0, summed=True)
-        alpha2 = 2/self.eps**2 * quadrature.quadrate(packet, f2, summed=True)
-        alpha4 = 4/self.eps**4 * quadrature.quadrate(packet, f4, summed=True)
+        alpha0 = quadrature.quadrature(packet, f0, summed=True)
+        alpha2 = 2/self.eps**2 * quadrature.quadrature(packet, f2, summed=True)
+        alpha4 = 4/self.eps**4 * quadrature.quadrature(packet, f4, summed=True)
 
         Aabs2 = (alpha2 + np.sqrt(0.0 + alpha2**2 - alpha0*alpha4)) / (alpha0)
 
@@ -133,9 +133,9 @@ class NonAdiabaticSpawnerKF(Spawner):
         f2 = lambda x: (x-p)**2
         f4 = lambda x: (x-p)**4
 
-        beta0 = quadrature.quadrate(fpacket, f0, summed=True)
-        beta2 = 2/self.eps**2 * quadrature.quadrate(fpacket, f2, summed=True)
-        beta4 = 4/self.eps**4 * quadrature.quadrate(fpacket, f4, summed=True)
+        beta0 = quadrature.quadrature(fpacket, f0, summed=True)
+        beta2 = 2/self.eps**2 * quadrature.quadrature(fpacket, f2, summed=True)
+        beta4 = 4/self.eps**4 * quadrature.quadrature(fpacket, f4, summed=True)
 
         Babs2 = (beta2 + np.sqrt(0.0 + beta2**2 - beta0*beta4)) / (beta0)
 
@@ -228,8 +228,8 @@ class NonAdiabaticSpawnerKF(Spawner):
         weights = QR.get_weights()
 
         # Basis sets for both packets
-        basis_m = mother.evaluate_base_at(nodes, prefactor=True)
-        basis_s = child.evaluate_base_at(nodes, prefactor=True)
+        basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
+        basis_s = child.evaluate_basis_at(nodes, prefactor=True)
 
         max_order = min(child.get_basis_size(), self.max_order)
 

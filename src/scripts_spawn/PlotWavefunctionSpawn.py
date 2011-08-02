@@ -1,6 +1,6 @@
 """The WaveBlocks Project
 
-Plot the wavefunctions probability densities in the eigenbase.
+Plot the wavefunctions probability densities in the eigenbasis.
 Additionally plot the spawned wavepackets.
 
 @author: R. Bourquin

@@ -8,20 +8,20 @@ This file contains the class which represents an inhomogeneous Hagedorn wavepack
 """
 
 from functools import partial
-from numpy import zeros, complexfloating, array, sum, matrix, vstack, vsplit, imag, transpose, squeeze, arange
+from numpy import zeros, complexfloating, array, sum, vstack, vsplit, transpose, arange
 from scipy import pi, sqrt, exp, conj, dot
 from scipy.linalg import norm
 
 from ComplexMath import cont_sqrt
-from GaussHermiteQR import GaussHermiteQR
+from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
-class HagedornMultiWavepacket:
+class HagedornWavepacketInhomogeneous:
     """This class represents inhomogeneous vector valued wavepackets $\Ket{\Psi}$.
     """
 
     def __init__(self, parameters):
-        """Initialize the I{HagedornMultiWavepacket} object that represents $\Ket{\Psi}$.
+        """Initialize the I{HagedornWavepacketInhomogeneous} object that represents $\Ket{\Psi}$.
         @param parameters: A I{ParameterProvider} instance or a dict containing simulation parameters.
         @raise ValueError: For $N < 1$ or $K < 2$.
         """
@@ -46,8 +46,8 @@ class HagedornMultiWavepacket:
         #: The coefficients $c^i$ of the linear combination for each component $\Phi_i$.
         self.coefficients = [ zeros((self.basis_size,1), dtype=complexfloating) for index in xrange(self.number_components) ]
 
-        #: An object that provides nodes $\gamma$ and weights $\omega$ for Gauss-Hermite quadrature.
-        self.quadrator = None
+        #: An object that can compute brakets via quadrature.
+        self.quadrature = None
 
         self._cont_sqrt_cache = [ 0.0 for i in xrange(self.number_components) ]
 
@@ -66,9 +66,9 @@ class HagedornMultiWavepacket:
                   "eps":         self.eps}
 
         # Create a new Packet
-        other = HagedornMultiWavepacket(params)
+        other = HagedornWavepacketInhomogeneous(params)
         # And copy over all (private) data
-        other.set_quadrator(self.get_quadrator())
+        other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
         other._cont_sqrt_cache = [ cache for cache in self._cont_sqrt_cache ]
@@ -174,25 +174,25 @@ class HagedornMultiWavepacket:
             self.parameters[component] = parameters[:]
 
 
-    def set_quadrator(self, quadrator):
-        """Set the I{GaussHermiteQR} instance used for quadrature.
-        @param quadrator: The new I{GaussHermiteQR} instance. May be I{None} to use a
-        dafault one of order $K+4$.
+    def set_quadrature(self, quadrature):
+        """Set the I{InhomogeneousQuadrature} instance used for evaluating brakets.
+        @param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
+        to use a dafault one with a quadrature rule of order $K+4$.
         """
-        if quadrator is None:
-            self.quadrator = GaussHermiteQR(self.basis_size + 4)
+        if quadrature is None:
+            self.quadrature = InhomogeneousQuadrature(order=self.basis_size + 4)
         else:
-            self.quadrator = quadrator
+            self.quadrature = quadrature
 
 
-    def get_quadrator(self):
-        """Return the I{GaussHermiteQR} instance used for quadrature.
-        @return: The current instance of the quadrature rule.
+    def get_quadrature(self):
+        """Return the I{InhomogeneousQuadrature} instance used for evaluating brakets.
+        @return: The current instance I{InhomogeneousQuadrature}.
         """
-        return self.quadrator
+        return self.quadrature
 
 
-    def evaluate_base_at(self, nodes, component, prefactor=False):
+    def evaluate_basis_at(self, nodes, component, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
         @param component: The index $i$ of the component whose basis functions $\phi^i_k$ we want to evaluate.
@@ -236,127 +236,20 @@ class HagedornMultiWavepacket:
             for index in xrange(self.number_components):
                 (P, Q, S, p, q) = self.parameters[index]
 
-                base = self.evaluate_base_at(nodes, index, prefactor=prefactor)
-                vals = self.coefficients[index] * base
+                basis = self.evaluate_basis_at(nodes, index, prefactor=prefactor)
+                vals = self.coefficients[index] * basis
                 phase = exp(1.0j*S/self.eps**2)
                 values[index] = phase * sum(vals, axis=0)
         else:
             # Avoid the expensive evaluation of unused other bases
             (P, Q, S, p, q) = self.parameters[component]
 
-            base = self.evaluate_base_at(nodes, component, prefactor=prefactor)
-            vals = self.coefficients[component] * base
+            basis = self.evaluate_basis_at(nodes, component, prefactor=prefactor)
+            vals = self.coefficients[component] * basis
             phase = exp(1.0j*S/self.eps**2)
             values = phase * sum(vals, axis=0)
 
         return values
-
-
-    def quadrate(self, function, summed=False):
-        """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
-        @param function: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
-        @param summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
-        @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar
-        value or a list of $N^2$ scalar elements.
-        """
-        weights = self.quadrator.get_weights()
-        result = []
-
-        for row in xrange(self.number_components):
-            for col in xrange(self.number_components):
-                # <phi_row| f | phi_col>
-                (Pr, Qr, Sr, pr, qr) = self.parameters[row]
-                (Pc, Qc, Sc, pc, qc) = self.parameters[col]
-
-                # Mix the parameters
-                rr = Pr/Qr
-                rc = Pc/Qc
-
-                r = conj(rr)-rc
-                s = conj(rr)*qr - rc*qc
-
-                q0 = imag(s) / imag(r)
-                Q0 = -0.5 * imag(r)
-                QS = 1 / sqrt(Q0)
-
-                # The quadrature nodes
-                nodes = q0 + self.eps * QS * self.quadrator.get_nodes()
-
-                # Values
-                values = function(nodes, component=(row,col))
-
-                phase = exp(1.0j/self.eps**2 * (Sc-conj(Sr)) )
-                factor = squeeze(self.eps * values * weights * QS)
-
-                M = zeros((self.basis_size, self.basis_size), dtype=complexfloating)
-
-                basisr = self.evaluate_base_at(nodes, component=row, prefactor=True)
-                basisc = self.evaluate_base_at(nodes, component=col, prefactor=True)
-
-                # Summing up matrices over all quadrature nodes
-                for k in xrange(self.quadrator.get_number_nodes()):
-                    tmpr = matrix(basisr[:,k])
-                    tmpc = matrix(basisc[:,k])
-                    M += factor[k] * tmpr.H * tmpc
-
-                # And include the coefficients as conj(c)*M*c
-                result.append( phase * dot(conj(self.coefficients[row]).T, dot(M, self.coefficients[col])) )
-
-        if summed is True:
-            result = sum(result)
-
-        return result
-
-
-    def matrix(self, function):
-        """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
-        @param function: A function with two arguments $f:(q, x) -> \mathbb{R}$.
-        @return: A square matrix of size $NK \times NK$.
-        """
-        weights = self.quadrator.get_weights()
-
-        result = zeros((self.number_components*self.basis_size, self.number_components*self.basis_size), dtype=complexfloating)
-
-        for row in xrange(self.number_components):
-            for col in xrange(self.number_components):
-
-                (Pr, Qr, Sr, pr, qr) = self.parameters[row]
-                (Pc, Qc, Sc, pc, qc) = self.parameters[col]
-
-                # Mix the parameters
-                rr = Pr/Qr
-                rc = Pc/Qc
-
-                r = conj(rr)-rc
-                s = conj(rr)*qr - rc*qc
-
-                q0 = imag(s) / imag(r)
-                Q0 = -0.5 * imag(r)
-                QS = 1 / sqrt(Q0)
-
-                # The quadrature nodes
-                nodes = q0 + self.eps * QS * self.quadrator.get_nodes()
-
-                # Values
-                values = function(q0, nodes, component=(row,col))
-
-                phase = exp(1.0j/self.eps**2 * (Sc-conj(Sr)) )
-                factor = squeeze(self.eps * values * weights * QS)
-
-                M = zeros((self.basis_size, self.basis_size), dtype=complexfloating)
-
-                basisr = self.evaluate_base_at(nodes, component=row, prefactor=True)
-                basisc = self.evaluate_base_at(nodes, component=col, prefactor=True)
-
-                # Summing up matrices over all quadrature nodes
-                for k in xrange(self.quadrator.get_number_nodes()):
-                    tmpr = matrix(basisr[:,k])
-                    tmpc = matrix(basisc[:,k])
-                    M += factor[k] * tmpr.H * tmpc
-
-                result[row*self.basis_size:(row+1)*self.basis_size, col*self.basis_size:(col+1)*self.basis_size] = phase * M
-
-        return result
 
 
     def get_norm(self, component=None, summed=False):
@@ -384,14 +277,14 @@ class HagedornMultiWavepacket:
         @return: The potential energy of the wavepacket's components $\Phi_i$ or the overall potential energy of $\Psi$.
         """
         f = partial(potential, as_matrix=True)
-        Q = self.quadrate(f, summed=False)
+        Q = self.quadrature.quadrature(self, self, f)
 
         N = self.number_components
         epot = [ 0 for i in xrange(N) ]
         for i in range(N):
             epot[i] = sum(Q[i*N:(i+1)*N])
 
-        # Works only for eigenbase
+        # Works only for eigenbasis
         #epot = [ Q[row*N][0,0] for row in xrange(N) ]
 
         if summed is True:
@@ -452,13 +345,12 @@ class HagedornMultiWavepacket:
         # Basically an ugly hack to overcome some shortcomings of the matrix function
         # and of the data layout.
         def f(q, x, component):
-            x = x.reshape((self.quadrator.get_number_nodes(),))
+            x = x.reshape((self.quadrature.get_qr().get_number_nodes(),))
             z = potential.evaluate_eigenvectors_at(x)
             (row, col) = component
             return z[col][row,:]
 
-        F = self.matrix( f )
-        F = transpose(conj(F))
+        F = transpose(conj(self.quadrature.build_matrix(self,self,f)))
         c = self.get_coefficient_vector()
         d = dot(F, c)
         self.set_coefficient_vector(d)
@@ -480,12 +372,12 @@ class HagedornMultiWavepacket:
         # Basically an ugly hack to overcome some shortcomings of the matrix function
         # and of the data layout.
         def f(q, x, component):
-            x = x.reshape((self.quadrator.get_number_nodes(),))
+            x = x.reshape((self.quadrature.get_qr().get_number_nodes(),))
             z = potential.evaluate_eigenvectors_at(x)
             (row, col) = component
             return z[col][row,:]
 
-        F = self.matrix( f )
+        F = self.quadrature.build_matrix(self,self,f)
         c = self.get_coefficient_vector()
         d = dot(F, c)
         self.set_coefficient_vector(d)

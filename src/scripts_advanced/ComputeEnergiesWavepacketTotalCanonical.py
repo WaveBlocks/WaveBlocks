@@ -36,7 +36,7 @@ def compute_energy(f, datablock=0):
     
     # Initialize a hagedorn wave packet with the data    
     HAWP = HagedornWavepacket(p)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):

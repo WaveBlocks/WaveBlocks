@@ -13,13 +13,13 @@ from WaveFunction import WaveFunction
 from Propagator import Propagator
 
 
-class HagedornMultiPropagator(Propagator):
+class HagedornPropagatorInhomogeneous(Propagator):
     """This class can numerically propagate given initial values $\Ket{\Psi}$ in
     a potential $V\ofs{x}$. The propagation is done for a given inhomogeneous
     Hagedorn wavepacket."""
 
     def __init__(self, potential, packet, parameters):
-        """Initialize a new I{HagedornMultiPropagator} instance.
+        """Initialize a new I{HagedornPropagatorInhomogeneous} instance.
         @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
         @param packet: The initial inhomogeneous Hagedorn wavepacket we propagate in time.
         @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
@@ -42,6 +42,9 @@ class HagedornMultiPropagator(Propagator):
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
 
+        # The quadrature instance matching the packet
+        self.quadrature = packet.get_quadrature()
+
         # Decide about the matrix exponential algorithm to use
         method = parameters["matrix_exponential"]
 
@@ -61,7 +64,7 @@ class HagedornMultiPropagator(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the I{HagedornMultiPropagator} instance."""
+        """Prepare a printable string representing the I{HagedornPropagatorInhomogeneous} instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components."
 
 
@@ -76,7 +79,7 @@ class HagedornMultiPropagator(Propagator):
 
 
     def get_wavepacket(self):
-        """@return: The I{HagedornMultiWavepacket} instance that represents the
+        """@return: The I{HagedornWavepacketInhomogeneous} instance that represents the
         current wavepacket $\Ket{\Psi}$."""
         return self.packet
 
@@ -124,7 +127,8 @@ class HagedornMultiPropagator(Propagator):
             self.packet.set_parameters((P,Q,S,p,q), component=component)
 
         # Do a potential step with the local non-quadratic taylor remainder
-        F = self.packet.matrix(self.potential.evaluate_local_remainder_at)
+        F = self.quadrature.build_matrix(self.packet, self.packet, self.potential.evaluate_local_remainder_at)
+
         coefficients = self.packet.get_coefficient_vector()
         coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
         self.packet.set_coefficient_vector(coefficients)

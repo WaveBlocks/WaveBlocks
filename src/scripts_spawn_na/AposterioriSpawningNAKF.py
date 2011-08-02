@@ -42,11 +42,11 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
 
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Initialize an empty wavepacket for spawning
     SWP = HagedornWavepacket(pout)
-    SWP.set_quadrator(None)
+    SWP.set_quadrature(None)
 
     # Initialize a Spawner
     NAS = NonAdiabaticSpawnerKF(pout)
@@ -137,7 +137,7 @@ def inner(parameters, P1, P2, QR=None):
     # Assuming same quadrature rule for both packets
     # Implies same basis size!
     if QR is None:
-        QR = P1.get_quadrator().get_qr()
+        QR = P1.get_quadrature().get_qr()
 
     # Mix the parameters for quadrature
     (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
@@ -158,8 +158,8 @@ def inner(parameters, P1, P2, QR=None):
     weights = QR.get_weights()
 
     # Basis sets for both packets
-    basis_1 = P1.evaluate_base_at(nodes, prefactor=True)
-    basis_2 = P2.evaluate_base_at(nodes, prefactor=True)
+    basis_1 = P1.evaluate_basis_at(nodes, prefactor=True)
+    basis_2 = P2.evaluate_basis_at(nodes, prefactor=True)
 
     R = QR.get_order()
 
