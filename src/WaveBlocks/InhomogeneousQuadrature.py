@@ -26,6 +26,10 @@ class InhomogeneousQuadrature(Quadrature):
             self.QR = None
 
 
+    def __str__(self):
+        return "Inhomogeneous quadrature using a " + str(self.QR)
+
+
     def transform_nodes(self, Pibra, Piket, eps, QR=None):
         """Transform the quadrature nodes such that they fit the given wavepacket.
         @param Pibra: The parameter set $Pi$ from the bra.

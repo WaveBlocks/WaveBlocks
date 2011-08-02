@@ -9,6 +9,10 @@ from QuadratureRule import QuadratureRule
 from GaussHermiteQR import GaussHermiteQR
 from TrapezoidalQR import TrapezoidalQR
 
+from Quadrature import Quadrature
+from HomogeneousQuadrature import HomogeneousQuadrature
+from InhomogeneousQuadrature import InhomogeneousQuadrature
+
 from HagedornWavepacket import HagedornWavepacket
 from HagedornMultiWavepacket import HagedornMultiWavepacket
 

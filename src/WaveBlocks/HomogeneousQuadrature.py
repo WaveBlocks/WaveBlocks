@@ -26,6 +26,10 @@ class HomogeneousQuadrature(Quadrature):
             self.QR = None
 
 
+    def __str__(self):
+        return "Homogeneous quadrature using a " + str(self.QR)
+
+
     def transform_nodes(self, Pi, eps, QR=None):
         """Transform the quadrature nodes such that they fit the given wavepacket.
         @param Pi: The parameter set of the wavepacket.

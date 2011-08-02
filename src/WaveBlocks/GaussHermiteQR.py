@@ -48,7 +48,7 @@ class GaussHermiteQR(QuadratureRule):
 
 
     def __str__(self):
-        return "Gauss-Hermite quadrature of order " + str(self.order) + "."
+        return "Gauss-Hermite quadrature rule of order " + str(self.order) + "."
 
 
     def get_order(self):
