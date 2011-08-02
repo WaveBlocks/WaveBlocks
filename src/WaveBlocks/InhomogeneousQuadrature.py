@@ -88,8 +88,8 @@ class InhomogeneousQuadrature(Quadrature):
         K = packet.get_basis_size()
         eps = packet.eps
 
-        Pibra = pacbra.get_parameters()
-        Piket = packet.get_parameters()
+        Pibra = pacbra.get_parameters(aslist=True)
+        Piket = packet.get_parameters(aslist=True)
 
         coeffbra = pacbra.get_coefficients()
         coeffket = packet.get_coefficients()
@@ -143,8 +143,8 @@ class InhomogeneousQuadrature(Quadrature):
         K = packet.get_basis_size()
         eps = packet.eps
 
-        Pibra = pacbra.get_parameters()
-        Piket = packet.get_parameters()
+        Pibra = pacbra.get_parameters(aslist=True)
+        Piket = packet.get_parameters(aslist=True)
 
         result = zeros((N*K,N*K), dtype=complexfloating)
 
