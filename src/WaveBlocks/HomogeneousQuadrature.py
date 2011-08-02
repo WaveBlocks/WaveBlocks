@@ -12,10 +12,10 @@ values and compute the $F$ matrix.
 from numpy import zeros, complexfloating, sum, matrix, squeeze
 from scipy import conj, dot
 
-from GaussHermiteQR import GaussHermiteQR
+from Quadrature import Quadrature
 
 
-class HomogeneousQuadrature:
+class HomogeneousQuadrature(Quadrature):
 
     def __init__(self, QR=None, order=None):
         if QR is not None:
@@ -26,45 +26,30 @@ class HomogeneousQuadrature:
             self.QR = None
 
 
-    def set_qr(self, QR):
-        """Set the I{GaussHermiteQR} instance used for quadrature.
-        @param QR: The new I{GaussHermiteQR} instance.
-        """
-        self.QR = QR
-
-
-    def get_qr(self):
-        """Return the I{GaussHermiteQR} instance used for quadrature.
-        @return: The current instance of the quadrature rule.
-        """
-        return self.QR
-
-
-    def build_qr(self, qorder):
-        """Create a quadrature rule of the given order.
-        @param qorder: The order of the quadrature rule.
-        """
-        self.QR = GaussHermiteQR(qorder)
-
-
-    def transform_nodes(self, packet, QR=None):
+    def transform_nodes(self, Pi, eps, QR=None):
         """Transform the quadrature nodes such that they fit the given wavepacket.
+        @param Pi: The parameter set of the wavepacket.
+        @param eps: The epsilon of the wavepacket.
+        @keyword QR: An optional quadrature rule providing the nodes.
         """
         if QR is None:
             QR = self.QR
 
-        nodes = packet.q + packet.eps * abs(packet.Q) * QR.get_nodes()
+        P, Q, S, p, q = Pi
+
+        nodes = q + eps * abs(Q) * QR.get_nodes()
         return nodes.copy()
 
 
     def quadrature(self, packet, operator=None, summed=False):
         """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
-        @param function: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
+        @param packet: The wavepacket $|\Psi>$.
+        @param operator: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
         @param summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
         @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar
         value or a list of $N^2$ scalar elements.
         """
-        nodes = self.transform_nodes(packet)
+        nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()
         basis = packet.evaluate_base_at(nodes)
 
@@ -103,10 +88,11 @@ class HomogeneousQuadrature:
 
     def build_matrix(self, packet, operator):
         """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
-        @param function: A function with two arguments $f:(q, x) -> \mathbb{R}$.
-        @return: A square matrix of size $NK \times NK$.
+        @param packet: The wavepacket $|\Psi>$.
+        @param operator: A function with two arguments $f:(q, x) -> \mathbb{R}$.
+        @return: A square matrix of size $N*K \times N*K$.
         """
-        nodes = self.transform_nodes(packet)
+        nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()
         basis = packet.evaluate_base_at(nodes)
 
