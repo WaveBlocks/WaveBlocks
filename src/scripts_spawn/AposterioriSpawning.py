@@ -38,11 +38,11 @@ def aposteriori_spawning(fin, fout, pin, pout):
 
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
     
     # Initialize an empty wavepacket for spawning
     SWP = HagedornWavepacket(pout)
-    SWP.set_quadrator(None)
+    SWP.set_quadrature(None)
 
     # Initialize a Spawner
     AS = AdiabaticSpawner(pout)

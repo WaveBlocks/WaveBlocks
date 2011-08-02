@@ -68,7 +68,7 @@ class HagedornMultiWavepacket:
         # Create a new Packet
         other = HagedornMultiWavepacket(params)
         # And copy over all (private) data
-        other.set_quadrator(self.get_quadrator())
+        other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
         other._cont_sqrt_cache = [ cache for cache in self._cont_sqrt_cache ]
@@ -174,7 +174,7 @@ class HagedornMultiWavepacket:
             self.parameters[component] = parameters[:]
 
 
-    def set_quadrator(self, quadrature):
+    def set_quadrature(self, quadrature):
         """Set the I{InhomogeneousQuadrature} instance used for evaluating brakets.
         @param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
         to use a dafault one with a quadrature rule of order $K+4$.
@@ -185,14 +185,14 @@ class HagedornMultiWavepacket:
             self.quadrature = quadrature
 
 
-    def get_quadrator(self):
+    def get_quadrature(self):
         """Return the I{InhomogeneousQuadrature} instance used for evaluating brakets.
         @return: The current instance I{InhomogeneousQuadrature}.
         """
         return self.quadrature
 
 
-    def evaluate_base_at(self, nodes, component, prefactor=False):
+    def evaluate_basis_at(self, nodes, component, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
         @param component: The index $i$ of the component whose basis functions $\phi^i_k$ we want to evaluate.
@@ -236,16 +236,16 @@ class HagedornMultiWavepacket:
             for index in xrange(self.number_components):
                 (P, Q, S, p, q) = self.parameters[index]
 
-                base = self.evaluate_base_at(nodes, index, prefactor=prefactor)
-                vals = self.coefficients[index] * base
+                basis = self.evaluate_basis_at(nodes, index, prefactor=prefactor)
+                vals = self.coefficients[index] * basis
                 phase = exp(1.0j*S/self.eps**2)
                 values[index] = phase * sum(vals, axis=0)
         else:
             # Avoid the expensive evaluation of unused other bases
             (P, Q, S, p, q) = self.parameters[component]
 
-            base = self.evaluate_base_at(nodes, component, prefactor=prefactor)
-            vals = self.coefficients[component] * base
+            basis = self.evaluate_basis_at(nodes, component, prefactor=prefactor)
+            vals = self.coefficients[component] * basis
             phase = exp(1.0j*S/self.eps**2)
             values = phase * sum(vals, axis=0)
 
@@ -284,7 +284,7 @@ class HagedornMultiWavepacket:
         for i in range(N):
             epot[i] = sum(Q[i*N:(i+1)*N])
 
-        # Works only for eigenbase
+        # Works only for eigenbasis
         #epot = [ Q[row*N][0,0] for row in xrange(N) ]
 
         if summed is True:

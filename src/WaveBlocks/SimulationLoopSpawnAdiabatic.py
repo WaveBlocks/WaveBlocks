@@ -64,14 +64,14 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         # Create a suitable wave packet
         packet = HagedornWavepacket(self.parameters)
         packet.set_parameters(self.parameters["parameters"][self.parameters["leading_component"]])
-        packet.set_quadrator(None)
+        packet.set_quadrature(None)
         
         # Set the initial values
         for component, data in enumerate(self.parameters["coefficients"]):
             for index, value in data:
                 packet.set_coefficient(component, index, value)
         
-        # Project the initial values to the canonical base
+        # Project the initial values to the canonical basis
         packet.project_to_canonical(potential)
         
         # Finally create and initialize the propagator instace

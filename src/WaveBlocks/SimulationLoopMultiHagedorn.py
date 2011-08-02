@@ -59,7 +59,7 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
         
         # Create a suitable wave packet
         packet = HagedornMultiWavepacket(self.parameters)
-        packet.set_quadrator(None)
+        packet.set_quadrature(None)
 
         # Set the parameters for each energy level
         for level, item in enumerate(self.parameters["parameters"]):
@@ -70,7 +70,7 @@ class SimulationLoopMultiHagedorn(SimulationLoop):
             for index, value in data:
                 packet.set_coefficient(component, index, value)
 
-        # Project the initial values to the canonical base
+        # Project the initial values to the canonical basis
         packet.project_to_canonical(potential)
 
         # Finally create and initialize the propagator instace

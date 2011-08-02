@@ -55,7 +55,7 @@ class HomogeneousQuadrature(Quadrature):
         """
         nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()
-        basis = packet.evaluate_base_at(nodes)
+        basis = packet.evaluate_basis_at(nodes)
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
@@ -98,7 +98,7 @@ class HomogeneousQuadrature(Quadrature):
         """
         nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()
-        basis = packet.evaluate_base_at(nodes)
+        basis = packet.evaluate_basis_at(nodes)
 
         # Operator is None is interpreted as identity transformation
         if operator is None:

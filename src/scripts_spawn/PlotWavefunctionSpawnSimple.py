@@ -1,6 +1,6 @@
 """The WaveBlocks Project
 
-Plot the wavefunctions probability densities in the eigenbase.
+Plot the wavefunctions probability densities in the eigenbasis.
 Additionally plot the spawned wavepackets.
 The plot can be splitted into 4 subplots corresponding to the
 left and the right of a barrier potential.

@@ -112,8 +112,8 @@ class InhomogeneousQuadrature(Quadrature):
 
                 M = zeros((K,K), dtype=complexfloating)
 
-                basisr = pacbra.evaluate_base_at(nodes, component=row, prefactor=True)
-                basisc = packet.evaluate_base_at(nodes, component=col, prefactor=True)
+                basisr = pacbra.evaluate_basis_at(nodes, component=row, prefactor=True)
+                basisc = packet.evaluate_basis_at(nodes, component=col, prefactor=True)
 
                 # Summing up matrices over all quadrature nodes
                 for k in xrange(self.QR.get_number_nodes()):
@@ -165,8 +165,8 @@ class InhomogeneousQuadrature(Quadrature):
 
                 M = zeros((K,K), dtype=complexfloating)
 
-                basisr = pacbra.evaluate_base_at(nodes, component=row, prefactor=True)
-                basisc = packet.evaluate_base_at(nodes, component=col, prefactor=True)
+                basisr = pacbra.evaluate_basis_at(nodes, component=row, prefactor=True)
+                basisc = packet.evaluate_basis_at(nodes, component=col, prefactor=True)
 
                 # Summing up matrices over all quadrature nodes
                 for k in xrange(self.QR.get_number_nodes()):

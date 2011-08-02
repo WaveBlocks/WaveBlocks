@@ -44,7 +44,7 @@ def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     HAWP = HagedornWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     WF = WaveFunction(parameters)
     WF.set_grid(grid)

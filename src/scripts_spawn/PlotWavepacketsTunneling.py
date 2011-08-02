@@ -43,7 +43,7 @@ def plot_frames_homogeneous(f, view=None):
     Potential = PotentialFactory.create_potential(p)
 
     HAWP = HagedornWavepacket(p)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -83,7 +83,7 @@ def plot_frames_inhomogeneous(f, view=None):
     Potential = PotentialFactory.create_potential(p)
 
     HAWP = HagedornMultiWavepacket(p)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):

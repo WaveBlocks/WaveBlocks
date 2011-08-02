@@ -68,7 +68,7 @@ class HagedornWavepacket:
         # Create a new Packet
         other = HagedornWavepacket(params)
         # And copy over all (private) data
-        other.set_quadrator(self.get_quadrator())
+        other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
         other._cont_sqrt_cache = self._cont_sqrt_cache
@@ -171,7 +171,7 @@ class HagedornWavepacket:
         (self.P, self.Q, self.S, self.p, self.q) = parameters
 
 
-    def set_quadrator(self, quadrature):
+    def set_quadrature(self, quadrature):
         """Set the I{HomogeneousQuadrature} instance used for evaluating brakets.
         @param quadrature: The new I{HomogeneousQuadrature} instance. May be I{None}
         to use a dafault one with a quadrature rule of order $K+4$.
@@ -182,14 +182,14 @@ class HagedornWavepacket:
             self.quadrature = quadrature
 
 
-    def get_quadrator(self):
+    def get_quadrature(self):
         """Return the I{HomogeneousQuadrature} instance used for evaluating brakets.
         @return: The current instance I{HomogeneousQuadrature}.
         """
         return self.quadrature
 
 
-    def evaluate_base_at(self, nodes, prefactor=False):
+    def evaluate_basis_at(self, nodes, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
         @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.
@@ -224,8 +224,8 @@ class HagedornWavepacket:
         @return: A list of arrays or a single array containing the values of the $\Phi_i$ at the nodes $\gamma$.
         """
         nodes = nodes.reshape((1,nodes.size))
-        base = self.evaluate_base_at(nodes, prefactor=prefactor)
-        values = [ self.coefficients[index] * base for index in xrange(self.number_components) ]
+        basis = self.evaluate_basis_at(nodes, prefactor=prefactor)
+        values = [ self.coefficients[index] * basis for index in xrange(self.number_components) ]
         phase = exp(1.0j*self.S/self.eps**2)
         values = [ phase * sum(values[index], axis=0) for index in xrange(self.number_components) ]
 

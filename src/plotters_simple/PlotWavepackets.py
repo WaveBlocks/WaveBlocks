@@ -47,7 +47,7 @@ def plot_frames_homogeneous(iom, block=0, view=None):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     HAWP = HagedornWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -93,7 +93,7 @@ def plot_frames_inhomogeneous(iom, block=0, view=None):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     HAWP = HagedornMultiWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):

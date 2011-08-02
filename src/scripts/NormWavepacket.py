@@ -40,7 +40,7 @@ def compute_norm(iom, block=0):
 
     # Initialize a Hagedorn wavepacket with the data
     HAWP = HagedornWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -51,7 +51,7 @@ def compute_norm(iom, block=0):
         HAWP.set_coefficients(coeffs[i])
         HAWP.project_to_eigen(Potential)
 
-        # Measure norms in the eigenbase
+        # Measure norms in the eigenbasis
         norm = HAWP.get_norm()
 
         # Save the norms

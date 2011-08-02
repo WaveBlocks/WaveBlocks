@@ -45,7 +45,7 @@ def compute_energy(iom, block=0):
         values = iom.load_wavefunction(timestep=step, block=block)
         values = [ values[j,...] for j in xrange(parameters["ncomponents"]) ]
 
-        # Project wavefunction values to eigenbase
+        # Project wavefunction values to eigenbasis
         values = Potential.project_to_eigen(nodes, values, eigenvectors)
         WF.set_values(values)
 
@@ -59,7 +59,7 @@ def compute_energy(iom, block=0):
             tmp = [ zeros(item.shape) for z in xrange(nst) ]
             tmp[index] = item
 
-            # Project this vector to the canonical base
+            # Project this vector to the canonical basis
             tmp = Potential.project_to_canonical(nodes, tmp, eigenvectors)
             WF.set_values(tmp)
 

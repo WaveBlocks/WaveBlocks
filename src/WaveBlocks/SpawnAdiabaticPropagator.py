@@ -57,7 +57,7 @@ class SpawnAdiabaticPropagator(Propagator):
         self.threshold = parameters["spawn_threshold"]
 
         # The quadrature instance matching the packet
-        self.quadrator = packet.get_quadrator()
+        self.quadrature = packet.get_quadrature()
 
         # todo: put this in the ParameterProvider
         self.already_spawned = False
@@ -120,7 +120,7 @@ class SpawnAdiabaticPropagator(Propagator):
         if self.should_spwan():
             # Initialize an empty wavepacket for spawning
             SWP = HagedornWavepacket(self.parameters)
-            SWP.set_quadrator(None)
+            SWP.set_quadrature(None)
 
             # Initialize a Spawner
             AS = AdiabaticSpawner(self.parameters)
@@ -151,7 +151,7 @@ class SpawnAdiabaticPropagator(Propagator):
             packet.S = packet.S - dt * V[0]
 
             # Do a potential step with the local non-quadratic taylor remainder
-            F = self.quadrator.build_matrix(self.packet, self.potential.evaluate_local_remainder_at)
+            F = self.quadrature.build_matrix(self.packet, self.potential.evaluate_local_remainder_at)
 
             coefficients = packet.get_coefficient_vector()
             coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)

@@ -136,7 +136,7 @@ class AdiabaticSpawner(Spawner):
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
         # Quadrature rule, assume same quadrature order for both packets
-        QR = mother.get_quadrator().get_qr()
+        QR = mother.get_quadrature().get_qr()
 
         # Mix the parameters for quadrature
         (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
@@ -157,8 +157,8 @@ class AdiabaticSpawner(Spawner):
         weights = QR.get_weights()
 
         # Basis sets for both packets
-        basis_m = mother.evaluate_base_at(nodes, prefactor=True)
-        basis_s = child.evaluate_base_at(nodes, prefactor=True)
+        basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
+        basis_s = child.evaluate_basis_at(nodes, prefactor=True)
 
         max_order = min(child.get_basis_size(), self.max_order)
 
