@@ -37,7 +37,7 @@ from SpawnAdiabaticPropagator import SpawnAdiabaticPropagator
 from SimulationLoop import SimulationLoop
 from SimulationLoopFourier import SimulationLoopFourier
 from SimulationLoopHagedorn import SimulationLoopHagedorn
-from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
+from SimulationLoopHagedornInhomogeneous import SimulationLoopHagedornInhomogeneous
 from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 
 from AdiabaticSpawner import AdiabaticSpawner

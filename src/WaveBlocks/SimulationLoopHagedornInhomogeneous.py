@@ -18,7 +18,7 @@ from SimulationLoop import SimulationLoop
 from IOManager import IOManager
 
 
-class SimulationLoopMultiHagedorn(SimulationLoop):
+class SimulationLoopHagedornInhomogeneous(SimulationLoop):
     """This class acts as the main simulation loop. It owns a propagator that
     propagates a set of initial values during a time evolution. All values are
     read from the I{Parameters.py} file."""
