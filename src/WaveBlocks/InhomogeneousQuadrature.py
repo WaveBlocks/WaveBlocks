@@ -9,7 +9,7 @@ expectation values and compute the $F$ matrix.
 @license: Modified BSD License
 """
 
-from numpy import zeros, complexfloating, sum, matrix, squeeze, imag
+from numpy import zeros, complexfloating, sum, matrix, squeeze, imag, ones
 from scipy import sqrt, exp, conj, dot
 
 from Quadrature import Quadrature
@@ -98,7 +98,7 @@ class InhomogeneousQuadrature(Quadrature):
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            operator = lambda nodes, component=None: nodes
+            operator = lambda nodes, component=None: ones(nodes.shape)
 
         for row in xrange(N):
             for col in xrange(N):

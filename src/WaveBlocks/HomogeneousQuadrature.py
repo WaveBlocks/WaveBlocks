@@ -9,7 +9,7 @@ values and compute the $F$ matrix.
 @license: Modified BSD License
 """
 
-from numpy import zeros, complexfloating, sum, matrix, squeeze
+from numpy import zeros, complexfloating, sum, matrix, squeeze, ones
 from scipy import conj, dot
 
 from Quadrature import Quadrature
@@ -59,7 +59,7 @@ class HomogeneousQuadrature(Quadrature):
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            values = nodes
+            values = ones(nodes.shape)
         else:
             values = operator(nodes)
 
