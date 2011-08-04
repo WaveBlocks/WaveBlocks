@@ -59,7 +59,13 @@ class HomogeneousQuadrature(Quadrature):
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            values = ones(nodes.shape)
+            values = []
+            for row in xrange(N):
+                for col in xrange(N):
+                    if row == col:
+                        values.append(ones(nodes.shape))
+                    else:
+                        values.append(zeros(nodes.shape))
         else:
             values = operator(nodes)
 
@@ -72,9 +78,7 @@ class HomogeneousQuadrature(Quadrature):
         for i in xrange(N):
             for j in xrange(N):
                 M = zeros((K,K), dtype=complexfloating)
-
-                vals = values[i*N + j]
-                factor = squeeze(packet.eps * weights * vals)
+                factor = squeeze(packet.eps * weights * values[i*N + j])
 
                 # Summing up matrices over all quadrature nodes
                 for k in xrange(self.QR.get_number_nodes()):
@@ -82,7 +86,7 @@ class HomogeneousQuadrature(Quadrature):
                     M += factor[k] * tmp.H * tmp
 
                 # And include the coefficients as conj(c)*M*c
-                result.append( dot(conj(coeffs[i]).T, dot(M,coeffs[j])) )
+                result.append(dot(conj(coeffs[i]).T, dot(M,coeffs[j])))
 
         if summed is True:
             result = sum(result)
@@ -90,7 +94,7 @@ class HomogeneousQuadrature(Quadrature):
         return result
 
 
-    def build_matrix(self, packet, operator):
+    def build_matrix(self, packet, operator=None):
         """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
         @param packet: The wavepacket $|\Psi>$.
         @param operator: A function with two arguments $f:(q, x) -> \mathbb{R}$.
@@ -100,23 +104,28 @@ class HomogeneousQuadrature(Quadrature):
         weights = self.QR.get_weights()
         basis = packet.evaluate_basis_at(nodes)
 
+        N = packet.get_number_components()
+        K = packet.get_basis_size()
+
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            values = nodes
+            values = []
+            for row in xrange(N):
+                for col in xrange(N):
+                    if row == col:
+                        values.append(ones(nodes.shape))
+                    else:
+                        values.append(zeros(nodes.shape))
         else:
             # Todo: operator should be only f(nodes)
             values = operator(packet.q, nodes)
-
-        N = packet.get_number_components()
-        K = packet.get_basis_size()
 
         result = zeros((N*K,N*K), dtype=complexfloating)
 
         for i in xrange(N):
             for j in xrange(N):
                 M = zeros((K,K), dtype=complexfloating)
-                vals = values[i*N + j]
-                factor = squeeze(packet.eps * weights * vals)
+                factor = squeeze(packet.eps * weights * values[i*N + j])
 
                 # Summing up matrices over all quadrature nodes
                 for k in xrange(self.QR.get_number_nodes()):

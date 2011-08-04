@@ -14,11 +14,11 @@ from WaveBlocks import HagedornWavepacket
 from WaveBlocks import HomogeneousQuadrature
 from WaveBlocks import InhomogeneousQuadrature
 
-nmax = 4
+nmax = 6
 
 params = {}
 params["eps"] = 0.2
-params["basis_size"] = nmax
+params["basis_size"] = 4
 params["ncomponents"] = 1
 
 
@@ -27,16 +27,20 @@ WP1.set_parameters((1.0j, 1.0, 0.0, 0.0, 0.85))
 WP1.set_coefficient(0, 0, 1)
 WP1.set_quadrature(None)
 
+params["basis_size"] = 6
+
 WP2 = HagedornWavepacket(params)
 WP2.set_coefficient(0, 0, 1)
 WP2.set_quadrature(None)
 
 
-HQ = HomogeneousQuadrature()
-HQ.build_qr(2*nmax)
+HQ1 = HomogeneousQuadrature()
+HQ1.build_qr(WP1.get_basis_size())
+HQ2 = HomogeneousQuadrature()
+HQ2.build_qr(WP2.get_basis_size())
 
 IHQ = InhomogeneousQuadrature()
-IHQ.build_qr(2*nmax)
+IHQ.build_qr(nmax)
 
 
 Pibra = WP1.get_parameters()
@@ -54,8 +58,8 @@ for index, pos in enumerate(positions):
     WP2.set_parameters((1.0j, 1.0, 0.0, 0.0, pos))
 
     # Transform the nodes
-    nodes1 =  squeeze(HQ.transform_nodes(WP1.get_parameters(), WP1.eps))
-    nodes2 =  squeeze(HQ.transform_nodes(WP2.get_parameters(), WP2.eps))
+    nodes1 =  squeeze(HQ1.transform_nodes(WP1.get_parameters(), WP1.eps))
+    nodes2 =  squeeze(HQ2.transform_nodes(WP2.get_parameters(), WP2.eps))
     nodes12 = squeeze(IHQ.transform_nodes(Pibra, WP2.get_parameters(), WP1.eps))
 
     # Compute inner products
