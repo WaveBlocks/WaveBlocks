@@ -12,6 +12,7 @@ import numpy as np
 from scipy import linalg as spla
 
 from Spawner import Spawner
+from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
 class AdiabaticSpawner(Spawner):
@@ -50,33 +51,31 @@ class AdiabaticSpawner(Spawner):
             print(" Warning: really small w! Nothing to spawn!")
             return None
 
-        # Some temporary values
+        # Compute spawning position and impulse
         k = np.arange(self.K+1, packet.get_basis_size())
         ck   = c[self.K+1:]
         ckm1 = c[self.K:-1]
+        tmp = np.sum(np.conj(ck) * ckm1 * np.sqrt(k))
 
-        tmp = np.sum( np.conj(ck) * ckm1 * np.sqrt(k) )
-
-        # Compute spawning position and impulse
-        a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
-        b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
+        a = q + np.sqrt(2)*self.eps/w * np.real(Q * tmp)
+        b = p + np.sqrt(2)*self.eps/w * np.real(P * tmp)
 
         # theta_1
         k = np.arange(self.K, packet.get_basis_size())
         ck = c[self.K:]
-        theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
+        theta1 = np.sum(np.abs(ck)**2 * (2.0*k + 1.0))
 
         # theta_2
         k = np.arange(self.K, packet.get_basis_size()-2)
         ck   = c[self.K:-2]
         ckp2 = c[self.K+2:]
-        theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
+        theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)))
 
         # Compute other parameters
-        A = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
-        B = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
+        A = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * (abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2))
+        B = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * (abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2))
 
-        # Normalize
+        # Transform
         A = np.sqrt(A)
         B = (np.sqrt(A**2 * B - 1.0) + 1.0j) / A
 
@@ -102,7 +101,7 @@ class AdiabaticSpawner(Spawner):
         takes the full norm <w|w> of w.
         """
         c_old = mother.get_coefficients(component=component)
-        w = spla.norm( np.squeeze(c_old[self.K:,:]) )
+        w = spla.norm(np.squeeze(c_old[self.K:,:]))
 
         # Mother packet
         c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
@@ -135,26 +134,20 @@ class AdiabaticSpawner(Spawner):
         # Spawned packet
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
-        # Quadrature rule, assume same quadrature order for both packets
-        QR = mother.get_quadrature().get_qr()
+        # The quadrature
+        quadrature = InhomogeneousQuadrature()
 
-        # Mix the parameters for quadrature
-        (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
-        (Ps, Qs, Ss, ps, qs) = child.get_parameters()
-
-        rm = Pm/Qm
-        rs = Ps/Qs
-
-        r = np.conj(rm)-rs
-        s = np.conj(rm)*qm - rs*qs
-
-        q0 = np.imag(s) / np.imag(r)
-        Q0 = -0.5 * np.imag(r)
-        QS = 1 / np.sqrt(Q0)
+        # Quadrature rule. Assure the "right" quadrature is choosen if
+        # mother and child have different basis sizes
+        if mother.get_basis_size() > child.get_basis_size():
+            quadrature.set_qr(mother.get_quadrature().get_qr())
+        else:
+            quadrature.set_qr(child.get_quadrature().get_qr())
 
         # The quadrature nodes and weights
-        nodes = q0 + self.eps * QS * QR.get_nodes()
-        weights = QR.get_weights()
+        q0, QS = quadrature.mix_parameters(mother.get_parameters(), child.get_parameters())
+        nodes = quadrature.transform_nodes(mother.get_parameters(), child.get_parameters(), mother.eps)
+        weights = quadrature.get_qr().get_weights()
 
         # Basis sets for both packets
         basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
@@ -169,7 +162,7 @@ class AdiabaticSpawner(Spawner):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
-        #         tmp += np.conj(np.dot( c_old[self.K:,0], basis_m[self.K:,r] )) * basis_s[i,r] * weights[r]
+        #         tmp += np.conj(np.dot(c_old[self.K:,0], basis_m[self.K:,r])) * basis_s[i,r] * weights[r]
         #
         #     c_new_s[i,0] = self.eps * QS * tmp
 

@@ -12,6 +12,7 @@ import numpy as np
 from scipy import linalg as spla
 
 from WaveBlocks import Spawner
+from WaveBlocks import InhomogeneousQuadrature
 
 
 class NonAdiabaticSpawnerKF(Spawner):
@@ -32,8 +33,8 @@ class NonAdiabaticSpawnerKF(Spawner):
         self.spawn_method = parameters["spawn_method"] if "spawn_method" in parameters else "lumping"
 
         # The value of k for the (2*k+1) in the parameter estimation formula
-        # Do not confuse this with the K in the adiabatic spawning!
-        # The default 0 Corresponds to a Gaussian.
+        # Do not confuse this with the K0 in the adiabatic spawning!
+        # The default 0 corresponds to a Gaussian.
         self.order = parameters["spawn_order"] if "spawn_order" in parameters else 0
 
         # Only used for spawning method "projection"
@@ -66,6 +67,7 @@ class NonAdiabaticSpawnerKF(Spawner):
         a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
         b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
 
+        # COMPLICATED exact formula
 
         # # Diagonal parts
         # k = np.arange(0, packet.get_basis_size())
@@ -81,7 +83,6 @@ class NonAdiabaticSpawnerKF(Spawner):
         # # Compute other parameters
         # tmpA = self.eps**2/2 * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
         # tmpB = self.eps**2/2 * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
-
 
         # # Diagonal parts
         # k = np.arange(0, packet.get_basis_size())
@@ -149,7 +150,6 @@ class NonAdiabaticSpawnerKF(Spawner):
         A = Aabs2
         B = Babs2
 
-
         return (B, A, S, b, a)
 
 
@@ -206,26 +206,20 @@ class NonAdiabaticSpawnerKF(Spawner):
         # Spawned packet
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
-        # Quadrature rule, assume same quadrature order for both packets
-        QR = mother.get_quadrature().get_qr()
+        # The quadrature
+        quadrature = InhomogeneousQuadrature()
 
-        # Mix the parameters for quadrature
-        (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
-        (Ps, Qs, Ss, ps, qs) = child.get_parameters()
-
-        rm = Pm/Qm
-        rs = Ps/Qs
-
-        r = np.conj(rm)-rs
-        s = np.conj(rm)*qm - rs*qs
-
-        q0 = np.imag(s) / np.imag(r)
-        Q0 = -0.5 * np.imag(r)
-        QS = 1 / np.sqrt(Q0)
+        # Quadrature rule. Assure the "right" quadrature is choosen if
+        # mother and child have different basis sizes
+        if mother.get_basis_size() > child.get_basis_size():
+            quadrature.set_qr( mother.get_quadrature().get_qr() )
+        else:
+            quadrature.set_qr( child.get_quadrature().get_qr() )
 
         # The quadrature nodes and weights
-        nodes = q0 + self.eps * QS * QR.get_nodes()
-        weights = QR.get_weights()
+        q0, QS = quadrature.mix_parameters(mother.get_parameters(), child.get_parameters())
+        nodes = quadrature.transform_nodes(mother.get_parameters(), child.get_parameters(), mother.eps)
+        weights = quadrature.get_qr().get_weights()
 
         # Basis sets for both packets
         basis_m = mother.evaluate_basis_at(nodes, prefactor=True)

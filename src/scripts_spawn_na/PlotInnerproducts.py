@@ -17,6 +17,7 @@ from WaveBlocks import ComplexMath
 from WaveBlocks import IOManager
 from WaveBlocks import TrapezoidalQR
 from WaveBlocks import HagedornWavepacket
+from WaveBlocks import InhomogeneousQuadrature
 
 import GraphicsDefaults as GD
 
@@ -68,55 +69,6 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     return parameters, timegrids, AllPA, AllC
 
 
-
-def inner(parameters, P1, P2, QR=None):
-    """Compute the inner product between two wavepackets.
-    """
-    # Quadrature for <orig, s1>
-    c1 = P1.get_coefficients(component=0)
-    c2 = P2.get_coefficients(component=0)
-
-    # Assuming same quadrature rule for both packets
-    # Implies same basis size!
-    if QR is None:
-        QR = P1.get_quadrature()
-
-    QR = QR.get_qr()
-
-    # Mix the parameters for quadrature
-    (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
-    (Ps, Qs, Ss, ps, qs) = P2.get_parameters()
-
-    rm = Pm/Qm
-    rs = Ps/Qs
-
-    r = np.conj(rm)-rs
-    s = np.conj(rm)*qm - rs*qs
-
-    q0 = np.imag(s) / np.imag(r)
-    Q0 = -0.5 * np.imag(r)
-    QS = 1 / np.sqrt(Q0)
-
-    # The quadrature nodes and weights
-    nodes = q0 + parameters["eps"] * QS * QR.get_nodes()
-    #nodes = QR.get_nodes()
-    weights = QR.get_weights()
-
-    # Basis sets for both packets
-    basis_1 = P1.evaluate_basis_at(nodes, prefactor=True)
-    basis_2 = P2.evaluate_basis_at(nodes, prefactor=True)
-
-    R = QR.get_order()
-
-    # Loop over all quadrature points
-    tmp = 0.0j
-    for r in xrange(R):
-        tmp += np.conj(np.dot( c1[:,0], basis_1[:,r] )) * np.dot( c2[:,0], basis_2[:,r]) * weights[0,r]
-    result = parameters["eps"] * QS * tmp
-
-    return result
-
-
 def compute(parameters, timegrids, AllPA, AllC):
     # Grid of mother and first spawned packet
     grid_m = timegrids[0]
@@ -136,18 +88,27 @@ def compute(parameters, timegrids, AllPA, AllC):
     C1 = AllC[1]
 
     # Construct the packets from the data
-    QR = None
-
     OWP = HagedornWavepacket(parameters)
-    OWP.set_quadrature(QR)
+    OWP.set_quadrature(None)
 
     S1WP = HagedornWavepacket(parameters)
-    S1WP.set_quadrature(QR)
+    S1WP.set_quadrature(None)
 
     S2WP = HagedornWavepacket(parameters)
-    S2WP.set_quadrature(QR)
+    S2WP.set_quadrature(None)
 
     nrtimesteps = grid_m.shape[0]
+
+    # The quadrature
+    quadrature = InhomogeneousQuadrature()
+
+    # Quadrature, assume same quadrature order for both packets
+    # Assure the "right" quadrature is choosen if OWP and S*WP have
+    # different basis sizes
+    if OWP.get_basis_size() > S1WP.get_basis_size():
+        quadrature.set_qr(OWP.get_quadrature().get_qr())
+    else:
+        quadrature.set_qr(S1WP.get_quadrature().get_qr())
 
     ip_oo = []
     ip_os1 = []
@@ -170,18 +131,17 @@ def compute(parameters, timegrids, AllPA, AllC):
         S2WP.set_coefficients(C1[step,...], component=0)
 
         # Compute the inner products
-        ip_oo.append( inner(parameters, OWP, OWP, QR=QR) )
-        ip_os1.append( inner(parameters, OWP, S1WP, QR=QR) )
-        ip_os2.append( inner(parameters, OWP, S2WP, QR=QR) )
-        ip_s1s1.append( inner(parameters, S1WP, S1WP, QR=QR) )
-        ip_s2s2.append( inner(parameters, S2WP, S2WP, QR=QR) )
-
+        ip_oo.append(quadrature.quadrature(OWP, OWP, summed=True))
+        ip_os1.append(quadrature.quadrature(OWP, S1WP, summed=True))
+        ip_os2.append(quadrature.quadrature(OWP, S2WP, summed=True))
+        ip_s1s1.append(quadrature.quadrature(S1WP, S1WP, summed=True))
+        ip_s2s2.append(quadrature.quadrature(S2WP, S2WP, summed=True))
 
     # Plot
     figure()
     plot(grid_m, abs(ip_oo), label=r"$\langle O|O\rangle $")
     plot(grid_m, abs(ip_os1), "-*", label=r"$\langle O|S1\rangle $")
-    plot(grid_m, abs(ip_os2), "-d", label=r"$\langle O|S2\rangle $")
+    plot(grid_m, abs(ip_os2), "-", label=r"$\langle O|S2\rangle $")
     plot(grid_m, abs(ip_s1s1), label=r"$\langle S1|S1\rangle $")
     plot(grid_m, abs(ip_s2s2), label=r"$\langle S2|S2\rangle $")
     legend()

@@ -12,6 +12,7 @@ import numpy as np
 from scipy import linalg as spla
 
 from Spawner import Spawner
+from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
 class NonAdiabaticSpawner(Spawner):
@@ -32,8 +33,8 @@ class NonAdiabaticSpawner(Spawner):
         self.spawn_method = parameters["spawn_method"] if "spawn_method" in parameters else "lumping"
 
         # The value of k for the (2*k+1) in the parameter estimation formula
-        # Do not confuse this with the K in the adiabatic spawning!
-        # The default 0 Corresponds to a Gaussian.
+        # Do not confuse this with the K0 in the adiabatic spawning!
+        # The default 0 corresponds to a Gaussian.
         self.order = parameters["spawn_order"] if "spawn_order" in parameters else 0
 
         # Only used for spawning method "projection"
@@ -57,39 +58,37 @@ class NonAdiabaticSpawner(Spawner):
             print(" Warning: really small w! Nothing to spawn!")
             return None
 
-        # Some temporary values
+        # Compute spawning position and impulse
         k = np.arange(1, packet.get_basis_size())
         ck   = c[1:]
         ckm1 = c[:-1]
+        tmp = np.sum(np.conj(ck) * ckm1 * np.sqrt(k))
 
-        tmp = np.sum( np.conj(ck) * ckm1 * np.sqrt(k) )
-
-        # Compute spawning position and impulse
-        a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
-        b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
+        a = q + np.sqrt(2)*self.eps/w * np.real(Q*tmp)
+        b = p + np.sqrt(2)*self.eps/w * np.real(P*tmp)
 
         # theta_1
         k = np.arange(0, packet.get_basis_size())
         ck = c[:]
-        theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
+        theta1 = np.sum(np.abs(ck)**2 * (2.0*k + 1.0))
 
         # theta_2
         k = np.arange(0, packet.get_basis_size()-2)
         ck   = c[:-2]
         ckp2 = c[2:]
-        theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
+        theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)))
 
         # Compute other parameters
-        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) ) / (2*order+1)
-        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) ) / (2*order+1)
+        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * (abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2)) / (2.0*order+1.0)
+        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * (abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2)) / (2.0*order+1.0)
 
         # Transform
         A = np.sqrt(Aabs2)
         B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
 
+        # TODO
         # Check out the last ambiguity of the sign
         # Currently done on client side in the scripts
-        # TODO
 
         return (B, A, S, b, a)
 
@@ -147,26 +146,20 @@ class NonAdiabaticSpawner(Spawner):
         # Spawned packet
         c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
 
-        # Quadrature rule, assume same quadrature order for both packets
-        QR = mother.get_quadrature().get_qr()
+        # The quadrature
+        quadrature = InhomogeneousQuadrature()
 
-        # Mix the parameters for quadrature
-        (Pm, Qm, Sm, pm, qm) = mother.get_parameters()
-        (Ps, Qs, Ss, ps, qs) = child.get_parameters()
-
-        rm = Pm/Qm
-        rs = Ps/Qs
-
-        r = np.conj(rm)-rs
-        s = np.conj(rm)*qm - rs*qs
-
-        q0 = np.imag(s) / np.imag(r)
-        Q0 = -0.5 * np.imag(r)
-        QS = 1 / np.sqrt(Q0)
+        # Quadrature rule. Assure the "right" quadrature is choosen if
+        # mother and child have different basis sizes
+        if mother.get_basis_size() > child.get_basis_size():
+            quadrature.set_qr(mother.get_quadrature().get_qr())
+        else:
+            quadrature.set_qr(child.get_quadrature().get_qr())
 
         # The quadrature nodes and weights
-        nodes = q0 + self.eps * QS * QR.get_nodes()
-        weights = QR.get_weights()
+        q0, QS = quadrature.mix_parameters(mother.get_parameters(), child.get_parameters())
+        nodes = quadrature.transform_nodes(mother.get_parameters(), child.get_parameters(), mother.eps)
+        weights = quadrature.get_qr().get_weights()
 
         # Basis sets for both packets
         basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
@@ -181,7 +174,7 @@ class NonAdiabaticSpawner(Spawner):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
-        #         tmp += np.conj(np.dot( c_old[:,0], basis_m[:,r] )) * basis_s[i,r] * weights[0,r]
+        #         tmp += np.conj(np.dot(c_old[:,0], basis_m[:,r])) * basis_s[i,r] * weights[0,r]
         #     c_new_s[i,0] = self.eps * QS * tmp
 
         # Optimised and vectorised code (in ugly formatting)

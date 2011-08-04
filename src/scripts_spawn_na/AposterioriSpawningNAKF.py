@@ -18,6 +18,7 @@ from WaveBlocks import ParameterProvider
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
+from WaveBlocks import InhomogeneousQuadrature
 
 from NonAdiabaticSpawnerKF import NonAdiabaticSpawnerKF
 
@@ -73,6 +74,17 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
         # Try spawning a new packet for each component
         estps = [ NAS.estimate_parameters(T, component=acomp) for acomp in components ]
 
+        # The quadrature
+        quadrature = InhomogeneousQuadrature()
+
+        # Quadrature, assume same quadrature order for both packets
+        # Assure the "right" quadrature is choosen if mother and child have
+        # different basis sizes
+        if HAWP.get_basis_size() > SWP.get_basis_size():
+            quadrature.set_qr(HAWP.get_quadrature().get_qr())
+        else:
+            quadrature.set_qr(SWP.get_quadrature().get_qr())
+
         for index, ps in enumerate(estps):
             if ps is not None:
                 # One choice of the sign
@@ -95,12 +107,10 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
                 NAS.project_coefficients(tmp, V, component=components[index])
 
                 # Compute some inner products to finally determine which parameter set we use
-                parameters = {"eps":SWP.eps}
-                ou = abs(inner(parameters, T, U))
-                ov = abs(inner(parameters, T, V))
+                ou = abs(quadrature.quadrature(T,U, summed=True))
+                ov = abs(quadrature.quadrature(T,V, summed=True))
 
-                # Choose the packet which maximizes the inner product.
-                # This is the main point!
+                # Choose the packet which maximizes the inner product. This is the main point!
                 if ou >= ov:
                     U = U
                 else:
@@ -122,54 +132,6 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
                 # Save the spawned packet
                 fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, block=2*index+1)
                 fout.save_wavepacket_coefficients(U.get_coefficients(), timestep=step, block=2*index+1)
-
-
-
-def inner(parameters, P1, P2, QR=None):
-    """Compute the inner product between two wavepackets.
-    """
-    # todo: Refactor this and put it into an own file/class!
-
-    # Quadrature for <orig, s1>
-    c1 = P1.get_coefficients(component=0)
-    c2 = P2.get_coefficients(component=0)
-
-    # Assuming same quadrature rule for both packets
-    # Implies same basis size!
-    if QR is None:
-        QR = P1.get_quadrature().get_qr()
-
-    # Mix the parameters for quadrature
-    (Pm, Qm, Sm, pm, qm) = P1.get_parameters()
-    (Ps, Qs, Ss, ps, qs) = P2.get_parameters()
-
-    rm = Pm/Qm
-    rs = Ps/Qs
-
-    r = np.conj(rm)-rs
-    s = np.conj(rm)*qm - rs*qs
-
-    q0 = np.imag(s) / np.imag(r)
-    Q0 = -0.5 * np.imag(r)
-    QS = 1 / np.sqrt(Q0)
-
-    # The quadrature nodes and weights
-    nodes = q0 + parameters["eps"] * QS * QR.get_nodes()
-    weights = QR.get_weights()
-
-    # Basis sets for both packets
-    basis_1 = P1.evaluate_basis_at(nodes, prefactor=True)
-    basis_2 = P2.evaluate_basis_at(nodes, prefactor=True)
-
-    R = QR.get_order()
-
-    # Loop over all quadrature points
-    tmp = 0.0j
-    for r in xrange(R):
-        tmp += np.conj(np.dot( c1[:,0], basis_1[:,r] )) * np.dot( c2[:,0], basis_2[:,r]) * weights[0,r]
-    result = parameters["eps"] * QS * tmp
-
-    return result
 
 
 
