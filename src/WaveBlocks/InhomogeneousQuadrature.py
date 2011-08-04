@@ -103,7 +103,7 @@ class InhomogeneousQuadrature(Quadrature):
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            operator = lambda foo, nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
+            operator = lambda nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
 
         for row in xrange(Nbra):
             for col in xrange(Nket):
