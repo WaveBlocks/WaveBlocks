@@ -106,8 +106,8 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
                 NAS.project_coefficients(tmp, V, component=components[index])
 
                 # Compute some inner products to finally determine which parameter set we use
-                ou = abs(quadrature.quadrature(T,U, summed=True))
-                ov = abs(quadrature.quadrature(T,V, summed=True))
+                ou = abs(quadrature.quadrature(T,U, component=components[index]))
+                ov = abs(quadrature.quadrature(T,V, component=components[index]))
 
                 # Choose the packet which maximizes the inner product.
                 # This is the main point!

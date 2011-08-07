@@ -72,7 +72,7 @@ class InhomogeneousQuadrature(Quadrature):
         return (q0, QS)
 
 
-    def quadrature(self, pacbra, packet, operator=None, summed=False):
+    def quadrature(self, pacbra, packet, operator=None, summed=False, component=None):
         """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
         @param pacbra: The wavepacket $<\Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.
         @param packet: The wavepacket $|\Psi>$ from the ket with $Nket$ components and basis size of $Kket$.
@@ -129,7 +129,10 @@ class InhomogeneousQuadrature(Quadrature):
                 # And include the coefficients as conj(c)*M*c
                 result.append(phase * dot(conj(coeffbra[row]).T, dot(M, coeffket[col])))
 
-        if summed is True:
+        # Todo: improve to avoid unnecessary computations of other components
+        if component is not None:
+            result = result[component]
+        elif summed is True:
             result = sum(result)
 
         return result

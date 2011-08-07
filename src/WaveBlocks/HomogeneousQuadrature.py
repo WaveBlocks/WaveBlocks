@@ -45,7 +45,7 @@ class HomogeneousQuadrature(Quadrature):
         return nodes.copy()
 
 
-    def quadrature(self, packet, operator=None, summed=False):
+    def quadrature(self, packet, operator=None, summed=False, component=None):
         """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
         @param packet: The wavepacket $|\Psi>$.
         @param operator: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
@@ -88,7 +88,10 @@ class HomogeneousQuadrature(Quadrature):
                 # And include the coefficients as conj(c)*M*c
                 result.append(dot(conj(coeffs[i]).T, dot(M,coeffs[j])))
 
-        if summed is True:
+        # Todo: improve to avoid unnecessary computations of other components
+        if component is not None:
+            result = result[component]
+        elif summed is True:
             result = sum(result)
 
         return result
