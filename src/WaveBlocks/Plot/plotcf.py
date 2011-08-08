@@ -8,17 +8,19 @@ with abs(f) as y-value and phase(f) as color code.
 @license: Modified BSD License
 """
 
-from numpy import pi, empty, array, fmod
-from matplotlib.colors import hsv_to_rgb
+from numpy import array
 from matplotlib.collections import LineCollection
 from matplotlib.pyplot import gca
 
+from color_map import color_map
 
-def plotcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=1, color="k", **kwargs):
+
+def plotcf(grid, phase, modulus, darken=False, axes=None, linestylep="solid", linewidthp=1, color="k", **kwargs):
     """Plot the modulus of a complex valued function $f:R -> C$ together with its phase in a color coded fashion.
     @param grid: The grid nodes of the real domain R
     @param phase: The phase of the complex domain result f(grid)
     @param modulus: The modulus of the complex domain result f(grid)
+    @keyword darken: Whether to take into account the modulus of the data to darken colors.
     @keyword axes: The axes instance used for plotting.
     @keyword linestylep: The line style of the phase curve.
     @keyword linewidthp: The line width of the phase curve.
@@ -26,11 +28,7 @@ def plotcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=1, co
     @note: Additional keyword arguments are passe to the plot function.
     """
     # Color mapping
-    hsv_colors = empty((1, len(grid), 3))
-    hsv_colors[:, :, 0] = 0.5*fmod(phase+2*pi,2*pi)/pi
-    hsv_colors[:, :, 1] = 1.0
-    hsv_colors[:, :, 2] = 1.0
-    rgb_colors = hsv_to_rgb(hsv_colors)
+    rgb_colors = color_map(modulus, phase=phase, modulus=modulus, darken=darken)
 
     # Put all the vertical line into a collection
     segments = [ array([[node,0], [node,value]]) for node, value in zip(grid, modulus) ]

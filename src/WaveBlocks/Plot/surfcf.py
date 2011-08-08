@@ -9,7 +9,7 @@ This function makes a 3D surface plot.
 @license: Modified BSD License
 """
 
-from numpy import linspace, pi, exp, angle, squeeze, ones, real, fmod
+from numpy import linspace, pi, squeeze, ones, real, fmod
 from matplotlib.colors import hsv_to_rgb
 from enthought.mayavi import mlab
 

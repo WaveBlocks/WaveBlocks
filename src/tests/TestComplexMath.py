@@ -126,7 +126,7 @@ ylabel(r"$2 \cdot \exp(i \cdot \phi)$")
 title(r"$z = r \cdot \exp(i \cdot \phi)$")
 
 subplot(2,1,2)
-plotcf(x, angle(z), abs(z))
+plotcf(x, angle(z), abs(z), darken=True)
 plot(x, real(z), "-b")
 plot(x, imag(z), "-g")
 grid(True)

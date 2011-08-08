@@ -35,7 +35,7 @@ ylim([-1.5, 1.5])
 xlabel(r"$\Im \psi$")
 
 subplot(2,2,3)
-plotcf(x, angles, cvals)
+plotcf(x, angles, cvals, darken=True)
 xlim([0,2*np.pi])
 ylim([0, 1.5])
 xlabel(r"$|\psi|^2$")

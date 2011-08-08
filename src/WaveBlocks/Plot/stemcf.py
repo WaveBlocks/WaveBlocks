@@ -9,17 +9,19 @@ This function makes a stem plot.
 @license: Modified BSD License
 """
 
-from numpy import pi, empty, array, zeros, real, fmod
-from matplotlib.colors import hsv_to_rgb
+from numpy import array, zeros, real
 from matplotlib.collections import LineCollection
 from matplotlib.pyplot import gca
 
+from color_map import color_map
 
-def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
+
+def stemcf(grid, phase, modulus, darken=False, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
     """Stemplot the modulus of a complex valued function $f:I -> C$ together with its phase in a color coded fashion.
     @param grid: The grid nodes of the real domain R
     @param phase: The phase of the complex domain result f(grid)
     @param modulus: The modulus of the complex domain result f(grid)
+    @keyword darken: Whether to take into account the modulus of the data to darken colors.
     @keyword axes: The axes instance used for plotting.
     @keyword linestylep: The line style of the phase curve.
     @keyword linewidthp: The line width of the phase curve.
@@ -28,11 +30,7 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
     @note: Additional keyword arguments are passe to the plot function.
     """
     # Color mapping
-    hsv_colors = empty((1, len(grid), 3))
-    hsv_colors[:, :, 0] = 0.5*fmod(phase+2*pi,2*pi)/pi
-    hsv_colors[:, :, 1] = 1.0
-    hsv_colors[:, :, 2] = 1.0
-    rgb_colors = hsv_to_rgb(hsv_colors)
+    rgb_colors = color_map(grid, phase=phase, modulus=modulus, darken=darken)
 
     # Put all the vertical line into a collection
     segments = [ array([[node,0], [node,value]]) for node, value in zip(grid, modulus) ]
@@ -58,4 +56,3 @@ def stemcf(grid, phase, modulus, axes=None, linestylep="solid", linewidthp=2, co
         axes.plot(grid, modulus, linestyle="", marker=markerp, color=color, **kwargs)
     # Plot the ground line
     axes.plot(grid, zeros(grid.shape), linestyle=linestylep, color="k", **kwargs)
-
