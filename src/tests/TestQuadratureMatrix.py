@@ -13,7 +13,7 @@ from matplotlib.pyplot import *
 from WaveBlocks import HagedornWavepacket
 from WaveBlocks import HomogeneousQuadrature
 from WaveBlocks import InhomogeneousQuadrature
-
+from WaveBlocks.Plot import plotcm
 
 params = {}
 params["eps"] = 0.2
@@ -72,3 +72,18 @@ savefig("M12r.png")
 figure()
 matshow(imag(M12))
 savefig("M12i.png")
+
+
+figure()
+plotcm(M1)
+savefig("M1_cp.png")
+
+
+figure()
+plotcm(M2)
+savefig("M2_cp.png")
+
+
+figure()
+plotcm(M12)
+savefig("M12_cp.png")
