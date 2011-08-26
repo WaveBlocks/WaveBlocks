@@ -22,7 +22,7 @@ from WaveBlocks import NonAdiabaticSpawner
 from WaveBlocks import InhomogeneousQuadrature
 
 
-def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
+def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.

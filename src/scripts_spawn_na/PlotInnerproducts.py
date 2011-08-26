@@ -30,7 +30,9 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     is usefull because in aposteriori spawning we have to store clones of
     the mother packet.
     """
-    parameters = fo.get_parameters()
+    parameters_fo = fo.get_parameters()
+    parameters_fs = fs.get_parameters()
+
     ndb = fo.get_number_blocks()
 
     timegrids = []
@@ -39,7 +41,7 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     AllC = []
 
 
-    timegrids.append( parameters["dt"] * fo.load_wavepacket_timegrid(block=0) )
+    timegrids.append(parameters_fo["dt"] * fo.load_wavepacket_timegrid(block=0))
 
     Pi = fo.load_wavepacket_parameters(block=0)
     Phist = Pi[:,0]
@@ -47,13 +49,13 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     Shist = Pi[:,2]
     phist = Pi[:,3]
     qhist = Pi[:,4]
-    AllPA.append( [Phist, Qhist, Shist, phist, qhist] )
+    AllPA.append([Phist, Qhist, Shist, phist, qhist])
 
     Ci = fo.load_wavepacket_coefficients(block=0)
     AllC.append(Ci)
 
 
-    timegrids.append( parameters["dt"] * fs.load_wavepacket_timegrid(block=1) )
+    timegrids.append(parameters_fs["dt"] * fs.load_wavepacket_timegrid(block=1))
 
     Pi = fs.load_wavepacket_parameters(block=1)
     Phist = Pi[:,0]
@@ -61,15 +63,15 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     Shist = Pi[:,2]
     phist = Pi[:,3]
     qhist = Pi[:,4]
-    AllPA.append( [Phist, Qhist, Shist, phist, qhist] )
+    AllPA.append([Phist, Qhist, Shist, phist, qhist])
 
     Ci = fs.load_wavepacket_coefficients(block=1)
     AllC.append(Ci)
 
-    return parameters, timegrids, AllPA, AllC
+    return parameters_fo, parameters_fs, timegrids, AllPA, AllC
 
 
-def compute(parameters, timegrids, AllPA, AllC):
+def compute(parameters_fo, parameters_fs, timegrids, AllPA, AllC):
     # Grid of mother and first spawned packet
     grid_m = timegrids[0]
     grid_s = timegrids[1]
@@ -88,13 +90,13 @@ def compute(parameters, timegrids, AllPA, AllC):
     C1 = AllC[1]
 
     # Construct the packets from the data
-    OWP = HagedornWavepacket(parameters)
+    OWP = HagedornWavepacket(parameters_fo)
     OWP.set_quadrature(None)
 
-    S1WP = HagedornWavepacket(parameters)
+    S1WP = HagedornWavepacket(parameters_fs)
     S1WP.set_quadrature(None)
 
-    S2WP = HagedornWavepacket(parameters)
+    S2WP = HagedornWavepacket(parameters_fs)
     S2WP.set_quadrature(None)
 
     nrtimesteps = grid_m.shape[0]
@@ -122,13 +124,13 @@ def compute(parameters, timegrids, AllPA, AllC):
 
         # Put the data from the current timestep into the packets
         OWP.set_parameters((P[step], Q[step], S[step], p[step], q[step]))
-        OWP.set_coefficients(C0[step,...], component=0)
+        OWP.set_coefficients(C0[step,...])
 
         S1WP.set_parameters((B[step], A[step], S[step], b[step], a[step]))
-        S1WP.set_coefficients(C1[step,...], component=0)
+        S1WP.set_coefficients(C1[step,...])
 
         S2WP.set_parameters((B2[step], A2[step], S2[step], b2[step], a2[step]))
-        S2WP.set_coefficients(C1[step,...], component=0)
+        S2WP.set_coefficients(C1[step,...])
 
         # Compute the inner products
         ip_oo.append(quadrature.quadrature(OWP, OWP, summed=True))

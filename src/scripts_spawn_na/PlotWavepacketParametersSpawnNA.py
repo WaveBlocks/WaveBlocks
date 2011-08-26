@@ -40,7 +40,7 @@ def read_data_spawn(f, assume_duplicate_mother=False):
 
     # Load the data from each block
     for block in blocks:
-        timegrids.append( parameters["dt"] * f.load_wavepacket_timegrid(block=block) )
+        timegrids.append(parameters["dt"] * f.load_wavepacket_timegrid(block=block))
 
         Pi = f.load_wavepacket_parameters(block=block)
         Phist = Pi[:,0]
@@ -49,13 +49,12 @@ def read_data_spawn(f, assume_duplicate_mother=False):
         phist = Pi[:,3]
         qhist = Pi[:,4]
 
-        AllPA.append( [Phist, Qhist, Shist, phist, qhist] )
+        AllPA.append([Phist, Qhist, Shist, phist, qhist])
 
     return timegrids, AllPA
 
 
 def plot_parameters_spawn(timegrids, AllPA):
-
     # Plot the time evolution of the parameters P, Q, S, p and q
     fig = figure(figsize=(12,12))
     ax = [ fig.add_subplot(4,2,i) for i in xrange(1,8) ]
