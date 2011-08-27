@@ -29,6 +29,7 @@ def read_data(f):
     data = []
 
     # For each mother-child spawn try pair
+    # TODO: Generalize for mother-child groups
     for b in xrange(0,NB,2):
         timegrid0 = f.load_norm_timegrid(block=b)
         time0 = timegrid0 * parameters["dt"]
@@ -72,15 +73,17 @@ def plot_norms(parameters, data):
             ax = subplot(N,1,c+1)
 
             # Plot the norms of the individual wavepackets
-            ax.plot(time, overall_norm, color="gray", label=r"$\| \Psi^M + \Psi^C \|$")
+            ax.plot(time, overall_norm, color="black", label=r"$\sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
+            ax.plot(time, sqrt(norms_m[c]**2 + norms_c[c]**2), color="gray", label=r"$\sqrt{\| \Phi_"+str(c)+r"^M \|^2 + \| \Phi_"+str(c)+r"^C \|^2}$")
             ax.plot(time, norms_m[c], color="blue", label=r"$\| \Phi_"+str(c)+r"^M \|$")
             ax.plot(time, norms_c[c], color="cyan", label=r"$\| \Phi_"+str(c)+r"^C \|$")
-            #ax.plot(time, sqrt(norms_m[c]**2 + norms_c[c]**2), color="black", label=r"$\| \Phi_"+str(c)+r"^M + \Phi_"+str(c)+r"^C \|$")
 
             ax.grid(True)
             ax.set_ylim(0, 1.1*overall_norm.max())
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             ax.set_xlabel(r"Time $t$")
+            ax.set_ylabel(r"$\Phi_"+str(c)+r"$")
+            ax.legend(loc="upper left")
 
         fig.suptitle("Per-component norms of $\Psi^M$ and $\Psi^C$")
         fig.savefig("norms_spawn_mccomp_spawntry"+str(index)+GD.output_format)
@@ -90,22 +93,26 @@ def plot_norms(parameters, data):
         # Plot the sum of the norms of mother and child
         fig = figure()
         ax = subplot(2,1,1)
-        ax.plot(time, norms_m[-1], color="blue", label=r"$\| \Phi_"+str(c)+r"^M \|$")
-        ax.plot(time, sqrt(norms_m[-1]**2 + norms_c[-1]**2), color="black", label=r"$\| \Phi_"+str(c)+r"^M + \Phi_"+str(c)+r"^C \|$")
+        ax.plot(time, overall_norm, color="black", label=r"$\sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
+        ax.plot(time, norms_m[-1], color="blue", label=r"$\| \Psi^M \|$")
 
         ax.grid(True)
         ax.set_ylim(0, 1.1*overall_norm.max())
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"Time $t$")
+        ax.set_ylabel(r"$\Psi^M$")
+        ax.legend(loc="upper left")
 
         ax = subplot(2,1,2)
-        ax.plot(time, norms_c[-1], color="cyan", label=r"$\| \Phi_"+str(c)+r"^C \|$")
-        ax.plot(time, sqrt(norms_m[-1]**2 + norms_c[-1]**2), color="black", label=r"$\| \Phi_"+str(c)+r"^M + \Phi_"+str(c)+r"^C \|$")
-        ax.grid(True)
+        ax.plot(time, overall_norm, color="black", label=r"$\sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
+        ax.plot(time, norms_c[-1], color="cyan", label=r"$\| \Psi^C \|$")
 
+        ax.grid(True)
         ax.set_ylim(0, 1.1*overall_norm.max())
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
         ax.set_xlabel(r"Time $t$")
+        ax.set_ylabel(r"$\Psi^C$")
+        ax.legend(loc="upper left")
 
         fig.suptitle(r"Norms of $\Psi^M$ (top) and $\Psi^C$ (bottom)")
         fig.savefig("norms_spawn_mcsum_spawntry"+str(index)+GD.output_format)
@@ -116,9 +123,9 @@ def plot_norms(parameters, data):
         fig = figure()
         ax = fig.gca()
 
+        ax.plot(time, overall_norm, color="black", label=r"$\sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
         ax.plot(time, norms_m[-1], color="blue", label=r"$\| \Psi^M \|$")
         ax.plot(time, norms_c[-1], color="cyan", label=r"$\| \Psi^C \|$")
-        ax.plot(time, overall_norm, label=r"$\| \Psi^M + \Psi^C \|$")
 
         ax.grid(True)
         ax.set_ylim(0, 1.1*overall_norm.max())
@@ -127,6 +134,21 @@ def plot_norms(parameters, data):
         ax.set_xlabel(r"Time $t$")
         ax.set_title(r"Norm of $\Psi^M$ and $\Psi^C$ and $\Psi^M + \Psi^C$")
         fig.savefig("norms_spawn_overall_spawntry"+str(index)+GD.output_format)
+        close(fig)
+
+
+        # Plot the drift of the sum of all norms
+        fig = figure()
+        ax = fig.gca()
+
+        ax.plot(time, overall_norm[0] - overall_norm)
+
+        ax.grid(True)
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+        ax.set_xlabel(r"Time $t$")
+        ax.set_ylabel(r"$\|\Psi(t=0)\| - \|\Psi(t)\|$")
+        ax.set_title(r"Drift of the total norm $\|\Psi\| = \sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
+        fig.savefig("norms_spawn_overall_drift_spawntry"+str(index)+GD.output_format)
         close(fig)
 
 
