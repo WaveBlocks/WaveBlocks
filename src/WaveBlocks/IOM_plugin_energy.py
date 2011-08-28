@@ -13,7 +13,7 @@ import numpy as np
 def add_energy(self, parameters, timeslots=None, block=0, total=False):
     # Store the potential and kinetic energies
     grp_ob = self.srf["datablock_"+str(block)].require_group("observables")
-    
+
     # Create the dataset with appropriate parameters
     grp_en = grp_ob.create_group("energies")
 
@@ -55,6 +55,13 @@ def delete_energy(self, block=0):
             del self.srf["datablock_"+str(block)+"/observables"]
     except KeyError:
         pass
+
+
+def has_energy(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return ("observables" in self.srf["datablock_"+str(block)].keys() and
+            "energies" in self.srf["datablock_"+str(block)]["observables"].keys())
 
 
 def save_energy(self, energies, timestep=None, block=0):
@@ -126,7 +133,7 @@ def load_energy(self, timestep=None, split=False, block=0):
     else:
         ekin = self.srf[pathd1][index,...]
         epot = self.srf[pathd2][index,...]
-    
+
     return (ekin, epot)
 
 
@@ -138,5 +145,5 @@ def load_energy_total(self, timestep=None, block=0):
         index = self.find_timestep_index(pathtg, timestep)
     else:
         index = slice(None)
-    
+
     return self.srf[pathd][index,...]

@@ -26,6 +26,10 @@ if __name__ == "__main__":
     for block in xrange(iom.get_number_blocks()):
         print("Computing the norms in data block "+str(block))
 
+        if iom.has_norm(block=block):
+            print("Datablock "+str(block)+" already contains norm data, silent skip.")
+            continue
+
         # See if we have an inhomogeneous wavepacket in the current data block
         if iom.has_inhomogwavepacket(block=block):
             import NormWavepacketInhomog

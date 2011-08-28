@@ -26,6 +26,10 @@ if __name__ == "__main__":
     for block in xrange(iom.get_number_blocks()):
         print("Computing the energies in data block "+str(block))
 
+        if iom.has_energy(block=block):
+            print("Datablock "+str(block)+" already contains energy data, silent skip.")
+            continue
+
         # See if we have an inhomogeneous wavepacket in the current data block
         if iom.has_inhomogwavepacket(block=block):
             import EnergiesWavepacketInhomog
