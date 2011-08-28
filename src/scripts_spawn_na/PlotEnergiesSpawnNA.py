@@ -84,7 +84,7 @@ def plot_energies(parameters, data):
             ax.legend(loc="upper left")
 
         fig.suptitle("Per-component energies of $\Psi^M$ and $\Psi^C$")
-        fig.savefig("energies_spawn_mccomp_spawntry"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_components_group"+str(index)+GD.output_format)
         close(fig)
 
 
@@ -113,7 +113,7 @@ def plot_energies(parameters, data):
         ax.legend(loc="upper left")
 
         fig.suptitle(r"Energies of $\Psi^M$ (top) and $\Psi^C$ (bottom)")
-        fig.savefig("energies_spawn_mcsum_spawntry"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_packetsum_group"+str(index)+GD.output_format)
         close(fig)
 
 
@@ -130,7 +130,7 @@ def plot_energies(parameters, data):
         legend(loc="outer right")
         ax.set_xlabel(r"Time $t$")
         ax.set_title(r"Energies of $\Psi^M$ and $\Psi^C$ and $\Psi^M + \Psi^C$")
-        fig.savefig("energies_spawn_overall_spawntry"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_sumall_group"+str(index)+GD.output_format)
         close(fig)
 
 
@@ -145,7 +145,7 @@ def plot_energies(parameters, data):
         ax.set_xlabel(r"Time $t$")
         ax.set_ylabel(r"$E(t=0) - E(t)$")
         ax.set_title(r"Drift of the total energy $E = E^M + E^C$")
-        fig.savefig("energies_spawn_overall_drift_spawntry"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_sumall_drift_group"+str(index)+GD.output_format)
         close(fig)
 
 
