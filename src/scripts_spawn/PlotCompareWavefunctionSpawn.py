@@ -45,6 +45,7 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
         values_o = [ wave_o[j,...] for j in xrange(parameters_o["ncomponents"]) ]
 
         # Retrieve spawn data for both packets
+        #TODO: Generalize to multiple mother-child pairs
         values_s = []
         try:
             for blocknr in xrange(data_s.get_number_blocks()):
@@ -61,29 +62,38 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
         # Create a bunch of subplots
         axes = []
 
-        for index, component in enumerate(values_o):
+        for index in xrange(parameters_o["ncomponents"]):
             ax = fig.add_subplot(parameters_o["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
 
         # Plot reference Wavefunction
         for index, component in enumerate(values_o):
-            plotcf(grid_o, angle(component), component*conj(component))
-            axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+            # Plot the packet
+            if plotcomponents is True:
+                axes[index].plot(grid_o, real(component), color="blue")
+                axes[index].plot(grid_o, imag(component), color="green")
+                axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
+            if plotabssqr is True:
+                axes[index].plot(grid_o, component*conj(component), color="black")
+                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
+            if plotphase is True:
+                plotcf(grid_o, angle(component), component*conj(component))
+                axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
 
         # Plot spawned Wavefunctions
         if have_spawn_data is True:
             # For all spawned packets a.k.a data blocks
-            for values in values_s:
+            for colind, values in enumerate(values_s):
                 # For all components of a packet
                 for index, component in enumerate(values):
                     # Plot the packet
                     if plotcomponents is True:
-                        axes[index].plot(grid_s, real(component))
-                        axes[index].plot(grid_s, imag(component))
+                        axes[index].plot(grid_s, real(component), color="cyan")
+                        axes[index].plot(grid_s, imag(component), color="lightgreen")
                         axes[index].set_ylabel(r"$\Re \varphi_"+str(index)+r", \Im \varphi_"+str(index)+r"$")
                     if plotabssqr is True:
-                        axes[index].plot(grid_s, component*conj(component))
+                        axes[index].plot(grid_s, component*conj(component), color=colors_mc[colind])
                         axes[index].set_ylabel(r"$\langle \varphi_"+str(index)+r"| \varphi_"+str(index)+r"\rangle$")
                     if plotphase is True:
                         plotcf(grid_s, angle(component), component*conj(component))
@@ -128,6 +138,8 @@ if __name__ == "__main__":
 
     # The axes rectangle that is plotted
     view = [-8.5, 8.5, -0.01, 0.6]
+
+    colors_mc = ["red", "orange"]
 
     plot_frames(iom_s, iom_o, view=view)
 

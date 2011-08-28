@@ -55,7 +55,7 @@ def plot_frames(data_s, view=None, plotphase=False, plotcomponents=False, plotab
         # Create a bunch of subplots
         axes = []
 
-        for index, component in enumerate(values_s):
+        for index in xrange(parameters_s["ncomponents"]):
             ax = fig.add_subplot(parameters_s["ncomponents"],1,index+1)
             ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
             axes.append(ax)
