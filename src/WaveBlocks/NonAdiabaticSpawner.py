@@ -79,8 +79,8 @@ class NonAdiabaticSpawner(Spawner):
         theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)))
 
         # Compute other parameters
-        Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * (abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2)) / (2.0*order+1.0)
-        Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * (abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2)) / (2.0*order+1.0)
+        Aabs2 = (-2.0/self.eps**2 * (q-a)**2 + 1.0/w * (abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2))) / (2.0*order+1.0)
+        Babs2 = (-2.0/self.eps**2 * (p-b)**2 + 1.0/w * (abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2))) / (2.0*order+1.0)
 
         # Transform
         A = np.sqrt(Aabs2)

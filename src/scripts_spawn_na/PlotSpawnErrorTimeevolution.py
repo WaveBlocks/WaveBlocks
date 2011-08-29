@@ -18,7 +18,7 @@ from WaveBlocks import WaveFunction
 import GraphicsDefaults as GD
 
 
-def compute_data(data_s, data_o):
+def compute_data(data_o, data_s):
     """Plot the wave function for a series of timesteps.
     @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @param data_o: An I{IOManager} instance providing the reference simulation data.
@@ -72,10 +72,12 @@ def compute_data(data_s, data_o):
 
         # Compute the L^2 norm
         WF.set_values(values_diff)
-        curnorm_L2 = WF.get_norm()
+        curnorm_L2 = list(WF.get_norm())
+        curnorm_L2.append(WF.get_norm(summed=True))
 
         # Compute the max norm
         curnorm_max = [ max(abs(item)) for item in values_diff ]
+        curnorm_max.append(max(curnorm_max))
 
         print(" at time " + str(step*parameters_o["dt"]) + " the error in L^2 norm is " + str(curnorm_L2))
         norms_L2.append(curnorm_L2)
@@ -86,22 +88,60 @@ def compute_data(data_s, data_o):
 
 def plot_data(timegrid, norms_L2, norms_max):
 
+    # Plot the L^2 norm of the spawning error component wise
+    fig = figure()
+
+    for i in xrange(norms_L2.shape[1]-1):
+        ax = fig.add_subplot(norms_L2.shape[1]-1,1,i)
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+
+        ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
+
+        # Set the axis properties
+        ax.grid(True)
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
+
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
+    fig.savefig("spawn_error_component_L2norm"+GD.output_format)
+    close(fig)
+
+
     # Plot the L^2 norm of the spawning error
     fig = figure()
     ax = fig.gca()
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
-    # Plot the difference between the original and spawned Wavefunctions in L^2 norm
-    for i in xrange(norms_L2.shape[1]):
-        ax.semilogy(timegrid, norms_L2[:,i])
+    for i in xrange(norms_L2.shape[1]-1):
+        ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
+    ax.semilogy(timegrid, norms_L2[:,-1], label=r"$\|\Psi^O - \Psi^S\|_{L^2}$")
 
     # Set the axis properties
     ax.grid(True)
-    ax.set_ylim([10**-6, 10**0])
-    ax.set_xlabel(r"$x$")
+    ax.set_xlabel(r"$t$")
+    ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
-    fig.savefig("spawn_error_L2-norm"+GD.output_format)
+    fig.savefig("spawn_error_sum_L2norm"+GD.output_format)
+    close(fig)
+
+
+    # Plot the max norm of the spawning error component wise
+    fig = figure()
+
+    for i in xrange(norms_max.shape[1]-1):
+        ax = fig.add_subplot(norms_max.shape[1]-1,1,i)
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+
+        ax.semilogy(timegrid, norms_max[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{max}$")
+
+        # Set the axis properties
+        ax.grid(True)
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
+
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
+    fig.savefig("spawn_error_component_maxnorm"+GD.output_format)
     close(fig)
 
 
@@ -110,45 +150,67 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax = fig.gca()
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
-    # Plot the difference between the original and spawned Wavefunctions in max norm
-    for i in xrange(norms_max.shape[1]):
-        ax.semilogy(timegrid, norms_max[:,i])
+    for i in xrange(norms_max.shape[1]-1):
+        ax.semilogy(timegrid, norms_max[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{max}$")
+    ax.semilogy(timegrid, norms_max[:,-1], label=r"$\|\Psi^O - \Psi^S\|_{max}$")
 
     # Set the axis properties
     ax.grid(True)
-    ax.set_ylim([10**-6, 10**0])
-    ax.set_xlabel(r"$x$")
+    ax.set_xlabel(r"$t$")
+    ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
-    fig.savefig("spawn_error_max-norm"+GD.output_format)
+    fig.savefig("spawn_error_sum_maxnorm"+GD.output_format)
     close(fig)
 
 
-    # Plot the L^2 and max norm of the spawning error
+    # Plot the difference between the original and spawned Wavefunctions in both norms
+    # Plot the max norm of the spawning error component wise
+    fig = figure()
+
+    for i in xrange(norms_max.shape[1]-1):
+        ax = fig.add_subplot(norms_max.shape[1]-1,1,i)
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+
+        ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
+        ax.semilogy(timegrid, norms_max[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{max}$")
+
+        # Set the axis properties
+        ax.grid(True)
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
+
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
+    fig.savefig("spawn_error_component_norms"+GD.output_format)
+    close(fig)
+
+
+    # Plot the max norm of the spawning error
     fig = figure()
     ax = fig.gca()
     ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
-    # Plot the difference between the original and spawned Wavefunctions in both norms
-    for i in xrange(norms_L2.shape[1]):
-        ax.semilogy(timegrid, norms_L2[:,i], label=r"$L^2$ norm")
-        ax.semilogy(timegrid, norms_max[:,i], label=r"$L^\infty$ norm")
+    for i in xrange(norms_max.shape[1]-1):
+        ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
+        ax.semilogy(timegrid, norms_max[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{max}$")
+    ax.semilogy(timegrid, norms_L2[:,-1], label=r"$\|\Psi^O - \Psi^S\|_{L^2}$")
+    ax.semilogy(timegrid, norms_max[:,-1], label=r"$\|\Psi^O - \Psi^S\|_{max}$")
 
     # Set the axis properties
     ax.grid(True)
-    ax.set_ylim([10**-6, 10**0])
-    ax.set_xlabel(r"$x$")
-    ax.legend()
-    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
-    fig.savefig("spawn_error_norm"+GD.output_format)
+    ax.set_xlabel(r"$t$")
+    ax.legend(loc="upper left")
+
+    fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
+    fig.savefig("spawn_error_sum_norms"+GD.output_format)
     close(fig)
 
 
 
 
 if __name__ == "__main__":
-    iom_s = IOManager()
     iom_o = IOManager()
+    iom_s = IOManager()
 
     # NOTE
     #
@@ -167,7 +229,7 @@ if __name__ == "__main__":
     except IndexError:
         iom_o.open_file()
 
-    plot_data(*compute_data(iom_s, iom_o))
+    plot_data(*compute_data(iom_o, iom_s))
 
-    iom_s.finalize()
     iom_o.finalize()
+    iom_s.finalize()

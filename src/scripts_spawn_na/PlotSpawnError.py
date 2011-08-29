@@ -17,10 +17,10 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def plot_frames(data_s, data_o, view=None):
+def plot_frames(data_o, data_s, view=None):
     """Plot the wave function for a series of timesteps.
-    @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @param data_o: An I{IOManager} instance providing the reference simulation data.
+    @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @keyword view: The aspect ratio.
     """
     parameters_o = data_o.get_parameters()
@@ -41,6 +41,7 @@ def plot_frames(data_s, data_o, view=None):
         values_o = [ sqrt(conj(item)*item) for item in values_o ]
 
         # Retrieve spawn data for both packets
+        #TODO: Generalize to multiple mother-child pair groups
         values_s = []
         try:
             for blocknr in xrange(data_s.get_number_blocks()):
@@ -63,7 +64,9 @@ def plot_frames(data_s, data_o, view=None):
             # Return zeros if we did not spawn yet in this timestep
             values_diff = [ zeros(values_o[0].shape) for i in xrange(parameters_o["ncomponents"]) ]
 
-        # Plot the probability densities projected to the eigenbasis
+        values_sum = reduce(lambda x,y: x+y, [ item**2 for item in values_diff ])
+
+        # Plot the spawn error for each component
         fig = figure()
 
         # Create a bunch of subplots, one for each component
@@ -77,7 +80,7 @@ def plot_frames(data_s, data_o, view=None):
         # Plot the difference between the original and spawned Wavefunctions
         for index, values in enumerate(values_diff):
             axes[index].plot(grid_o, values)
-            axes[index].set_ylabel(r"Error")
+            axes[index].set_ylabel(r"Error on $\Phi_"+str(index)+r"$")
 
         # Set the axis properties
         for index in xrange(len(axes)):
@@ -89,15 +92,31 @@ def plot_frames(data_s, data_o, view=None):
                 axes[index].set_xlim(view)
 
         fig.suptitle(r"$|\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 }$ at time $"+str(step*parameters_o["dt"])+r"$")
-        fig.savefig("wavefunction_spawn_error_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavefunction_spawn_error_components_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        close(fig)
+
+        # Plot the overall spawn error
+        fig = figure()
+        ax = fig.gca()
+        ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
+
+        ax.plot(grid_o, values_sum)
+
+        # Set the aspect window
+        if view is not None:
+            ax.set_xlim(view)
+        ax.grid(True)
+        ax.set_xlabel(r"$x$")
+        ax.set_ylabel(r"Error on $\Psi$")
+        fig.savefig("wavefunction_spawn_error_sum_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")
 
 
 if __name__ == "__main__":
-    iom_s = IOManager()
     iom_o = IOManager()
+    iom_s = IOManager()
 
     # NOTE
     #
@@ -119,7 +138,7 @@ if __name__ == "__main__":
     # The axes rectangle that is plotted
     view = [-8.5, 8.5]
 
-    plot_frames(iom_s, iom_o, view=view)
+    plot_frames(iom_o, iom_s, view=view)
 
-    iom_s.finalize()
     iom_o.finalize()
+    iom_s.finalize()
