@@ -57,6 +57,17 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
     else:
         components = parametersout["spawn_components"]
 
+    # The quadrature
+    quadrature = InhomogeneousQuadrature()
+
+    # Quadrature, assume same quadrature order for both packets
+    # Assure the "right" quadrature is choosen if mother and child have
+    # different basis sizes
+    if HAWP.get_basis_size() > SWP.get_basis_size():
+        quadrature.set_qr(HAWP.get_quadrature().get_qr())
+    else:
+        quadrature.set_qr(SWP.get_quadrature().get_qr())
+
     # Iterate over all timesteps and spawn
     for i, step in enumerate(timesteps):
         print(" Try spawning at timestep "+str(step))
@@ -73,17 +84,6 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
         # Try spawning a new packet for each component
         estps = [ NAS.estimate_parameters(T, component=acomp) for acomp in components ]
 
-        # The quadrature
-        quadrature = InhomogeneousQuadrature()
-
-        # Quadrature, assume same quadrature order for both packets
-        # Assure the "right" quadrature is choosen if mother and child have
-        # different basis sizes
-        if HAWP.get_basis_size() > SWP.get_basis_size():
-            quadrature.set_qr(HAWP.get_quadrature().get_qr())
-        else:
-            quadrature.set_qr(SWP.get_quadrature().get_qr())
-
         for index, ps in enumerate(estps):
             if ps is not None:
                 # One choice of the sign
@@ -98,16 +98,15 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
                 # Transform parameters
                 psm = list(ps)
                 B = ps[0]
-                Bm = -np.real(B)+1.0j*np.imag(B)
-                psm[0] = Bm
+                psm[0] = -np.real(B) + 1.0j*np.imag(B)
                 V.set_parameters(psm)
                 # Project the coefficients to the spawned packet
                 tmp = T.clone()
                 NAS.project_coefficients(tmp, V, component=components[index])
 
                 # Compute some inner products to finally determine which parameter set we use
-                ou = abs(quadrature.quadrature(T,U, component=components[index]))
-                ov = abs(quadrature.quadrature(T,V, component=components[index]))
+                ou = np.abs(quadrature.quadrature(T,U, diag_component=components[index]))
+                ov = np.abs(quadrature.quadrature(T,V, diag_component=components[index]))
 
                 # Choose the packet which maximizes the inner product.
                 # This is the main point!

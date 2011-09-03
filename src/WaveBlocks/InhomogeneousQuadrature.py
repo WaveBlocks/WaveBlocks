@@ -72,14 +72,16 @@ class InhomogeneousQuadrature(Quadrature):
         return (q0, QS)
 
 
-    def quadrature(self, pacbra, packet, operator=None, summed=False, component=None):
+    def quadrature(self, pacbra, packet, operator=None, summed=False, component=None, diag_component=None):
         """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
         @param pacbra: The wavepacket $<\Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.
         @param packet: The wavepacket $|\Psi>$ from the ket with $Nket$ components and basis size of $Kket$.
-        @param operator: A real-valued function $f(x):R \rightarrow R^{Nbra \times Nket}$.
-        @param summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
-        @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar
-        value or a list of $Nbra*Nket$ scalar elements.
+        @keyword operator: A real-valued function $f(x):R \rightarrow R^{Nbra \times Nket}$.
+        @keyword summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
+        @keyword component: Request only the i-th component of the result. Remember that $i \in [0, Nbra*Nket-1]$.
+        @keyword diag_component: Request only the i-th component from the diagonal entries, here $i \in [0, Nket-1]$
+        @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar value or a list of $Nbra*Nket$ scalar elements.
+        @note: 'component' takes precedence over 'diag_component' if both are supplied. (Which is discouraged)
         """
         # Should raise Exceptions if pacbra and packet are incompatible wrt N, K etc
         weights = self.QR.get_weights()
@@ -132,6 +134,8 @@ class InhomogeneousQuadrature(Quadrature):
         # Todo: improve to avoid unnecessary computations of other components
         if component is not None:
             result = result[component]
+        elif diag_component is not None:
+            result = result[diag_component*Nket + diag_component]
         elif summed is True:
             result = sum(result)
 

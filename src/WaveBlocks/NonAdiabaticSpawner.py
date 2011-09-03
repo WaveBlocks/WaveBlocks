@@ -52,13 +52,14 @@ class NonAdiabaticSpawner(Spawner):
         c = packet.get_coefficients(component=component)
         c = np.squeeze(c)
 
-        w = spla.norm(c)**2
+        # Squared norm of the fragment |w>
+        w = np.sum(np.conj(c)*c)
 
         if w < self.threshold**2:
             print(" Warning: really small w! Nothing to spawn!")
             return None
 
-        # Compute spawning position and impulse
+        # Estimate position and momentum of |w>
         k = np.arange(1, packet.get_basis_size())
         ck   = c[1:]
         ckm1 = c[:-1]
@@ -70,17 +71,17 @@ class NonAdiabaticSpawner(Spawner):
         # theta_1
         k = np.arange(0, packet.get_basis_size())
         ck = c[:]
-        theta1 = np.sum(np.abs(ck)**2 * (2.0*k + 1.0))
+        theta1 = np.sum(np.conj(ck) * ck * (2.0*k + 1.0))
 
         # theta_2
         k = np.arange(0, packet.get_basis_size()-2)
         ck   = c[:-2]
         ckp2 = c[2:]
-        theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)))
+        theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt(k*k+3*k+2))
 
         # Compute other parameters
-        Aabs2 = (-2.0/self.eps**2 * (q-a)**2 + 1.0/w * (abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2))) / (2.0*order+1.0)
-        Babs2 = (-2.0/self.eps**2 * (p-b)**2 + 1.0/w * (abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2))) / (2.0*order+1.0)
+        Aabs2 = ((np.abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2)) / w - 2.0/self.eps**2 * (q-a)**2) / (2.0*order+1.0)
+        Babs2 = ((np.abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2)) / w - 2.0/self.eps**2 * (p-b)**2) / (2.0*order+1.0)
 
         # Transform
         A = np.sqrt(Aabs2)
