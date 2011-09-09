@@ -31,7 +31,7 @@ def batch_run(call_simulation, call_for_each, call_once):
     currentdir = os.getcwd()
     configurationsdir = os.path.join(currentdir, configpath)
     resultsdir = os.path.join(currentdir, resultpath)
-    
+
     print("The working directory for the simulations is: " + currentdir)
     print("The parameter sets are read from files in:    " + configurationsdir)
     print("The results are put into subdirectories of:   " + resultsdir)
@@ -54,7 +54,7 @@ def batch_run(call_simulation, call_for_each, call_once):
     # Start the batch loop
     for configuration in configurations:
         print("Current configuration is: " + configuration)
-        
+
         filepath = os.path.join(configurationsdir, configuration)
 
         # Call the scripts running the simulation with argument 'filepath'
@@ -64,7 +64,7 @@ def batch_run(call_simulation, call_for_each, call_once):
         # Call all evaluation scripts need to be run for each simulation
         for command in call_for_each:
             sp.call(["python", command])
-        
+
         # Clean up and move results
         simulationid = configuration[:-3]
         resultspath = os.path.join(resultsdir, simulationid)
@@ -77,8 +77,9 @@ def batch_run(call_simulation, call_for_each, call_once):
             sp.call(["mv", afile, resultspath])
         for afile in glob("*.png"):
             sp.call(["mv", afile, resultspath])
+        for afile in glob("*.pdf"):
+            sp.call(["mv", afile, resultspath])
 
-        
     print("Finished batch loop")
 
     # Postprocessing, call scripts that should get called once after all simulations finished
@@ -99,7 +100,7 @@ if __name__ == "__main__":
     f = open(batchconfigfile)
     content = f.read()
     f.close()
-    
+
     # Execute the batchconfiguration file
     # Assuming that it defines the three lists 'call_simulation',
     # 'call_for_each', 'call_once' in the toplevel namespace.
