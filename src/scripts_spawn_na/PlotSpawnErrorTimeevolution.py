@@ -92,7 +92,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     fig = figure()
 
     for i in xrange(norms_L2.shape[1]-1):
-        ax = fig.add_subplot(norms_L2.shape[1]-1,1,i)
+        ax = fig.add_subplot(norms_L2.shape[1]-1,1,i+1)
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
         ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
@@ -130,7 +130,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     fig = figure()
 
     for i in xrange(norms_max.shape[1]-1):
-        ax = fig.add_subplot(norms_max.shape[1]-1,1,i)
+        ax = fig.add_subplot(norms_max.shape[1]-1,1,i+1)
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
         ax.semilogy(timegrid, norms_max[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{max}$")
@@ -169,7 +169,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     fig = figure()
 
     for i in xrange(norms_max.shape[1]-1):
-        ax = fig.add_subplot(norms_max.shape[1]-1,1,i)
+        ax = fig.add_subplot(norms_max.shape[1]-1,1,i+1)
         ax.ticklabel_format(style="sci", scilimits=(0,0), axis="y")
 
         ax.semilogy(timegrid, norms_L2[:,i], label=r"$\|\Phi^O_"+str(i)+r" - \Phi^S_"+str(i)+r"\|_{L^2}$")
@@ -179,6 +179,8 @@ def plot_data(timegrid, norms_L2, norms_max):
         ax.grid(True)
         ax.set_xlabel(r"$t$")
         ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
+
+    ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
     fig.savefig("spawn_error_component_norms"+GD.output_format)

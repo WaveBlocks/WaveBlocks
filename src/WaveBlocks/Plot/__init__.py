@@ -11,7 +11,7 @@ from plotcf import plotcf
 from stemcf import stemcf
 from plotcm import plotcm
 
-try:
-    from surfcf import surfcf
-except ImportError:
-    pass
+#try:
+#    from surfcf import surfcf
+#except ImportError:
+#    pass
