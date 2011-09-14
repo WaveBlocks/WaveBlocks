@@ -50,6 +50,9 @@ class HagedornPropagator(Propagator):
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
 
+        # The quadrature instance matching the packet
+        self.quadrature = packet.get_quadrature()
+
         # Decide about the matrix exponential algorithm to use
         method = parameters["matrix_exponential"]
 
@@ -122,7 +125,8 @@ class HagedornPropagator(Propagator):
         self.packet.S = self.packet.S - dt * V[0]
 
         # Do a potential step with the local non-quadratic taylor remainder
-        F = self.packet.matrix(self.potential.evaluate_local_remainder_at)
+        F = self.quadrature.build_matrix(self.packet, self.potential.evaluate_local_remainder_at)
+
         coefficients = self.packet.get_coefficient_vector()
         coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
         self.packet.set_coefficient_vector(coefficients)

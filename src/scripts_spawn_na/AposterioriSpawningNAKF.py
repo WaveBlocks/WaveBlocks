@@ -18,11 +18,12 @@ from WaveBlocks import ParameterProvider
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import NonAdiabaticSpawner
 from WaveBlocks import InhomogeneousQuadrature
 
+from NonAdiabaticSpawnerKF import NonAdiabaticSpawnerKF
 
-def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
+
+def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.
@@ -49,24 +50,13 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
     SWP.set_quadrature(None)
 
     # Initialize a Spawner
-    NAS = NonAdiabaticSpawner(pout)
+    NAS = NonAdiabaticSpawnerKF(pout)
 
     # Try spawning for these components, if none is given, try it for all.
     if not "spawn_components" in parametersout:
         components = range(pin["ncomponents"])
     else:
         components = parametersout["spawn_components"]
-
-    # The quadrature
-    quadrature = InhomogeneousQuadrature()
-
-    # Quadrature, assume same quadrature order for both packets
-    # Assure the "right" quadrature is choosen if mother and child have
-    # different basis sizes
-    if HAWP.get_basis_size() > SWP.get_basis_size():
-        quadrature.set_qr(HAWP.get_quadrature().get_qr())
-    else:
-        quadrature.set_qr(SWP.get_quadrature().get_qr())
 
     # Iterate over all timesteps and spawn
     for i, step in enumerate(timesteps):
@@ -84,6 +74,17 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
         # Try spawning a new packet for each component
         estps = [ NAS.estimate_parameters(T, component=acomp) for acomp in components ]
 
+        # The quadrature
+        quadrature = InhomogeneousQuadrature()
+
+        # Quadrature, assume same quadrature order for both packets
+        # Assure the "right" quadrature is choosen if mother and child have
+        # different basis sizes
+        if HAWP.get_basis_size() > SWP.get_basis_size():
+            quadrature.set_qr(HAWP.get_quadrature().get_qr())
+        else:
+            quadrature.set_qr(SWP.get_quadrature().get_qr())
+
         for index, ps in enumerate(estps):
             if ps is not None:
                 # One choice of the sign
@@ -98,18 +99,18 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
                 # Transform parameters
                 psm = list(ps)
                 B = ps[0]
-                psm[0] = -np.real(B) + 1.0j*np.imag(B)
+                Bm = -np.real(B)+1.0j*np.imag(B)
+                psm[0] = Bm
                 V.set_parameters(psm)
                 # Project the coefficients to the spawned packet
                 tmp = T.clone()
                 NAS.project_coefficients(tmp, V, component=components[index])
 
                 # Compute some inner products to finally determine which parameter set we use
-                ou = np.abs(quadrature.quadrature(T,U, diag_component=components[index]))
-                ov = np.abs(quadrature.quadrature(T,V, diag_component=components[index]))
+                ou = abs(quadrature.quadrature(T,U, component=components[index]))
+                ov = abs(quadrature.quadrature(T,V, component=components[index]))
 
-                # Choose the packet which maximizes the inner product.
-                # This is the main point!
+                # Choose the packet which maximizes the inner product. This is the main point!
                 if ou >= ov:
                     U = U
                 else:

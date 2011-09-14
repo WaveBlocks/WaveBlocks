@@ -26,6 +26,11 @@ if __name__ == "__main__":
     # Iterate over all blocks
     for block in xrange(iom.get_number_blocks()):
         print("Evaluating wavepackets in data block "+str(block))
+
+        if iom.has_wavefunction(block=block):
+            print("Datablock "+str(block)+" already contains wavefunction data, silent skip.")
+            continue
+
         # See if we have an inhomogeneous wavepacket in the current data block
         if iom.has_inhomogwavepacket(block=block):
             import EvaluateWavepacketsInhomog

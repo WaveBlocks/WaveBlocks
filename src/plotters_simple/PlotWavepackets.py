@@ -14,7 +14,7 @@ from matplotlib.pyplot import *
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 from WaveBlocks import IOManager
 from WaveBlocks.Plot import plotcf, stemcf
 
@@ -47,7 +47,7 @@ def plot_frames_homogeneous(iom, block=0, view=None):
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
     HAWP = HagedornWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -92,8 +92,8 @@ def plot_frames_inhomogeneous(iom, block=0, view=None):
     # todo: remove when we got local parameter sets
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
-    HAWP = HagedornMultiWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP = HagedornWavepacketInhomogeneous(parameters)
+    HAWP.set_quadrature(None)
 
     # Iterate over all timesteps
     for i, step in enumerate(timesteps):
@@ -163,7 +163,7 @@ if __name__ == "__main__":
         iom.open_file()
 
     # The axes rectangle that is plotted
-    view = [-5.5, 5.5, -1.5, 1.5]
+    view = [-2.5, 2.5, -0.1, 2.5]
 
     # Iterate over all blocks and plot their data
     for block in xrange(iom.get_number_blocks()):

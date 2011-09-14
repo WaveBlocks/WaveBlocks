@@ -183,6 +183,29 @@ def plot_parameters(data, index=0):
     close(fig)
 
 
+    # Plot the complex trajectory of the parameters P
+    fig = figure()
+    ax = fig.gca()
+    for item in Phist:
+        ax.plot(real(item), imag(item), "-o", label=r"Trajectory $P$")
+    ax.grid(True)
+    ax.set_title(r"Trajectory of $P$")
+    fig.savefig("wavepacket_parameters_trajectoryP_block"+str(index)+GD.output_format)
+    close(fig)
+
+
+    # Plot the complex trajectory of the parameters Q
+    fig = figure()
+    ax = fig.gca()
+    for item in Qhist:
+        ax.plot(real(item), imag(item), "-o", label=r"Trajectory $Q$")
+    ax.grid(True)
+    ax.set_title(r"Trajectory of $Q$")
+    fig.savefig("wavepacket_parameters_trajectoryQ_block"+str(index)+GD.output_format)
+    close(fig)
+
+
+
 
 if __name__ == "__main__":
     iom = IOManager()

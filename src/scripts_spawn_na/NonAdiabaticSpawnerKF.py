@@ -11,11 +11,11 @@ on some criterion.
 import numpy as np
 from scipy import linalg as spla
 
-from Spawner import Spawner
-from InhomogeneousQuadrature import InhomogeneousQuadrature
+from WaveBlocks import Spawner
+from WaveBlocks import InhomogeneousQuadrature
 
 
-class NonAdiabaticSpawner(Spawner):
+class NonAdiabaticSpawnerKF(Spawner):
     """This class implements parameter estimation and basis
     projection for spawning of Hagedorn wavepackets in the
     non-adiabatic case.
@@ -52,44 +52,103 @@ class NonAdiabaticSpawner(Spawner):
         c = packet.get_coefficients(component=component)
         c = np.squeeze(c)
 
-        # Squared norm of the fragment |w>
-        w = np.sum(np.conj(c)*c)
+        w = spla.norm(c)**2
 
         if w < self.threshold**2:
             print(" Warning: really small w! Nothing to spawn!")
             return None
 
-        # Estimate position and momentum of |w>
+        # Compute spawning position and impulse
         k = np.arange(1, packet.get_basis_size())
         ck   = c[1:]
         ckm1 = c[:-1]
-        tmp = np.sum(np.conj(ck) * ckm1 * np.sqrt(k))
+        tmp = np.sum( np.conj(ck) * ckm1 * np.sqrt(k) )
 
-        a = q + np.sqrt(2)*self.eps/w * np.real(Q*tmp)
-        b = p + np.sqrt(2)*self.eps/w * np.real(P*tmp)
+        a = q + np.sqrt(2)*self.eps/w * np.real( Q * tmp )
+        b = p + np.sqrt(2)*self.eps/w * np.real( P * tmp )
 
-        # theta_1
-        k = np.arange(0, packet.get_basis_size())
-        ck = c[:]
-        theta1 = np.sum(np.conj(ck) * ck * (2.0*k + 1.0))
+        # COMPLICATED exact formula
 
-        # theta_2
-        k = np.arange(0, packet.get_basis_size()-2)
-        ck   = c[:-2]
-        ckp2 = c[2:]
-        theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt(k*k+3*k+2))
+        # # Diagonal parts
+        # k = np.arange(0, packet.get_basis_size())
+        # ck = c[:]
+        # theta1 = np.sum( np.abs(ck)**2 * (2.0*k + 1.0) )
+
+        # # First off-diagonal parts
+        # k = np.arange(0, packet.get_basis_size()-2)
+        # ck   = c[:-2]
+        # ckp2 = c[2:]
+        # theta2 = np.sum( np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)) )
+
+        # # Compute other parameters
+        # tmpA = self.eps**2/2 * ( abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2) )
+        # tmpB = self.eps**2/2 * ( abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2) )
+
+        # # Diagonal parts
+        # k = np.arange(0, packet.get_basis_size())
+        # ck = c[:]
+        # theta0 = np.sum( np.abs(ck)**2 * (6.0*k**2 + 6.0*k + 3.0) )
+
+        # # Second off-diagonal parts
+        # k = np.arange(0, packet.get_basis_size()-2)
+        # ck   = c[:-2]
+        # ckp2 = c[2:]
+        # theta2 = np.sum( np.conj(ckp2) * ck * (4.0*k + 6.0) * np.sqrt((k+1)*(k+2)) )
+
+        # # Fourth off-diagonal parts
+        # k = np.arange(0, packet.get_basis_size()-4)
+        # ck   = c[:-4]
+        # ckp4 = c[4:]
+        # theta4 = np.sum( np.conj(ckp4) * ck * np.sqrt((k+1)*(k+2)*(k+3)*(k+4)) )
+
+        # tmpA2 = self.eps**4/4 * ( abs(Q)**4 * theta0 + 2.0*np.real( Q**3*np.conj(Q) * theta2 + Q**4 * theta4 ) )
+        # tmpB2 = self.eps**4/4 * ( abs(P)**4 * theta0 + 2.0*np.real( P**3*np.conj(P) * theta2 + P**4 * theta4 ) )
+
+        #alpha0 = 1.0
+        #alpha2 = tmpA
+        #alpha4 = tmpA2
 
         # Compute other parameters
-        Aabs2 = ((np.abs(Q)**2 * theta1 + 2.0*np.real(Q**2 * theta2)) / w - 2.0/self.eps**2 * (q-a)**2) / (2.0*order+1.0)
-        Babs2 = ((np.abs(P)**2 * theta1 + 2.0*np.real(P**2 * theta2)) / w - 2.0/self.eps**2 * (p-b)**2) / (2.0*order+1.0)
+        #Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**4 * theta0 + 2.0*np.real( Q**3*np.conj(Q) * theta2 + Q**4 * theta4 ) )
+        #Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**4 * theta0 + 2.0*np.real( P**3*np.conj(P) * theta2 + P**4 * theta4 ) )
+        #Aabs2 = -2.0/self.eps**2 * (q-a)**2 + 1.0/w * ( abs(Q)**4 * theta0 + 2.0*np.real( Q**3*np.conj(Q) * theta2 + Q**4 * theta4 ) )
+        #Babs2 = -2.0/self.eps**2 * (p-b)**2 + 1.0/w * ( abs(P)**4 * theta0 + 2.0*np.real( P**3*np.conj(P) * theta2 + P**4 * theta4 ) )
+
+        # Try it with numerical quadrature
+        f0 = lambda x: np.ones(x.shape)
+        f2 = lambda x: (x-q)**2
+        f4 = lambda x: (x-q)**4
+
+        quadrature = packet.get_quadrature()
+
+        alpha0 = quadrature.quadrature(packet, f0, summed=True)
+        alpha2 = 2/self.eps**2 * quadrature.quadrature(packet, f2, summed=True)
+        alpha4 = 4/self.eps**4 * quadrature.quadrature(packet, f4, summed=True)
+
+        Aabs2 = (alpha2 + np.sqrt(0.0 + alpha2**2 - alpha0*alpha4)) / (alpha0)
+
+
+        fpacket = packet.to_fourier_space(assign=False)
+
+        f0 = lambda x: np.ones(x.shape)
+        f2 = lambda x: (x-p)**2
+        f4 = lambda x: (x-p)**4
+
+        beta0 = quadrature.quadrature(fpacket, f0, summed=True)
+        beta2 = 2/self.eps**2 * quadrature.quadrature(fpacket, f2, summed=True)
+        beta4 = 4/self.eps**4 * quadrature.quadrature(fpacket, f4, summed=True)
+
+        Babs2 = (beta2 + np.sqrt(0.0 + beta2**2 - beta0*beta4)) / (beta0)
+
+        print((alpha0, alpha2, alpha4))
+        print((beta0, beta2, beta4))
 
         # Transform
-        A = np.sqrt(Aabs2)
-        B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
+        #A = np.sqrt(Aabs2)
+        #B = (np.sqrt(Aabs2 * Babs2 - 1.0 + 0.0j) + 1.0j) / A
 
-        # TODO
-        # Check out the last ambiguity of the sign
-        # Currently done on client side in the scripts
+        A = Aabs2
+        B = Babs2
 
         return (B, A, S, b, a)
 
@@ -153,9 +212,9 @@ class NonAdiabaticSpawner(Spawner):
         # Quadrature rule. Assure the "right" quadrature is choosen if
         # mother and child have different basis sizes
         if mother.get_basis_size() > child.get_basis_size():
-            quadrature.set_qr(mother.get_quadrature().get_qr())
+            quadrature.set_qr( mother.get_quadrature().get_qr() )
         else:
-            quadrature.set_qr(child.get_quadrature().get_qr())
+            quadrature.set_qr( child.get_quadrature().get_qr() )
 
         # The quadrature nodes and weights
         q0, QS = quadrature.mix_parameters(mother.get_parameters(), child.get_parameters())
@@ -175,7 +234,7 @@ class NonAdiabaticSpawner(Spawner):
         #     # Loop over all quadrature points
         #     tmp = 0.0j
         #     for r in xrange(R):
-        #         tmp += np.conj(np.dot(c_old[:,0], basis_m[:,r])) * basis_s[i,r] * weights[0,r]
+        #         tmp += np.conj(np.dot( c_old[:,0], basis_m[:,r] )) * basis_s[i,r] * weights[0,r]
         #     c_new_s[i,0] = self.eps * QS * tmp
 
         # Optimised and vectorised code (in ugly formatting)

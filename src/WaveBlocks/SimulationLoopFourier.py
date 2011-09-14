@@ -106,7 +106,7 @@ class SimulationLoopFourier(SimulationLoop):
 
                 initialvalues.append(iv)
             
-        # Project the initial values to the canonical base
+        # Project the initial values to the canonical basis
         initialvalues = potential.project_to_canonical(nodes, initialvalues)
 
         # Store the initial values in a WaveFunction object

@@ -9,8 +9,12 @@ from QuadratureRule import QuadratureRule
 from GaussHermiteQR import GaussHermiteQR
 from TrapezoidalQR import TrapezoidalQR
 
+from Quadrature import Quadrature
+from HomogeneousQuadrature import HomogeneousQuadrature
+from InhomogeneousQuadrature import InhomogeneousQuadrature
+
 from HagedornWavepacket import HagedornWavepacket
-from HagedornMultiWavepacket import HagedornMultiWavepacket
+from HagedornWavepacketInhomogeneous import HagedornWavepacketInhomogeneous
 
 from WaveFunction import WaveFunction
 
@@ -27,15 +31,16 @@ from MatrixPotentialMS import MatrixPotentialMS
 from Propagator import Propagator
 from FourierPropagator import FourierPropagator
 from HagedornPropagator import HagedornPropagator
-from HagedornMultiPropagator import HagedornMultiPropagator
+from HagedornPropagatorInhomogeneous import HagedornPropagatorInhomogeneous
 from SpawnAdiabaticPropagator import SpawnAdiabaticPropagator
 
 from SimulationLoop import SimulationLoop
 from SimulationLoopFourier import SimulationLoopFourier
 from SimulationLoopHagedorn import SimulationLoopHagedorn
-from SimulationLoopMultiHagedorn import SimulationLoopMultiHagedorn
+from SimulationLoopHagedornInhomogeneous import SimulationLoopHagedornInhomogeneous
 from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 
+from Spawner import Spawner
 from AdiabaticSpawner import AdiabaticSpawner
 from NonAdiabaticSpawner import NonAdiabaticSpawner
 

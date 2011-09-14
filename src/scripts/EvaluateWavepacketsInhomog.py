@@ -10,7 +10,7 @@ to the given simulation data file.
 
 from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
-from WaveBlocks import HagedornMultiWavepacket
+from WaveBlocks import HagedornWavepacketInhomogeneous
 
 
 def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
@@ -44,8 +44,8 @@ def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
     # todo: remove when we got local parameter sets
     parameters.update_parameters({"basis_size": coeffs[0][0].shape[0]})
 
-    HAWP = HagedornMultiWavepacket(parameters)
-    HAWP.set_quadrator(None)
+    HAWP = HagedornWavepacketInhomogeneous(parameters)
+    HAWP.set_quadrature(None)
 
     WF = WaveFunction(parameters)
     WF.set_grid(grid)
