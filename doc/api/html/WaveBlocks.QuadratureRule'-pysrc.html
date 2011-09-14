@@ -56,50 +56,54 @@
 <a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
 <a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
 <a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains the interface for general quadrature rules.</tt> </tt>
-<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
-<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
-<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
-<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
-<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
-<a name="QuadratureRule"></a><div id="QuadratureRule-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="QuadratureRule-toggle" onclick="return toggle('QuadratureRule');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html">QuadratureRule</a><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="QuadratureRule-expanded"><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-docstring">"""This class is an abstract interface to quadrature rules in general.</tt> </tt>
-<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
-<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">     </tt>
-<a name="QuadratureRule.__init__"></a><div id="QuadratureRule.__init__-def"><a name="L14"></a><tt class="py-lineno">14</tt> <a class="py-toggle" href="#" id="QuadratureRule.__init__-toggle" onclick="return toggle('QuadratureRule.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.__init__-expanded"><a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-docstring">"""General interface for quadrature rules.</tt> </tt>
-<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: Abstract interface.</tt> </tt>
-<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
-<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
-<a name="QuadratureRule.__str__"></a><div id="QuadratureRule.__str__-def"><a name="L21"></a><tt class="py-lineno">21</tt> <a class="py-toggle" href="#" id="QuadratureRule.__str__-toggle" onclick="return toggle('QuadratureRule.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.__str__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.__str__-expanded"><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring">Do not confuse quadratures with quadrature rules! Quadrature rules</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">are structs containing just nodes and weights and some convenience</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring">methods. Quadratures are classes that really can compute things</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">like inner products (brakets) etc.</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011 R. Bourquin</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule"></a><div id="QuadratureRule-def"><a name="L14"></a><tt class="py-lineno">14</tt> <a class="py-toggle" href="#" id="QuadratureRule-toggle" onclick="return toggle('QuadratureRule');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html">QuadratureRule</a><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="QuadratureRule-expanded"><a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-docstring">"""This class is an abstract interface to quadrature rules in general.</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule.__init__"></a><div id="QuadratureRule.__init__-def"><a name="L18"></a><tt class="py-lineno">18</tt> <a class="py-toggle" href="#" id="QuadratureRule.__init__-toggle" onclick="return toggle('QuadratureRule.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.__init__-expanded"><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-docstring">"""General interface for quadrature rules.</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">        @raise NotImplementedError: Abstract interface.</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
 <a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt>
-<a name="QuadratureRule.get_order"></a><div id="QuadratureRule.get_order-def"><a name="L25"></a><tt class="py-lineno">25</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_order-toggle" onclick="return toggle('QuadratureRule.get_order');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_order">get_order</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.get_order-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_order-expanded"><a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The order $R$ of the quadrature.</tt> </tt>
-<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">         </tt>
-<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">         </tt>
-<a name="QuadratureRule.get_number_nodes"></a><div id="QuadratureRule.get_number_nodes-def"><a name="L31"></a><tt class="py-lineno">31</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_number_nodes-toggle" onclick="return toggle('QuadratureRule.get_number_nodes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_number_nodes">get_number_nodes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.get_number_nodes-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_number_nodes-expanded"><a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The number of quadrature nodes.</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">     </tt>
-<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">     </tt>
-<a name="QuadratureRule.get_nodes"></a><div id="QuadratureRule.get_nodes-def"><a name="L37"></a><tt class="py-lineno">37</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_nodes-toggle" onclick="return toggle('QuadratureRule.get_nodes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_nodes">get_nodes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.get_nodes-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_nodes-expanded"><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: An array containing the quadrature nodes $\gamma_i$.</tt> </tt>
-<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">     </tt>
-<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">     </tt>
-<a name="QuadratureRule.get_weights"></a><div id="QuadratureRule.get_weights-def"><a name="L43"></a><tt class="py-lineno">43</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_weights-toggle" onclick="return toggle('QuadratureRule.get_weights');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_weights">get_weights</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="QuadratureRule.get_weights-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_weights-expanded"><a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: An array containing the quadrature weights $\omega_i$.</tt> </tt>
-<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
-</div></div><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="QuadratureRule.__str__"></a><div id="QuadratureRule.__str__-def"><a name="L25"></a><tt class="py-lineno">25</tt> <a class="py-toggle" href="#" id="QuadratureRule.__str__-toggle" onclick="return toggle('QuadratureRule.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.__str__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.__str__-expanded"><a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule.get_order"></a><div id="QuadratureRule.get_order-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_order-toggle" onclick="return toggle('QuadratureRule.get_order');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_order">get_order</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.get_order-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_order-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The order $R$ of the quadrature.</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule.get_number_nodes"></a><div id="QuadratureRule.get_number_nodes-def"><a name="L35"></a><tt class="py-lineno">35</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_number_nodes-toggle" onclick="return toggle('QuadratureRule.get_number_nodes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_number_nodes">get_number_nodes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.get_number_nodes-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_number_nodes-expanded"><a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: The number of quadrature nodes.</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule.get_nodes"></a><div id="QuadratureRule.get_nodes-def"><a name="L41"></a><tt class="py-lineno">41</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_nodes-toggle" onclick="return toggle('QuadratureRule.get_nodes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_nodes">get_nodes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.get_nodes-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_nodes-expanded"><a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: An array containing the quadrature nodes $\gamma_i$.</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"> </tt>
+<a name="QuadratureRule.get_weights"></a><div id="QuadratureRule.get_weights-def"><a name="L47"></a><tt class="py-lineno">47</tt> <a class="py-toggle" href="#" id="QuadratureRule.get_weights-toggle" onclick="return toggle('QuadratureRule.get_weights');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.QuadratureRule'.QuadratureRule-class.html#get_weights">get_weights</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QuadratureRule.get_weights-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QuadratureRule.get_weights-expanded"><a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-docstring">"""@return: An array containing the quadrature weights $\omega_i$.</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"'QuadratureRule' is an abstract interface."</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -129,7 +133,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:59 2011
+    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:47 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

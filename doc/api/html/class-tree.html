@@ -52,14 +52,6 @@
 </b></center><br />
 <h1 class="epydoc">Class Hierarchy</h1>
 <ul class="nomargin-top">
-    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornMultiWavepacket%27.HagedornMultiWavepacket-class.html">WaveBlocks.HagedornMultiWavepacket'.HagedornMultiWavepacket</a></strong>:
-      <em class="summary">This class represents inhomogeneous vector valued wavepackets 
-        $\Ket{\Psi}$.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html">WaveBlocks.HagedornWavepacket'.HagedornWavepacket</a></strong>:
-      <em class="summary">This class represents homogeneous vector valued wavepackets 
-        $\Ket{\Psi}$.</em>
-    </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.IOManager%27.IOManager-class.html">WaveBlocks.IOManager'.IOManager</a></strong>:
       <em class="summary">An IOManager class that can save various simulation results into 
         data files.</em>
@@ -91,11 +83,11 @@
       <em class="summary">This class can numerically propagate given initial values 
         $\Ket{\Psi}$ in a potential surface $V\ofs{x}$.</em>
     </li>
-    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornMultiPropagator%27.HagedornMultiPropagator-class.html">WaveBlocks.HagedornMultiPropagator'.HagedornMultiPropagator</a></strong>:
+    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html">WaveBlocks.HagedornPropagator'.HagedornPropagator</a></strong>:
       <em class="summary">This class can numerically propagate given initial values 
         $\Ket{\Psi}$ in a potential $V\ofs{x}$.</em>
     </li>
-    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html">WaveBlocks.HagedornPropagator'.HagedornPropagator</a></strong>:
+    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornPropagatorInhomogeneous%27.HagedornPropagatorInhomogeneous-class.html">WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous</a></strong>:
       <em class="summary">This class can numerically propagate given initial values 
         $\Ket{\Psi}$ in a potential $V\ofs{x}$.</em>
     </li>
@@ -105,12 +97,24 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.Quadrature%27.Quadrature-class.html">WaveBlocks.Quadrature'.Quadrature</a></strong>:
+      <em class="summary">This class is an abstract interface to quadratures in general.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="WaveBlocks.HomogeneousQuadrature%27.HomogeneousQuadrature-class.html">WaveBlocks.HomogeneousQuadrature'.HomogeneousQuadrature</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.InhomogeneousQuadrature%27.InhomogeneousQuadrature-class.html">WaveBlocks.InhomogeneousQuadrature'.InhomogeneousQuadrature</a></strong>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.QuadratureRule%27.QuadratureRule-class.html">WaveBlocks.QuadratureRule'.QuadratureRule</a></strong>:
       <em class="summary">This class is an abstract interface to quadrature rules in general.</em>
     <ul>
     <li> <strong class="uidlink"><a href="WaveBlocks.GaussHermiteQR%27.GaussHermiteQR-class.html">WaveBlocks.GaussHermiteQR'.GaussHermiteQR</a></strong>:
       <em class="summary">This class implements a Gauss-Hermite quadrature rule tailored at 
         the needs of Hagedorn wavepackets.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.TrapezoidalQR%27.TrapezoidalQR-class.html">WaveBlocks.TrapezoidalQR'.TrapezoidalQR</a></strong>:
+      <em class="summary">This class implements a Trapezoidal quadrature rule.</em>
     </li>
     </ul>
     </li>
@@ -123,7 +127,7 @@
     <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopHagedorn%27.SimulationLoopHagedorn-class.html">WaveBlocks.SimulationLoopHagedorn'.SimulationLoopHagedorn</a></strong>:
       <em class="summary">This class acts as the main simulation loop.</em>
     </li>
-    <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopMultiHagedorn%27.SimulationLoopMultiHagedorn-class.html">WaveBlocks.SimulationLoopMultiHagedorn'.SimulationLoopMultiHagedorn</a></strong>:
+    <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopHagedornInhomogeneous%27.SimulationLoopHagedornInhomogeneous-class.html">WaveBlocks.SimulationLoopHagedornInhomogeneous'.SimulationLoopHagedornInhomogeneous</a></strong>:
       <em class="summary">This class acts as the main simulation loop.</em>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopSpawnAdiabatic%27.SimulationLoopSpawnAdiabatic-class.html">WaveBlocks.SimulationLoopSpawnAdiabatic'.SimulationLoopSpawnAdiabatic</a></strong>:
@@ -131,7 +135,7 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="WaveBlocks.Spawner.Spawner-class.html">WaveBlocks.Spawner.Spawner</a></strong>
+    <li> <strong class="uidlink"><a href="WaveBlocks.Spawner%27.Spawner-class.html">WaveBlocks.Spawner'.Spawner</a></strong>
     <ul>
     <li> <strong class="uidlink"><a href="WaveBlocks.AdiabaticSpawner%27.AdiabaticSpawner-class.html">WaveBlocks.AdiabaticSpawner'.AdiabaticSpawner</a></strong>:
       <em class="summary">This class implements parameter estimation and basis projection for
@@ -150,6 +154,20 @@
     <li> <strong class="uidlink"><a href="WaveBlocks.WaveFunction%27.WaveFunction-class.html">WaveBlocks.WaveFunction'.WaveFunction</a></strong>:
       <em class="summary">This class represents a vector valued quantum state $\Ket{\Psi}$ as
         used in the vector valued time-dependent Schroedinger equation.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.Wavepacket.Wavepacket-class.html">WaveBlocks.Wavepacket.Wavepacket</a></strong>:
+      <em class="summary">This class is primarily an abstract interface to wavepackets in 
+        general.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html">WaveBlocks.HagedornWavepacket'.HagedornWavepacket</a></strong>:
+      <em class="summary">This class represents homogeneous vector valued wavepackets 
+        $\Ket{\Psi}$.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html">WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous</a></strong>:
+      <em class="summary">This class represents inhomogeneous vector valued wavepackets 
+        $\Ket{\Psi}$.</em>
+    </li>
+    </ul>
     </li>
 </ul>
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -175,7 +193,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun  6 00:05:58 2011
+    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:46 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
