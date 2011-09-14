@@ -59,6 +59,9 @@ class HomogeneousQuadrature(Quadrature):
         weights = self.QR.get_weights()
         basis = packet.evaluate_basis_at(nodes)
 
+        N = packet.get_number_components()
+        K = packet.get_basis_size()
+
         # Operator is None is interpreted as identity transformation
         if operator is None:
             values = []
@@ -70,9 +73,6 @@ class HomogeneousQuadrature(Quadrature):
                         values.append(zeros(nodes.shape))
         else:
             values = operator(nodes)
-
-        N = packet.get_number_components()
-        K = packet.get_basis_size()
 
         coeffs = packet.get_coefficients()
 
