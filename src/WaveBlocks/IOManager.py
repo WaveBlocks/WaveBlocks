@@ -43,7 +43,7 @@ class IOManager:
         # Plugin name convention, we only trigger plugin loading
         # for requests starting with "add", "load" or "save".
         # However, IF we load a plugin, we load ALL functions it defines.
-        if parts[0] not in ("add", "delete", "has", "load", "save"):
+        if parts[0] not in ("add", "delete", "has", "load", "save", "update"):
             return
         else:
             print("Requested function: "+key)
@@ -81,10 +81,9 @@ class IOManager:
             f.attrs["number_blocks"] = 0
 
         # Save the simulation parameters
-        self.save_simulation_parameters(parameters)
-
-        # Build up the hdf data tree, by default we provide one data block
-        self.create_block()
+        # TODO: Later we should save to the global block
+        self.add_parameters()
+        self.save_parameters(parameters)
 
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
@@ -96,15 +95,9 @@ class IOManager:
         else:
             raise ValueError("Output file does not exist!")
 
-        # Load the simulation parameters
-        self.parameters = ParameterProvider.ParameterProvider()
-        p = self.srf["/simulation_parameters/parameters"].attrs
-
-        for key, value in p.iteritems():
-            self.parameters[key] = pickle.loads(value)
-
-        # Compute some values on top of the given input parameters
-        self.parameters.compute_parameters()
+        # Load the simulation parameters from data block 0.
+        # TODO: Later we should load from the global block
+        self.parameters = self.load_parameters()
 
 
     def finalize(self):
@@ -126,36 +119,6 @@ class IOManager:
         self.srf.attrs["number_blocks"] += 1
 
 
-    def save_simulation_parameters(self, parameters):
-        # Store the simulation parameters
-        grp_pa = self.srf.create_group("simulation_parameters")
-        # We are only interested in the attributes of this data set
-        # as they are used to store the simulation parameters.
-        paset = grp_pa.create_dataset("parameters", (1,1))
-
-        for param, value in parameters:
-            # Store all the values as pickled strings because hdf can
-            # only store strings or ndarrays as attributes.
-            paset.attrs[param] = pickle.dumps(value)
-
-    
-    def get_parameters(self):
-        """Return the reference to the current I{ParameterProvider} instance.
-        """
-        return self.parameters
-
-
-    def update_simulation_parameters(self, parameters):
-        params = self.get_parameters()
-        self.delete_simulation_parameters()
-        params.update_parameters(parameters)
-        self.save_simulation_parameters(params)
-    
-
-    def delete_simulation_parameters(self):
-        del self.srf["simulation_parameters"]
-
-    
     def must_resize(self, path, slot, axis=0):
         """Check if we must resize a given dataset and if yes, resize it.
         """
@@ -169,8 +132,8 @@ class IOManager:
         # If yes, then resize the array along the given axis.
         if cur_len-1 < slot:
             self.srf[path].resize(slot+1, axis=axis)
-    
-    
+
+
     def find_timestep_index(self, timegridpath, timestep):
         """Lookup the index for a given timestep.
         @note: Assumes the timegrid array is strictly monotone.
@@ -194,3 +157,19 @@ class IOManager:
         """
         parts = data.shape[axis]
         return np.split(data, parts, axis=axis)
+
+
+    # Shortcut functions to IOM_plugin_parameters
+    # Just for backward compatibility
+    def save_simulation_parameters(self, parameters):
+        self.add_parameters()
+        self.save_parameters(parameters)
+
+    def get_parameters(self):
+        return self.load_parameters()
+
+    def update_simulation_parameters(self, parameters):
+        self.update_parameters(parameters)
+
+    def delete_simulation_parameters(self):
+        self.delete_parameters()

@@ -40,6 +40,7 @@ class SimulationLoopHagedorn(SimulationLoop):
         # Set up serializing of simulation data
         self.IOManager = IOManager()
         self.IOManager.create_file(self.parameters)
+        self.IOManager.create_block()
                              
 
     def prepare_simulation(self):
