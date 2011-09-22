@@ -162,15 +162,6 @@ class IOManager:
 
     # Shortcut functions to IOM_plugin_parameters
     # Just for backward compatibility
-    def save_simulation_parameters(self, parameters):
-        self.add_parameters(block="global")
-        self.save_parameters(parameters, block="global")
-
     def get_parameters(self):
+        print(" Depreceated get_parameters call at an IOManager instance!")        
         return self.load_parameters(block="global")
-
-    def update_simulation_parameters(self, parameters):
-        self.update_parameters(parameters, block="global")
-
-    def delete_simulation_parameters(self):
-        self.delete_parameters(block="global")
