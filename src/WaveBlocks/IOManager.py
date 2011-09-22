@@ -24,6 +24,8 @@ class IOManager:
     def __init__(self):
         self.parameters = None
         self.srf = None
+        self.block_ids= []
+        self.block_autonumber = 0
 
 
     def __str__(self):
@@ -68,6 +70,9 @@ class IOManager:
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
         """Set up a new I{IOManager} instance. The output files are created and opened.
         """
+        self.block_ids= []
+        self.block_autonumber = 0
+
         #: Keep a reference to the parameters
         self.parameters = parameters
 
@@ -89,6 +94,9 @@ class IOManager:
         """Load a given file that contains the results from a former simulation.
         @keyword filename: The filename/path of the file we try to load.
         """
+        self.block_ids= []
+        self.block_autonumber = 0
+
         if os.path.lexists(filename):
             self.srf = hdf.File(filename)
         else:
@@ -112,11 +120,12 @@ class IOManager:
     def create_block(self, blockid=None):
         # Create a data block. Each data block can store several chunks
         # of information, and there may be multiple blocks per file.
-        number_blocks = self.srf.attrs["number_blocks"]
         if blockid is None:
-            self.srf.create_group("datablock_" + str(number_blocks))
-        else:
-            self.srf.create_group("datablock_" + str(blockid))
+            blockid = self.block_autonumber
+            self.block_autonumber += 1
+
+        self.block_ids.append(blockid)
+        self.srf.create_group("datablock_" + str(blockid))
         self.srf.attrs["number_blocks"] += 1
 
 
