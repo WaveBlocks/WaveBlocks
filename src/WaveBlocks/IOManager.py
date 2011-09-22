@@ -10,7 +10,6 @@ This file contains code for serializing simulation data.
 import os
 import types
 import h5py as hdf
-import pickle
 import numpy as np
 
 import GlobalDefaults
@@ -81,7 +80,7 @@ class IOManager:
             f.attrs["number_blocks"] = 0
 
         # Save the simulation parameters
-        self.crate_block(blockid="global")
+        self.create_block(blockid="global")
         self.add_parameters(block="global")
         self.save_parameters(parameters, block="global")
 

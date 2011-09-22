@@ -7,7 +7,8 @@ IOM plugin providing functions for handling simulation parameter data.
 @license: Modified BSD License
 """
 
-import numpy as np
+import pickle
+
 import ParameterProvider as ParameterProvider
 
 
