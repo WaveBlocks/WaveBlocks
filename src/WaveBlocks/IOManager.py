@@ -81,9 +81,9 @@ class IOManager:
             f.attrs["number_blocks"] = 0
 
         # Save the simulation parameters
-        # TODO: Later we should save to the global block
-        self.add_parameters()
-        self.save_parameters(parameters)
+        self.crate_block(blockid="global")
+        self.add_parameters(block="global")
+        self.save_parameters(parameters, block="global")
 
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
@@ -96,8 +96,7 @@ class IOManager:
             raise ValueError("Output file does not exist!")
 
         # Load the simulation parameters from data block 0.
-        # TODO: Later we should load from the global block
-        self.parameters = self.load_parameters()
+        self.parameters = self.load_parameters(block="global")
 
 
     def finalize(self):
@@ -111,11 +110,14 @@ class IOManager:
         return self.srf.attrs["number_blocks"]
 
 
-    def create_block(self):
+    def create_block(self, blockid=None):
         # Create a data block. Each data block can store several chunks
         # of information, and there may be multiple blocks per file.
         number_blocks = self.srf.attrs["number_blocks"]
-        self.srf.create_group("datablock_" + str(number_blocks))
+        if blockid is None:
+            self.srf.create_group("datablock_" + str(number_blocks))
+        else:
+            self.srf.create_group("datablock_" + str(blockid))
         self.srf.attrs["number_blocks"] += 1
 
 
@@ -162,14 +164,14 @@ class IOManager:
     # Shortcut functions to IOM_plugin_parameters
     # Just for backward compatibility
     def save_simulation_parameters(self, parameters):
-        self.add_parameters()
-        self.save_parameters(parameters)
+        self.add_parameters(block="global")
+        self.save_parameters(parameters, block="global")
 
     def get_parameters(self):
-        return self.load_parameters()
+        return self.load_parameters(block="global")
 
     def update_simulation_parameters(self, parameters):
-        self.update_parameters(parameters)
+        self.update_parameters(parameters, block="global")
 
     def delete_simulation_parameters(self):
-        self.delete_parameters()
+        self.delete_parameters(block="global")

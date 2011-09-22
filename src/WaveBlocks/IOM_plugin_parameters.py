@@ -11,7 +11,7 @@ import numpy as np
 import ParameterProvider as ParameterProvider
 
 
-def add_parameters(self, block=0):
+def add_parameters(self, block="global"):
     """Add storage for the simulation parameters.
     """
     # Store the simulation parameters
@@ -20,7 +20,7 @@ def add_parameters(self, block=0):
     paset = self.srf["datablock_"+str(block)].create_dataset("simulation_parameters", (1,1))
 
 
-def delete_parameters(self, block=0):
+def delete_parameters(self, block="global"):
     """Remove the stored simulation parameters.
     """
     try:
@@ -29,13 +29,13 @@ def delete_parameters(self, block=0):
         pass
 
 
-def has_parameters(self, block=0):
+def has_parameters(self, block="global"):
     """Ask if the specified data block has the desired data tensor.
     """
     return "simulation_parameters" in self.srf["datablock_"+str(block)].keys()
 
 
-def save_parameters(self, parameters, block=0):
+def save_parameters(self, parameters, block="global"):
     """Save the norm of wavefunctions or wavepackets.
     """
     paset = self.srf["datablock_"+str(block)+"/simulation_parameters"]
@@ -46,7 +46,7 @@ def save_parameters(self, parameters, block=0):
         paset.attrs[param] = pickle.dumps(value)
 
 
-def load_parameters(self, block=0):
+def load_parameters(self, block="global"):
     """Load the simulation parameters.
     """
     p = self.srf["datablock_"+str(block)+"/simulation_parameters"].attrs
@@ -60,7 +60,7 @@ def load_parameters(self, block=0):
     return PP
 
 
-def update_parameters(self, parameters, block0):
+def update_parameters(self, parameters, block="global"):
     params = self.get_parameters(block=block)
     self.delete_parameters(block=block)
     params.update_parameters(parameters)
