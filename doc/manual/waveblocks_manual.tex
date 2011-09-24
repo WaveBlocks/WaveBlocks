@@ -1357,6 +1357,20 @@ Of course all this works exactly the same inside any regular python script.
 For a complete list of all the \verb|load_| functions please see the API
 documentation or the docstrings.
 
+\subsection{Working with simulation data}
+
+The following code snippet shows how to perform a data transformation task
+for all blocks of a simulation results file.
+
+\begin{verbatim}
+  >>> iom = IOManager()
+  >>> iom.open_file("testdata.hdf5")
+
+  >>> for blockid in iom.get_block_ids():      # Iterate over all data blocks
+          if iom.has_energy(block=blockid):    # If the current data block containes
+              ...                              # energies we may do something
+\end{verbatim}
+
 \section{User scripts}
 
 Consider merging this section with chapter 2.

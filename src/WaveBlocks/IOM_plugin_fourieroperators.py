@@ -33,6 +33,13 @@ def delete_fourieroperators(self, block=0):
         pass
 
 
+def has_fourieroperators(self, block=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return ("propagation" in self.srf["datablock_"+str(block)].keys() and
+            "operators" in self.srf["datablock_"+str(block)]["propagation"].keys())
+
+
 def save_fourieroperators(self, operators, block=0):
     """Save the kinetic and potential operator to a file.
     @param operators: The operators to save, given as (T, V).

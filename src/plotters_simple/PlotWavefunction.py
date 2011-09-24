@@ -93,12 +93,12 @@ if __name__ == "__main__":
     view = [-3.5, 3.5, -0.1, 3.5]
 
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        print("Plotting frames of data block "+str(block))
+    for blockid in iom.get_block_ids():
+        print("Plotting frames of data block '"+str(blockid)+"'")
         # See if we have wavefunction values
-        if iom.has_wavefunction(block=block):
-            plot_frames(iom, block=block, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
+        if iom.has_wavefunction(block=blockid):
+            plot_frames(iom, block=blockid, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
         else:
-            print("Warning: Not plotting any wavefunctions in block "+str(block)+"!")
+            print("Warning: Not plotting any wavefunctions in block '"+str(blockid)+"'!")
 
     iom.finalize()

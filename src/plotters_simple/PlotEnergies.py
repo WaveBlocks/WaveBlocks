@@ -22,8 +22,11 @@ def read_all_datablocks(iom):
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        plot_energies(read_data(iom, block=block), index=block)
+    for blockid in iom.get_block_ids():
+        if iom.has_energy(block=blockid):
+            plot_energies(read_data(iom, block=blockid), index=blockid)
+        else:
+            print("Warning: Not plotting energies in block '"+str(blockid)+"'!")
 
 
 def read_data(iom, block=0):
@@ -48,7 +51,7 @@ def read_data(iom, block=0):
 
 
 def plot_energies(data, index=0):
-    print("Plotting the energies of data block "+str(index))
+    print("Plotting the energies of data block '"+str(index)+"'")
 
     timegrid, ekin, epot = data
 

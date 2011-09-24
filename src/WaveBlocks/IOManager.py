@@ -94,7 +94,6 @@ class IOManager:
             raise IOError("Output file already exists!")
         else:
             f = self.srf = hdf.File(filename)
-            f.attrs["number_blocks"] = 0
 
         # Save the simulation parameters
         self.create_block(blockid="global")
@@ -153,6 +152,9 @@ class IOManager:
         """
         if blockid in self.block_ids:
             raise ValueError("Invalid or already used blockid: " + str(blockid))
+
+        if blockid is not None and not blockid.isalnum():
+            raise ValueError("Block ID allows only characters A-Z, a-z and 0-9.")
 
         if blockid is None:
             blockid = self.block_autonumber

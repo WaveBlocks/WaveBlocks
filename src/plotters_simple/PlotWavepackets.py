@@ -166,16 +166,16 @@ if __name__ == "__main__":
     view = [-2.5, 2.5, -0.1, 2.5]
 
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        print("Plotting frames of data block "+str(block))
+    for blockid in iom.get_block_ids():
+        print("Plotting frames of data block '"+str(blockid)+"'")
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=block):
-            plot_frames_inhomogeneous(iom, block=block, view=view)
+        if iom.has_inhomogwavepacket(block=blockid):
+            plot_frames_inhomogeneous(iom, block=blockid, view=view)
         # If not, we test for a homogeneous wavepacket next
-        elif iom.has_wavepacket(block=block):
-            plot_frames_homogeneous(iom, block=block, view=view)
+        elif iom.has_wavepacket(block=blockid):
+            plot_frames_homogeneous(iom, block=blockid, view=view)
         # There is nothing to plot
         else:
-            print("Warning: Not plotting any wavepackets in block "+str(block)+"!")
+            print("Warning: Not plotting any wavepackets in block '"+str(blockid)+"'!")
 
     iom.finalize()

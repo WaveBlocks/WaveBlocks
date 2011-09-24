@@ -23,8 +23,11 @@ def read_all_datablocks(iom):
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        plot_operators(*read_data(iom, block=block), index=block)
+    for blockid in iom.get_block_ids():
+        if iom.has_fourieroperators(block=blockid):
+            plot_operators(*read_data(iom, block=blockid), index=blockid)
+        else:
+            print("Warning: Not plotting Fourier operators in block '"+str(blockid)+"'!")
 
 
 def read_data(iom, block=0):

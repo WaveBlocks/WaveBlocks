@@ -23,27 +23,27 @@ if __name__ == "__main__":
         iom.open_file()
 
     # Iterate over all blocks
-    for block in xrange(iom.get_number_blocks()):
-        print("Computing the norms in data block "+str(block))
+    for blockid in iom.get_block_ids():
+        print("Computing the norms in data block '"+str(blockid)+"'")
 
-        if iom.has_norm(block=block):
-            print("Datablock "+str(block)+" already contains norm data, silent skip.")
+        if iom.has_norm(block=blockid):
+            print("Datablock '"+str(blockid)+"' already contains norm data, silent skip.")
             continue
 
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=block):
+        if iom.has_inhomogwavepacket(block=blockid):
             import NormWavepacketInhomog
-            NormWavepacketInhomog.compute_norm(iom, block=block)
+            NormWavepacketInhomog.compute_norm(iom, block=blockid)
         # If not, we test for a homogeneous wavepacket next
-        elif iom.has_wavepacket(block=block):
+        elif iom.has_wavepacket(block=blockid):
             import NormWavepacket
-            NormWavepacket.compute_norm(iom, block=block)
+            NormWavepacket.compute_norm(iom, block=blockid)
         # If we have no wavepacket, then we try for a wavefunction
-        elif iom.has_wavefunction(block=block):
+        elif iom.has_wavefunction(block=blockid):
             import NormWavefunction
-            NormWavefunction.compute_norm(iom, block=block)
+            NormWavefunction.compute_norm(iom, block=blockid)
         # If there is also no wavefunction, then there is nothing to compute the norm
         else:
-            print("Warning: Not computing any norm in block "+str(block)+"!")
+            print("Warning: Not computing any norm in block '"+str(blockid)+"'!")
 
     iom.finalize()
