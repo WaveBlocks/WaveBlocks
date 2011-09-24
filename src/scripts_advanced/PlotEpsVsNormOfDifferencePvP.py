@@ -64,8 +64,8 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             iom_h.open_file(filename=resultsfile_h)
 
             # Read the parameters
-            parameters_min = iom_min.get_parameters()
-            parameters_h = iom_h.get_parameters()
+            parameters_min = iom_min.load_parameters()
+            parameters_h = iom_h.load_parameters()
 
             # Scalar parameter of the x axis
             axisdata[index].append(parameters_h["dt"])

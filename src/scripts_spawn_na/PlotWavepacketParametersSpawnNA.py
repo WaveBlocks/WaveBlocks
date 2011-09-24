@@ -19,16 +19,16 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(f, assume_duplicate_mother=False):
+def read_data_spawn(iom, assume_duplicate_mother=False):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     @keyword assume_duplicate_mother: Parameter to tell the code to leave out
     every second data block and only take blocks [0, 1, 3, 5, 7, ...]. This
     is usefull because in aposteriori spawning we have to store clones of
     the mother packet.
     """
-    parameters = f.get_parameters()
-    ndb = f.get_number_blocks()
+    parameters = iom.load_parameters()
+    ndb = iom.get_number_blocks()
 
     timegrids = []
     AllPA = []
@@ -40,9 +40,9 @@ def read_data_spawn(f, assume_duplicate_mother=False):
 
     # Load the data from each block
     for block in blocks:
-        timegrids.append(parameters["dt"] * f.load_wavepacket_timegrid(block=block))
+        timegrids.append(parameters["dt"] * iom.load_wavepacket_timegrid(block=block))
 
-        Pi = f.load_wavepacket_parameters(block=block)
+        Pi = iom.load_wavepacket_parameters(block=block)
         Phist = Pi[:,0]
         Qhist = Pi[:,1]
         Shist = Pi[:,2]
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     if parameters["algorithm"] == "spawning_apost_na":
         plot_parameters_spawn(*read_data_spawn(iom, assume_duplicate_mother=True))

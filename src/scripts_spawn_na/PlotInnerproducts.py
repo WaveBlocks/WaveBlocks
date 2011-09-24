@@ -30,8 +30,8 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     is usefull because in aposteriori spawning we have to store clones of
     the mother packet.
     """
-    parameters_fo = fo.get_parameters()
-    parameters_fs = fs.get_parameters()
+    parameters_fo = fo.load_parameters()
+    parameters_fs = fs.load_parameters()
 
     ndb = fo.get_number_blocks()
 

@@ -38,7 +38,7 @@ def read_data_homogeneous(iom, block=0):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 
@@ -58,7 +58,7 @@ def read_data_inhomogeneous(iom, block=0):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 

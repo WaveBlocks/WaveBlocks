@@ -24,8 +24,8 @@ def compute_data(data_o, data_s):
     @param data_o: An I{IOManager} instance providing the reference simulation data.
     @param which_norm: Decide which norm is used to quantify the spawn error, can be 'L2' or 'max'.
     """
-    parameters_o = data_o.get_parameters()
-    parameters_s = data_s.get_parameters()
+    parameters_o = data_o.load_parameters()
+    parameters_s = data_s.load_parameters()
 
     grid_o = data_o.load_grid()
 

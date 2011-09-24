@@ -79,7 +79,18 @@ class IOManager:
 
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
         """Set up a new I{IOManager} instance. The output files are created and opened.
+        @param parameters: A I{ParameterProvider} instance containing the current simulation
+        parameters. This is only used for determining the size of new data sets.
+        @keyword filename: The filename (optionally with filepath) of the file we try
+        to create. If not given the default value from I{GlobalDefaults} is used.
         """
+        # Create the file if it does not yet exist.
+        # Otherwise raise an exception to avoid overwriting data.
+        if os.path.lexists(filename):
+            raise IOError("Output file '"+str(filename)+"' already exists!")
+        else:
+            self.srf = hdf.File(filename)
+
         # Initialize the internal book keeping data
         self.block_ids = []
         self.block_count = 0
@@ -87,13 +98,6 @@ class IOManager:
 
         # Keep a reference to the parameters
         self.parameters = parameters
-
-        # Create the file if it does not yet exist.
-        # Otherwise raise an exception and avoid overwriting data.
-        if os.path.lexists(filename):
-            raise IOError("Output file already exists!")
-        else:
-            f = self.srf = hdf.File(filename)
 
         # Save the simulation parameters
         self.create_block(blockid="global")
@@ -103,13 +107,17 @@ class IOManager:
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
         """Load a given file that contains the results from a former simulation.
-        @keyword filename: The filename/path of the file we try to load.
+        @keyword filename: The filename (optionally with filepath) of the file we try
+        to load. If not given the default value from I{GlobalDefaults} is used.
         """
-        # Try to open the file
+        # Try to open the file or raise an exception if it does not exist.
         if os.path.lexists(filename):
-            self.srf = hdf.File(filename)
+            if hdf.is_hdf5(filename):
+                self.srf = hdf.File(filename)
+            else:
+                raise IOError("File '"+str(filename)+"' is not a hdf5 file")
         else:
-            raise ValueError("Output file does not exist!")
+            raise IOError("File '"+str(filename)+"' does not exist!")
 
         # Initialize the internal book keeping data
         self.block_ids = [ s[len(self.prefixb):] for s in self.srf.keys() if s.startswith(self.prefixb) ]
@@ -150,11 +158,11 @@ class IOManager:
         @param blockid: The id for the new data block. If not given the blockid
         will be choosen automatically. The block id has to be unique.
         """
-        if blockid in self.block_ids:
-            raise ValueError("Invalid or already used blockid: " + str(blockid))
-
         if blockid is not None and not blockid.isalnum():
             raise ValueError("Block ID allows only characters A-Z, a-z and 0-9.")
+
+        if blockid is not None and blockid in self.block_ids:
+            raise ValueError("Invalid or already used block ID: " + str(blockid))
 
         if blockid is None:
             blockid = self.block_autonumber
@@ -203,10 +211,3 @@ class IOManager:
         """
         parts = data.shape[axis]
         return np.split(data, parts, axis=axis)
-
-
-    # Shortcut functions to IOM_plugin_parameters
-    # Just for backward compatibility
-    def get_parameters(self):
-        print(" Depreceated get_parameters call at an IOManager instance!")
-        return self.load_parameters(block="global")

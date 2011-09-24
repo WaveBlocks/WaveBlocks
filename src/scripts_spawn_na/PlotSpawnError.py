@@ -23,8 +23,8 @@ def plot_frames(data_o, data_s, view=None):
     @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @keyword view: The aspect ratio.
     """
-    parameters_o = data_o.get_parameters()
-    parameters_s = data_s.get_parameters()
+    parameters_o = data_o.load_parameters()
+    parameters_s = data_s.load_parameters()
 
     grid_o = data_o.load_grid()
 

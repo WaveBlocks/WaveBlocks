@@ -18,15 +18,15 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_homogeneous(f, block=0):
+def read_data_homogeneous(iom, block=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_wavepacket_timegrid(block=block)
+    parameters = iom.load_parameters()
+    timegrid = iom.load_wavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 
-    Pi = f.load_wavepacket_parameters(block=block)
+    Pi = iom.load_wavepacket_parameters(block=block)
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -34,15 +34,15 @@ def read_data_homogeneous(f, block=0):
     return (time, Phist, Qhist)
 
 
-def read_data_inhomogeneous(f, block=0):
+def read_data_inhomogeneous(iom, block=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_inhomogwavepacket_timegrid(block=block)
+    parameters = iom.load_parameters()
+    timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 
-    Pi = f.load_inhomogwavepacket_parameters(block=block)
+    Pi = iom.load_inhomogwavepacket_parameters(block=block)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -80,19 +80,19 @@ if __name__ == "__main__":
         iom.open_file()
 
     # Iterate over all blocks
-    for block in xrange(iom.get_number_blocks()):
-        print("Plotting PQ relation of data block "+str(block))
+    for blockid in iom.get_block_ids():
+        print("Plotting PQ relation of data block '"+str(blockid)+"'")
 
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=block):
-            data = read_data_inhomogeneous(iom, block=block)
-            plot_parameters(block, *data)
+        if iom.has_inhomogwavepacket(block=blockid):
+            data = read_data_inhomogeneous(iom, block=blockid)
+            plot_parameters(blockid, *data)
         # If not, we test for a homogeneous wavepacket next
-        elif iom.has_wavepacket(block=block):
-            data = read_data_homogeneous(iom, block=block)
-            plot_parameters(block, *data)
+        elif iom.has_wavepacket(block=blockid):
+            data = read_data_homogeneous(iom, block=blockid)
+            plot_parameters(blockid, *data)
         # There is no wavepacket in the current block
         else:
-            print("Warning: No wavepacket found in block "+str(block)+"!")
+            print("Warning: No wavepacket found in block '"+str(blockid)+"'!")
 
     iom.finalize()

@@ -22,7 +22,7 @@ def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
     @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # Iterate over all blocks and plot their data
     for blockid in iom.get_block_ids():
@@ -39,7 +39,7 @@ def read_data_homogeneous(iom, block=0):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 
@@ -57,7 +57,7 @@ def read_data_inhomogeneous(iom, block=0):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
     time = timegrid * parameters["dt"]
 

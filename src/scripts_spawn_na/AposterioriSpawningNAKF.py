@@ -153,7 +153,7 @@ if __name__ == "__main__":
     except IndexError:
         raise IOError("No spawn configuration given!")
 
-    parametersin = iomin.get_parameters()
+    parametersin = iomin.load_parameters()
 
     # Check if we can start a spawning simulation
     if parametersin["algorithm"] != "hagedorn":
@@ -178,6 +178,7 @@ if __name__ == "__main__":
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
 
     # Allocate all the data blocks
+    iomout.create_block()
     iomout.add_grid(parametersout)
     iomout.save_grid(iomin.load_grid())
     iomout.add_wavepacket(parametersin)

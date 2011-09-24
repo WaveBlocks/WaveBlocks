@@ -35,7 +35,7 @@ def read_data(iom, block=0):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     # The real space grid
     grid = iom.load_grid(block=block)
     # The Fourier space grid

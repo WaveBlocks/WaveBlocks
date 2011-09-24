@@ -28,7 +28,7 @@ def plot_frames(data_s, view=None, plotphase=False, plotcomponents=False, plotab
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
     @keyword plotabssqr: Whether to plot the absolute value squared.
     """
-    parameters_s = data_s.get_parameters()
+    parameters_s = data_s.load_parameters()
 
     grid_s = data_s.load_grid()
 

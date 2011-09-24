@@ -19,18 +19,18 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(f):
+def read_data_spawn(iom):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
+    parameters = iom.load_parameters()
 
-    timegrid0 = f.load_wavepacket_timegrid()
-    timegrid1 = f.load_wavepacket_timegrid(block=1)
+    timegrid0 = iom.load_wavepacket_timegrid()
+    timegrid1 = iom.load_wavepacket_timegrid(block=1)
     time0 = timegrid0 * parameters["dt"]
     time1 = timegrid1 * parameters["dt"]
 
-    Pi0 = f.load_wavepacket_parameters()
+    Pi0 = iom.load_wavepacket_parameters()
 
     Phist0 = [ Pi0[:,0] ]
     Qhist0 = [ Pi0[:,1] ]
@@ -40,7 +40,7 @@ def read_data_spawn(f):
 
     AllPA0 = [ Phist0, Qhist0, Shist0, phist0, qhist0 ]
 
-    Pi1 = f.load_wavepacket_parameters(block=1)
+    Pi1 = iom.load_wavepacket_parameters(block=1)
 
     Phist1 = [ Pi1[:,0] ]
     Qhist1 = [ Pi1[:,1] ]

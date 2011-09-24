@@ -18,23 +18,23 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(f):
+def read_data_spawn(iom):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
+    parameters = iom.load_parameters()
 
-    timegrid0 = f.load_wavepacket_timegrid()
-    timegrid1 = f.load_wavepacket_timegrid(block=1)
+    timegrid0 = iom.load_wavepacket_timegrid()
+    timegrid1 = iom.load_wavepacket_timegrid(block=1)
     time0 = timegrid0 * parameters["dt"]
     time1 = timegrid1 * parameters["dt"]
 
-    C0 = f.load_wavepacket_coefficients()
+    C0 = iom.load_wavepacket_coefficients()
     coeffs0 = []
     for i in xrange(parameters["ncomponents"]):
         coeffs0.append(squeeze(C0[:,i,:]))
 
-    C1 = f.load_wavepacket_coefficients(block=1)
+    C1 = iom.load_wavepacket_coefficients(block=1)
     coeffs1 = []
     for i in xrange(parameters["ncomponents"]):
         coeffs1.append(squeeze(C1[:,i,:]))

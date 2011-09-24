@@ -25,8 +25,8 @@ def read_data(data_o, data_s):
     @param data_s: An I{IOManager} instance providing the spawning simulation data.
     @param data_o: An I{IOManager} instance providing the reference simulation data.
     """
-    parameters_o = data_o.get_parameters()
-    parameters_s = data_s.get_parameters()
+    parameters_o = data_o.load_parameters()
+    parameters_s = data_s.load_parameters()
 
     # Retrieve reference data
     timegrido = data_o.load_norm_timegrid()

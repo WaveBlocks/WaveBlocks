@@ -25,7 +25,7 @@ def plot_frames_homogeneous(iom, block=0, view=None):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # Number of time steps we saved
     timesteps = iom.load_wavepacket_timegrid(block=block)
@@ -70,7 +70,7 @@ def plot_frames_inhomogeneous(iom, block=0, view=None):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # Number of time steps we saved
     timesteps = iom.load_inhomogwavepacket_timegrid(block=block)

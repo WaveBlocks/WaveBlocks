@@ -21,38 +21,38 @@ from WaveBlocks.Plot import plotcf, stemcf
 import GraphicsDefaults as GD
 
 
-def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
+def plot_frames_homogeneous(iom, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
+    parameters = iom.load_parameters()
 
-    grid = f.load_grid()
+    grid = iom.load_grid()
     k = array(range(parameters["basis_size"]))
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
 
-    timegrid_m = f.load_wavefunction_timegrid(block=0)
-    timegrid_s = f.load_wavefunction_timegrid(block=1)
+    timegrid_m = iom.load_wavefunction_timegrid(block=0)
+    timegrid_s = iom.load_wavefunction_timegrid(block=1)
 
     for step in timegrid_m:
         print(" Timestep # " + str(step))
 
         # Retrieve spawn data for both packets
         try:
-            wave_m = f.load_wavefunction(timestep=step, block=0)
+            wave_m = iom.load_wavefunction(timestep=step, block=0)
             values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_m = squeeze(f.load_wavepacket_coefficients(timestep=step, block=0))
+            coeffs_m = squeeze(iom.load_wavepacket_coefficients(timestep=step, block=0))
             have_mother_data = True
         except ValueError:
             have_mother_data = False
 
         # Retrieve spawn data
         try:
-            wave_s = f.load_wavefunction(timestep=step, block=1)
+            wave_s = iom.load_wavefunction(timestep=step, block=1)
             values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_s = squeeze(f.load_wavepacket_coefficients(timestep=step, block=1))
+            coeffs_s = squeeze(iom.load_wavepacket_coefficients(timestep=step, block=1))
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # The axes rectangle that is plotted
     view = [-8, 8, 0.0, 0.6]

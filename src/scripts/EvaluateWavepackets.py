@@ -19,7 +19,7 @@ def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
     @keyword basis: The basis where the evaluation is done. Can be 'eigen' or 'canonical'.
     @keyword block: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # Number of time steps we saved
     timesteps = iom.load_wavepacket_timegrid(block=block)

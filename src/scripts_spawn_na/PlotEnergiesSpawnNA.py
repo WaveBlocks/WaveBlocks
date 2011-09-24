@@ -19,26 +19,26 @@ from WaveBlocks.Plot import legend
 import GraphicsDefaults as GD
 
 
-def read_data(f):
+def read_data(iom):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
-    NB = f.get_number_blocks()
+    parameters = iom.load_parameters()
+    NB = iom.get_number_blocks()
 
     data = []
 
     # For each mother-child spawn try pair
     # TODO: Generalize for mother-child groups
     for b in xrange(0,NB,2):
-        timegrid0 = f.load_energy_timegrid(block=b)
+        timegrid0 = iom.load_energy_timegrid(block=b)
         time0 = timegrid0 * parameters["dt"]
 
         # Load data of original packet
-        energies0m = f.load_energy(block=b, split=True)
+        energies0m = iom.load_energy(block=b, split=True)
 
         # Load data of spawned packet
-        energies0c = f.load_energy(block=b+1, split=True)
+        energies0c = iom.load_energy(block=b+1, split=True)
 
         data.append((time0, energies0m, energies0c))
 

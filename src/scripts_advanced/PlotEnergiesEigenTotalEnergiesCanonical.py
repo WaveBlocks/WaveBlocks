@@ -21,7 +21,7 @@ import GraphicsDefaults as GD
 
 def load_data(iom):
     # Load the data
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     timegrid = iom.load_energy_timegrid()
     times = timegrid * parameters["dt"]

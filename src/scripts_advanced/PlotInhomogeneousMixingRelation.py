@@ -17,15 +17,15 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def load_data(f):
+def read_data_inhomogeneous(iom, blockid=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
-    timegrid = f.load_inhomogwavepacket_timegrid()
+    parameters = iom.load_parameters()
+    timegrid = iom.load_inhomogwavepacket_timegrid(block=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = f.load_inhomogwavepacket_parameters()
+    Pi = iom.load_inhomogwavepacket_parameters(block=blockid)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -39,7 +39,7 @@ def load_data(f):
     return (N, time, Phist, Qhist, Shist, phist, qhist)
 
 
-def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
+def plot_data(blockid, N, timegrid, Phist, Qhist, Shist, phist, qhist):
     # Plot Hagedorn relation (Pbar_k / Qbar_k - P_l / Q_l)
     fig = figure(figsize=(14,14))
 
@@ -58,7 +58,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\Re(\cdot), \Im(\cdot)$")
             ax.set_title(r"$\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}$")
 
-    fig.savefig("wavepacket_parameter_mixing_relation"+GD.output_format)
+    fig.savefig("wavepacket_parameter_mixing_relation_block"+str(blockid)+GD.output_format)
     close(fig)
 
 
@@ -86,7 +86,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\Im(\cdot), \Im(\cdot), \Im(\cdot)-\Im(\cdot)$")
             ax.set_title(r"$\Im\left(\frac{\overline{P_"+str(i)+r"}}{\overline{Q_"+str(i)+r"}} - \frac{P_"+str(j)+r"}{Q_"+str(j)+r"}\right) - \Im\left(\frac{P_"+str(i)+r"}{Q_"+str(i)+r"} - \frac{\overline{P_"+str(j)+r"}}{\overline{Q_"+str(j)+r"}}\right)$")
 
-            fig.savefig("wavepacket_parameter_mixing_exchange"+str(i)+str(j)+GD.output_format)
+            fig.savefig("wavepacket_parameter_mixing_exchange"+str(i)+str(j)+"block"+str(blockid)+GD.output_format)
             close(fig)
 
 
@@ -116,7 +116,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$\frac{\Im(\overline{r_k}q_k - r_l q_l)}{\Im(\overline{r_k}-r_l)}$")
             ax.set_title(r"Mixing of $q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 
-    fig.savefig("wavepacket_parameter_mixing_q"+GD.output_format)
+    fig.savefig("wavepacket_parameter_mixing_q_block"+str(blockid)+GD.output_format)
     close(fig)
 
 
@@ -146,7 +146,7 @@ def plot_data(N, timegrid, Phist, Qhist, Shist, phist, qhist):
             ax.set_ylabel(r"$-\frac{\Im(\overline{r_k}-r_l)}{2}$")
             ax.set_title(r"Mixing of $Q_0$ from $\Pi_"+str(i)+r"$ and $\Pi_"+str(j)+r"$")
 
-    fig.savefig("wavepacket_parameter_mixing_Q"+GD.output_format)
+    fig.savefig("wavepacket_parameter_mixing_Q_block"+str(blockid)+GD.output_format)
     close(fig)
 
 
@@ -159,11 +159,16 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    # Iterate over all blocks
+    for blockid in iom.get_block_ids():
+        print("Plotting mixing relation of data block '"+str(blockid)+"'")
 
-    if parameters["algorithm"] != "multihagedorn":
-        sys.exit("Can only postprocess multihagedorn algorithm data. Silent return ...")
-
-    plot_data(*load_data(iom))
+        # See if we have an inhomogeneous wavepacket in the current data block
+        if iom.has_inhomogwavepacket(block=blockid):
+            data = read_data_inhomogeneous(iom, block=blockid)
+            plot_data(blockid, *data)
+        # There is no wavepacket in the current block
+        else:
+            print("Warning: No wavepacket found in block '"+str(blockid)+"'!")
 
     iom.finalize()

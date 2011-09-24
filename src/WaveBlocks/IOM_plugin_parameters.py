@@ -62,7 +62,7 @@ def load_parameters(self, block="global"):
 
 
 def update_parameters(self, parameters, block="global"):
-    params = self.get_parameters(block=block)
+    params = self.load_parameters(block=block)
     self.delete_parameters(block=block)
     params.update_parameters(parameters)
     self.add_parameters(block=block)

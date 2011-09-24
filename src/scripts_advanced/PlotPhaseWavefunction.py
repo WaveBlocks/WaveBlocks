@@ -24,7 +24,7 @@ def plot_frames(iom, block=0, view=None, imgsize=(12,9)):
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword view: The aspect ratio.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     grid = iom.load_grid(block=block)
     timegrid = iom.load_wavefunction_timegrid(block=block)

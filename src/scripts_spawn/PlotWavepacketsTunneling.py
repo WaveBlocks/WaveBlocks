@@ -23,19 +23,19 @@ from WaveBlocks.Plot import plotcf, stemcf
 import GraphicsDefaults as GD
 
 
-def plot_frames_homogeneous(f, view=None):
+def plot_frames_homogeneous(iom, view=None):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    p = f.get_parameters()
+    p = iom.load_parameters()
 
     # Get the data
-    grid = f.load_grid()
-    timesteps = f.load_wavepacket_timegrid()
+    grid = iom.load_grid()
+    timesteps = iom.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
 
-    params = f.load_wavepacket_parameters()
-    coeffs = f.load_wavepacket_coefficients()
+    params = iom.load_wavepacket_parameters()
+    coeffs = iom.load_wavepacket_coefficients()
 
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
 
@@ -62,19 +62,19 @@ def plot_frames_homogeneous(f, view=None):
     print(" Plotting frames finished")
 
 
-def plot_frames_inhomogeneous(f, view=None):
+def plot_frames_inhomogeneous(iom, view=None):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    p = f.get_parameters()
+    p = iom.load_parameters()
 
     # Get the data
-    grid = f.load_grid()
-    timesteps = f.load_inhomogwavepacket_timegrid()
+    grid = iom.load_grid()
+    timesteps = iom.load_inhomogwavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
 
-    params = f.load_inhomogwavepacket_parameters()
-    coeffs = f.load_inhomogwavepacket_coefficients()
+    params = iom.load_inhomogwavepacket_parameters()
+    coeffs = iom.load_inhomogwavepacket_coefficients()
 
     params = [ [ params[j][i,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p.ncomponents) ] for i in xrange(nrtimesteps)]
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # The values where to split the position axis and the coefficients
     X0 = 0

@@ -26,7 +26,7 @@ def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, p
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
     @keyword plotabssqr: Whether to plot the absolute value squared.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     grid = iom.load_grid(block=block)
     timegrid = iom.load_wavefunction_timegrid(block=block)
