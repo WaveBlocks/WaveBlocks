@@ -22,17 +22,27 @@ class IOManager:
     """
 
     def __init__(self):
-        self.parameters = None
+        self.prefixb = "datablock_"
+
+        # The current open data file
         self.srf = None
-        self.block_ids= []
-        self.block_autonumber = 0
+
+        # The current global simulation parameters
+        self.parameters = None
+
+        # Book keeping data
+        # todo: consider storing these values inside the data files
+        self.block_ids= None
+        self.block_count = None
+        self.block_autonumber = None
 
 
     def __str__(self):
         if self.srf is None:
             s = "IOManager instance without an open file."
         else:
-            s = "IOManager instance with open file " + str(self.srf.filename)
+            s = "IOManager instance with open file " + str(self.srf.filename) + "\n"
+            s += " containing " + str(self.block_count) + " data blocks"
         return s
 
 
@@ -62,24 +72,26 @@ class IOManager:
         for k, v in plugin.__dict__.iteritems():
             if type(v) == types.FunctionType:
                 self.__dict__[k] = types.MethodType(v, self)
-        
+
         # Now return the new function to complete it's call
         return self.__dict__[key]
-    
-    
+
+
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
         """Set up a new I{IOManager} instance. The output files are created and opened.
         """
-        self.block_ids= []
+        # Initialize the internal book keeping data
+        self.block_ids = []
+        self.block_count = 0
         self.block_autonumber = 0
 
-        #: Keep a reference to the parameters
+        # Keep a reference to the parameters
         self.parameters = parameters
 
         # Create the file if it does not yet exist.
         # Otherwise raise an exception and avoid overwriting data.
         if os.path.lexists(filename):
-            raise IOError("Output file already exists!")        
+            raise IOError("Output file already exists!")
         else:
             f = self.srf = hdf.File(filename)
             f.attrs["number_blocks"] = 0
@@ -94,13 +106,16 @@ class IOManager:
         """Load a given file that contains the results from a former simulation.
         @keyword filename: The filename/path of the file we try to load.
         """
-        self.block_ids= []
-        self.block_autonumber = 0
-
+        # Try to open the file
         if os.path.lexists(filename):
             self.srf = hdf.File(filename)
         else:
             raise ValueError("Output file does not exist!")
+
+        # Initialize the internal book keeping data
+        self.block_ids = [ s[len(self.prefixb):] for s in self.srf.keys() if s.startswith(self.prefixb) ]
+        self.block_count = len(self.block_ids)
+        self.block_autonumber = max([ int(s) for s in self.block_ids if s.isdigit() ]) + 1
 
         # Load the simulation parameters from data block 0.
         self.parameters = self.load_parameters(block="global")
@@ -109,24 +124,43 @@ class IOManager:
     def finalize(self):
         """Close the open output files."""
         self.srf.close()
+        # Reset book keeping data
+        self.srf = None
+        self.parameters = None
+        self.block_ids= None
+        self.block_count = None
+        self.block_autonumber = None
 
 
     def get_number_blocks(self):
         """Return the number of data blocks the data file currently consists of.
         """
-        return self.srf.attrs["number_blocks"]
+        return self.block_count
+
+
+    def get_block_ids(self):
+        """Return a copy of the list containing all block ids.
+        """
+        return self.block_ids[:]
 
 
     def create_block(self, blockid=None):
-        # Create a data block. Each data block can store several chunks
-        # of information, and there may be multiple blocks per file.
+        """Create a data block with the specified block id. Each data block can
+        store several chunks of information, and there can be an arbitrary number
+        of data blocks per file.
+        @param blockid: The id for the new data block. If not given the blockid
+        will be choosen automatically. The block id has to be unique.
+        """
+        if blockid in self.block_ids:
+            raise ValueError("Invalid or already used blockid: " + str(blockid))
+
         if blockid is None:
             blockid = self.block_autonumber
             self.block_autonumber += 1
 
         self.block_ids.append(blockid)
-        self.srf.create_group("datablock_" + str(blockid))
-        self.srf.attrs["number_blocks"] += 1
+        self.block_count += 1
+        self.srf.create_group(self.prefixb + str(blockid))
 
 
     def must_resize(self, path, slot, axis=0):
@@ -134,7 +168,7 @@ class IOManager:
         """
         # Ok, it's inefficient but sufficient for now.
         # todo: Consider resizing in bigger chunks and shrinking at the end if necessary.
-        
+
         # Current size of the array
         cur_len = self.srf[path].shape[axis]
 
@@ -155,7 +189,7 @@ class IOManager:
 
         if index.shape == (0,):
             raise ValueError("No data for given timestep!")
-        
+
         return index
 
 
@@ -172,5 +206,5 @@ class IOManager:
     # Shortcut functions to IOM_plugin_parameters
     # Just for backward compatibility
     def get_parameters(self):
-        print(" Depreceated get_parameters call at an IOManager instance!")        
+        print(" Depreceated get_parameters call at an IOManager instance!")
         return self.load_parameters(block="global")
