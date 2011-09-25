@@ -137,8 +137,13 @@ class ParameterProvider:
         with new parameters. The values will be deep-copied. No
         old values will remain.
         """
-        if isinstance(params, ParameterProvider):
-            params = params.get_parameters()
+        if not isinstance(params, dict):
+            try:
+                params = params.get_parameters()
+            except:
+                raise TypeError("Wrong data type for set_parameters.")
+
+        assert type(params) == dict
 
         self.params = deepcopy(params)
         # Compute some values on top of the given input parameters
