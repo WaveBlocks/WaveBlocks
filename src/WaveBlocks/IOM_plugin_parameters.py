@@ -39,7 +39,7 @@ def has_parameters(self, blockid="global"):
 def save_parameters(self, parameters, blockid="global"):
     """Save the norm of wavefunctions or wavepackets.
     """
-    paset = self._srf[self._prefixb+str(blockid)+"/simulation_parameters"]
+    paset = self._srf["/"+self._prefixb+str(blockid)+"/simulation_parameters"]
 
     for param, value in parameters:
         # Store all the values as pickled strings because hdf can
@@ -50,13 +50,14 @@ def save_parameters(self, parameters, blockid="global"):
 def load_parameters(self, blockid="global"):
     """Load the simulation parameters.
     """
-    p = self._srf[self._prefixb+str(blockid)+"/simulation_parameters"].attrs
+    p = self._srf["/"+self._prefixb+str(blockid)+"/simulation_parameters"].attrs
     PP = ParameterProvider.ParameterProvider()
 
     for key, value in p.iteritems():
         PP[key] = pickle.loads(value)
-        # Compute some values on top of the given input parameters
-        PP.compute_parameters()
+
+    # Compute some values on top of the given input parameters
+    PP.compute_parameters()
 
     return PP
 
