@@ -13,23 +13,23 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
 
 
-def compute_energy(iom, block=0):
+def compute_energy(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
 
     # Number of time steps we saved
-    timesteps = iom.load_wavefunction_timegrid(block=block)
+    timesteps = iom.load_wavefunction_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     # Retrieve simulation data
-    nodes = iom.load_grid(block=block)
-    opT, opV = iom.load_fourieroperators(block=block)
+    nodes = iom.load_grid(blockid=blockid)
+    opT, opV = iom.load_fourieroperators(blockid=blockid)
 
     # We want to save norms, thus add a data slot to the data file
-    iom.add_energy(parameters, timeslots=nrtimesteps, block=block)
+    iom.add_energy(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Precalculate eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
@@ -42,7 +42,7 @@ def compute_energy(iom, block=0):
     for i, step in enumerate(timesteps):
         print(" Computing energies of timestep # " + str(step))
 
-        values = iom.load_wavefunction(timestep=step, block=block)
+        values = iom.load_wavefunction(timestep=step, blockid=blockid)
         values = [ values[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Project wavefunction values to eigenbasis
@@ -67,4 +67,4 @@ def compute_energy(iom, block=0):
             ekinlist.append(WF.kinetic_energy(opT, summed=True))
             epotlist.append(WF.potential_energy(opV, summed=True))
 
-        iom.save_energy((ekinlist, epotlist), timestep=step, block=block)
+        iom.save_energy((ekinlist, epotlist), timestep=step, blockid=blockid)

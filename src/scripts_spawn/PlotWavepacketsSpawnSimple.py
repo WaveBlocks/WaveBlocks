@@ -33,26 +33,26 @@ def plot_frames_homogeneous(iom, plotphase=False, plotcomponents=False, plotabss
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
 
-    timegrid_m = iom.load_wavefunction_timegrid(block=0)
-    timegrid_s = iom.load_wavefunction_timegrid(block=1)
+    timegrid_m = iom.load_wavefunction_timegrid(blockid=0)
+    timegrid_s = iom.load_wavefunction_timegrid(blockid=1)
 
     for step in timegrid_m:
         print(" Timestep # " + str(step))
 
         # Retrieve spawn data for both packets
         try:
-            wave_m = iom.load_wavefunction(timestep=step, block=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=0)
             values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_m = squeeze(iom.load_wavepacket_coefficients(timestep=step, block=0))
+            coeffs_m = squeeze(iom.load_wavepacket_coefficients(timestep=step, blockid=0))
             have_mother_data = True
         except ValueError:
             have_mother_data = False
 
         # Retrieve spawn data
         try:
-            wave_s = iom.load_wavefunction(timestep=step, block=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=1)
             values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_s = squeeze(iom.load_wavepacket_coefficients(timestep=step, block=1))
+            coeffs_s = squeeze(iom.load_wavepacket_coefficients(timestep=step, blockid=1))
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False

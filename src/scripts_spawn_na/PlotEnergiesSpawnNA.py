@@ -31,14 +31,14 @@ def read_data(iom):
     # For each mother-child spawn try pair
     # TODO: Generalize for mother-child groups
     for b in xrange(0,NB,2):
-        timegrid0 = iom.load_energy_timegrid(block=b)
+        timegrid0 = iom.load_energy_timegrid(blockid=b)
         time0 = timegrid0 * parameters["dt"]
 
         # Load data of original packet
-        energies0m = iom.load_energy(block=b, split=True)
+        energies0m = iom.load_energy(blockid=b, split=True)
 
         # Load data of spawned packet
-        energies0c = iom.load_energy(block=b+1, split=True)
+        energies0c = iom.load_energy(blockid=b+1, split=True)
 
         data.append((time0, energies0m, energies0c))
 

@@ -44,7 +44,7 @@ def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr
 
         # Retrieve spawn data for both packets
         try:
-            wave_m = iom.load_wavefunction(timestep=step, block=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=0)
             values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_mother_data = True
         except ValueError:
@@ -52,7 +52,7 @@ def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr
 
         # Retrieve spawn data
         try:
-            wave_s = iom.load_wavefunction(timestep=step, block=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=1)
             values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_spawn_data = True
         except ValueError:
@@ -134,7 +134,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
 
         # Retrieve spawn data for both packets and split the data as necessary
         try:
-            wave_m = iom.load_wavefunction(timestep=step, block=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=0)
             values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             yl = values_m[0][grid<=X0]
             yr = values_m[0][grid>X0]
@@ -144,7 +144,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
 
         # Retrieve spawn data
         try:
-            wave_s = iom.load_wavefunction(timestep=step, block=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=1)
             values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             ysl = values_s[0][grid<=X0]
             ysr = values_s[0][grid>X0]

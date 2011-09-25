@@ -39,13 +39,13 @@ def read_data(data_o, data_s):
     # For each mother-child spawn try pair
     # TODO: Generalize for mother-child groups
     for b in xrange(0,data_s.get_number_blocks(),2):
-        timegrid0 = data_s.load_energy_timegrid(block=b)
+        timegrid0 = data_s.load_energy_timegrid(blockid=b)
         time0 = timegrid0 * parameters_s["dt"]
 
         # Load data of original packet
-        energies0m = data_s.load_energy(block=b, split=True)
+        energies0m = data_s.load_energy(blockid=b, split=True)
         # Load data of spawned packet
-        energies0c = data_s.load_energy(block=b+1, split=True)
+        energies0c = data_s.load_energy(blockid=b+1, split=True)
 
         data.append((timegrid0, time0, energies0m, energies0c))
 

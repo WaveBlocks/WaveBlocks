@@ -23,22 +23,22 @@ def read_all_datablocks(iom):
     """
     # Iterate over all blocks and plot their data
     for blockid in iom.get_block_ids():
-        if iom.has_energy(block=blockid):
-            plot_energies(read_data(iom, block=blockid), index=blockid)
+        if iom.has_energy(blockid=blockid):
+            plot_energies(read_data(iom, blockid=blockid), index=blockid)
         else:
             print("Warning: Not plotting energies in block '"+str(blockid)+"'!")
 
 
-def read_data(iom, block=0):
+def read_data(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
-    timegrid = iom.load_energy_timegrid(block=block)
+    timegrid = iom.load_energy_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    ekin, epot = iom.load_energy(block=block, split=True)
+    ekin, epot = iom.load_energy(blockid=blockid, split=True)
 
     # Compute the sum of all energies
     ekinsum = reduce(lambda x,y: x+y, ekin)

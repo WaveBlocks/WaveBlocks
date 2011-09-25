@@ -22,30 +22,30 @@ class IOManager:
     """
 
     def __init__(self):
-        self.prefixb = "datablock_"
-        self.prefixg = "group_"
+        self._prefixb = "datablock_"
+        self._prefixg = "group_"
 
         # The current open data file
-        self.srf = None
+        self._srf = None
 
         # The current global simulation parameters
-        self.parameters = None
+        self._parameters = None
 
         # Book keeping data
         # todo: consider storing these values inside the data files
-        self.block_ids= None
-        self.block_count = None
-        self.group_ids = None
-        self.group_count = None
+        self._block_ids = None
+        self._block_count = None
+        self._group_ids = None
+        self._group_count = None
 
 
     def __str__(self):
-        if self.srf is None:
+        if self._srf is None:
             s = "IOManager instance without an open file."
         else:
-            s = "IOManager instance with open file " + str(self.srf.filename) + "\n"
-            s += " containing " + str(self.block_count) + " data blocks in "
-            s += str(self.group_count) + " data groups."
+            s = "IOManager instance with open file " + str(self._srf.filename) + "\n"
+            s += " containing " + str(self._block_count) + " data blocks in "
+            s += str(self._group_count) + " data groups."
         return s
 
 
@@ -92,22 +92,22 @@ class IOManager:
         if os.path.lexists(filename):
             raise IOError("Output file '"+str(filename)+"' already exists!")
         else:
-            self.srf = hdf.File(filename)
+            self._srf = hdf.File(filename)
 
         # Initialize the internal book keeping data
-        self.block_ids = []
-        self.block_count = 0
-        self.group_ids = []
-        self.group_count = 0
+        self._block_ids = []
+        self._block_count = 0
+        self._group_ids = []
+        self._group_count = 0
 
         # Keep a reference to the parameters
-        self.parameters = parameters
+        self._parameters = parameters
 
         # Save the simulation parameters
         self.create_group(groupid="global")
         self.create_block(blockid="global", groupid="global")
-        self.add_parameters(block="global")
-        self.save_parameters(parameters, block="global")
+        self.add_parameters(blockid="global")
+        self.save_parameters(parameters, blockid="global")
 
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
@@ -118,61 +118,91 @@ class IOManager:
         # Try to open the file or raise an exception if it does not exist.
         if os.path.lexists(filename):
             if hdf.is_hdf5(filename):
-                self.srf = hdf.File(filename)
+                self._srf = hdf.File(filename)
             else:
                 raise IOError("File '"+str(filename)+"' is not a hdf5 file")
         else:
             raise IOError("File '"+str(filename)+"' does not exist!")
 
         # Initialize the internal book keeping data
-        self.block_ids = [ s[len(self.prefixb):] for s in self.srf.keys() if s.startswith(self.prefixb) ]
-        self.block_count = len(self.block_ids)
+        self._block_ids = [ s[len(self._prefixb):] for s in self._srf.keys() if s.startswith(self._prefixb) ]
+        self._block_count = len(self._block_ids)
 
-        self.group_ids = [ s[len(self.prefixg):] for s in self.srf.keys() if s.startswith(self.prefixg) ]
-        self.group_count = len(self.group_ids)
+        self._group_ids = [ s[len(self._prefixg):] for s in self._srf.keys() if s.startswith(self._prefixg) ]
+        self._group_count = len(self._group_ids)
 
         # Load the simulation parameters from data block 0.
-        self.parameters = self.load_parameters(block="global")
+        self._parameters = self.load_parameters(blockid="global")
 
 
     def finalize(self):
-        """Close the open output files."""
-        if self.srf is None:
+        """Close the open output file and reset the internal information."""
+        if self._srf is None:
             return
 
         # Close the file
-        self.srf.close()
-        self.srf = None
+        self._srf.close()
+        self._srf = None
         # Reset book keeping data
-        self.parameters = None
-        self.block_ids= None
-        self.block_count = None
-        self.group_ids = None
-        self.group_count = None
+        self._parameters = None
+        self._block_ids= None
+        self._block_count = None
+        self._group_ids = None
+        self._group_count = None
 
 
-    def get_number_blocks(self):
-        """Return the number of data blocks the data file currently consists of.
+    def get_number_blocks(self, groupid=None):
+        """Return the number of data blocks in the current file structure.
+        @keyword groupid: An optional group ID, if given we count only data blocks
+        which are a member of this group. If it is I{None} we count all data blocks.
         """
-        return self.block_count
+        if groupid is None:
+            return self._block_count
+        else:
+            return len(self.get_blocks_in_group(groupid))
 
 
     def get_number_groups(self):
-        """Return the number of groups in the data file.
+        """Return the number of block groups in the current file structure.
         """
-        return self.group_count
+        return self._group_count
 
 
-    def get_block_ids(self):
-        """Return a copy of the list containing all block ids.
+    def get_block_ids(self, groupid=None, grouped=False):
+        """Return a list containing a set of block IDs.
+        @keyword groupid: An optional group ID, if given we return only block IDs
+        for blocks which are a member of this group. If it is I{None} we return
+        all block IDs.
+        @keyword grouped: If I{True} we group the block IDs by their group
+        into lists. This option is only relevant in case the I{groupid} is not given.
         """
-        return self.block_ids[:]
+        if grouid is not None:
+            if str(groupid) in self._group_ids:
+                return self._srf["/"+self._prefixg+str(groupid)].keys()
+            else:
+                return []
+        else:
+            if grouped is False:
+                return self._block_ids[:]
+            else:
+                return [ self._srf["/"+self._prefixg+str(gid)].keys() for gid in self.get_group_ids() ]
 
 
     def get_group_ids(self):
-        """Return a copy of the list containing all group ids.
+        """Return a list containing the IDs for all groups in the current file structure.
         """
-        return self.group_ids[:]
+        return self._group_ids[:]
+
+
+    def get_group_of_block(self, blockid):
+        """Return the ID of the group a given block belongs to or I{None}
+        if there is no such data block.
+        @param blockid: The ID of the given block.
+        """
+        if str(blockid) in self._block_ids:
+            return self._srf["/"+self._prefixb+str(blockid)].attrs["group"]
+        else:
+            return None
 
 
     def create_block(self, blockid=None, groupid="global"):
@@ -182,35 +212,35 @@ class IOManager:
         @param blockid: The id for the new data block. If not given the blockid
         will be choosen automatically. The block id has to be unique.
         """
-        if self.srf is None:
+        if self._srf is None:
             return
 
         if blockid is not None and (not str(blockid).isalnum() or str(blockid)[0].isdigit()):
             raise ValueError("Block ID allows only characters A-Z, a-z and 0-9 and no leading digit.")
 
-        if blockid is not None and str(blockid) in self.block_ids:
+        if blockid is not None and str(blockid) in self._block_ids:
             raise ValueError("Invalid or already used block ID: " + str(blockid))
 
         if blockid is None:
             # Try to find a valid autonumber
             autonumber = 0
-            while str(autonumber) in self.block_ids:
+            while str(autonumber) in self._block_ids:
                 autonumber += 1
             blockid = str(autonumber)
 
-        self.block_ids.append(str(blockid))
-        self.block_count += 1
+        self._block_ids.append(str(blockid))
+        self._block_count += 1
 
         # Create the data block
-        self.srf.create_group("/"+self.prefixb + str(blockid))
+        self._srf.create_group("/"+self._prefixb + str(blockid))
 
         # Does the group already exist?
-        if not str(groupid) in self.group_ids:
+        if not str(groupid) in self._group_ids:
             self.create_group(groupid=groupid)
 
         # Put the data block into the group
-        self.srf["/"+self.prefixb+str(blockid)].attrs["group"] = str(groupid)
-        self.srf["/"+self.prefixg+str(groupid)+"/"+str(blockid)] = hdf.SoftLink("/"+self.prefixb+str(blockid))
+        self._srf["/"+self._prefixb+str(blockid)].attrs["group"] = str(groupid)
+        self._srf["/"+self._prefixg+str(groupid)+"/"+str(blockid)] = hdf.SoftLink("/"+self._prefixb+str(blockid))
 
 
     def create_group(self, groupid=None):
@@ -220,26 +250,26 @@ class IOManager:
         @param blockid: The id for the new data block. If not given the blockid
         will be choosen automatically. The block id has to be unique.
         """
-        if self.srf is None:
+        if self._srf is None:
             return
 
         if groupid is not None and (not str(groupid).isalnum() or str(groupid)[0].isdigit()):
             raise ValueError("Group ID allows only characters A-Z, a-z and 0-9 and no leading digit.")
 
-        if groupid is not None and str(groupid) in self.group_ids:
+        if groupid is not None and str(groupid) in self._group_ids:
             raise ValueError("Invalid or already used group ID: " + str(groupid))
 
         if groupid is None:
             # Try to find a valid autonumber
             autonumber = 0
-            while str(autonumber) in self.group_ids:
+            while str(autonumber) in self._group_ids:
                 autonumber += 1
             groupid = str(autonumber)
 
-        self.group_ids.append(str(groupid))
-        self.group_count += 1
+        self._group_ids.append(str(groupid))
+        self._group_count += 1
         # Create the group
-        self.srf.create_group("/"+self.prefixg + str(groupid))
+        self._srf.create_group("/"+self._prefixg + str(groupid))
 
 
     def must_resize(self, path, slot, axis=0):
@@ -249,12 +279,12 @@ class IOManager:
         # todo: Consider resizing in bigger chunks and shrinking at the end if necessary.
 
         # Current size of the array
-        cur_len = self.srf[path].shape[axis]
+        cur_len = self._srf[path].shape[axis]
 
         # Is it smaller than what we need to store at slot "slot"?
         # If yes, then resize the array along the given axis.
         if cur_len-1 < slot:
-            self.srf[path].resize(slot+1, axis=axis)
+            self._srf[path].resize(slot+1, axis=axis)
 
 
     def find_timestep_index(self, timegridpath, timestep):
@@ -263,7 +293,7 @@ class IOManager:
         """
         # todo: Make this more efficient
         # todo: allow for slicing etc
-        timegrid = self.srf[timegridpath]
+        timegrid = self._srf[timegridpath]
         index = np.squeeze(np.where(timegrid[:] == timestep))
 
         if index.shape == (0,):

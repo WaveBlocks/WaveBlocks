@@ -45,7 +45,7 @@ def plot_frames(data_o, data_s, view=None):
         values_s = []
         try:
             for blocknr in xrange(data_s.get_number_blocks()):
-                wave = data_s.load_wavefunction(timestep=step, block=blocknr)
+                wave = data_s.load_wavefunction(timestep=step, blockid=blocknr)
                 values_s.append( [ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ] )
 
             have_spawn_data = True

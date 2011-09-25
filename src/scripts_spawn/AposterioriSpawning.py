@@ -67,8 +67,8 @@ def aposteriori_spawning(fin, fout, pin, pout):
             fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
             fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
 
-            fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
-            fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
+            fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, blockid=1)
+            fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, blockid=1)
 
 
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     iomout.add_grid_reference()
 
     iomout.add_wavepacket(parametersin)
-    iomout.add_wavepacket(parametersout, block=1)
+    iomout.add_wavepacket(parametersout, blockid=1)
 
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)

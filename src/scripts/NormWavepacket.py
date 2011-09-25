@@ -11,28 +11,28 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
 
 
-def compute_norm(iom, block=0):
+def compute_norm(iom, blockid=0):
     """Compute the norm of a wavepacket timeseries.
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
 
     # Number of time steps we saved
-    timesteps = iom.load_wavepacket_timegrid(block=block)
+    timesteps = iom.load_wavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    params = iom.load_wavepacket_parameters(block=block)
-    coeffs = iom.load_wavepacket_coefficients(block=block)
+    params = iom.load_wavepacket_parameters(blockid=blockid)
+    coeffs = iom.load_wavepacket_coefficients(blockid=blockid)
 
     # A data transformation needed by API specification
     coeffs = [ [ coeffs[i,j,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps)]
 
     # We want to save norms, thus add a data slot to the data file
-    iom.add_norm(parameters, timeslots=nrtimesteps, block=block)
+    iom.add_norm(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Hack for allowing data blocks with different basis size than the global one
     # todo: remove when we got local parameter sets
@@ -55,4 +55,4 @@ def compute_norm(iom, block=0):
         norm = HAWP.get_norm()
 
         # Save the norms
-        iom.save_norm(norm, timestep=step, block=block)
+        iom.save_norm(norm, timestep=step, blockid=blockid)

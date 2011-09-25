@@ -10,10 +10,10 @@ IOM plugin providing functions for handling wavefunction data.
 import numpy as np
 
 
-def add_wavefunction(self, parameters, timeslots=None, block=0):
+def add_wavefunction(self, parameters, timeslots=None, blockid=0):
     """Add storage for the sampled wavefunction.
     """
-    grp_wf = self.srf["datablock_"+str(block)].require_group("wavefunction")
+    grp_wf = self._srf[self._prefixb+str(blockid)].require_group("wavefunction")
 
     # Create the dataset with appropriate parameters
     if timeslots is None:
@@ -28,59 +28,59 @@ def add_wavefunction(self, parameters, timeslots=None, block=0):
         # User specified how much space is necessary.
         daset_psi = grp_wf.create_dataset("Psi", (timeslots, parameters["ncomponents"], parameters["ngn"]), dtype=np.complexfloating)
         daset_psi_tg = grp_wf.create_dataset("timegrid", (timeslots,), dtype=np.integer)
-        
+
     daset_psi_tg.attrs["pointer"] = 0
 
 
-def delete_wavefunction(self, block=0):
+def delete_wavefunction(self, blockid=0):
     """Remove the stored wavefunction.
     """
     try:
-        del self.srf["datablock_"+str(block)+"/wavefunction"]
+        del self._srf[self._prefixb+str(blockid)+"/wavefunction"]
     except KeyError:
         pass
 
 
-def has_wavefunction(self, block=0):
+def has_wavefunction(self, blockid=0):
     """Ask if the specified data block has the desired data tensor.
     """
-    return "wavefunction" in self.srf["datablock_"+str(block)].keys()
+    return "wavefunction" in self._srf[self._prefixb+str(blockid)].keys()
 
 
-def save_wavefunction(self, wavefunctionvalues, block=0, timestep=None):
+def save_wavefunction(self, wavefunctionvalues, blockid=0, timestep=None):
     """Save a I{WaveFunction} instance. The output is suitable for the plotting routines.
     @param wavefunctionvalues: The I{WaveFunction} instance to save.
-    @keyword block: The data block where to store the wavefunction.
+    @keyword blockid: The data block where to store the wavefunction.
     """
     #@refactor: take wavefunction or wavefunction.get_values() as input?
-    pathtg = "/datablock_"+str(block)+"/wavefunction/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavefunction/Psi"
-    timeslot = self.srf[pathtg].attrs["pointer"]
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavefunction/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavefunction/Psi"
+    timeslot = self._srf[pathtg].attrs["pointer"]
 
     # Store the values given
     self.must_resize(pathd, timeslot)
-    
+
     for index, item in enumerate(wavefunctionvalues):
-        self.srf[pathd][timeslot,index,:] = item
-        
+        self._srf[pathd][timeslot,index,:] = item
+
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
-    self.srf[pathtg][timeslot] = timestep
-    
+    self._srf[pathtg][timeslot] = timestep
+
     # Update the pointer
-    self.srf[pathtg].attrs["pointer"] += 1
+    self._srf[pathtg].attrs["pointer"] += 1
 
 
-def load_wavefunction_timegrid(self, block=0):
-    pathtg = "/datablock_"+str(block)+"/wavefunction/timegrid"
-    return self.srf[pathtg][:]
+def load_wavefunction_timegrid(self, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavefunction/timegrid"
+    return self._srf[pathtg][:]
 
 
-def load_wavefunction(self, timestep=None, block=0):
-    pathtg = "/datablock_"+str(block)+"/wavefunction/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavefunction/Psi"
+def load_wavefunction(self, timestep=None, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavefunction/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavefunction/Psi"
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        return self.srf[pathd][index,...]
+        return self._srf[pathd][index,...]
     else:
-        return self.srf[pathd][...]
+        return self._srf[pathd][...]

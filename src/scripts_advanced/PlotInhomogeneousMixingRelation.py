@@ -22,10 +22,10 @@ def read_data_inhomogeneous(iom, blockid=0):
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
-    timegrid = iom.load_inhomogwavepacket_timegrid(block=blockid)
+    timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = iom.load_inhomogwavepacket_parameters(block=blockid)
+    Pi = iom.load_inhomogwavepacket_parameters(blockid=blockid)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -164,8 +164,8 @@ if __name__ == "__main__":
         print("Plotting mixing relation of data block '"+str(blockid)+"'")
 
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=blockid):
-            data = read_data_inhomogeneous(iom, block=blockid)
+        if iom.has_inhomogwavepacket(blockid=blockid):
+            data = read_data_inhomogeneous(iom, blockid=blockid)
             plot_data(blockid, *data)
         # There is no wavepacket in the current block
         else:

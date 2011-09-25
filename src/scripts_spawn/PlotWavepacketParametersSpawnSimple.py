@@ -26,7 +26,7 @@ def read_data_spawn(iom):
     parameters = iom.load_parameters()
 
     timegrid0 = iom.load_wavepacket_timegrid()
-    timegrid1 = iom.load_wavepacket_timegrid(block=1)
+    timegrid1 = iom.load_wavepacket_timegrid(blockid=1)
     time0 = timegrid0 * parameters["dt"]
     time1 = timegrid1 * parameters["dt"]
 
@@ -40,7 +40,7 @@ def read_data_spawn(iom):
 
     AllPA0 = [ Phist0, Qhist0, Shist0, phist0, qhist0 ]
 
-    Pi1 = iom.load_wavepacket_parameters(block=1)
+    Pi1 = iom.load_wavepacket_parameters(blockid=1)
 
     Phist1 = [ Pi1[:,0] ]
     Qhist1 = [ Pi1[:,1] ]

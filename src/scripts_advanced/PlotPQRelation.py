@@ -18,15 +18,15 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_homogeneous(iom, block=0):
+def read_data_homogeneous(iom, blockid=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
-    timegrid = iom.load_wavepacket_timegrid(block=block)
+    timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = iom.load_wavepacket_parameters(block=block)
+    Pi = iom.load_wavepacket_parameters(blockid=blockid)
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -34,15 +34,15 @@ def read_data_homogeneous(iom, block=0):
     return (time, Phist, Qhist)
 
 
-def read_data_inhomogeneous(iom, block=0):
+def read_data_inhomogeneous(iom, blockid=0):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
-    timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
+    timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = iom.load_inhomogwavepacket_parameters(block=block)
+    Pi = iom.load_inhomogwavepacket_parameters(blockid=blockid)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -53,7 +53,7 @@ def read_data_inhomogeneous(iom, block=0):
     return (time, Phist, Qhist)
 
 
-def plot_parameters(block, timegrid, Phist, Qhist):
+def plot_parameters(blockid, timegrid, Phist, Qhist):
     # Plot the time evolution of the parameters P, Q, S, p and q
     fig = figure(figsize=(12,12))
     ax = fig.gca()
@@ -66,7 +66,7 @@ def plot_parameters(block, timegrid, Phist, Qhist):
     ax.set_xlabel(r"Time $t$")
     ax.set_ylabel(r"$| \overline{Q} P - \overline{P} Q - 2i |$")
     ax.set_title(r"Compatibility condition $\overline{Q} P - \overline{P} Q = 2i$")
-    fig.savefig("conjQP-conjPQ_block"+str(block)+GD.output_format)
+    fig.savefig("conjQP-conjPQ_block"+str(blockid)+GD.output_format)
     close(fig)
 
 
@@ -84,12 +84,12 @@ if __name__ == "__main__":
         print("Plotting PQ relation of data block '"+str(blockid)+"'")
 
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=blockid):
-            data = read_data_inhomogeneous(iom, block=blockid)
+        if iom.has_inhomogwavepacket(blockid=blockid):
+            data = read_data_inhomogeneous(iom, blockid=blockid)
             plot_parameters(blockid, *data)
         # If not, we test for a homogeneous wavepacket next
-        elif iom.has_wavepacket(block=blockid):
-            data = read_data_homogeneous(iom, block=blockid)
+        elif iom.has_wavepacket(blockid=blockid):
+            data = read_data_homogeneous(iom, blockid=blockid)
             plot_parameters(blockid, *data)
         # There is no wavepacket in the current block
         else:

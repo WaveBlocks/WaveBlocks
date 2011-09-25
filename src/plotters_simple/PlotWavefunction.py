@@ -18,7 +18,7 @@ from WaveBlocks.Plot import plotcf
 import GraphicsDefaults as GD
 
 
-def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
+def plot_frames(iom, blockid=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword view: The aspect ratio.
@@ -28,8 +28,8 @@ def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, p
     """
     parameters = iom.load_parameters()
 
-    grid = iom.load_grid(block=block)
-    timegrid = iom.load_wavefunction_timegrid(block=block)
+    grid = iom.load_grid(blockid=blockid)
+    timegrid = iom.load_wavefunction_timegrid(blockid=blockid)
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
@@ -38,7 +38,7 @@ def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, p
     for step in timegrid:
         print(" Plotting frame of timestep # " + str(step))
 
-        wave = iom.load_wavefunction(block=block, timestep=step)
+        wave = iom.load_wavefunction(blockid=blockid, timestep=step)
         values = [ wave[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Transform the values to the eigenbasis
@@ -74,7 +74,7 @@ def plot_frames(iom, block=0, view=None, plotphase=True, plotcomponents=False, p
                 ax.set_ylim(view[2:])
 
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavefunction_block"+str(block)+"_"+ (7-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavefunction_block"+str(blockid)+"_"+ (7-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     for blockid in iom.get_block_ids():
         print("Plotting frames of data block '"+str(blockid)+"'")
         # See if we have wavefunction values
-        if iom.has_wavefunction(block=blockid):
-            plot_frames(iom, block=blockid, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
+        if iom.has_wavefunction(blockid=blockid):
+            plot_frames(iom, blockid=blockid, view=view, plotphase=True, plotcomponents=False, plotabssqr=False)
         else:
             print("Warning: Not plotting any wavefunctions in block '"+str(blockid)+"'!")
 

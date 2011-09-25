@@ -126,12 +126,12 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
                     U.project_to_canonical(Potential)
 
                 # Save the mother packet rest
-                fout.save_wavepacket_parameters(T.get_parameters(), timestep=step, block=2*index)
-                fout.save_wavepacket_coefficients(T.get_coefficients(), timestep=step, block=2*index)
+                fout.save_wavepacket_parameters(T.get_parameters(), timestep=step, blockid=2*index)
+                fout.save_wavepacket_coefficients(T.get_coefficients(), timestep=step, blockid=2*index)
 
                 # Save the spawned packet
-                fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, block=2*index+1)
-                fout.save_wavepacket_coefficients(U.get_coefficients(), timestep=step, block=2*index+1)
+                fout.save_wavepacket_parameters(U.get_parameters(), timestep=step, blockid=2*index+1)
+                fout.save_wavepacket_coefficients(U.get_coefficients(), timestep=step, blockid=2*index+1)
 
 
 
@@ -188,10 +188,10 @@ if __name__ == "__main__":
         iomout.add_grid_reference(blockfrom=i, blockto=0)
         if i % 2 == 0:
             # Block for remainder / mother after spawning
-            iomout.add_wavepacket(parametersin, block=i)
+            iomout.add_wavepacket(parametersin, blockid=i)
         else:
             # Block for spawned packet
-            iomout.add_wavepacket(parametersout, block=i)
+            iomout.add_wavepacket(parametersout, blockid=i)
 
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)

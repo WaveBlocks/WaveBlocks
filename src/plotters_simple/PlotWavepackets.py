@@ -21,23 +21,23 @@ from WaveBlocks.Plot import plotcf, stemcf
 import GraphicsDefaults as GD
 
 
-def plot_frames_homogeneous(iom, block=0, view=None):
+def plot_frames_homogeneous(iom, blockid=0, view=None):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 
     # Number of time steps we saved
-    timesteps = iom.load_wavepacket_timegrid(block=block)
+    timesteps = iom.load_wavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     # Initialize a Hagedorn wavepacket with the data
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(block=block)
-    params = iom.load_wavepacket_parameters(block=block)
-    coeffs = iom.load_wavepacket_coefficients(block=block)
+    grid = iom.load_grid(blockid=blockid)
+    params = iom.load_wavepacket_parameters(blockid=blockid)
+    coeffs = iom.load_wavepacket_coefficients(blockid=blockid)
 
     # A data transformation needed by API specification
     coeffs = [ [ coeffs[i,j,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps)]
@@ -61,28 +61,28 @@ def plot_frames_homogeneous(iom, block=0, view=None):
         values = HAWP.evaluate_at(grid, prefactor=True)
         coeffi = HAWP.get_coefficients()
 
-        plot_frame(step, parameters, grid, values, coeffi, index=block, view=view)
+        plot_frame(step, parameters, grid, values, coeffi, index=blockid, view=view)
 
     print(" Plotting frames finished")
 
 
-def plot_frames_inhomogeneous(iom, block=0, view=None):
+def plot_frames_inhomogeneous(iom, blockid=0, view=None):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 
     # Number of time steps we saved
-    timesteps = iom.load_inhomogwavepacket_timegrid(block=block)
+    timesteps = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     # Initialize a Hagedorn wavepacket with the data
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(block=block)
-    params = iom.load_inhomogwavepacket_parameters(block=block)
-    coeffs = iom.load_inhomogwavepacket_coefficients(block=block)
+    grid = iom.load_grid(blockid=blockid)
+    params = iom.load_inhomogwavepacket_parameters(blockid=blockid)
+    coeffs = iom.load_inhomogwavepacket_coefficients(blockid=blockid)
 
     # A data transformation needed by API specification
     params = [ [ params[j][i,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps)]
@@ -107,7 +107,7 @@ def plot_frames_inhomogeneous(iom, block=0, view=None):
         values = HAWP.evaluate_at(grid, prefactor=True)
         coeffi = HAWP.get_coefficients()
 
-        plot_frame(step, parameters, grid, values, coeffi, index=block, view=view)
+        plot_frame(step, parameters, grid, values, coeffi, index=blockid, view=view)
 
     print(" Plotting frames finished")
 
@@ -169,11 +169,11 @@ if __name__ == "__main__":
     for blockid in iom.get_block_ids():
         print("Plotting frames of data block '"+str(blockid)+"'")
         # See if we have an inhomogeneous wavepacket in the current data block
-        if iom.has_inhomogwavepacket(block=blockid):
-            plot_frames_inhomogeneous(iom, block=blockid, view=view)
+        if iom.has_inhomogwavepacket(blockid=blockid):
+            plot_frames_inhomogeneous(iom, blockid=blockid, view=view)
         # If not, we test for a homogeneous wavepacket next
-        elif iom.has_wavepacket(block=blockid):
-            plot_frames_homogeneous(iom, block=blockid, view=view)
+        elif iom.has_wavepacket(blockid=blockid):
+            plot_frames_homogeneous(iom, blockid=blockid, view=view)
         # There is nothing to plot
         else:
             print("Warning: Not plotting any wavepackets in block '"+str(blockid)+"'!")

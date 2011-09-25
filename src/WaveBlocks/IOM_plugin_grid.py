@@ -11,34 +11,34 @@ import numpy as np
 import h5py as hdf
 
 
-def add_grid(self, parameters, block=0):
+def add_grid(self, parameters, blockid=0):
     """Add storage for a grid.
     """
-    self.srf["datablock_"+str(block)].create_dataset("grid", (parameters["dimension"], parameters["ngn"]), np.floating)
+    self._srf[self._prefixb+str(blockid)].create_dataset("grid", (parameters["dimension"], parameters["ngn"]), np.floating)
 
 
-def delete_grid(self, block=0):
+def delete_grid(self, blockid=0):
     """Remove the stored grid.
     """
     try:
-        del self.srf["datablock_"+str(block)+"/grid"]
+        del self._srf[self._prefixb+str(blockid)+"/grid"]
     except KeyError:
         pass
 
 
 def add_grid_reference(self, blockfrom=1, blockto=0):
-    self.srf["datablock_"+str(blockfrom)]["grid"] = hdf.SoftLink("/datablock_"+str(blockto)+"/grid")
+    self._srf[self._prefixb+str(blockfrom)]["grid"] = hdf.SoftLink("/"+self._prefixb+str(blockto)+"/grid")
 
 
-def save_grid(self, grid, block=0):
+def save_grid(self, grid, blockid=0):
     """Save the grid nodes.
     """
-    path = "/datablock_"+str(block)+"/grid"
-    self.srf[path][:] = np.real(grid)
+    path = "/"+self._prefixb+str(blockid)+"/grid"
+    self._srf[path][:] = np.real(grid)
 
 
-def load_grid(self, block=0):
+def load_grid(self, blockid=0):
     """Load the grid nodes.
     """
-    path = "/datablock_"+str(block)+"/grid"
-    return np.squeeze(self.srf[path])
+    path = "/"+self._prefixb+str(blockid)+"/grid"
+    return np.squeeze(self._srf[path])

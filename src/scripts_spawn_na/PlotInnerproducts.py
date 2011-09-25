@@ -41,9 +41,9 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     AllC = []
 
 
-    timegrids.append(parameters_fo["dt"] * fo.load_wavepacket_timegrid(block=0))
+    timegrids.append(parameters_fo["dt"] * fo.load_wavepacket_timegrid(blockid=0))
 
-    Pi = fo.load_wavepacket_parameters(block=0)
+    Pi = fo.load_wavepacket_parameters(blockid=0)
     Phist = Pi[:,0]
     Qhist = Pi[:,1]
     Shist = Pi[:,2]
@@ -51,13 +51,13 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     qhist = Pi[:,4]
     AllPA.append([Phist, Qhist, Shist, phist, qhist])
 
-    Ci = fo.load_wavepacket_coefficients(block=0)
+    Ci = fo.load_wavepacket_coefficients(blockid=0)
     AllC.append(Ci)
 
 
-    timegrids.append(parameters_fs["dt"] * fs.load_wavepacket_timegrid(block=1))
+    timegrids.append(parameters_fs["dt"] * fs.load_wavepacket_timegrid(blockid=1))
 
-    Pi = fs.load_wavepacket_parameters(block=1)
+    Pi = fs.load_wavepacket_parameters(blockid=1)
     Phist = Pi[:,0]
     Qhist = Pi[:,1]
     Shist = Pi[:,2]
@@ -65,7 +65,7 @@ def read_data_spawn(fo, fs, assume_duplicate_mother=False):
     qhist = Pi[:,4]
     AllPA.append([Phist, Qhist, Shist, phist, qhist])
 
-    Ci = fs.load_wavepacket_coefficients(block=1)
+    Ci = fs.load_wavepacket_coefficients(blockid=1)
     AllC.append(Ci)
 
     return parameters_fo, parameters_fs, timegrids, AllPA, AllC

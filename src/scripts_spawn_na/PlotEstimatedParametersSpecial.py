@@ -39,9 +39,9 @@ def read_data_spawn(iom, assume_duplicate_mother=False):
 
     # Load the data from each block
     for block in blocks:
-        timegrids.append(parameters["dt"] * iom.load_wavepacket_timegrid(block=block))
+        timegrids.append(parameters["dt"] * iom.load_wavepacket_timegrid(blockid=block))
 
-        Pi = iom.load_wavepacket_parameters(block=block)
+        Pi = iom.load_wavepacket_parameters(blockid=block)
         Phist = Pi[:,0]
         Qhist = Pi[:,1]
         Shist = Pi[:,2]

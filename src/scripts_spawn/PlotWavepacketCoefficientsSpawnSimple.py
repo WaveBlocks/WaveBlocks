@@ -25,7 +25,7 @@ def read_data_spawn(iom):
     parameters = iom.load_parameters()
 
     timegrid0 = iom.load_wavepacket_timegrid()
-    timegrid1 = iom.load_wavepacket_timegrid(block=1)
+    timegrid1 = iom.load_wavepacket_timegrid(blockid=1)
     time0 = timegrid0 * parameters["dt"]
     time1 = timegrid1 * parameters["dt"]
 
@@ -34,7 +34,7 @@ def read_data_spawn(iom):
     for i in xrange(parameters["ncomponents"]):
         coeffs0.append(squeeze(C0[:,i,:]))
 
-    C1 = iom.load_wavepacket_coefficients(block=1)
+    C1 = iom.load_wavepacket_coefficients(blockid=1)
     coeffs1 = []
     for i in xrange(parameters["ncomponents"]):
         coeffs1.append(squeeze(C1[:,i,:]))
