@@ -176,7 +176,7 @@ class IOManager:
         @keyword grouped: If I{True} we group the block IDs by their group
         into lists. This option is only relevant in case the I{groupid} is not given.
         """
-        if grouid is not None:
+        if groupid is not None:
             if str(groupid) in self._group_ids:
                 return self._srf["/"+self._prefixg+str(groupid)].keys()
             else:
