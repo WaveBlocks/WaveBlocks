@@ -32,6 +32,11 @@ cos_waves = {}
 cos_waves["potential"] = "alpha * (1 - cos(beta*x))"
 cos_waves["defaults"] = {"alpha":0.07, "beta":1.0}
 
+#: The Morse potential
+morse = {}
+morse["potential"] = "D * (1 - exp(-a*(x-o)))**2"
+morse["defaults"] = {"D":3.0, "a":0.3, "o":0.0}
+
 #: A double well potential
 double_well = {}
 double_well["potential"] = "sigma * (x**2 - 1)**2"

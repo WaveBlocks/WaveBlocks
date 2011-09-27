@@ -219,6 +219,22 @@ command line:
 Run this from the top directory to get a fresh local copy of the API documentation.
 This of course needs the \texttt{epydoc} tool to be installed.
 
+\section{Citation}
+
+For the scientific citation of the \texttt{WaveBlocks} project please
+use the following bibtex snippet.
+
+\begin{verbatim}
+@misc{waveblocks,
+    author = {R. Bourquin and V. Gradinaru},
+    title = {{WaveBlocks}: Reusable building blocks for
+             simulations with semiclassical wavepackets},
+    year = {2010, 2011},
+    url = {\url{http://waveblocks.origo.ethz.ch}},
+    howpublished={\url{http://waveblocks.origo.ethz.ch}}
+}
+\end{verbatim}
+
 
 \chapter{Using \texttt{WaveBlocks} for performing simulations}
 
@@ -588,6 +604,25 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   \begin{center}
     \includegraphics[scale=0.25]{./fig/eckart.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
+  Name:    \texttt{morse}
+  \begin{equation*}
+    V\ofs{x} = \left(\begin{smallmatrix}D \left(1 - \exp\left(-a\left(x-o\right)\right)\right)^2\end{smallmatrix}\right)
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    D &= 3.0 \\
+    a &= 0.3 \\
+    o &= 0.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/morse.pdf}
   \end{center}
 \end{minipage}
 
