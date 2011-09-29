@@ -12,6 +12,11 @@ code. To load the potentials, use the I{PotentialFactory}.
 # Potentials with one energy level
 ##################################
 
+#: Free particle
+free_particle = {}
+free_particle["potential"] = "c"
+free_particle["defaults"] = {"c":0.0}
+
 #: Simple harmonic potential
 quadratic = {}
 quadratic["potential"] = "1/2 * sigma * x**2"
@@ -19,8 +24,8 @@ quadratic["defaults"] = {"sigma":"1/2"}
 
 #: Perturbed harmonic potential
 pert_quadratic = {}
-pert_quadratic["potential"] = "1/2 * sigma * x**2 + 1/2 * eps**2 * x**2"
-pert_quadratic["defaults"] = {"sigma":0.05}
+pert_quadratic["potential"] = "1/2 * sigma * x**2 + 1/2 * delta**2 * x**2"
+pert_quadratic["defaults"] = {"sigma":0.05, "delta":0.2}
 
 #: A simple fourth order anharmonic potential
 quartic = {}
@@ -29,8 +34,8 @@ quartic["defaults"] = {"sigma":0.05}
 
 #: A potential consisting of a cosine wave
 cos_waves = {}
-cos_waves["potential"] = "alpha * (1 - cos(beta*x))"
-cos_waves["defaults"] = {"alpha":0.07, "beta":1.0}
+cos_waves["potential"] = "alpha * (1 - cos(xi*x))"
+cos_waves["defaults"] = {"alpha":0.07, "xi":1.0}
 
 #: The Morse potential
 morse = {}
@@ -54,7 +59,8 @@ wall["defaults"] = {"sigma":10.0}
 
 #: A narrow 'V'-like potential
 v_shape = {}
-v_shape["potential"] = "1/2 * sqrt(9/16 * eps**2 + tanh(x)**2)"
+v_shape["potential"] = "1/2 * sqrt(tanh(x)**2+4*delta**2)"
+v_shape["defaults"] = {"delta":0.2}
 
 
 # Potentials with two energy levels

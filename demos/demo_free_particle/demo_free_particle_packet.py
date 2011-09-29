@@ -1,7 +1,6 @@
 algorithm = "hagedorn"
 
-potential = {}
-potential["potential"] = "1"
+potential = "free_particle"
 
 T = 6.5
 dt = 0.01
@@ -20,5 +19,7 @@ S = 0.0
 
 parameters = [ (P, Q, S, 0.0, 0.0) ]
 coefficients = [[(0, 1.0)]]
+
+matrix_exponential = "pade"
 
 write_nth = 2

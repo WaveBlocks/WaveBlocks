@@ -20,4 +20,6 @@ S = 0.0
 parameters = [ (P, Q, S, 0.0, 1.0) ]
 coefficients = [[(0, 1.0)]]
 
+matrix_exponential = "pade"
+
 write_nth = 2

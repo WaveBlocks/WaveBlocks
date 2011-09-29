@@ -558,12 +558,12 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{cos\_waves}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\alpha \left(1 - \operatorname{cos}\left(\beta x\right)\right)\end{smallmatrix}\right)
+    V\ofs{x} = \alpha \left(1 - \operatorname{cos}\left(\xi x\right)\right)
   \end{equation*}
   Defaults:
   \begin{align*}
     \alpha &= 0.07 \\
-    \beta &= 1.0
+    \xi &= 1.0
   \end{align*}
 \end{minipage}
 \begin{minipage}{0.5\linewidth}
@@ -576,7 +576,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{double\_well}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\sigma \left(1 - x^{2}\right)^{2}\end{smallmatrix}\right)
+    V\ofs{x} = \sigma \left(1 - x^{2}\right)^{2}
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -593,7 +593,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{eckart}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{\sigma}{\operatorname{cosh}^{2}\left(\frac{x}{a}\right)}\end{smallmatrix}\right)
+    V\ofs{x} = \frac{\sigma}{\operatorname{cosh}^{2}\left(\frac{x}{a}\right)}
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -609,9 +609,26 @@ also shown.
 
 
 \begin{minipage}{0.5\linewidth}
+  Name:    \texttt{free\_particle}
+  \begin{equation*}
+    V\ofs{x} = c
+  \end{equation*}
+  Defaults:
+  \begin{align*}
+    c &= 0.0
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+  \begin{center}
+    \includegraphics[scale=0.25]{./fig/free_particle.pdf}
+  \end{center}
+\end{minipage}
+
+
+\begin{minipage}{0.5\linewidth}
   Name:    \texttt{morse}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}D \left(1 - \exp\left(-a\left(x-o\right)\right)\right)^2\end{smallmatrix}\right)
+    V\ofs{x} = D \left(1 - \exp\left(-a\left(x-o\right)\right)\right)^2
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -630,7 +647,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{pert\_quadratic}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2} + \frac{1}{2} eps^{2} x^{2}\end{smallmatrix}\right)
+    V\ofs{x} = \frac{1}{2} \sigma x^{2} + \frac{1}{2} eps^{2} x^{2}
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -647,7 +664,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{quadratic}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sigma x^{2}\end{smallmatrix}\right)
+    V\ofs{x} = \frac{1}{2} \sigma x^{2}
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -664,7 +681,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{quartic}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{4} \sigma x^{4}\end{smallmatrix}\right)
+    V\ofs{x} = \frac{1}{4} \sigma x^{4}
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -681,8 +698,12 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{v\_shape}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \sqrt{\operatorname{tanh}^{2}\left(x\right) + \frac{9}{16} eps^{2}}\end{smallmatrix}\right)
+    V\ofs{x} = \frac{1}{2} \sqrt{\operatorname{tanh}^{2}\left(x\right) + 4 \delta^{2}}
   \end{equation*}
+  Defaults:
+  \begin{align*}
+    \delta & = 0.2
+  \end{align*}
 \end{minipage}
 \begin{minipage}{0.5\linewidth}
   \begin{center}
@@ -694,7 +715,7 @@ also shown.
 \begin{minipage}{0.5\linewidth}
   Name:    \texttt{wall}
   \begin{equation*}
-    V\ofs{x} = \left(\begin{smallmatrix}\frac{1}{2} \pi + \operatorname{atan}\left(\sigma x\right)\end{smallmatrix}\right)
+    V\ofs{x} = \frac{1}{2} \pi + \operatorname{atan}\left(\sigma x\right)
   \end{equation*}
   Defaults:
   \begin{align*}
@@ -1057,7 +1078,7 @@ script. Just make sure there is no variable name clash.
   \begin{itemize}
     \item Possible values: \texttt{"pade"}, \texttt{"arnoldi"}
     \item Data type: string
-    \item Default value: \texttt{"pade"}
+    \item Default value: \texttt{"arnoldi"}
   \end{itemize}
 
   \item[\texttt{arnoldi\_steps}] The number of arnoldi steps performed. Use this together with

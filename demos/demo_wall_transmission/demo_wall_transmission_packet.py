@@ -20,4 +20,6 @@ ngn = 4096
 basis_size = 64
 leading_component = 0
 
+matrix_exponential = "pade"
+
 write_nth = 2

@@ -22,4 +22,6 @@ f = 2.0
 basis_size = 64
 leading_component = 0
 
+matrix_exponential = "pade"
+
 write_nth = 2

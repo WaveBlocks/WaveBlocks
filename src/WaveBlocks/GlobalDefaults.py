@@ -27,7 +27,7 @@ kvp_rdel = "]"
 # Defaults for some simulation configuration parameters
 
 # Matrix exponential algorithm
-matrix_exponential = "pade"
+matrix_exponential = "arnoldi"
 arnoldi_steps = 20
 
 # Default values about when to save the results
