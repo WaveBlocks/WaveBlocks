@@ -22,6 +22,7 @@ class IOManager:
     """
 
     def __init__(self):
+        self._hdf_file_version = 2
         self._prefixb = "datablock_"
         self._prefixg = "group_"
 
@@ -103,6 +104,9 @@ class IOManager:
         # Keep a reference to the parameters
         self._parameters = parameters
 
+        # The version of the current file format
+        self._srf.attrs["file_version"] = self._hdf_file_version
+
         # Save the simulation parameters
         self.create_group(groupid="global")
         self.create_block(blockid="global", groupid="global")
@@ -123,6 +127,13 @@ class IOManager:
                 raise IOError("File '"+str(filename)+"' is not a hdf5 file")
         else:
             raise IOError("File '"+str(filename)+"' does not exist!")
+
+        # Check if the file format can be read by the IOManager
+        if not "file_version" in self._srf.attrs.keys():
+            raise IOError("Unsupported file format without version number")
+
+        if self._srf.attrs["file_version"] != self._hdf_file_version:
+            raise IOError("Unsupported file format version " + str(self._srf.attrs["file_version"]))
 
         # Initialize the internal book keeping data
         self._block_ids = [ s[len(self._prefixb):] for s in self._srf.keys() if s.startswith(self._prefixb) ]
