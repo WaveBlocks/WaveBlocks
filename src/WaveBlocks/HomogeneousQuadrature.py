@@ -61,34 +61,29 @@ class HomogeneousQuadrature(Quadrature):
         N = packet.get_number_components()
         K = packet.get_basis_size()
 
-        # Operator is None is interpreted as identity transformation
         if operator is None:
-            values = []
-            for row in xrange(N):
-                for col in xrange(N):
-                    if row == col:
-                        values.append(ones(nodes.shape))
-                    else:
-                        values.append(zeros(nodes.shape))
+            # Operator is None is interpreted as identity transformation
+            operator = lambda nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
+            values = [ operator(nodes, component=(r,c)) for r in xrange(N) for c in xrange(N) ]
         else:
             values = operator(nodes)
 
         coeffs = packet.get_coefficients()
 
         result = []
-        for i in xrange(N):
-            for j in xrange(N):
-                M = zeros((K[i],K[j]), dtype=complexfloating)
-                factor = squeeze(packet.eps * weights * values[i*N + j])
+        for row in xrange(N):
+            for col in xrange(N):
+                M = zeros((K[row],K[col]), dtype=complexfloating)
+                factor = squeeze(packet.eps * weights * values[row*N + col])
 
                 # Summing up matrices over all quadrature nodes
                 for r in xrange(self.QR.get_number_nodes()):
-                    M += factor[r] * outer(conjugate(basis[:K[i],r]), basis[:K[j],r])
+                    M += factor[r] * outer(conjugate(basis[:K[row],r]), basis[:K[col],r])
 
                 # And include the coefficients as conj(c)*M*c
-                result.append(dot(conjugate(coeffs[i]).T, dot(M,coeffs[j])))
+                result.append(dot(conjugate(coeffs[row]).T, dot(M,coeffs[col])))
 
-        # Todo: improve to avoid unnecessary computations of other components
+        # TODO: improve to avoid unnecessary computations of other components
         if component is not None:
             result = result[component]
         elif diag_component is not None:
@@ -114,31 +109,26 @@ class HomogeneousQuadrature(Quadrature):
         # The partition scheme of the block vectors and block matrix
         partition = [0] + list(cumsum(K))
 
-        # Operator is None is interpreted as identity transformation
         if operator is None:
-            values = []
-            for row in xrange(N):
-                for col in xrange(N):
-                    if row == col:
-                        values.append(ones(nodes.shape))
-                    else:
-                        values.append(zeros(nodes.shape))
+            # Operator is None is interpreted as identity transformation
+            operator = lambda nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
+            values = [ operator(nodes, component=(r,c)) for r in xrange(N) for c in xrange(N) ]
         else:
             # TODO: operator should be only f(nodes)
             values = operator(packet.q, nodes)
 
         result = zeros((sum(K),sum(K)), dtype=complexfloating)
 
-        for i in xrange(N):
-            for j in xrange(N):
-                M = zeros((K[i],K[j]), dtype=complexfloating)
-                factor = squeeze(packet.eps * weights * values[i*N + j])
+        for row in xrange(N):
+            for col in xrange(N):
+                M = zeros((K[row],K[col]), dtype=complexfloating)
+                factor = squeeze(packet.eps * weights * values[row*N + col])
 
-                # Summing up matrices over all quadrature nodes
-                # And remember to slice the evaluated basis appropriately
+                # Sum up matrices over all quadrature nodes and
+                # remember to slice the evaluated basis appropriately
                 for r in xrange(self.QR.get_number_nodes()):
-                    M += factor[r] * outer(conjugate(basis[:K[i],r]), basis[:K[j],r])
+                    M += factor[r] * outer(conjugate(basis[:K[row],r]), basis[:K[col],r])
 
-                result[partition[i]:partition[i+1], partition[j]:partition[j+1]] = M
+                result[partition[row]:partition[row+1], partition[col]:partition[col+1]] = M
 
         return result
