@@ -61,6 +61,8 @@ class HomogeneousQuadrature(Quadrature):
         N = packet.get_number_components()
         K = packet.get_basis_size()
 
+        coeffs = packet.get_coefficients()
+
         if operator is None:
             # Operator is None is interpreted as identity transformation
             operator = lambda nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
@@ -68,13 +70,24 @@ class HomogeneousQuadrature(Quadrature):
         else:
             values = operator(nodes)
 
-        coeffs = packet.get_coefficients()
+        # Avoid unnecessary computations of other components
+        if component is not None:
+            rows = [ component // N ]
+            cols = [ component % N ]
+        elif diag_component is not None:
+            rows = [ diag_component ]
+            cols = [ diag_component ]
+        else:
+            rows = xrange(N)
+            cols = xrange(N)
 
+        # Compute the quadrature
         result = []
-        for row in xrange(N):
-            for col in xrange(N):
-                M = zeros((K[row],K[col]), dtype=complexfloating)
+        for row in rows:
+            for col in cols:
                 factor = squeeze(packet.eps * weights * values[row*N + col])
+
+                M = zeros((K[row],K[col]), dtype=complexfloating)
 
                 # Summing up matrices over all quadrature nodes
                 for r in xrange(self.QR.get_number_nodes()):
@@ -83,13 +96,10 @@ class HomogeneousQuadrature(Quadrature):
                 # And include the coefficients as conj(c)*M*c
                 result.append(dot(conjugate(coeffs[row]).T, dot(M,coeffs[col])))
 
-        # TODO: improve to avoid unnecessary computations of other components
-        if component is not None:
-            result = result[component]
-        elif diag_component is not None:
-            result = result[diag_component*N + diag_component]
-        elif summed is True:
+        if summed is True:
             result = sum(result)
+        elif len(result) == 1:
+            result = result[0]
 
         return result
 
@@ -98,7 +108,7 @@ class HomogeneousQuadrature(Quadrature):
         """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
         @param packet: The wavepacket $|\Psi>$.
         @param operator: A function with two arguments $f:(q, x) -> \mathbb{R}$.
-        @return: A square matrix of size $N*K \times N*K$.
+        @return: A square matrix of size $\sum_i K_i \times \sum_j K_j$.
         """
         nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()
@@ -121,8 +131,9 @@ class HomogeneousQuadrature(Quadrature):
 
         for row in xrange(N):
             for col in xrange(N):
-                M = zeros((K[row],K[col]), dtype=complexfloating)
                 factor = squeeze(packet.eps * weights * values[row*N + col])
+
+                M = zeros((K[row],K[col]), dtype=complexfloating)
 
                 # Sum up matrices over all quadrature nodes and
                 # remember to slice the evaluated basis appropriately
