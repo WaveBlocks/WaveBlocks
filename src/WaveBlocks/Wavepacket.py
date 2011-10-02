@@ -74,6 +74,9 @@ class Wavepacket:
         """
         if component is not None:
             # Check for valid input basis size
+            if not component in range(self.number_components):
+                raise ValueError("Invalid component index " + str(component))
+
             if basis_size < 1:
                 raise ValueError("Basis size has to be a positive integer.")
 

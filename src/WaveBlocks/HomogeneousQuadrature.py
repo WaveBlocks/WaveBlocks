@@ -9,8 +9,7 @@ values and compute the $F$ matrix.
 @license: Modified BSD License
 """
 
-from numpy import zeros, complexfloating, sum, matrix, squeeze, ones
-from scipy import conj, dot
+from numpy import zeros, ones, complexfloating, sum, cumsum, squeeze, conjugate, dot, outer
 
 from Quadrature import Quadrature
 
@@ -79,16 +78,15 @@ class HomogeneousQuadrature(Quadrature):
         result = []
         for i in xrange(N):
             for j in xrange(N):
-                M = zeros((K,K), dtype=complexfloating)
+                M = zeros((K[i],K[j]), dtype=complexfloating)
                 factor = squeeze(packet.eps * weights * values[i*N + j])
 
                 # Summing up matrices over all quadrature nodes
-                for k in xrange(self.QR.get_number_nodes()):
-                    tmp = matrix(basis[:,k])
-                    M += factor[k] * tmp.H * tmp
+                for r in xrange(self.QR.get_number_nodes()):
+                    M += factor[r] * outer(conjugate(basis[:K[i],r]), basis[:K[j],r])
 
                 # And include the coefficients as conj(c)*M*c
-                result.append(dot(conj(coeffs[i]).T, dot(M,coeffs[j])))
+                result.append(dot(conjugate(coeffs[i]).T, dot(M,coeffs[j])))
 
         # Todo: improve to avoid unnecessary computations of other components
         if component is not None:
@@ -113,6 +111,8 @@ class HomogeneousQuadrature(Quadrature):
 
         N = packet.get_number_components()
         K = packet.get_basis_size()
+        # The partition scheme of the block vectors and block matrix
+        partition = [0] + list(cumsum(K))
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
@@ -124,21 +124,21 @@ class HomogeneousQuadrature(Quadrature):
                     else:
                         values.append(zeros(nodes.shape))
         else:
-            # Todo: operator should be only f(nodes)
+            # TODO: operator should be only f(nodes)
             values = operator(packet.q, nodes)
 
-        result = zeros((N*K,N*K), dtype=complexfloating)
+        result = zeros((sum(K),sum(K)), dtype=complexfloating)
 
         for i in xrange(N):
             for j in xrange(N):
-                M = zeros((K,K), dtype=complexfloating)
+                M = zeros((K[i],K[j]), dtype=complexfloating)
                 factor = squeeze(packet.eps * weights * values[i*N + j])
 
                 # Summing up matrices over all quadrature nodes
-                for k in xrange(self.QR.get_number_nodes()):
-                    tmp = matrix(basis[:,k])
-                    M += factor[k] * tmp.H * tmp
+                # And remember to slice the evaluated basis appropriately
+                for r in xrange(self.QR.get_number_nodes()):
+                    M += factor[r] * outer(conjugate(basis[:K[i],r]), basis[:K[j],r])
 
-                result[i*K:(i+1)*K, j*K:(j+1)*K] = M
+                result[partition[i]:partition[i+1], partition[j]:partition[j+1]] = M
 
         return result
