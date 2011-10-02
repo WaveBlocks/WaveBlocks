@@ -17,6 +17,7 @@ from Wavepacket import Wavepacket
 from HomogeneousQuadrature import HomogeneousQuadrature
 import GlobalDefaults as GD
 
+
 class HagedornWavepacket(Wavepacket):
     """This class represents homogeneous vector valued wavepackets $\Ket{\Psi}$.
     """
@@ -30,7 +31,7 @@ class HagedornWavepacket(Wavepacket):
         self.number_components = parameters["ncomponents"]
 
         if self.number_components < 1:
-            raise ValueError("Number of components of the hagedorn wavepacket has to be >= 1.")
+            raise ValueError("Number of components of the Hagedorn wavepacket has to be >= 1.")
 
         # Size of the basis from which we construct the wavepacket.
         # If there is a key "basis_size" in the input parameters, the corresponding
@@ -49,7 +50,7 @@ class HagedornWavepacket(Wavepacket):
             self.basis_size = self.number_components * [ GD.default_basis_size ]
 
         if any([bs < 2 for bs in self.basis_size]):
-            raise ValueError("Number of basis fucntions for hagedorn wavepacket has to be >= 2.")
+            raise ValueError("Number of basis fucntions for Hagedorn wavepacket has to be >= 2.")
 
         # Cache the parameter values epsilon we will use over and over again.
         self.eps = parameters["eps"]

@@ -15,6 +15,7 @@ from scipy.linalg import norm
 from ComplexMath import cont_sqrt
 from Wavepacket import Wavepacket
 from InhomogeneousQuadrature import InhomogeneousQuadrature
+import GlobalDefaults as GD
 
 
 class HagedornWavepacketInhomogeneous(Wavepacket):
@@ -29,23 +30,37 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         #: Number of components $\Phi_i$ the wavepacket $\Ket{\Psi}$ has got.
         self.number_components = parameters["ncomponents"]
 
-        #: Size of the basis from which we construct the wavepacket.
-        self.basis_size = parameters["basis_size"]
-
         if self.number_components < 1:
-            raise ValueError("Number of components of the hagedorn wavepacket has to be >= 1.")
+            raise ValueError("Number of components of the Hagedorn wavepacket has to be >= 1.")
 
-        if self.basis_size < 2:
-            raise ValueError("Number of basis fucntions for hagedorn wavepacket has to be >= 2.")
+        # Size of the basis from which we construct the wavepacket.
+        # If there is a key "basis_size" in the input parameters, the corresponding
+        # value can be either a single int or a list of ints. If there is no such key
+        # we use the values from the global defaults.
+        if parameters.has_key("basis_size"):
+            bs = parameters["basis_size"]
+            if type(bs) is list or type(bs) is tuple:
+                if not len(bs) == self.number_components:
+                    raise ValueError("Number of value(s) for basis size(s) does not match.")
+
+                self.basis_size = bs[:]
+            else:
+                self.basis_size = self.number_components * [ bs ]
+        else:
+            self.basis_size = self.number_components * [ GD.default_basis_size ]
+
+        if any([bs < 2 for bs in self.basis_size]):
+            raise ValueError("Number of basis fucntions for Hagedorn wavepacket has to be >= 2.")
 
         # Cache the parameter values epsilon we will use over and over again.
         self.eps = parameters["eps"]
 
-        #: Data structure that contains the Hagedorn parameters $\Pi_i$ of each component $\Phi_i$.
-        self.parameters = [ [] for i in xrange(self.number_components) ]
+        #: Data structure that contains the Hagedorn parameter sets $\Pi_i$ of each component $\Phi_i$.
+        #: The parameter values are initialized to the Harmonic Oscillator Eigenfunctions
+        self.parameters = [ GD.default_Pi for i in xrange(self.number_components) ]
 
         #: The coefficients $c^i$ of the linear combination for each component $\Phi_i$.
-        self.coefficients = [ zeros((self.basis_size,1), dtype=complexfloating) for index in xrange(self.number_components) ]
+        self.coefficients = [ zeros((self.basis_size[index],1), dtype=complexfloating) for index in xrange(self.number_components) ]
 
         #: An object that can compute brakets via quadrature.
         self.quadrature = None
@@ -56,19 +71,19 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
     def __str__(self):
         """@return: A string describing the Hagedorn wavepacket.
         """
-        s =  "Inhomogeneous Hagedorn wave packet for "+str(self.number_components)+" states\n"
+        s =  "Inhomogeneous Hagedorn wavepacket with "+str(self.number_components)+" components\n"
         return s
 
 
     def clone(self):
         # Parameters of this packet
         params = {"ncomponents": self.number_components,
-                  "basis_size":  self.basis_size,
                   "eps":         self.eps}
 
         # Create a new Packet
         other = HagedornWavepacketInhomogeneous(params)
         # And copy over all (private) data
+        other.set_basis_size(self.get_basis_size())
         other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
@@ -107,8 +122,11 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         @param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
         to use a dafault one with a quadrature rule of order $K+4$.
         """
+        # TODO: Put an "extra accuracy" parameter into global defaults with value of 4.
+        # TODO: Improve on the max(basis_size) later
+        # TODO: Rethink if wavepackets should contain a QR
         if quadrature is None:
-            self.quadrature = InhomogeneousQuadrature(order=self.basis_size + 4)
+            self.quadrature = InhomogeneousQuadrature(order=max(self.basis_size) + 4)
         else:
             self.quadrature = quadrature
 
@@ -128,7 +146,7 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         @return: Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value
         of the $k$-th Hagedorn function evaluated at the node $i$.
         """
-        H = zeros((self.basis_size, nodes.size), dtype=complexfloating)
+        H = zeros((self.basis_size[component], nodes.size), dtype=complexfloating)
 
         (P, Q, S, p, q) = self.parameters[component]
         Qinv = Q**(-1.0)
@@ -138,7 +156,7 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         H[0] = pi**(-0.25)*self.eps**(-0.5) * exp(1.0j/self.eps**2 * (0.5*P*Qinv*(nodes-q)**2 + p*(nodes-q)))
         H[1] = Qinv*sqrt(2.0/self.eps**2) * (nodes-q) * H[0]
 
-        for k in xrange(2, self.basis_size):
+        for k in xrange(2, self.basis_size[component]):
             H[k] = Qinv*sqrt(2.0/self.eps**2)*1.0/sqrt(k) * (nodes-q) * H[k-1] - Qinv*Qbar*sqrt((k-1.0)/k) * H[k-2]
 
         if prefactor is True:
@@ -158,24 +176,22 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         """
         nodes = nodes.reshape((1,nodes.size))
 
-        if component is None:
+        if component is not None:
+            # Avoid the expensive evaluation of unused other bases
+            (P, Q, S, p, q) = self.parameters[component]
+
+            basis = self.evaluate_basis_at(nodes, component, prefactor=prefactor)
+            phase = exp(1.0j*S/self.eps**2)
+            values = phase * sum(self.coefficients[component] * basis, axis=0)
+        else:
             values = [ zeros(nodes.shape) for index in xrange(self.number_components) ]
 
             for index in xrange(self.number_components):
                 (P, Q, S, p, q) = self.parameters[index]
 
                 basis = self.evaluate_basis_at(nodes, index, prefactor=prefactor)
-                vals = self.coefficients[index] * basis
                 phase = exp(1.0j*S/self.eps**2)
-                values[index] = phase * sum(vals, axis=0)
-        else:
-            # Avoid the expensive evaluation of unused other bases
-            (P, Q, S, p, q) = self.parameters[component]
-
-            basis = self.evaluate_basis_at(nodes, component, prefactor=prefactor)
-            vals = self.coefficients[component] * basis
-            phase = exp(1.0j*S/self.eps**2)
-            values = phase * sum(vals, axis=0)
+                values[index] = phase * sum(self.coefficients[index] * basis, axis=0)
 
         return values
 
@@ -244,7 +260,7 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         c[k] = c[k] + p*self.coefficients[component][k]
         c[k+1] = c[k+1] + sqrt(k+1)*P*sqrt(self.eps**2*0.5)*self.coefficients[component][k]
 
-        for k in xrange(1,self.basis_size):
+        for k in xrange(1,self.basis_size[component]):
             c[k] = c[k] + p*self.coefficients[component][k]
             c[k+1] = c[k+1] + sqrt(k+1)*P*sqrt(self.eps**2*0.5)*self.coefficients[component][k]
             c[k-1] = c[k-1] + sqrt(k)*conj(P)*sqrt(self.eps**2*0.5)*self.coefficients[component][k]
@@ -339,7 +355,6 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         # The inverse Fourier transformed parameters
         Pi = [ (1.0j*Q, -1.0j*P, S, q, -p) for P,Q,S,p,q in self.parameters ]
         # Compute phase coming from the transformation
-        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
         k = arange(0, self.basis_size).reshape((self.basis_size, 1))
         phases = [ (1.0j)**k * exp(-1.0j*p*q / self.eps**2) for P,Q,S,p,q in self.parameters ]
         # Absorb phase into the coefficients

@@ -77,8 +77,8 @@ class Wavepacket:
             if not component in range(self.number_components):
                 raise ValueError("Invalid component index " + str(component))
 
-            if basis_size < 1:
-                raise ValueError("Basis size has to be a positive integer.")
+            if basis_size < 2:
+                raise ValueError("Basis size has to be a positive integer >=2.")
 
             # Set the new basis size for the given component
             self.basis_size[component] = basis_size
@@ -87,8 +87,8 @@ class Wavepacket:
 
         else:
             # Check for valid input basis size
-            if any([bs < 1 for bs in basis_size]):
-                raise ValueError("Basis size has to be a positive integer.")
+            if any([bs < 2 for bs in basis_size]):
+                raise ValueError("Basis size has to be a positive integer >=2.")
 
             if not len(basis_size) == self.number_components:
                 raise ValueError("Number of value(s) for basis size(s) does not match.")
