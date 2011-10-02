@@ -15,7 +15,7 @@ from scipy.linalg import norm
 from ComplexMath import cont_sqrt
 from Wavepacket import Wavepacket
 from HomogeneousQuadrature import HomogeneousQuadrature
-
+import GlobalDefaults as GD
 
 class HagedornWavepacket(Wavepacket):
     """This class represents homogeneous vector valued wavepackets $\Ket{\Psi}$.
@@ -29,23 +29,23 @@ class HagedornWavepacket(Wavepacket):
         #: Number of components $\Phi_i$ the wavepacket $\Ket{\Psi}$ has got.
         self.number_components = parameters["ncomponents"]
 
-        #: Size of the basis from which we construct the wavepacket.
-        self.basis_size = parameters["basis_size"]
-
         if self.number_components < 1:
             raise ValueError("Number of components of the hagedorn wavepacket has to be >= 1.")
 
-        if self.basis_size < 2:
+        #: Size of the basis from which we construct the wavepacket.
+        self.basis_size = self.number_components * [ GD.default_basis_size ]
+
+        if any([bs < 2 for bs in self.basis_size]):
             raise ValueError("Number of basis fucntions for hagedorn wavepacket has to be >= 2.")
 
         # Cache the parameter values epsilon we will use over and over again.
         self.eps = parameters["eps"]
 
-        #: The parameters initialized to zero
-        self.P, self.Q, self.S, self.p, self.q = 0.0, 0.0, 0.0, 0.0, 0.0
+        #: The parameter set Pi initialized to the Harmonic Oscillator Eigenfunctions
+        self.P, self.Q, self.S, self.p, self.q = GD.default_Pi
 
         #: The coefficients $c^i$ of the linear combination for each component $\Phi_k$.
-        self.coefficients = [ zeros((self.basis_size,1), dtype=complexfloating) for index in xrange(self.number_components) ]
+        self.coefficients = [ zeros((self.basis_size[index],1), dtype=complexfloating) for index in xrange(self.number_components) ]
 
         #: An object that can compute brakets via quadrature.
         self.quadrature = None
@@ -63,12 +63,12 @@ class HagedornWavepacket(Wavepacket):
     def clone(self):
         # Parameters of this packet
         params = {"ncomponents": self.number_components,
-                  "basis_size":  self.basis_size,
                   "eps":         self.eps}
 
         # Create a new Packet
         other = HagedornWavepacket(params)
         # And copy over all (private) data
+        other.set_basis_size(self.get_basis_size())
         other.set_quadrature(self.get_quadrature())
         other.set_parameters(self.get_parameters())
         other.set_coefficients(self.get_coefficients())
@@ -102,8 +102,11 @@ class HagedornWavepacket(Wavepacket):
         @param quadrature: The new I{HomogeneousQuadrature} instance. May be I{None}
         to use a dafault one with a quadrature rule of order $K+4$.
         """
+        # TODO: Put an "extra accuracy" parameter into global defaults with value of 4.
+        # TODO: Improve on the max(basis_size) later
+        # TODO: Rethink if wavepackets should contain a QR
         if quadrature is None:
-            self.quadrature = HomogeneousQuadrature(order=self.basis_size + 4)
+            self.quadrature = HomogeneousQuadrature(order=max(self.basis_size) + 4)
         else:
             self.quadrature = quadrature
 
@@ -123,7 +126,10 @@ class HagedornWavepacket(Wavepacket):
         @return: Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value
         of the $k$-th Hagedorn function evaluated at the node $i$.
         """
-        H = zeros((self.basis_size, nodes.size), dtype=complexfloating)
+        # TODO: Improve on the max(basis_size) later
+        basis_size = max(self.basis_size) if component is None else self.basis_size[component]
+
+        H = zeros((basis_size, nodes.size), dtype=complexfloating)
 
         Qinv = self.Q**(-1.0)
         Qbar = conj(self.Q)
@@ -132,7 +138,7 @@ class HagedornWavepacket(Wavepacket):
         H[0] = pi**(-0.25)*self.eps**(-0.5) * exp(1.0j/self.eps**2 * (0.5*self.P*Qinv*(nodes-self.q)**2 + self.p*(nodes-self.q)))
         H[1] = Qinv*sqrt(2.0/self.eps**2) * (nodes-self.q) * H[0]
 
-        for k in xrange(2, self.basis_size):
+        for k in xrange(2, basis_size):
             H[k] = Qinv*sqrt(2.0/self.eps**2)*1.0/sqrt(k) * (nodes-self.q) * H[k-1] - Qinv*Qbar*sqrt((k-1.0)/k) * H[k-2]
 
         if prefactor is True:
@@ -226,7 +232,7 @@ class HagedornWavepacket(Wavepacket):
         c[k] = c[k] + self.p*self.coefficients[component][k]
         c[k+1] = c[k+1] + sqrt(k+1)*self.P*sqrt(self.eps**2*0.5)*self.coefficients[component][k]
 
-        for k in xrange(1,self.basis_size):
+        for k in xrange(1,self.basis_size[component]):
             c[k] = c[k] + self.p*self.coefficients[component][k]
             c[k+1] = c[k+1] + sqrt(k+1)*self.P*sqrt(self.eps**2*0.5)*self.coefficients[component][k]
             c[k-1] = c[k-1] + sqrt(k)*conj(self.P)*sqrt(self.eps**2*0.5)*self.coefficients[component][k]

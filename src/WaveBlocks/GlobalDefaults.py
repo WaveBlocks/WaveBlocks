@@ -24,6 +24,14 @@ kvp_ldel = "["
 kvp_mdel = "="
 kvp_rdel = "]"
 
+
+# Defaults for some internal initializations
+
+# For creating Hagedorn wavepackets
+default_Pi = [1.0j, 1.0, 0.0, 0.0, 0.0]
+default_basis_size = 8
+
+
 # Defaults for some simulation configuration parameters
 
 # Matrix exponential algorithm
