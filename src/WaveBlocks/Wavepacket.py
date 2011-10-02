@@ -87,6 +87,9 @@ class Wavepacket:
             if any([bs < 1 for bs in basis_size]):
                 raise ValueError("Basis size has to be a positive integer.")
 
+            if not len(basis_size) == self.number_components:
+                raise ValueError("Number of value(s) for basis size(s) does not match.")
+
             # Set the new basis size for all components
             self.basis_size = [ bs for bs in basis_size ]
             # And adapt the coefficient vectors
@@ -149,18 +152,17 @@ class Wavepacket:
         return vstack(self.coefficients)
 
 
-    def set_coefficient_vector(self, vector, partition=None):
+    def set_coefficient_vector(self, vector):
         """Set the coefficients for all components $\Phi_i$ simultaneously.
         @param vector: The coefficients of all components as a single long column vector.
         @note: This function does *NOT* copy the input data! This is for efficiency as this
         routine is used in the innermost loops.
         """
-        # If no partition is given, compute one from the basis sizes
-        if partition is None:
-            partition = cumsum(self.basis_size)
+        # Compute the partition of the block-vector from the basis sizes
+        partition = cumsum(self.basis_size)[:-1]
 
-        # Split the vector with a partition and assign
-        self.coefficients = vsplit(vector, partition[:-1])
+        # Split the block-vector with the given partition and assign
+        self.coefficients = vsplit(vector, partition)
 
 
     def get_parameters(self, component=None, aslist=False):

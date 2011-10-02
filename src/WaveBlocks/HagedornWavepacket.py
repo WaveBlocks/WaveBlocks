@@ -32,8 +32,21 @@ class HagedornWavepacket(Wavepacket):
         if self.number_components < 1:
             raise ValueError("Number of components of the hagedorn wavepacket has to be >= 1.")
 
-        #: Size of the basis from which we construct the wavepacket.
-        self.basis_size = self.number_components * [ GD.default_basis_size ]
+        # Size of the basis from which we construct the wavepacket.
+        # If there is a key "basis_size" in the input parameters, the corresponding
+        # value can be either a single int or a list of ints. If there is no such key
+        # we use the values from the global defaults.
+        if parameters.has_key("basis_size"):
+            bs = parameters["basis_size"]
+            if type(bs) is list or type(bs) is tuple:
+                if not len(bs) == self.number_components:
+                    raise ValueError("Number of value(s) for basis size(s) does not match.")
+
+                self.basis_size = bs[:]
+            else:
+                self.basis_size = self.number_components * [ bs ]
+        else:
+            self.basis_size = self.number_components * [ GD.default_basis_size ]
 
         if any([bs < 2 for bs in self.basis_size]):
             raise ValueError("Number of basis fucntions for hagedorn wavepacket has to be >= 2.")
@@ -56,7 +69,7 @@ class HagedornWavepacket(Wavepacket):
     def __str__(self):
         """@return: A string describing the Hagedorn wavepacket.
         """
-        s =  "Homogeneous Hagedorn wavepacket for "+str(self.number_components)+" energy level(s)\n"
+        s =  "Homogeneous Hagedorn wavepacket with "+str(self.number_components)+" components\n"
         return s
 
 
@@ -121,13 +134,16 @@ class HagedornWavepacket(Wavepacket):
     def evaluate_basis_at(self, nodes, component=None, prefactor=False):
         """Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.
         @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.
-        @keyword component: Dummy parameter for API compatibility with the inhomogeneous packets.
+        @keyword component: Takes the basis size $K_i$ of this component $i$ as upper bound for $K$.
         @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.
-        @return: Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value
-        of the $k$-th Hagedorn function evaluated at the node $i$.
+        @return: Returns a twodimensional $K$ times #nodes array $H$ where the entry $H[k,i]$ is
+        the value of the $k$-th Hagedorn function evaluated at the node $i$.
         """
-        # TODO: Improve on the max(basis_size) later
-        basis_size = max(self.basis_size) if component is None else self.basis_size[component]
+        if component is not None:
+            basis_size = self.basis_size[component]
+        else:
+            # Evaluate up to maximal $K_i$ and slice later if necessary
+            basis_size = max(self.basis_size)
 
         H = zeros((basis_size, nodes.size), dtype=complexfloating)
 
@@ -157,13 +173,14 @@ class HagedornWavepacket(Wavepacket):
         @return: A list of arrays or a single array containing the values of the $\Phi_i$ at the nodes $\gamma$.
         """
         nodes = nodes.reshape((1,nodes.size))
-        basis = self.evaluate_basis_at(nodes, prefactor=prefactor)
-        values = [ self.coefficients[index] * basis for index in xrange(self.number_components) ]
+        basis = self.evaluate_basis_at(nodes, component=component, prefactor=prefactor)
         phase = exp(1.0j*self.S/self.eps**2)
-        values = [ phase * sum(values[index], axis=0) for index in xrange(self.number_components) ]
 
-        if not component is None:
-            values = values[component]
+        if component is not None:
+            values = phase * sum(self.coefficients[component] * basis, axis=0)
+        else:
+            # Remember to slice the basis to the correct basis size for each component
+            values = [ phase * sum(self.coefficients[index] * basis[:self.basis_size[index],:], axis=0) for index in xrange(self.number_components) ]
 
         return values
 
@@ -174,14 +191,14 @@ class HagedornWavepacket(Wavepacket):
         @keyword summed: Whether to sum up the norms of the individual components $\Phi_i$.
         @return: A list containing the norms of all components $\Phi_i$ or the overall norm of $\Psi$.
         """
-        if component is None:
+        if component is not None:
+            result = norm(self.coefficients[component])
+        else:
             result = [ norm(item) for item in self.coefficients ]
 
             if summed is True:
                 result = reduce(lambda x,y: x+conj(y)*y, result, 0)
                 result = sqrt(result)
-        else:
-            result = norm(self.coefficients[component])
 
         return result
 
@@ -221,8 +238,8 @@ class HagedornWavepacket(Wavepacket):
 
 
     def grady(self, component):
-        """Calculate the effect of $ -i \epsilon^2 \frac{\partial}{\partial x}$
-        on a component $\Phi_i$ of the Hagedorn wavepacket $\Psi$.
+        """Compute the effect of the operator $-i \varepsilon^2 \frac{\partial}{\partial x}$ on the basis
+        functions of a component $\Phi_i$ of the Hagedorn wavepacket $\Psi$.
         @keyword component: The index $i$ of the component $\Phi_i$ on which we apply the above operator.
         @return: The modified coefficients.
         """
