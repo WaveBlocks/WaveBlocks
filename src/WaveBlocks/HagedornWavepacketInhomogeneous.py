@@ -330,11 +330,15 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         """
         # The Fourier transformed parameters
         Pihats = [ (1.0j*Q, -1.0j*P, S, -q, p) for P,Q,S,p,q in self.parameters ]
-        # Compute phase coming from the transformation
-        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
-        phases = [ (-1.0j)**k * exp(-1.0j*p*q / self.eps**2) for P,Q,S,p,q in self.parameters ]
-        # Absorb phase into the coefficients
-        coeffshat = [ phase * coeffs for phase, coeffs in zip(phases, self.get_coefficients()) ]
+
+        # The Fourier transformed coefficients
+        coeffshat = []
+        for index in xrange(self.number_components):
+            k = arange(0, self.basis_size[index]).reshape((self.basis_size[index], 1))
+            # Compute phase arising from the transformation
+            phase = (-1.0j)**k * exp(-1.0j*self.parameters[index][3]*self.parameters[index][4] / self.eps**2)
+            # Absorb phase into the coefficients
+            coeffshat.append(phase * self.get_coefficients(component=index))
 
         if assign is True:
             self.set_parameters(Pihats)
@@ -354,11 +358,15 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
         """
         # The inverse Fourier transformed parameters
         Pi = [ (1.0j*Q, -1.0j*P, S, q, -p) for P,Q,S,p,q in self.parameters ]
-        # Compute phase coming from the transformation
-        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
-        phases = [ (1.0j)**k * exp(-1.0j*p*q / self.eps**2) for P,Q,S,p,q in self.parameters ]
-        # Absorb phase into the coefficients
-        coeffs = [ phase * coeffs for phase, coeffs in zip(phases, self.get_coefficients()) ]
+
+        # The inverse Fourier transformed coefficients
+        coeffs = []
+        for index in xrange(self.number_components):
+            k = arange(0, self.basis_size[index]).reshape((self.basis_size[index], 1))
+            # Compute phase arising from the transformation
+            phase = (-1.0j)**k * exp(-1.0j*self.parameters[index][3]*self.parameters[index][4] / self.eps**2)
+            # Absorb phase into the coefficients
+            coeffs.append(phase * self.get_coefficients(component=index))
 
         if assign is True:
             self.set_parameters(Pi)

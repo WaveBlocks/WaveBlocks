@@ -340,11 +340,15 @@ class HagedornWavepacket(Wavepacket):
         """
         # The Fourier transformed parameters
         Pihat = (1.0j*self.Q, -1.0j*self.P, self.S, -self.q, self.p)
-        # Compute phase coming from the transformation
-        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
-        phase = (-1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
-        # Absorb phase into the coefficients
-        coeffshat = [ phase * coeff for coeff in self.get_coefficients() ]
+
+        # The Fourier transformed coefficients
+        coeffshat = []
+        for index in xrange(self.number_components):
+            k = arange(0, self.basis_size[index]).reshape((self.basis_size[index], 1))
+            # Compute phase arising from the transformation
+            phase = (-1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
+            # Absorb phase into the coefficients
+            coeffshat.append(phase * self.get_coefficients(component=index))
 
         if assign is True:
             self.set_parameters(Pihat)
@@ -364,11 +368,15 @@ class HagedornWavepacket(Wavepacket):
         """
         # The inverse Fourier transformed parameters
         Pi = (1.0j*self.Q, -1.0j*self.P, self.S, self.q, -self.p)
-        # Compute phase coming from the transformation
-        k = arange(0, self.basis_size).reshape((self.basis_size, 1))
-        phase = (1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
-        # Absorb phase into the coefficients
-        coeffs = [ phase * coeff for coeff in self.get_coefficients() ]
+
+        # The inverse Fourier transformed coefficients
+        coeffs = []
+        for index in xrange(self.number_components):
+            k = arange(0, self.basis_size[index]).reshape((self.basis_size[index], 1))
+            # Compute phase arising from the transformation
+            phase = (1.0j)**k * exp(-1.0j*self.p*self.q / self.eps**2)
+            # Absorb phase into the coefficients
+            coeffs.append(phase * self.get_coefficients(component=index))
 
         if assign is True:
             self.set_parameters(Pi)
