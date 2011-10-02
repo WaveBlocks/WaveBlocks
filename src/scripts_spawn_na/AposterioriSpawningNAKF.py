@@ -14,6 +14,7 @@ import sys
 import numpy as np
 from scipy import linalg as spla
 
+from WaveBlocks import ParameterLoader
 from WaveBlocks import ParameterProvider
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
@@ -148,8 +149,7 @@ if __name__ == "__main__":
 
     # Read a configuration file with the spawn parameters
     try:
-        parametersspawn = ParameterProvider()
-        parametersspawn.read_parameters(sys.argv[2])
+        parametersspawn = ParameterLoader().load_parameters(sys.argv[2])
     except IndexError:
         raise IOError("No spawn configuration given!")
 

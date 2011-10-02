@@ -14,22 +14,23 @@ import sys
 import numpy as np
 from scipy import linalg as spla
 
-from WaveBlocks import AdiabaticSpawner
+from WaveBlocks import ParameterLoader
+from WaveBlocks import ParameterProvider
 from WaveBlocks import IOManager
 from WaveBlocks import PotentialFactory
 from WaveBlocks import HagedornWavepacket
-from WaveBlocks import ParameterProvider
+from WaveBlocks import AdiabaticSpawner
 
 
 def aposteriori_spawning(fin, fout, pin, pout):
     """
     @param f: An I{IOManager} instance providing the simulation data.
-    @keyword datablock: The data block where the results are.    
-    """    
+    @keyword datablock: The data block where the results are.
+    """
     # Number of time steps we saved
     timesteps = fin.load_wavepacket_timegrid()
     nrtimesteps = timesteps.shape[0]
-        
+
     params = fin.load_wavepacket_parameters()
     coeffs = fin.load_wavepacket_coefficients()
 
@@ -39,7 +40,7 @@ def aposteriori_spawning(fin, fout, pin, pout):
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
     HAWP.set_quadrature(None)
-    
+
     # Initialize an empty wavepacket for spawning
     SWP = HagedornWavepacket(pout)
     SWP.set_quadrature(None)
@@ -66,7 +67,7 @@ def aposteriori_spawning(fin, fout, pin, pout):
             # Save the spawned packet
             fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
             fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
-            
+
             fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
             fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
 
@@ -85,8 +86,7 @@ if __name__ == "__main__":
 
     # Read a configuration file with the spawn parameters
     try:
-        parametersspawn = ParameterProvider()
-        parametersspawn.read_parameters(sys.argv[2])
+        parametersspawn = ParameterLoader().load_parameters(sys.argv[2])
     except IndexError:
         raise IOError("No spawn configuration given!")
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     if parametersin["algorithm"] != "hagedorn":
         iomin.finalize()
         raise ValueError("Unknown propagator algorithm.")
-    
+
     # Parameters for spawning simulation
     parametersout = ParameterProvider()
 
@@ -109,19 +109,19 @@ if __name__ == "__main__":
     # How much time slots do we need
     tm = parametersout.get_timemanager()
     slots = tm.compute_number_saves()
-    
+
     # Second IOM for output data of the spawning simulation
     iomout = IOManager()
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
     iomout.create_block()
 
     iomout.add_grid(parametersout)
-    iomout.save_grid(iomin.load_grid())    
+    iomout.save_grid(iomin.load_grid())
     iomout.add_grid_reference()
 
     iomout.add_wavepacket(parametersin)
     iomout.add_wavepacket(parametersout, block=1)
-    
+
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)
 

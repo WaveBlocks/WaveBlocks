@@ -1,14 +1,14 @@
 """The WaveBlocks Project
 
-Reads configuration files containing the simulation parameters and
-provides these values to the simulation as global singleton.
+A special container data structure to store simulation parameters.
+The structure is similar to a python dict but provides some more
+features like fetching undefined values from a global configuration.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
 @license: Modified BSD License
 """
 
-import types
 from copy import deepcopy
 
 import GlobalDefaults
@@ -64,24 +64,6 @@ class ParameterProvider:
         return self.params.has_key(key)
 
 
-    def get_configuration_variables(self, _scriptcode):
-        """Clean environment for reading in local parameters.
-        @param _scriptcode: String with the configuration code to execute.
-        """
-        # Execute the configuration file, they are plain python files
-        exec(_scriptcode)
-
-        # Filter out private variables (the ones prefixed by "_")
-        # instances like "self" and imported modules.
-        parameters = locals().items()
-
-        parameters = [ item for item in parameters if not type(item[1]) == types.ModuleType ]
-        parameters = [ item for item in parameters if not type(item[1]) == types.InstanceType ]
-        parameters = [ item for item in parameters if not item[0].startswith("_") ]
-
-        return dict(parameters)
-
-
     def compute_parameters(self):
         """Compute some further parameters from the given ones.
         """
@@ -110,26 +92,6 @@ class ParameterProvider:
             self.params["ncomponents"] = Potential.get_number_components()
 
 
-    def read_parameters(self, filepath):
-        """Read the parameters from a configuration file.
-        @param filepath: Path to the configuration file.
-        """
-        # Read the configuration file
-        cf = open(filepath)
-        content = cf.read()
-        cf.close()
-
-        # All the parameters as dict
-        params = self.get_configuration_variables(content)
-
-        # Put the values into the local storage
-        for key, value in params.iteritems():
-            self.params[key] = deepcopy(value)
-
-        # Compute some values on top of the given input parameters
-        self.compute_parameters()
-
-
     def set_parameters(self, params):
         """Overwrite the dict containing all parameters with a
         newly provided dict with (possibly) changed parameters.
@@ -137,8 +99,11 @@ class ParameterProvider:
         with new parameters. The values will be deep-copied. No
         old values will remain.
         """
-        if isinstance(params, ParameterProvider):
-            params = params.get_parameters()
+        if not isinstance(params, dict):
+            try:
+                params = params.get_parameters()
+            except:
+                raise TypeError("Wrong data type for set_parameters.")
 
         self.params = deepcopy(params)
         # Compute some values on top of the given input parameters
@@ -152,8 +117,11 @@ class ParameterProvider:
         with new parameters. The values will be deep-copied. Old
         values are only overwritten if we have got new values.
         """
-        if isinstance(params, ParameterProvider):
-            params = params.get_parameters()
+        if not isinstance(params, dict):
+            try:
+                params = params.get_parameters()
+            except:
+                raise TypeError("Wrong data type for update_parameters.")
 
         for key, value in params.iteritems():
             self.__setitem__(key, value)

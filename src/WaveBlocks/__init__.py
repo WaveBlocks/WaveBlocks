@@ -19,6 +19,7 @@ from HagedornWavepacketInhomogeneous import HagedornWavepacketInhomogeneous
 from WaveFunction import WaveFunction
 
 from ParameterProvider import ParameterProvider
+from ParameterLoader import ParameterLoader
 from TimeManager import TimeManager
 from IOManager import IOManager
 

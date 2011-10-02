@@ -9,7 +9,7 @@ This file is main script for running simulations with WaveBlocks.
 
 import sys
 
-from WaveBlocks import ParameterProvider
+from WaveBlocks import ParameterLoader
 
 
 # Read the path for the configuration file we use for this simulation.
@@ -21,8 +21,7 @@ except IndexError:
 print("Using configuration from file: " + parametersfile)
 
 # Set up the parameter provider singleton
-PA = ParameterProvider()
-PA.read_parameters(parametersfile)
+PA = ParameterLoader().load_parameters(parametersfile)
 
 # Print the parameters that apply for this simulation
 print(PA)

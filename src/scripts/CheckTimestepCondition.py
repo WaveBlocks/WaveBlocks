@@ -10,19 +10,18 @@ simulation parameters violate the timestep condition.
 
 import sys
 
-from WaveBlocks import ParameterProvider
+from WaveBlocks import ParameterLoader
 
 # Read the path for the configuration file we use for this simulation.
 try:
     parametersfile = sys.argv[1]
 except IndexError:
     raise ValueError("No configuration file given")
-    
+
 print("Testing configuration from file: " + parametersfile)
 
 # Set up the parameter singleton and read the parameters
-PA = ParameterProvider()
-PA.read_parameters(parametersfile)
+PA = ParameterLoader().load_parameters(parametersfile)
 
 if not PA["dt"] <= PA["eps"] ** 2:
     print(" The parameters violate the timestep constraint!")
