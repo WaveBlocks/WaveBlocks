@@ -7,7 +7,7 @@ This file contains the basic interface for general wavepackets.
 @license: Modified BSD License
 """
 
-from numpy import vstack, vsplit
+from numpy import vstack, vsplit, cumsum, zeros, complexfloating
 
 
 class Wavepacket:
@@ -30,6 +30,23 @@ class Wavepacket:
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
+    def _resize_coefficient_vector(self, component):
+        """Adapt the coefficient vector for a given component to a new size.
+        """
+        oldsize = self.coefficients[component].shape[0]
+        newsize = self.basis_size[component]
+
+        if oldsize == newsize:
+            return
+        elif oldsize < newsize:
+            # Append some zeros
+            z = zeros((newsize - oldsize, 1), dtype=complexfloating)
+            self.coefficients[component] = vstack([self.coefficients[component], z])
+        elif oldsize > newsize:
+            # Cut off the last part
+            self.coefficients[component] = self.coefficients[component][0:newsize]
+
+
     def clone(self):
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
@@ -40,10 +57,47 @@ class Wavepacket:
         return self.number_components
 
 
-    def get_basis_size(self):
+    def get_basis_size(self, component=None):
         """@return: The size of the basis, i.e. the number $K$ of ${\phi_k}_{k=1}^K$.
         """
-        return self.basis_size
+        if component is not None:
+            return self.basis_size[component]
+        else:
+            return tuple(self.basis_size)
+
+
+    def set_basis_size(self, basis_size, component=None):
+        """Set the size of the basis of a given component or all components.
+        @param basis_size: An single positive integer or a list of $N$ positive integers.
+        @keyword component: The component for which we want to set the basis size.
+        Default is I{None} which means 'all'.
+        """
+        if component is not None:
+            # Check for valid input basis size
+            if not component in range(self.number_components):
+                raise ValueError("Invalid component index " + str(component))
+
+            if basis_size < 2:
+                raise ValueError("Basis size has to be a positive integer >=2.")
+
+            # Set the new basis size for the given component
+            self.basis_size[component] = basis_size
+            # And adapt the coefficient vectors
+            self._resize_coefficient_vector(component)
+
+        else:
+            # Check for valid input basis size
+            if any([bs < 2 for bs in basis_size]):
+                raise ValueError("Basis size has to be a positive integer >=2.")
+
+            if not len(basis_size) == self.number_components:
+                raise ValueError("Number of value(s) for basis size(s) does not match.")
+
+            # Set the new basis size for all components
+            self.basis_size = [ bs for bs in basis_size ]
+            # And adapt the coefficient vectors
+            for index in xrange(self.number_components):
+                self._resize_coefficient_vector(index)
 
 
     def set_coefficients(self, values, component=None):
@@ -60,12 +114,12 @@ class Wavepacket:
                 if index > self.number_components-1:
                     raise ValueError("There is no component with index "+str(index)+".")
 
-                self.coefficients[index] = value.copy().reshape((self.basis_size,1))
+                self.coefficients[index] = value.copy().reshape((self.basis_size[index],1))
         else:
             if component > self.number_components-1:
                 raise ValueError("There is no component with index "+str(component)+".")
 
-            self.coefficients[component] = values.copy().reshape((self.basis_size,1))
+            self.coefficients[component] = values.copy().reshape((self.basis_size[component],1))
 
 
     def set_coefficient(self, component, index, value):
@@ -77,7 +131,7 @@ class Wavepacket:
         """
         if component > self.number_components-1:
             raise ValueError("There is no component with index "+str(component)+".")
-        if index > self.basis_size-1:
+        if index > self.basis_size[component]-1:
             raise ValueError("There is no basis function with index "+str(index)+".")
 
         self.coefficients[component][index] = value
@@ -107,9 +161,11 @@ class Wavepacket:
         @note: This function does *NOT* copy the input data! This is for efficiency as this
         routine is used in the innermost loops.
         """
-        cl = vsplit(vector, self.number_components)
-        for index in xrange(self.number_components):
-            self.coefficients[index] = cl[index]
+        # Compute the partition of the block-vector from the basis sizes
+        partition = cumsum(self.basis_size)[:-1]
+
+        # Split the block-vector with the given partition and assign
+        self.coefficients = vsplit(vector, partition)
 
 
     def get_parameters(self, component=None, aslist=False):

@@ -9,8 +9,8 @@ expectation values and compute the $F$ matrix.
 @license: Modified BSD License
 """
 
-from numpy import zeros, complexfloating, sum, matrix, squeeze, imag, ones
-from scipy import sqrt, exp, conj, dot
+from numpy import zeros, ones, complexfloating, sum, cumsum, squeeze, imag, conjugate, outer, dot
+from scipy import sqrt, exp
 
 from Quadrature import Quadrature
 
@@ -54,7 +54,7 @@ class InhomogeneousQuadrature(Quadrature):
         @param Piket: The parameter set $Pi$ from the ket.
         @return: The mixed parameters $q0$ and $QS$. (See the theory for details.)
         """
-        # <Pibra| ... | Piket>
+        # <Pibra | ... | Piket>
         (Pr, Qr, Sr, pr, qr) = Pibra
         (Pc, Qc, Sc, pc, qc) = Piket
 
@@ -62,8 +62,8 @@ class InhomogeneousQuadrature(Quadrature):
         rr = Pr/Qr
         rc = Pc/Qc
 
-        r = conj(rr)-rc
-        s = conj(rr)*qr - rc*qc
+        r = conjugate(rr)-rc
+        s = conjugate(rr)*qr - rc*qc
 
         q0 = imag(s) / imag(r)
         Q0 = -0.5 * imag(r)
@@ -101,43 +101,49 @@ class InhomogeneousQuadrature(Quadrature):
         coeffbra = pacbra.get_coefficients()
         coeffket = packet.get_coefficients()
 
-        result = []
-
         # Operator is None is interpreted as identity transformation
         if operator is None:
             operator = lambda nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
 
-        for row in xrange(Nbra):
-            for col in xrange(Nket):
+        # Avoid unnecessary computations of other components
+        if component is not None:
+            rows = [ component // Nket ]
+            cols = [ component % Nket ]
+        elif diag_component is not None:
+            rows = [ diag_component ]
+            cols = [ diag_component ]
+        else:
+            rows = xrange(Nbra)
+            cols = xrange(Nket)
+
+        # Compute the quadrature
+        result = []
+        for row in rows:
+            for col in cols:
                 Pimix = self.mix_parameters(Pibra[row], Piket[col])
                 nodes = self.transform_nodes(Pibra[row], Piket[col], eps)
                 # Operator should support the component notation for efficiency
                 values = operator(nodes, component=(row,col))
 
-                phase = exp(1.0j/eps**2 * (Piket[col][2]-conj(Pibra[row][2])))
+                phase = exp(1.0j/eps**2 * (Piket[col][2]-conjugate(Pibra[row][2])))
                 factor = squeeze(eps * values * weights * Pimix[1])
-
-                M = zeros((Kbra,Kket), dtype=complexfloating)
 
                 basisr = pacbra.evaluate_basis_at(nodes, component=row, prefactor=True)
                 basisc = packet.evaluate_basis_at(nodes, component=col, prefactor=True)
 
+                M = zeros((Kbra[row],Kket[col]), dtype=complexfloating)
+
                 # Summing up matrices over all quadrature nodes
-                for k in xrange(self.QR.get_number_nodes()):
-                    tmpr = matrix(basisr[:,k])
-                    tmpc = matrix(basisc[:,k])
-                    M += factor[k] * tmpr.H * tmpc
+                for r in xrange(self.QR.get_number_nodes()):
+                    M += factor[r] * outer(conjugate(basisr[:Kbra[row],r]), basisc[:Kket[col],r])
 
                 # And include the coefficients as conj(c)*M*c
-                result.append(phase * dot(conj(coeffbra[row]).T, dot(M, coeffket[col])))
+                result.append(phase * dot(conjugate(coeffbra[row]).T, dot(M, coeffket[col])))
 
-        # Todo: improve to avoid unnecessary computations of other components
-        if component is not None:
-            result = result[component]
-        elif diag_component is not None:
-            result = result[diag_component*Nket + diag_component]
-        elif summed is True:
+        if summed is True:
             result = sum(result)
+        elif len(result) == 1:
+            result = result[0]
 
         return result
 
@@ -147,7 +153,7 @@ class InhomogeneousQuadrature(Quadrature):
         @param pacbra: The wavepacket $<\Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.
         @param packet: The wavepacket $|\Psi>$ from the ket with $Nket$ components and basis size of $Kket$.
         @param operator: A function with two arguments $f:(q, x) \rightarrow R^{Nbra \times Nket}$.
-        @return: A square matrix of size $Nbra*Kbra \times Nket*Kket$.
+        @return: A square matrix of size $\sum_i Kbra_i \times \sum_j Kket_j$.
         """
         weights = self.QR.get_weights()
 
@@ -157,17 +163,20 @@ class InhomogeneousQuadrature(Quadrature):
         # Packets can also have different basis size
         Kbra = pacbra.get_basis_size()
         Kket = packet.get_basis_size()
+        # The partition scheme of the block vectors and block matrix
+        partitionb = [0] + list(cumsum(Kbra))
+        partitionk = [0] + list(cumsum(Kket))
 
         eps = packet.eps
 
         Pibra = pacbra.get_parameters(aslist=True)
         Piket = packet.get_parameters(aslist=True)
 
-        result = zeros((Nbra*Kbra,Nket*Kket), dtype=complexfloating)
+        result = zeros((sum(Kbra),sum(Kket)), dtype=complexfloating)
 
         # Operator is None is interpreted as identity transformation
         if operator is None:
-            operator = lambda foo, nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
+            operator = lambda void, nodes, component=None: ones(nodes.shape) if component[0] == component[1] else zeros(nodes.shape)
 
         for row in xrange(Nbra):
             for col in xrange(Nket):
@@ -177,20 +186,19 @@ class InhomogeneousQuadrature(Quadrature):
                 # Todo: operator should be only f(nodes)
                 values = operator(Pimix[0], nodes, component=(row,col))
 
-                phase = exp(1.0j/eps**2 * (Piket[col][2]-conj(Pibra[row][2])))
+                phase = exp(1.0j/eps**2 * (Piket[col][2]-conjugate(Pibra[row][2])))
                 factor = squeeze(eps * values * weights * Pimix[1])
-
-                M = zeros((Kbra,Kket), dtype=complexfloating)
 
                 basisr = pacbra.evaluate_basis_at(nodes, component=row, prefactor=True)
                 basisc = packet.evaluate_basis_at(nodes, component=col, prefactor=True)
 
-                # Summing up matrices over all quadrature nodes
-                for k in xrange(self.QR.get_number_nodes()):
-                    tmpr = matrix(basisr[:,k])
-                    tmpc = matrix(basisc[:,k])
-                    M += factor[k] * tmpr.H * tmpc
+                M = zeros((Kbra[row],Kket[col]), dtype=complexfloating)
 
-                result[row*Kbra:(row+1)*Kbra, col*Kket:(col+1)*Kket] = phase * M
+                # Sum up matrices over all quadrature nodes and
+                # remember to slice the evaluated basis appropriately
+                for r in xrange(self.QR.get_number_nodes()):
+                    M += factor[r] * outer(conjugate(basisr[:Kbra[row],r]), basisc[:Kket[col],r])
+
+                result[partitionb[row]:partitionb[row+1], partitionk[col]:partitionk[col+1]] = phase * M
 
         return result

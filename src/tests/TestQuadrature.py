@@ -35,9 +35,9 @@ WP2.set_quadrature(None)
 
 
 HQ1 = HomogeneousQuadrature()
-HQ1.build_qr(WP1.get_basis_size())
+HQ1.build_qr(max(WP1.get_basis_size()))
 HQ2 = HomogeneousQuadrature()
-HQ2.build_qr(WP2.get_basis_size())
+HQ2.build_qr(max(WP2.get_basis_size()))
 
 IHQ = InhomogeneousQuadrature()
 IHQ.build_qr(nmax)
