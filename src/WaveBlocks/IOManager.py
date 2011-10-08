@@ -217,11 +217,12 @@ class IOManager:
 
 
     def create_block(self, blockid=None, groupid="global"):
-        """Create a data block with the specified block id. Each data block can
+        """Create a data block with the specified block ID. Each data block can
         store several chunks of information, and there can be an arbitrary number
         of data blocks per file.
-        @param blockid: The id for the new data block. If not given the blockid
-        will be choosen automatically. The block id has to be unique.
+        @param blockid: The ID for the new data block. If not given the blockid
+        will be choosen automatically. The block ID has to be unique.
+        @return: The block ID of the created block.
         """
         if self._srf is None:
             return
@@ -253,13 +254,16 @@ class IOManager:
         self._srf["/"+self._prefixb+str(blockid)].attrs["group"] = str(groupid)
         self._srf["/"+self._prefixg+str(groupid)+"/"+str(blockid)] = hdf.SoftLink("/"+self._prefixb+str(blockid))
 
+        return blockid
+
 
     def create_group(self, groupid=None):
-        """Create a data block with the specified block id. Each data block can
+        """Create a data block with the specified block ID. Each data block can
         store several chunks of information, and there can be an arbitrary number
         of data blocks per file.
-        @param blockid: The id for the new data block. If not given the blockid
-        will be choosen automatically. The block id has to be unique.
+        @param blockid: The ID for the new data block. If not given the blockid
+        will be choosen automatically. The block ID has to be unique.
+        @return: The group ID of the created group.
         """
         if self._srf is None:
             return
@@ -281,6 +285,8 @@ class IOManager:
         self._group_count += 1
         # Create the group
         self._srf.create_group("/"+self._prefixg + str(groupid))
+
+        return groupid
 
 
     def must_resize(self, path, slot, axis=0):

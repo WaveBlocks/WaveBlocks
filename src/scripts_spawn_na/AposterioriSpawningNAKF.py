@@ -177,21 +177,19 @@ if __name__ == "__main__":
     iomout = IOManager()
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
 
-    # Allocate all the data blocks
-    iomout.create_block()
-    iomout.add_grid(parametersout)
-    iomout.save_grid(iomin.load_grid())
-    iomout.add_wavepacket(parametersin)
+    # Some data in the global data block
+    iomout.add_grid(parametersout, blockid="global")
+    iomout.save_grid(iomin.load_grid(), blockid="global")
 
-    for i in xrange(1,2*len(parametersout["spawn_components"])):
-        iomout.create_block()
-        iomout.add_grid_reference(blockfrom=i, blockto=0)
-        if i % 2 == 0:
-            # Block for remainder / mother after spawning
-            iomout.add_wavepacket(parametersin, blockid=i)
-        else:
-            # Block for spawned packet
-            iomout.add_wavepacket(parametersout, blockid=i)
+    # Allocate all the data blocks
+    for i in xrange(len(parametersout["spawn_components"])):
+        gid = iomout.create_group()
+        bid1 = iomout.create_block(groupid=gid)
+        bid2 = iomout.create_block(groupid=gid)
+        # Block for remainder / mother after spawning
+        iomout.add_wavepacket(parametersin, blockid=bid1)
+        # Block for spawned packet
+        iomout.add_wavepacket(parametersout, blockid=bid2)
 
     # Really do the aposteriori spawning simulation
     aposteriori_spawning(iomin, iomout, parametersin, parametersout)
