@@ -29,7 +29,11 @@ def compute_evaluate_wavepackets(iom, basis="eigen", blockid=0):
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(blockid=blockid)
+    if iom.has_grid(blockid=blockid):
+        grid = iom.load_grid(blockid=blockid)
+    else:
+        grid = iom.load_grid(blockid="global")
+
     params = iom.load_inhomogwavepacket_parameters(blockid=blockid)
     coeffs = iom.load_inhomogwavepacket_coefficients(blockid=blockid)
 

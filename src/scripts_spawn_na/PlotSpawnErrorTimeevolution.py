@@ -18,18 +18,21 @@ from WaveBlocks import WaveFunction
 import GraphicsDefaults as GD
 
 
-def compute_data(data_o, data_s):
+def read_data(iom_o, iom_s, gid, bid_ref=0):
     """Plot the wave function for a series of timesteps.
-    @param data_s: An I{IOManager} instance providing the spawning simulation data.
-    @param data_o: An I{IOManager} instance providing the reference simulation data.
-    @param which_norm: Decide which norm is used to quantify the spawn error, can be 'L2' or 'max'.
+    @param iom_s: An I{IOManager} instance providing the spawning simulation data.
+    @param iom_o: An I{IOManager} instance providing the reference simulation data.
+    @keyword bid_ref: The block ID of the reference data. Default is data block '0'.
     """
-    parameters_o = data_o.load_parameters()
-    parameters_s = data_s.load_parameters()
+    parameters_o = iom_o.load_parameters()
+    parameters_s = iom_s.load_parameters()
 
-    grid_o = data_o.load_grid()
+    # For each mother-child spawn try pair
+    bidm, bidc = iom_s.get_block_ids(groupid=gid)
 
-    timegrid_o = data_o.load_wavefunction_timegrid()
+    # Read original data from first block
+    grid_o = iom_o.load_grid(blockid="global")
+    timegrid_o = iom_o.load_wavefunction_timegrid(blockid=bid_ref)
 
     WF = WaveFunction(parameters_o)
     WF.set_grid(grid_o)
@@ -40,19 +43,23 @@ def compute_data(data_o, data_s):
     for step in timegrid_o:
         print(" Timestep # " + str(step))
 
-        # Retrieve reference data
-        wave_o = data_o.load_wavefunction(timestep=step)
+        # Retrieve original reference data
+        wave_o = iom_o.load_wavefunction(timestep=step, blockid=bid_ref)
         values_o = [ wave_o[j,...] for j in xrange(parameters_o["ncomponents"]) ]
 
-        # Compute absolute values
+        # Compute absolute values, assume the data were stored in the eigenbasis
         values_o = [ sqrt(conj(item)*item) for item in values_o ]
 
-        # Retrieve spawn data for both packets
+        # Retrieve spawn data for mother and child packets
         values_s = []
         try:
-            for blocknr in xrange(data_s.get_number_blocks()):
-                wave = data_s.load_wavefunction(timestep=step, blockid=blocknr)
-                values_s.append( [ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ] )
+            # Load data of original packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidm)
+            values_s.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
+
+            # Load data of spawned packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidc)
+            values_s.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
 
             have_spawn_data = True
         except ValueError:
@@ -62,7 +69,7 @@ def compute_data(data_o, data_s):
             # Sum up the spawned parts
             values_sum = []
             for i in xrange(parameters_o["ncomponents"]):
-                values_sum.append( sqrt(reduce(lambda x,y: x+y, [ conj(item[i])*item[i] for item in values_s ])) )
+                values_sum.append(sqrt(reduce(lambda x,y: x+y, [ conj(item[i])*item[i] for item in values_s ])))
 
             # Compute the difference to the original
             values_diff = [ item_o - item_s for item_o, item_s in zip(values_o, values_sum) ]
@@ -86,7 +93,9 @@ def compute_data(data_o, data_s):
     return (timegrid_o*parameters_o["dt"], array(norms_L2), array(norms_max))
 
 
-def plot_data(timegrid, norms_L2, norms_max):
+def plot_data(gid, data):
+    # Unpack data
+    timegrid, norms_L2, norms_max = data
 
     # Plot the L^2 norm of the spawning error component wise
     fig = figure()
@@ -103,7 +112,7 @@ def plot_data(timegrid, norms_L2, norms_max):
         ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
-    fig.savefig("spawn_error_component_L2norm"+GD.output_format)
+    fig.savefig("spawn_error_component_L2norm_group"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -122,7 +131,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{L^2}$")
-    fig.savefig("spawn_error_sum_L2norm"+GD.output_format)
+    fig.savefig("spawn_error_sum_L2norm"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -141,7 +150,7 @@ def plot_data(timegrid, norms_L2, norms_max):
         ax.set_ylabel(r"$\Phi_"+str(i)+r"$")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
-    fig.savefig("spawn_error_component_maxnorm"+GD.output_format)
+    fig.savefig("spawn_error_component_maxnorm"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -160,7 +169,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
-    fig.savefig("spawn_error_sum_maxnorm"+GD.output_format)
+    fig.savefig("spawn_error_sum_maxnorm"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -183,7 +192,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|$")
-    fig.savefig("spawn_error_component_norms"+GD.output_format)
+    fig.savefig("spawn_error_component_norms"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -204,7 +213,7 @@ def plot_data(timegrid, norms_L2, norms_max):
     ax.legend(loc="upper left")
 
     fig.suptitle(r"$\| |\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 } \|_{max}$")
-    fig.savefig("spawn_error_sum_norms"+GD.output_format)
+    fig.savefig("spawn_error_sum_norms"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -231,7 +240,11 @@ if __name__ == "__main__":
     except IndexError:
         iom_o.open_file()
 
-    plot_data(*compute_data(iom_o, iom_s))
+    gids = iom_s.get_group_ids(exclude=["global"])
+
+    for gid in gids:
+        data = read_data(iom_o, iom_s, gid)
+        plot_data(gid, data)
 
     iom_o.finalize()
     iom_s.finalize()

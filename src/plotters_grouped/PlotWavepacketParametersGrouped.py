@@ -19,49 +19,46 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(iom, assume_duplicate_mother=False):
-    """
-    @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword assume_duplicate_mother: Parameter to tell the code to leave out
-    every second data block and only take blocks [0, 1, 3, 5, 7, ...]. This
-    is usefull because in aposteriori spawning we have to store clones of
-    the mother packet.
-    """
+def read_data(iom, gid):
     parameters = iom.load_parameters()
-    ndb = iom.get_number_blocks()
 
-    timegrids = []
-    AllPA = []
+    data = []
 
-    if assume_duplicate_mother is True:
-        blocks = [0] + range(1, ndb, 2)
-    else:
-        blocks = range(ndb)
+    bids = iom.get_block_ids(groupid=gid)
 
     # Load the data from each block
-    for block in blocks:
-        timegrids.append(parameters["dt"] * iom.load_wavepacket_timegrid(blockid=block))
+    for bid in bids:
+        if not iom.has_wavepacket(blockid=bid):
+            continue
 
-        Pi = iom.load_wavepacket_parameters(blockid=block)
+        timegrid = iom.load_wavepacket_timegrid(blockid=bid)
+        time = timegrid * parameters["dt"]
+
+        Pi = iom.load_wavepacket_parameters(blockid=bid)
         Phist = Pi[:,0]
         Qhist = Pi[:,1]
         Shist = Pi[:,2]
         phist = Pi[:,3]
         qhist = Pi[:,4]
 
-        AllPA.append([Phist, Qhist, Shist, phist, qhist])
+        data.append((time, (Phist, Qhist, Shist, phist, qhist)))
 
-    return timegrids, AllPA
+    return data
 
 
-def plot_parameters_spawn(timegrids, AllPA):
+def plot_parameters(gid, data):
+    print("Plotting the wavepacket parameters of group '"+str(gid)+"'")
+
+    if len(data) == 0:
+        return
+
     # Plot the time evolution of the parameters P, Q, S, p and q
     fig = figure(figsize=(12,12))
     ax = [ fig.add_subplot(4,2,i) for i in xrange(1,8) ]
 
-    for index in xrange(len(timegrids)):
-        grid = timegrids[index]
-        Phist, Qhist, Shist, phist, qhist = AllPA[index]
+    for datum in data:
+        grid, PI = datum
+        Phist, Qhist, Shist, phist, qhist = PI
 
         ax[0].plot(grid, real(Phist), label=r"$\Re P$")
         ax[0].grid(True)
@@ -91,8 +88,8 @@ def plot_parameters_spawn(timegrids, AllPA):
         ax[6].grid(True)
         ax[6].set_title(r"$S$")
 
-    fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_spawned"+GD.output_format)
+    fig.suptitle("Wavepacket parameters")
+    fig.savefig("wavepacket_parameters_group"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -101,9 +98,9 @@ def plot_parameters_spawn(timegrids, AllPA):
     fig = figure(figsize=(12,12))
     ax = [ fig.add_subplot(4,2,i) for i in xrange(1,8) ]
 
-    for index in xrange(len(timegrids)):
-        grid = timegrids[index]
-        Phist, Qhist, Shist, phist, qhist = AllPA[index]
+    for datum in data:
+        grid, PI = datum
+        Phist, Qhist, Shist, phist, qhist = PI
 
         ax[0].plot(grid, abs(Phist), label=r"$|P|$")
         ax[0].grid(True)
@@ -133,8 +130,8 @@ def plot_parameters_spawn(timegrids, AllPA):
         ax[6].grid(True)
         ax[6].set_title(r"$S$")
 
-    fig.suptitle("Wavepacket (spawned) parameters")
-    fig.savefig("wavepacket_parameters_abs_ang_spawned"+GD.output_format)
+    fig.suptitle("Wavepacket parameters")
+    fig.savefig("wavepacket_parameters_absang_group"+str(gid)+GD.output_format)
     close(fig)
 
 
@@ -149,11 +146,10 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.load_parameters()
+    gids = iom.get_group_ids(exclude=["global"])
 
-    if parameters["algorithm"] == "spawning_apost_na":
-        plot_parameters_spawn(*read_data_spawn(iom, assume_duplicate_mother=True))
-    else:
-        plot_parameters_spawn(*read_data_spawn(iom))
+    for gid in gids:
+        data = read_data(iom, gid)
+        plot_parameters(gid, data)
 
     iom.finalize()

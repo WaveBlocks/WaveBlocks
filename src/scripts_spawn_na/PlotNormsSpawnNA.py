@@ -19,45 +19,41 @@ from WaveBlocks.Plot import legend
 import GraphicsDefaults as GD
 
 
-def read_data(iom):
-    """
-    @param iom: An I{IOManager} instance providing the simulation data.
-    """
+def read_data(iom, gid):
     parameters = iom.load_parameters()
 
     data = []
 
     # For each mother-child spawn try pair
-    # TODO: Generalize for mother-child groups
-    for b in xrange(0,iom.get_number_blocks(),2):
-        timegrid0 = iom.load_norm_timegrid(blockid=b)
-        time0 = timegrid0 * parameters["dt"]
+    bidm, bidc = iom.get_block_ids(groupid=gid)
 
-        # Load data of original packet
-        norms0m = iom.load_norm(blockid=b, split=True)
+    timegrid0 = iom.load_norm_timegrid(blockid=bidm)
+    time0 = timegrid0 * parameters["dt"]
 
-        normsum0m = [ item**2 for item in norms0m ]
-        normsum0m = reduce(lambda x,y: x+y, normsum0m)
-        norms0m.append(sqrt(normsum0m))
+    # Load data of original packet
+    norms0m = iom.load_norm(blockid=bidm, split=True)
 
-        # Load data of spawned packet
-        norms0c = iom.load_norm(split=True, blockid=b+1)
+    normsum0m = [ item**2 for item in norms0m ]
+    normsum0m = reduce(lambda x,y: x+y, normsum0m)
+    norms0m.append(sqrt(normsum0m))
 
-        normsum0c = [ item**2 for item in norms0c ]
-        normsum0c = reduce(lambda x,y: x+y, normsum0c)
-        norms0c.append(sqrt(normsum0c))
+    # Load data of spawned packet
+    norms0c = iom.load_norm(split=True, blockid=bidc)
 
-        data.append((time0, norms0m, norms0c))
+    normsum0c = [ item**2 for item in norms0c ]
+    normsum0c = reduce(lambda x,y: x+y, normsum0c)
+    norms0c.append(sqrt(normsum0c))
 
+    data.append((time0, norms0m, norms0c))
     return (parameters, data)
 
 
-def plot_norms(parameters, data):
-    print("Plotting the norms")
+def plot_norms(gid, parameters, data):
+    print("Plotting the norms of group '"+str(gid)+"'")
 
     N = parameters["ncomponents"]
 
-    for index, datum in enumerate(data):
+    for datum in data:
 
         time = datum[0]
         norms_m = datum[1]
@@ -85,7 +81,7 @@ def plot_norms(parameters, data):
             ax.legend(loc="upper left")
 
         fig.suptitle("Per-component norms of $\Psi^M$ and $\Psi^C$")
-        fig.savefig("norms_spawn_components_group"+str(index)+GD.output_format)
+        fig.savefig("norms_spawn_components_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -114,7 +110,7 @@ def plot_norms(parameters, data):
         ax.legend(loc="upper left")
 
         fig.suptitle(r"Norms of $\Psi^M$ (top) and $\Psi^C$ (bottom)")
-        fig.savefig("norms_spawn_sumpacket_group"+str(index)+GD.output_format)
+        fig.savefig("norms_spawn_sumpacket_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -132,7 +128,7 @@ def plot_norms(parameters, data):
         legend(loc="outer right")
         ax.set_xlabel(r"Time $t$")
         ax.set_title(r"Norm of $\Psi^M$ and $\Psi^C$ and $\Psi^M + \Psi^C$")
-        fig.savefig("norms_spawn_sumall_group"+str(index)+GD.output_format)
+        fig.savefig("norms_spawn_sumall_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -147,7 +143,7 @@ def plot_norms(parameters, data):
         ax.set_xlabel(r"Time $t$")
         ax.set_ylabel(r"$\|\Psi(t=0)\| - \|\Psi(t)\|$")
         ax.set_title(r"Drift of the total norm $\|\Psi\| = \sqrt{\| \Psi^M \|^2 + \| \Psi^C \|^2}$")
-        fig.savefig("norms_spawn_sumall_drift_group"+str(index)+GD.output_format)
+        fig.savefig("norms_spawn_sumall_drift_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -162,7 +158,10 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    data = read_data(iom)
-    plot_norms(*data)
+    gids = iom.get_group_ids(exclude=["global"])
+
+    for gid in gids:
+        params, data = read_data(iom, gid)
+        plot_norms(gid, params, data)
 
     iom.finalize()

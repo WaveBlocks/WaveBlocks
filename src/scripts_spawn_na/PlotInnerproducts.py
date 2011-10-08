@@ -22,22 +22,12 @@ from WaveBlocks import InhomogeneousQuadrature
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(fo, fs, assume_duplicate_mother=False):
-    """
-    @param f: An I{IOManager} instance providing the simulation data.
-    @keyword assume_duplicate_mother: Parameter to tell the code to leave out
-    every second data block and only take blocks [0, 1, 3, 5, 7, ...]. This
-    is usefull because in aposteriori spawning we have to store clones of
-    the mother packet.
-    """
+def read_data_spawn(fo, fs):
     parameters_fo = fo.load_parameters()
     parameters_fs = fs.load_parameters()
 
-    ndb = fo.get_number_blocks()
-
     timegrids = []
     AllPA = []
-
     AllC = []
 
 

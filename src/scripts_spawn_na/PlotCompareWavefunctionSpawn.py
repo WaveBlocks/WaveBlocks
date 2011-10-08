@@ -20,37 +20,43 @@ from WaveBlocks.Plot import plotcf
 import GraphicsDefaults as GD
 
 
-def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False, plotabssqr=True, imgsize=(12,9)):
+def plot_frames(iom_s, iom_o, gid, bid_ref=0, view=None, plotphase=False, plotcomponents=False, plotabssqr=True, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    @param data_s: An I{IOManager} instance providing the spawning simulation data.
-    @param data_o: An I{IOManager} instance providing the reference simulation data.
+    @param iom_s: An I{IOManager} instance providing the spawning simulation data.
+    @param iom_o: An I{IOManager} instance providing the reference simulation data.
     @keyword view: The aspect ratio.
     @keyword plotphase: Whether to plot the complex phase. (slow)
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
     @keyword plotabssqr: Whether to plot the absolute value squared.
     """
-    parameters_o = data_o.load_parameters()
-    parameters_s = data_s.load_parameters()
+    parameters_o = iom_o.load_parameters()
+    parameters_s = iom_s.load_parameters()
 
-    grid_o = data_o.load_grid()
-    grid_s = data_s.load_grid()
+    grid_o = iom_o.load_grid(blockid="global")
+    grid_s = iom_s.load_grid(blockid="global")
 
-    timegrid_o = data_o.load_wavefunction_timegrid()
+    timegrid_o = iom_o.load_wavefunction_timegrid(blockid=bid_ref)
+
+    # For each mother-child spawn try pair
+    bidm, bidc = iom_s.get_block_ids(groupid=gid)
 
     for step in timegrid_o:
         print(" Timestep # " + str(step))
 
         # Retrieve reference data
-        wave_o = data_o.load_wavefunction(timestep=step)
+        wave_o = iom_o.load_wavefunction(timestep=step, blockid=bid_ref)
         values_o = [ wave_o[j,...] for j in xrange(parameters_o["ncomponents"]) ]
 
         # Retrieve spawn data for both packets
-        #TODO: Generalize to multiple mother-child pairs
         values_s = []
         try:
-            for blocknr in xrange(data_s.get_number_blocks()):
-                wave = data_s.load_wavefunction(timestep=step, blockid=blocknr)
-                values_s.append( [ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ] )
+            # Load data of original packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidm)
+            values.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
+
+            # Load data of spawned packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidc)
+            values.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
 
             have_spawn_data = True
         except ValueError:
@@ -109,10 +115,12 @@ def plot_frames(data_s, data_o, view=None, plotphase=False, plotcomponents=False
                 axes[index].set_ylim(view[2:])
 
         fig.suptitle(r"$\Psi$ at time $"+str(step*parameters_o["dt"])+r"$")
-        fig.savefig("wavefunction_compare_spawned_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavefunction_compare_spawned_group"+str(gid)+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")
+
+
 
 
 if __name__ == "__main__":
@@ -141,7 +149,10 @@ if __name__ == "__main__":
 
     colors_mc = ["red", "orange"]
 
-    plot_frames(iom_s, iom_o, view=view)
+    gids = iom_s.get_group_ids(exclude=["global"])
+
+    for gid in gids:
+        plot_frames(iom_s, iom_o, gid, view=view)
 
     iom_s.finalize()
     iom_o.finalize()
