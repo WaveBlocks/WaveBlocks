@@ -26,8 +26,10 @@ def delete_grid(self, blockid=0):
         pass
 
 
-def add_grid_reference(self, blockfrom=1, blockto=0):
-    self._srf[self._prefixb+str(blockfrom)]["grid"] = hdf.SoftLink("/"+self._prefixb+str(blockto)+"/grid")
+def has_grid(self, blockid=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return "grid" in self._srf[self._prefixb+str(blockid)].keys()
 
 
 def save_grid(self, grid, blockid=0):

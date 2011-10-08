@@ -81,14 +81,13 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         tm = self.parameters.get_timemanager()
         slots = tm.compute_number_saves()
 
-        self.IOManager.add_grid(self.parameters)
-        self.IOManager.add_grid_reference()
+        self.IOManager.add_grid(self.parameters, blockid="global")
         self.IOManager.add_wavepacket(self.parameters, timeslots=slots)
         self.IOManager.add_wavepacket(self.parameters, blockid=1)
 
         # Write some initial values to disk
         nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
-        self.IOManager.save_grid(nodes)
+        self.IOManager.save_grid(nodes, blockid="global")
 
         packet = self.propagator.get_wavepacket(packet=0)
         self.IOManager.save_wavepacket_coefficients(packet.get_coefficients(), timestep=0)

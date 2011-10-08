@@ -199,10 +199,11 @@ class IOManager:
                 return [ self._srf["/"+self._prefixg+str(gid)].keys() for gid in self.get_group_ids() ]
 
 
-    def get_group_ids(self):
+    def get_group_ids(self, exclude=[]):
         """Return a list containing the IDs for all groups in the current file structure.
+        @param exclude: A list of group IDs to exclude. Per default no group is excluded.
         """
-        return self._group_ids[:]
+        return [ gid for gid in self._group_ids if gid not in exclude ]
 
 
     def get_group_of_block(self, blockid):
