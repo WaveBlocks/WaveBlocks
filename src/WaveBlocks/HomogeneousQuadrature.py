@@ -98,7 +98,8 @@ class HomogeneousQuadrature(Quadrature):
 
         if summed is True:
             result = sum(result)
-        elif len(result) == 1:
+        elif component is not None:
+            # Do not return a list for quadrature of specific single components
             result = result[0]
 
         return result
