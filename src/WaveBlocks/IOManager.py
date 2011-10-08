@@ -180,7 +180,7 @@ class IOManager:
 
 
     def get_block_ids(self, groupid=None, grouped=False):
-        """Return a list containing a set of block IDs.
+        """Return a list containing the IDs for all blocks in the current file structure.
         @keyword groupid: An optional group ID, if given we return only block IDs
         for blocks which are a member of this group. If it is I{None} we return
         all block IDs.
@@ -258,11 +258,11 @@ class IOManager:
 
 
     def create_group(self, groupid=None):
-        """Create a data block with the specified block ID. Each data block can
-        store several chunks of information, and there can be an arbitrary number
-        of data blocks per file.
-        @param blockid: The ID for the new data block. If not given the blockid
-        will be choosen automatically. The block ID has to be unique.
+        """Create a data group with the specified group ID. Each data group can
+        contain an arbitrary number of data blocks, and there can be an arbitrary
+        number of data groups per file.
+        @param groupid: The ID for the new data group. If not given the group ID
+        will be choosen automatically. The group ID has to be unique.
         @return: The group ID of the created group.
         """
         if self._srf is None:
