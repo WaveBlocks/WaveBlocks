@@ -20,7 +20,7 @@ import GraphicsDefaults as GD
 
 def read_data_homogeneous(iom, blockid=0):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
@@ -36,7 +36,7 @@ def read_data_homogeneous(iom, blockid=0):
 
 def read_data_inhomogeneous(iom, blockid=0):
     """
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
@@ -44,11 +44,8 @@ def read_data_inhomogeneous(iom, blockid=0):
 
     Pi = iom.load_inhomogwavepacket_parameters(blockid=blockid)
 
-    # Number of components
-    N = parameters["ncomponents"]
-
-    Phist = [ Pi[i][:,0] for i in xrange(N) ]
-    Qhist = [ Pi[i][:,1] for i in xrange(N) ]
+    Phist = [ Pi[i][:,0] for i in xrange(parameters["ncomponents"]) ]
+    Qhist = [ Pi[i][:,1] for i in xrange(parameters["ncomponents"]) ]
 
     return (time, Phist, Qhist)
 
