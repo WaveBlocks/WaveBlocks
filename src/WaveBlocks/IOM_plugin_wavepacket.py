@@ -13,28 +13,39 @@ import numpy as np
 
 def add_wavepacket(self, parameters, timeslots=None, blockid=0):
     """Add storage for the homogeneous wavepackets.
+    @param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
     """
     grp_wp = self._srf[self._prefixb+str(blockid)].require_group("wavepacket")
+
+    # If we run with an adaptive basis size, then we must make the data tensor size maximal
+    if parameters.has_key("max_basis_size"):
+        bs = parameters["max_basis_size"]
+    else:
+        bs = np.max(parameters["basis_size"])
 
     # Create the dataset with appropriate parameters
     if timeslots is None:
         # This case is event based storing
-        daset_pi = grp_wp.create_dataset("Pi", (1, 1, 5), dtype=np.complexfloating, chunks=(1, 1, 5))
-        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], parameters["basis_size"]),
-                                        dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], parameters["basis_size"]))
         daset_tg = grp_wp.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
+        daset_bs = grp_wp.create_dataset("basis_size", (1, parameters["ncomponents"]), dtype=np.integer, chunks=(1, 1, bs))
+        daset_pi = grp_wp.create_dataset("Pi", (1, 1, 5), dtype=np.complexfloating, chunks=(1, 1, 5))
+        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], bs),
+                                        dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], bs))
 
+        daset_tg.resize(0, axis=0)
+        daset_bs.resize(0, axis=0)
         daset_pi.resize(0, axis=0)
         daset_c.resize(0, axis=0)
-        daset_tg.resize(0, axis=0)
     else:
         # User specified how much space is necessary.
-        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), dtype=np.complexfloating)
-        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters["ncomponents"], parameters["basis_size"]), dtype=np.complexfloating)
         daset_tg = grp_wp.create_dataset("timegrid", (timeslots,), dtype=np.integer)
+        daset_bs = grp_wp.create_dataset("basis_size", (timeslots, parameters["ncomponents"]), dtype=np.integer)
+        daset_pi = grp_wp.create_dataset("Pi", (timeslots, 1, 5), dtype=np.complexfloating)
+        daset_c = grp_wp.create_dataset("coefficients", (timeslots, parameters["ncomponents"], bs), dtype=np.complexfloating)
 
     # Attach pointer to data instead timegrid
     # Reason is that we have have two save functions but one timegrid
+    #daset_bs.attrs["pointer"] = 0
     daset_pi.attrs["pointer"] = 0
     daset_c.attrs["pointer"] = 0
 
@@ -79,20 +90,46 @@ def save_wavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
     @param coefficients: The coefficients of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
+    pathbs = "/"+self._prefixb+str(blockid)+"/wavepacket/basis_size"
     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket/coefficients"
     timeslot = self._srf[pathd].attrs["pointer"]
 
     # Write the data
     self.must_resize(pathd, timeslot)
+    self.must_resize(pathbs, timeslot)
     for index, item in enumerate(coefficients):
-        self._srf[pathd][timeslot,index,:] = np.squeeze(item)
+        bs = item.shape[0]
+        self._srf[pathbs][timeslot,index] = bs
+        self._srf[pathd][timeslot,index,:bs] = np.squeeze(item)
 
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
     self._srf[pathtg][timeslot] = timestep
 
     # Update the pointer
+    #self._srf[pathbs].attrs["pointer"] += 1
     self._srf[pathd].attrs["pointer"] += 1
+
+
+# The basis size already gets stored when saving the coefficients!
+# def save_wavepacket_basissize(self, basissize, timestep=None, blockid=0):
+#     """Save the basis size of the Hagedorn wavepacket to a file.
+#     @param basissize: The basis size of the Hagedorn wavepacket.
+#     """
+#     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
+#     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket/basis_size"
+#     timeslot = self._srf[pathd].attrs["pointer"]
+#
+#     # Write the data
+#     self.must_resize(pathd, timeslot)
+#     self._srf[pathd][timeslot,:] = np.squeeze(np.array(basissize))
+#
+#     # Write the timestep to which the stored values belong into the timegrid
+#     self.must_resize(pathtg, timeslot)
+#     self._srf[pathtg][timeslot] = timestep
+#
+#     # Update the pointer
+#     self._srf[pathd].attrs["pointer"] += 1
 
 
 def load_wavepacket_timegrid(self, blockid=0):
@@ -121,3 +158,16 @@ def load_wavepacket_coefficients(self, timestep=None, blockid=0):
         return self._srf[pathd][index,...]
     else:
         return self._srf[pathd][...]
+
+
+def load_wavepacket_basissize(self, timestep=None, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavepacket/basis_size"
+
+    if timestep is not None:
+        index = self.find_timestep_index(pathtg, timestep)
+        size = self._srf[pathd][index,:]
+    else:
+        size = self._srf[pathd][...,:]
+
+    return size
