@@ -10,10 +10,10 @@ IOM plugin providing functions for handling norm data.
 import numpy as np
 
 
-def add_norm(self, parameters, timeslots=None, block=0):
+def add_norm(self, parameters, timeslots=None, blockid=0):
     """Add storage for the norms.
     """
-    grp_ob = self.srf["datablock_"+str(block)].require_group("observables")
+    grp_ob = self._srf[self._prefixb+str(blockid)].require_group("observables")
 
     # Create the dataset with appropriate parameters
     grp_no = grp_ob.create_group("norm")
@@ -33,59 +33,59 @@ def add_norm(self, parameters, timeslots=None, block=0):
     daset_tg.attrs["pointer"] = 0
 
 
-def delete_norm(self, block=0):
+def delete_norm(self, blockid=0):
     """Remove the stored norms.
     """
     try:
-        del self.srf["datablock_"+str(block)+"/observables/norm"]
+        del self._srf[self._prefixb+str(blockid)+"/observables/norm"]
         # Check if there are other children, if not remove the whole node.
-        if len(self.srf["datablock_"+str(block)+"/observables"].keys()) == 0:
-            del self.srf["datablock_"+str(block)+"/observables"]
+        if len(self._srf[self._prefixb+str(blockid)+"/observables"].keys()) == 0:
+            del self._srf[self._prefixb+str(blockid)+"/observables"]
     except KeyError:
         pass
 
 
-def has_norm(self, block=0):
+def has_norm(self, blockid=0):
     """Ask if the specified data block has the desired data tensor.
     """
-    return ("observables" in self.srf["datablock_"+str(block)].keys() and
-            "norm" in self.srf["datablock_"+str(block)]["observables"].keys())
+    return ("observables" in self._srf[self._prefixb+str(blockid)].keys() and
+            "norm" in self._srf[self._prefixb+str(blockid)]["observables"].keys())
 
 
-def save_norm(self, norm, timestep=None, block=0):
+def save_norm(self, norm, timestep=None, blockid=0):
     """Save the norm of wavefunctions or wavepackets.
     """
-    pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-    pathd = "/datablock_"+str(block)+"/observables/norm/norm"
-    timeslot = self.srf[pathtg].attrs["pointer"]
+    pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/observables/norm/norm"
+    timeslot = self._srf[pathtg].attrs["pointer"]
 
     # Refactor: remove np.array
     norms = np.real(np.array(norm))
 
     # Write the data
     self.must_resize(pathd, timeslot)
-    self.srf[pathd][timeslot,:] = norms
+    self._srf[pathd][timeslot,:] = norms
 
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
-    self.srf[pathtg][timeslot] = timestep
+    self._srf[pathtg][timeslot] = timestep
 
     # Update the pointer
-    self.srf[pathtg].attrs["pointer"] += 1
+    self._srf[pathtg].attrs["pointer"] += 1
 
 
-def load_norm_timegrid(self, block=0):
+def load_norm_timegrid(self, blockid=0):
     """Load the timegrid corresponding to the norm data.
     """
-    pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-    return self.srf[pathtg][:]
+    pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
+    return self._srf[pathtg][:]
 
 
-def load_norm(self, timestep=None, split=False, block=0):
+def load_norm(self, timestep=None, split=False, blockid=0):
     """Load the norm data.
     """
-    pathtg = "/datablock_"+str(block)+"/observables/norm/timegrid"
-    pathd = "/datablock_"+str(block)+"/observables/norm/norm"
+    pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/observables/norm/norm"
 
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
@@ -95,6 +95,6 @@ def load_norm(self, timestep=None, split=False, block=0):
         axis = 1
 
     if split is True:
-        return self.split_data( self.srf[pathd][index,...], axis)
+        return self.split_data( self._srf[pathd][index,...], axis)
     else:
-        return self.srf[pathd][index,...]
+        return self._srf[pathd][index,...]

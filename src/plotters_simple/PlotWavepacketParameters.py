@@ -24,23 +24,25 @@ def read_all_datablocks(iom):
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        if iom.has_wavepacket(block=block):
-            plot_parameters(read_data_homogeneous(iom, block=block), index=block)
-        elif  iom.has_inhomogwavepacket():
-            plot_parameters(read_data_inhomogeneous(iom, block=block), index=block)
+    for blockid in iom.get_block_ids():
+        if iom.has_wavepacket(blockid=blockid):
+            plot_parameters(read_data_homogeneous(iom, blockid=blockid), index=blockid)
+        elif iom.has_inhomogwavepacket(blockid=blockid):
+            plot_parameters(read_data_inhomogeneous(iom, blockid=blockid), index=blockid)
+        else:
+            print("Warning: Not plotting wavepacket parameters in block '"+str(blockid)+"'!")
 
 
-def read_data_homogeneous(iom, block=0):
+def read_data_homogeneous(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
-    timegrid = iom.load_wavepacket_timegrid(block=block)
+    parameters = iom.load_parameters()
+    timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = iom.load_wavepacket_parameters(block=block)
+    Pi = iom.load_wavepacket_parameters(blockid=blockid)
 
     Phist = [ Pi[:,0] ]
     Qhist = [ Pi[:,1] ]
@@ -51,16 +53,16 @@ def read_data_homogeneous(iom, block=0):
     return (time, Phist, Qhist, Shist, phist, qhist)
 
 
-def read_data_inhomogeneous(iom, block=0):
+def read_data_inhomogeneous(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
-    timegrid = iom.load_inhomogwavepacket_timegrid(block=block)
+    parameters = iom.load_parameters()
+    timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    Pi = iom.load_inhomogwavepacket_parameters(block=block)
+    Pi = iom.load_inhomogwavepacket_parameters(blockid=blockid)
 
     # Number of components
     N = parameters["ncomponents"]
@@ -78,7 +80,7 @@ def plot_parameters(data, index=0):
     """Plot the data parameters (P, Q, S, p, q) over time.
     For each new I{index} we start a new figure.
     """
-    print("Plotting the parameters of data block "+str(index))
+    print("Plotting the parameters of data block '"+str(index)+"'")
 
     timegrid, Phist, Qhist, Shist, phist, qhist = data
 

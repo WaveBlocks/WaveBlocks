@@ -21,38 +21,41 @@ from WaveBlocks.Plot import plotcf, stemcf
 import GraphicsDefaults as GD
 
 
-def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
+def plot_frames_homogeneous(iom, gid=0, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     """
-    parameters = f.get_parameters()
+    parameters = iom.load_parameters()
 
-    grid = f.load_grid()
+    grid = iom.load_grid(blockid="global")
     k = array(range(parameters["basis_size"]))
+
+    # Block IDs for mother and child wavepacket
+    bidm, bidc = iom.get_block_ids(groupid=gid)
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
 
-    timegrid_m = f.load_wavefunction_timegrid(block=0)
-    timegrid_s = f.load_wavefunction_timegrid(block=1)
+    timegrid_m = iom.load_wavefunction_timegrid(blockid=bidm)
+    timegrid_s = iom.load_wavefunction_timegrid(blockid=bidc)
 
     for step in timegrid_m:
         print(" Timestep # " + str(step))
 
         # Retrieve spawn data for both packets
         try:
-            wave_m = f.load_wavefunction(timestep=step, block=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=bidm)
             values_m = [ squeeze(wave_m[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_m = squeeze(f.load_wavepacket_coefficients(timestep=step, block=0))
+            coeffs_m = squeeze(iom.load_wavepacket_coefficients(timestep=step, blockid=bidm))
             have_mother_data = True
         except ValueError:
             have_mother_data = False
 
         # Retrieve spawn data
         try:
-            wave_s = f.load_wavefunction(timestep=step, block=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=bidc)
             values_s = [ squeeze(wave_s[j,...]) for j in xrange(parameters["ncomponents"]) ]
-            coeffs_s = squeeze(f.load_wavepacket_coefficients(timestep=step, block=1))
+            coeffs_s = squeeze(iom.load_wavepacket_coefficients(timestep=step, blockid=bidc))
             have_spawn_data = True
         except ValueError:
             have_spawn_data = False
@@ -117,7 +120,7 @@ def plot_frames_homogeneous(f, plotphase=False, plotcomponents=False, plotabssqr
             ax3.set_title(r"Spawned packet $| \Psi^s \rangle$")
 
         fig.suptitle(r"Time $"+str(step*parameters["dt"])+r"$")
-        fig.savefig("wavepackets_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavepackets_group"+str(gid)+"_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
 
@@ -132,10 +135,10 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # The axes rectangle that is plotted
-    view = [-8, 8, 0.0, 0.6]
+    view = [-3, 3, 0.0, 2.5]
 
     plot_frames_homogeneous(iom, view=view)
 

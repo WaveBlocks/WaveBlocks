@@ -13,32 +13,36 @@ from WaveBlocks import WaveFunction
 from WaveBlocks import HagedornWavepacketInhomogeneous
 
 
-def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
+def compute_evaluate_wavepackets(iom, basis="eigen", blockid=0):
     """Evaluate an in homogeneous Hagdorn wavepacket on a given grid for each timestep.
     @param iom: An I{IOManager} instance providing the simulation data.
     @keyword basis: The basis where the evaluation is done. Can be 'eigen' or 'canonical'.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
     # Number of time steps we saved
-    timesteps = iom.load_inhomogwavepacket_timegrid(block=block)
+    timesteps = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     # Prepare the potential for basis transformations
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(block=block)
-    params = iom.load_inhomogwavepacket_parameters(block=block)
-    coeffs = iom.load_inhomogwavepacket_coefficients(block=block)
+    if iom.has_grid(blockid=blockid):
+        grid = iom.load_grid(blockid=blockid)
+    else:
+        grid = iom.load_grid(blockid="global")
+
+    params = iom.load_inhomogwavepacket_parameters(blockid=blockid)
+    coeffs = iom.load_inhomogwavepacket_coefficients(blockid=blockid)
 
     # A data transformation needed by API specification
     params = [ [ params[j][i,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps) ]
     coeffs = [ [ coeffs[i,j,:] for j in xrange(parameters["ncomponents"]) ] for i in xrange(nrtimesteps) ]
 
     # We want to save wavefunctions, thus add a data slot to the data file
-    iom.add_wavefunction(parameters, timeslots=nrtimesteps, block=block)
+    iom.add_wavefunction(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Hack for allowing data blocks with different basis size than the global one
     # todo: remove when we got local parameter sets
@@ -67,4 +71,4 @@ def compute_evaluate_wavepackets(iom, basis="eigen", block=0):
         WF.set_values(values)
 
         # Save the wave function
-        iom.save_wavefunction(WF.get_values(), timestep=step, block=block)
+        iom.save_wavefunction(WF.get_values(), timestep=step, blockid=blockid)

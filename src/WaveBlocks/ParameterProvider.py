@@ -105,6 +105,8 @@ class ParameterProvider:
             except:
                 raise TypeError("Wrong data type for set_parameters.")
 
+        assert type(params) == dict
+
         self.params = deepcopy(params)
         # Compute some values on top of the given input parameters
         self.compute_parameters()

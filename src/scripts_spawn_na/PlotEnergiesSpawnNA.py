@@ -19,38 +19,33 @@ from WaveBlocks.Plot import legend
 import GraphicsDefaults as GD
 
 
-def read_data(f):
-    """
-    @param f: An I{IOManager} instance providing the simulation data.
-    """
-    parameters = f.get_parameters()
-    NB = f.get_number_blocks()
+def read_data(iom, gid):
+    parameters = iom.load_parameters()
 
     data = []
 
     # For each mother-child spawn try pair
-    # TODO: Generalize for mother-child groups
-    for b in xrange(0,NB,2):
-        timegrid0 = f.load_energy_timegrid(block=b)
-        time0 = timegrid0 * parameters["dt"]
+    bidm, bidc = iom.get_block_ids(groupid=gid)
 
-        # Load data of original packet
-        energies0m = f.load_energy(block=b, split=True)
+    timegrid0 = iom.load_energy_timegrid(blockid=bidm)
+    time0 = timegrid0 * parameters["dt"]
 
-        # Load data of spawned packet
-        energies0c = f.load_energy(block=b+1, split=True)
+    # Load data of original packet
+    energies0m = iom.load_energy(blockid=bidm, split=True)
 
-        data.append((time0, energies0m, energies0c))
+    # Load data of spawned packet
+    energies0c = iom.load_energy(blockid=bidc, split=True)
 
+    data.append((time0, energies0m, energies0c))
     return (parameters, data)
 
 
-def plot_energies(parameters, data):
-    print("Plotting the energies")
+def plot_energies(gid, parameters, data):
+    print("Plotting the energies of group '"+str(gid)+"'")
 
     N = parameters["ncomponents"]
 
-    for index, datum in enumerate(data):
+    for datum in data:
 
         time = datum[0]
         energies_m = datum[1]
@@ -84,7 +79,7 @@ def plot_energies(parameters, data):
             ax.legend(loc="upper left")
 
         fig.suptitle("Per-component energies of $\Psi^M$ and $\Psi^C$")
-        fig.savefig("energies_spawn_components_group"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_components_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -113,7 +108,7 @@ def plot_energies(parameters, data):
         ax.legend(loc="upper left")
 
         fig.suptitle(r"Energies of $\Psi^M$ (top) and $\Psi^C$ (bottom)")
-        fig.savefig("energies_spawn_packetsum_group"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_packetsum_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -130,7 +125,7 @@ def plot_energies(parameters, data):
         legend(loc="outer right")
         ax.set_xlabel(r"Time $t$")
         ax.set_title(r"Energies of $\Psi^M$ and $\Psi^C$ and $\Psi^M + \Psi^C$")
-        fig.savefig("energies_spawn_sumall_group"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_sumall_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -145,7 +140,7 @@ def plot_energies(parameters, data):
         ax.set_xlabel(r"Time $t$")
         ax.set_ylabel(r"$E(t=0) - E(t)$")
         ax.set_title(r"Drift of the total energy $E = E^M + E^C$")
-        fig.savefig("energies_spawn_sumall_drift_group"+str(index)+GD.output_format)
+        fig.savefig("energies_spawn_sumall_drift_group"+str(gid)+GD.output_format)
         close(fig)
 
 
@@ -160,7 +155,10 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    data = read_data(iom)
-    plot_energies(*data)
+    gids = iom.get_group_ids(exclude=["global"])
+
+    for gid in gids:
+        params, data = read_data(iom, gid)
+        plot_energies(gid, params, data)
 
     iom.finalize()

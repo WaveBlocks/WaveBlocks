@@ -22,20 +22,23 @@ def read_all_datablocks(iom):
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        plot_norms(read_data(iom, block=block), index=block)
+    for blockid in iom.get_block_ids():
+        if iom.has_norm(blockid=blockid):
+            plot_norms(read_data(iom, blockid=blockid), index=blockid)
+        else:
+            print("Warning: Not plotting norms in block '"+str(blockid)+"'!")
 
 
-def read_data(iom, block=0):
+def read_data(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
-    timegrid = iom.load_norm_timegrid(block=block)
+    parameters = iom.load_parameters()
+    timegrid = iom.load_norm_timegrid(blockid=blockid)
     time = timegrid * parameters["dt"]
 
-    norms = iom.load_norm(block=block, split=True)
+    norms = iom.load_norm(blockid=blockid, split=True)
 
     normsum = [ item**2 for item in norms ]
     normsum = reduce(lambda x,y: x+y, normsum)
@@ -45,7 +48,7 @@ def read_data(iom, block=0):
 
 
 def plot_norms(data, index=0):
-    print("Plotting the norms of data block "+str(index))
+    print("Plotting the norms of data block '"+str(index)+"'")
 
     timegrid, norms = data
 

@@ -11,10 +11,10 @@ inhomogeneous Hagedorn wavepacket data.
 import numpy as np
 
 
-def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
+def add_inhomogwavepacket(self, parameters, timeslots=None, blockid=0):
     """Add storage for the inhomogeneous wavepackets.
     """
-    grp_wp = self.srf["datablock_"+str(block)].require_group("wavepacket_inhomog")
+    grp_wp = self._srf[self._prefixb+str(blockid)].require_group("wavepacket_inhomog")
 
     # Create the dataset with appropriate parameters
     if timeslots is None:
@@ -39,86 +39,86 @@ def add_inhomogwavepacket(self, parameters, timeslots=None, block=0):
     daset_c.attrs["pointer"] = 0
 
 
-def delete_inhomogwavepacket(self, block=0):
+def delete_inhomogwavepacket(self, blockid=0):
     """Remove the stored wavepackets.
     """
     try:
-        del self.srf["datablock_"+str(block)+"/wavepacket_inhomog"]
+        del self._srf[self._prefixb+str(blockid)+"/wavepacket_inhomog"]
     except KeyError:
         pass
 
 
-def has_inhomogwavepacket(self, block=0):
+def has_inhomogwavepacket(self, blockid=0):
     """Ask if the specified data block has the desired data tensor.
     """
-    return "wavepacket_inhomog" in self.srf["datablock_"+str(block)].keys()
+    return "wavepacket_inhomog" in self._srf[self._prefixb+str(blockid)].keys()
 
 
-def save_inhomogwavepacket_parameters(self, parameters, timestep=None, block=0):
+def save_inhomogwavepacket_parameters(self, parameters, timestep=None, blockid=0):
     """Save the parameters of the Hagedorn wavepacket to a file.
     @param parameters: The parameters of the Hagedorn wavepacket.
     """
-    pathtg = "/datablock_"+str(block)+"/wavepacket_inhomog/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavepacket_inhomog/Pi"
-    timeslot = self.srf[pathd].attrs["pointer"]
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/Pi"
+    timeslot = self._srf[pathd].attrs["pointer"]
 
     # Write the data
     self.must_resize(pathd, timeslot)
     for index, item in enumerate(parameters):
-        self.srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
-    
+        self._srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
+
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
-    self.srf[pathtg][timeslot] = timestep
+    self._srf[pathtg][timeslot] = timestep
 
     # Update the pointer
-    self.srf[pathd].attrs["pointer"] += 1
+    self._srf[pathd].attrs["pointer"] += 1
 
 
-def save_inhomogwavepacket_coefficients(self, coefficients, timestep=None, block=0):
+def save_inhomogwavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
     """Save the coefficients of the Hagedorn wavepacket to a file.
     @param coefficients: The coefficients of the Hagedorn wavepacket.
     """
-    pathtg = "/datablock_"+str(block)+"/wavepacket_inhomog/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavepacket_inhomog/coefficients"
-    timeslot = self.srf[pathd].attrs["pointer"]
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/coefficients"
+    timeslot = self._srf[pathd].attrs["pointer"]
 
     # Write the data
     self.must_resize(pathd, timeslot)
     for index, item in enumerate(coefficients):
-        self.srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
+        self._srf[pathd][timeslot,index,:] = np.squeeze(np.array(item))
 
     # Write the timestep to which the stored values belong into the timegrid
     self.must_resize(pathtg, timeslot)
-    self.srf[pathtg][timeslot] = timestep
+    self._srf[pathtg][timeslot] = timestep
 
     # Update the pointer
-    self.srf[pathd].attrs["pointer"] += 1
+    self._srf[pathd].attrs["pointer"] += 1
 
 
-def load_inhomogwavepacket_timegrid(self, block=0):
-    pathtg = "/datablock_"+str(block)+"/wavepacket_inhomog/timegrid"
-    return self.srf[pathtg][:]
+def load_inhomogwavepacket_timegrid(self, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
+    return self._srf[pathtg][:]
 
 
-def load_inhomogwavepacket_parameters(self, timestep=None, block=0):
-    pathtg = "/datablock_"+str(block)+"/wavepacket_inhomog/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavepacket_inhomog/Pi"
+def load_inhomogwavepacket_parameters(self, timestep=None, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/Pi"
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        params = [ self.srf[pathd][index,i,:] for i in xrange(self.parameters["ncomponents"]) ]
+        params = [ self._srf[pathd][index,i,:] for i in xrange(self._parameters["ncomponents"]) ]
     else:
-        params = [ self.srf[pathd][...,i,:] for i in xrange(self.parameters["ncomponents"]) ]
+        params = [ self._srf[pathd][...,i,:] for i in xrange(self._parameters["ncomponents"]) ]
 
     return params
 
-    
-def load_inhomogwavepacket_coefficients(self, timestep=None, block=0):
-    pathtg = "/datablock_"+str(block)+"/wavepacket_inhomog/timegrid"
-    pathd = "/datablock_"+str(block)+"/wavepacket_inhomog/coefficients"
+
+def load_inhomogwavepacket_coefficients(self, timestep=None, blockid=0):
+    pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
+    pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/coefficients"
 
     if timestep is not None:
         index = self.find_timestep_index(pathtg, timestep)
-        return self.srf[pathd][index,...]
+        return self._srf[pathd][index,...]
     else:
-        return self.srf[pathd][...]
+        return self._srf[pathd][...]

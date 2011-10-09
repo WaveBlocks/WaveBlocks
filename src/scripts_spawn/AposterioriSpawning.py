@@ -22,7 +22,7 @@ from WaveBlocks import HagedornWavepacket
 from WaveBlocks import AdiabaticSpawner
 
 
-def aposteriori_spawning(fin, fout, pin, pout):
+def aposteriori_spawning(fin, fout, pin, pout, bid1, bid2):
     """
     @param f: An I{IOManager} instance providing the simulation data.
     @keyword datablock: The data block where the results are.
@@ -65,11 +65,11 @@ def aposteriori_spawning(fin, fout, pin, pout):
             AS.project_coefficients(HAWP, SWP)
 
             # Save the spawned packet
-            fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step)
-            fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step)
+            fout.save_wavepacket_parameters(HAWP.get_parameters(), timestep=step, blockid=bid1)
+            fout.save_wavepacket_coefficients(HAWP.get_coefficients(), timestep=step, blockid=bid1)
 
-            fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, block=1)
-            fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, block=1)
+            fout.save_wavepacket_parameters(SWP.get_parameters(), timestep=step, blockid=bid2)
+            fout.save_wavepacket_coefficients(SWP.get_coefficients(), timestep=step, blockid=bid2)
 
 
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     except IndexError:
         raise IOError("No spawn configuration given!")
 
-    parametersin = iomin.get_parameters()
+    parametersin = iomin.load_parameters()
 
     # Check if we can start a spawning simulation
     if parametersin["algorithm"] != "hagedorn":
@@ -113,17 +113,22 @@ if __name__ == "__main__":
     # Second IOM for output data of the spawning simulation
     iomout = IOManager()
     iomout.create_file(parametersout, filename="simulation_results_spawn.hdf5")
-    iomout.create_block()
 
-    iomout.add_grid(parametersout)
-    iomout.save_grid(iomin.load_grid())
-    iomout.add_grid_reference()
+    # Some data in the global data block
+    iomout.add_grid(parametersout, blockid="global")
+    iomout.save_grid(iomin.load_grid(blockid="global"), blockid="global")
 
-    iomout.add_wavepacket(parametersin)
-    iomout.add_wavepacket(parametersout, block=1)
+    # Allocate all the data blocks
+    gid = iomout.create_group()
+    bid1 = iomout.create_block(groupid=gid)
+    bid2 = iomout.create_block(groupid=gid)
+    # Block for remainder / mother after spawning
+    iomout.add_wavepacket(parametersin, blockid=bid1)
+    # Block for spawned packet
+    iomout.add_wavepacket(parametersout, blockid=bid2)
 
     # Really do the aposteriori spawning simulation
-    aposteriori_spawning(iomin, iomout, parametersin, parametersout)
+    aposteriori_spawning(iomin, iomout, parametersin, parametersout, bid1, bid2)
 
     # Close the inpout/output files
     iomin.finalize()

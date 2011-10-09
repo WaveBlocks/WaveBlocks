@@ -11,25 +11,28 @@ from WaveBlocks import PotentialFactory
 from WaveBlocks import WaveFunction
 
 
-def compute_norm(iom, block=0):
+def compute_norm(iom, blockid=0):
     """Compute the norm of a wavepacket timeseries.
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
 
-    nodes = iom.load_grid(block=block)
+    if iom.has_grid(blockid=blockid):
+        grid = iom.load_grid(blockid=blockid)
+    else:
+        grid = iom.load_grid(blockid="global")
 
     # Number of time steps we saved
-    timesteps = iom.load_wavefunction_timegrid(block=block)
+    timesteps = iom.load_wavefunction_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
     # We want to save norms, thus add a data slot to the data file
-    iom.add_norm(parameters, timeslots=nrtimesteps, block=block)
+    iom.add_norm(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Precalculate eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
-    eigenvectors = Potential.evaluate_eigenvectors_at(nodes)
+    eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     WF = WaveFunction(parameters)
 
@@ -37,12 +40,12 @@ def compute_norm(iom, block=0):
     for i, step in enumerate(timesteps):
         print(" Computing norms of timestep "+str(step))
 
-        values = iom.load_wavefunction(timestep=step, block=block)
+        values = iom.load_wavefunction(timestep=step, blockid=blockid)
         values = [ values[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Calculate the norm of the wave functions projected into the eigenbasis
-        values_e = Potential.project_to_eigen(nodes, values, eigenvectors)
+        values_e = Potential.project_to_eigen(grid, values, eigenvectors)
         WF.set_values(values_e)
         norms = WF.get_norm()
 
-        iom.save_norm(norms, timestep=step, block=block)
+        iom.save_norm(norms, timestep=step, blockid=blockid)

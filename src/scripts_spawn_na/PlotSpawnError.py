@@ -17,36 +17,42 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def plot_frames(data_o, data_s, view=None):
+def plot_frames(iom_o, iom_s, gid, bid_ref=0, view=None):
     """Plot the wave function for a series of timesteps.
-    @param data_o: An I{IOManager} instance providing the reference simulation data.
-    @param data_s: An I{IOManager} instance providing the spawning simulation data.
+    @param iom_o: An I{IOManager} instance providing the reference simulation data.
+    @param iom_s: An I{IOManager} instance providing the spawning simulation data.
+    @keyword bid_ref: The block ID of the reference data. Default is data block '0'.
     @keyword view: The aspect ratio.
     """
-    parameters_o = data_o.get_parameters()
-    parameters_s = data_s.get_parameters()
+    parameters_o = iom_o.load_parameters()
+    parameters_s = iom_s.load_parameters()
+    grid_o = iom_o.load_grid(blockid="global")
 
-    grid_o = data_o.load_grid()
+    # For each mother-child spawn try pair
+    bidm, bidc = iom_s.get_block_ids(groupid=gid)
 
-    timegrid_o = data_o.load_wavefunction_timegrid()
+    timegrid_o = iom_o.load_wavefunction_timegrid(blockid=bid_ref)
 
     for step in timegrid_o:
         print(" Timestep # " + str(step))
 
         # Retrieve reference data
-        wave_o = data_o.load_wavefunction(timestep=step)
+        wave_o = iom_o.load_wavefunction(timestep=step, blockid=bid_ref)
         values_o = [ wave_o[j,...] for j in xrange(parameters_o["ncomponents"]) ]
 
         # Compute absolute values
         values_o = [ sqrt(conj(item)*item) for item in values_o ]
 
         # Retrieve spawn data for both packets
-        #TODO: Generalize to multiple mother-child pair groups
         values_s = []
         try:
-            for blocknr in xrange(data_s.get_number_blocks()):
-                wave = data_s.load_wavefunction(timestep=step, block=blocknr)
-                values_s.append( [ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ] )
+            # Load data of original packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidm)
+            values_s.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
+
+            # Load data of spawned packet
+            wave = iom_s.load_wavefunction(timestep=step, blockid=bidc)
+            values_s.append([ wave[j,...] for j in xrange(parameters_s["ncomponents"]) ])
 
             have_spawn_data = True
         except ValueError:
@@ -92,7 +98,7 @@ def plot_frames(data_o, data_s, view=None):
                 axes[index].set_xlim(view)
 
         fig.suptitle(r"$|\Psi_{original}(x)|^2 -\sqrt{\sum_i |\Psi_{{spawn},i}(x)|^2 }$ at time $"+str(step*parameters_o["dt"])+r"$")
-        fig.savefig("wavefunction_spawn_error_components_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavefunction_spawn_error_components_group"+str(gid)+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
         # Plot the overall spawn error
@@ -108,10 +114,12 @@ def plot_frames(data_o, data_s, view=None):
         ax.grid(True)
         ax.set_xlabel(r"$x$")
         ax.set_ylabel(r"Error on $\Psi$")
-        fig.savefig("wavefunction_spawn_error_sum_"+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
+        fig.savefig("wavefunction_spawn_error_sum_group"+str(gid)+ (5-len(str(step)))*"0"+str(step) +GD.output_format)
         close(fig)
 
     print(" Plotting frames finished")
+
+
 
 
 if __name__ == "__main__":
@@ -138,7 +146,10 @@ if __name__ == "__main__":
     # The axes rectangle that is plotted
     view = [-8.5, 8.5]
 
-    plot_frames(iom_o, iom_s, view=view)
+    gids = iom_s.get_group_ids(exclude=["global"])
+
+    for gid in gids:
+        plot_frames(iom_o, iom_s, gid, view=view)
 
     iom_o.finalize()
     iom_s.finalize()

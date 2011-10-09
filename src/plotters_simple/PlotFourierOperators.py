@@ -23,24 +23,27 @@ def read_all_datablocks(iom):
     @param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
-    for block in xrange(iom.get_number_blocks()):
-        plot_operators(*read_data(iom, block=block), index=block)
+    for blockid in iom.get_block_ids():
+        if iom.has_fourieroperators(blockid=blockid):
+            plot_operators(*read_data(iom, blockid=blockid), index=blockid)
+        else:
+            print("Warning: Not plotting Fourier operators in block '"+str(blockid)+"'!")
 
 
-def read_data(iom, block=0):
+def read_data(iom, blockid=0):
     """
     @param iom: An I{IOManager} instance providing the simulation data.
-    @keyword block: The data block from which the values are read.
+    @keyword blockid: The data block from which the values are read.
     """
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     # The real space grid
-    grid = iom.load_grid(block=block)
+    grid = iom.load_grid(blockid="global")
     # The Fourier space grid
     omega_1 = arange(0, parameters["ngn"]/2.0)
     omega_2 = arange(-parameters["ngn"]/2.0, 0, 1)
     omega = hstack([omega_2, omega_1])
     # The operators
-    opT, opV = iom.load_fourieroperators(block=block)
+    opT, opV = iom.load_fourieroperators(blockid=blockid)
     # Shift negative frequencies
     opT_1 = opT[:omega_1.shape[0]]
     opT_2 = opT[omega_1.shape[0]:]

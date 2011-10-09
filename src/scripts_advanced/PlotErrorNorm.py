@@ -55,8 +55,8 @@ def load_data(resultspath, which_norm="wf"):
         iom_h.open_file(filename=resultsfile_h)
 
         # Read the parameters
-        parameters_f = iom_f.get_parameters()
-        parameters_h = iom_h.get_parameters()
+        parameters_f = iom_f.load_parameters()
+        parameters_h = iom_h.load_parameters()
 
         number_components = parameters_f["ncomponents"]
 
@@ -64,7 +64,7 @@ def load_data(resultspath, which_norm="wf"):
         axisdata.append(parameters_f["eps"])
 
         # Get the data
-        grid = iom_f.load_grid()
+        grid = iom_f.load_grid(blockid="global")
         timesteps = iom_f.load_wavefunction_timegrid()
         data_f = iom_f.load_wavefunction()
         data_h = iom_h.load_wavefunction()

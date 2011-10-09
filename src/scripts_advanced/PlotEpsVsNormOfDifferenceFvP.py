@@ -64,14 +64,14 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             iom_h.open_file(filename=resultsfile_h)
 
             # Read the parameters
-            parameters_f = iom_f.get_parameters()
-            parameters_h = iom_h.get_parameters()
+            parameters_f = iom_f.load_parameters()
+            parameters_h = iom_h.load_parameters()
 
             # Scalar parameter of the x axis
             axisdata[index].append(parameters_f["dt"])
 
             # Get the data
-            grid = iom_f.load_grid()
+            grid = iom_f.load_grid(blockid="global")
 
             WF = WaveFunction(parameters_f)
             WF.set_grid(grid)

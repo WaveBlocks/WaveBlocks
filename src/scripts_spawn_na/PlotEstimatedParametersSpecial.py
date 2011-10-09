@@ -18,53 +18,43 @@ from WaveBlocks import IOManager
 import GraphicsDefaults as GD
 
 
-def read_data_spawn(f, assume_duplicate_mother=False):
-    """
-    @param f: An I{IOManager} instance providing the simulation data.
-    @keyword assume_duplicate_mother: Parameter to tell the code to leave out
-    every second data block and only take blocks [0, 1, 3, 5, 7, ...]. This
-    is usefull because in aposteriori spawning we have to store clones of
-    the mother packet.
-    """
-    parameters = f.get_parameters()
-    ndb = f.get_number_blocks()
+def read_data(iom, gid):
+    parameters = iom.load_parameters()
 
-    timegrids = []
-    AllPA = []
+    data = []
 
-    if assume_duplicate_mother is True:
-        blocks = [0] + range(1, ndb, 2)
-    else:
-        blocks = range(ndb)
+    bids = iom.get_block_ids(groupid=gid)
 
     # Load the data from each block
-    for block in blocks:
-        timegrids.append(parameters["dt"] * f.load_wavepacket_timegrid(block=block))
+    for bid in bids:
+        if not iom.has_wavepacket(blockid=bid):
+            continue
 
-        Pi = f.load_wavepacket_parameters(block=block)
+        timegrid = iom.load_wavepacket_timegrid(blockid=bid)
+        time = timegrid * parameters["dt"]
+
+        Pi = iom.load_wavepacket_parameters(blockid=bid)
         Phist = Pi[:,0]
         Qhist = Pi[:,1]
         Shist = Pi[:,2]
         phist = Pi[:,3]
         qhist = Pi[:,4]
 
-        AllPA.append([Phist, Qhist, Shist, phist, qhist])
+        data.append((time, (Phist, Qhist, Shist, phist, qhist)))
 
-    return timegrids, AllPA
+    return data
 
 
-def plot_parameters_spawn(timegrids, AllPA):
-    """Plot some interesting values of the original and estimated
-    parameters sets Pi_m=(P,Q,S,p,q) and Pi_s=(B,A,S,b,a).
-    """
+def plot_parameters(gid, data):
+    print("Plotting transformed wavepacket parameters of group '"+str(gid)+"'")
 
     # Grid of mother and first spawned packet
-    grid_m = timegrids[0]
-    grid_s = timegrids[1]
+    grid_m = data[0][0]
+    grid_s = data[1][0]
 
     # Parameters of mother and first spawned packet
-    P, Q, S, p, q = AllPA[0]
-    B, A, S, b, a = AllPA[1]
+    P, Q, S, p, q = data[0][1]
+    B, A, S, b, a = data[1][1]
 
     X = P*abs(Q)/Q
 
@@ -78,7 +68,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_realparts"+GD.output_format)
+    fig.savefig("test_spawned_PI_realparts_group"+str(gid)+GD.output_format)
 
 
 
@@ -90,7 +80,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_imagparts"+GD.output_format)
+    fig.savefig("test_spawned_PI_imagparts_group"+str(gid)+GD.output_format)
 
 
 
@@ -102,7 +92,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_complex_trajectories"+GD.output_format)
+    fig.savefig("test_spawned_PI_complex_trajectories_group"+str(gid)+GD.output_format)
 
 
 
@@ -114,7 +104,7 @@ def plot_parameters_spawn(timegrids, AllPA):
 
     ax.legend()
     ax.grid(True)
-    fig.savefig("test_spawned_PI_angles"+GD.output_format)
+    fig.savefig("test_spawned_PI_angles_group"+str(gid)+GD.output_format)
 
 
 
@@ -127,11 +117,10 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    gids = iom.get_group_ids(exclude=["global"])
 
-    if parameters["algorithm"] == "spawning_apost_na":
-        plot_parameters_spawn(*read_data_spawn(iom, assume_duplicate_mother=True))
-    else:
-        raise NotImplementedError
+    for gid in gids:
+        data = read_data(iom, gid)
+        plot_parameters(gid, data)
 
     iom.finalize()

@@ -49,9 +49,9 @@ if __name__ == "__main__":
     except IndexError:
         iom.open_file()
 
-    parameters = iom.get_parameters()
+    parameters = iom.load_parameters()
     potential = PotentialFactory.create_potential(parameters)
-    grid = iom.load_grid()
+    grid = iom.load_grid(blockid="global")
 
     plot_potential(grid, potential, fill=False)
 

@@ -59,10 +59,10 @@ def load_data(resultspath):
             iom_h.open_file(filename=resultsfile_h)
 
             # Read the parameters
-            parameters_f = iom_f.get_parameters()
-            parameters_h = iom_h.get_parameters()
+            parameters_f = iom_f.load_parameters()
+            parameters_h = iom_h.load_parameters()
 
-            grid = iom_f.load_grid()
+            grid = iom_f.load_grid(blockid="global")
 
             # Precalculate eigenvectors for efficiency
             Potential = PotentialFactory.create_potential(parameters_f)

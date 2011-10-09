@@ -12,44 +12,51 @@ algorithm.
 import numpy as np
 
 
-def add_fourieroperators(self, parameters, block=0):
+def add_fourieroperators(self, parameters, blockid=0):
     """Add storage for the Fourier propagation operators.
     """
-    grp_pr = self.srf["datablock_"+str(block)].create_group("propagation")
+    grp_pr = self._srf[self._prefixb+str(blockid)].create_group("propagation")
     grp_op = grp_pr.create_group("operators")
     grp_op.create_dataset("opkinetic", (parameters["ngn"],), np.complexfloating)
     grp_op.create_dataset("oppotential", (parameters["ngn"], parameters["ncomponents"]**2), np.complexfloating)
 
 
-def delete_fourieroperators(self, block=0):
+def delete_fourieroperators(self, blockid=0):
     """Remove the stored Fourier operators.
     """
     try:
-        del self.srf["datablock_"+str(block)+"/propagation/operators"]
+        del self._srf[self._prefixb+str(blockid)+"/propagation/operators"]
         # Check if there are other children, if not remove the whole node.
-        if len(self.srf["datablock_"+str(block)+"/propagation"].keys()) == 0:
-            del self.srf["datablock_"+str(block)+"/propagation"]
+        if len(self._srf[self._prefixb+str(blockid)+"/propagation"].keys()) == 0:
+            del self._srf[self._prefixb+str(blockid)+"/propagation"]
     except KeyError:
         pass
 
 
-def save_fourieroperators(self, operators, block=0):
+def has_fourieroperators(self, blockid=0):
+    """Ask if the specified data block has the desired data tensor.
+    """
+    return ("propagation" in self._srf[self._prefixb+str(blockid)].keys() and
+            "operators" in self._srf[self._prefixb+str(blockid)]["propagation"].keys())
+
+
+def save_fourieroperators(self, operators, blockid=0):
     """Save the kinetic and potential operator to a file.
     @param operators: The operators to save, given as (T, V).
     """
     # Save the kinetic propagation operator
-    path = "/datablock_"+str(block)+"/propagation/operators/opkinetic"
-    self.srf[path][...] = np.squeeze(operators[0].astype(np.complexfloating))
+    path = "/"+self._prefixb+str(blockid)+"/propagation/operators/opkinetic"
+    self._srf[path][...] = np.squeeze(operators[0].astype(np.complexfloating))
     # Save the potential propagation operator
-    path = "/datablock_"+str(block)+"/propagation/operators/oppotential"
+    path = "/"+self._prefixb+str(blockid)+"/propagation/operators/oppotential"
     for index, item in enumerate(operators[1]):
-        self.srf[path][:,index] = item.astype(np.complexfloating)
+        self._srf[path][:,index] = item.astype(np.complexfloating)
 
 
-def load_fourieroperators(self, block=0):
-    path = "/datablock_"+str(block)+"/propagation/operators/"
-    opT = self.srf[path+"opkinetic"]
-    opV = self.srf[path+"oppotential"]
-    opV = [ opV[:,index] for index in xrange(self.parameters["ncomponents"]**2) ]
+def load_fourieroperators(self, blockid=0):
+    path = "/"+self._prefixb+str(blockid)+"/propagation/operators/"
+    opT = self._srf[path+"opkinetic"]
+    opV = self._srf[path+"oppotential"]
+    opV = [ opV[:,index] for index in xrange(self._parameters["ncomponents"]**2) ]
 
     return (opT, opV)
