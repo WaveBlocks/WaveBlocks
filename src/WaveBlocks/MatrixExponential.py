@@ -50,7 +50,7 @@ def matrix_exp_arnoldi(A, v, factor, k):
     @param factor: An additional factor, usually contains at least the timestep.
     @param k: The number of Krylov steps.
     """
-    V, H = arnoldi(A, v, k)
+    V, H = arnoldi(A, v, min(min(A.shape), k))
     eH = mat(expm(-1.0j*factor*H[:-1,:]))
     r = V[:,:-1] * eH[:,0]
     return r * norm(v)
