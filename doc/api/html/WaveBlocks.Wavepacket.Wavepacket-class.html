@@ -119,6 +119,24 @@
       
     </td>
   </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_resize_coefficient_vector"></a><span class="summary-sig-name">_resize_coefficient_vector</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">component</span>)</span><br />
+      Adapt the coefficient vector for a given component to a new size.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.Wavepacket-pysrc.html#Wavepacket._resize_coefficient_vector">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -159,11 +177,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.Wavepacket.Wavepacket-class.html#get_basis_size" class="summary-sig-name">get_basis_size</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="WaveBlocks.Wavepacket.Wavepacket-class.html#get_basis_size" class="summary-sig-name">get_basis_size</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">component</span>=<span class="summary-sig-default">None</span>)</span><br />
       Returns:
       The size of the basis, i.e.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.Wavepacket-pysrc.html#Wavepacket.get_basis_size">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.Wavepacket.Wavepacket-class.html#set_basis_size" class="summary-sig-name">set_basis_size</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">basis_size</span>,
+        <span class="summary-sig-arg">component</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Set the size of the basis of a given component or all components.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.Wavepacket-pysrc.html#Wavepacket.set_basis_size">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -575,7 +613,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_basis_size</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_basis_size</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">component</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.Wavepacket-pysrc.html#Wavepacket.get_basis_size">source&nbsp;code</a></span>&nbsp;
@@ -586,6 +625,33 @@
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The size of the basis, i.e. the number $K$ of ${\phi_k}_{k=1}^K$.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_basis_size"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_basis_size</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">basis_size</span>,
+        <span class="sig-arg">component</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.Wavepacket-pysrc.html#Wavepacket.set_basis_size">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the size of the basis of a given component or all components.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>basis_size</code></strong> - An single positive integer or a list of $N$ positive integers.</li>
+        <li><strong class="pname"><code>component</code></strong> - The component for which we want to set the basis size. Default is
+          <i>None</i> which means 'all'.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1037,7 +1103,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:46 2011
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:40 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

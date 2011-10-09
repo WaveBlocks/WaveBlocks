@@ -89,6 +89,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="free_particle"></a><span class="summary-name">free_particle</span> = <code title="{'defaults': {'c': 0.0}, 'potential': 'c'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">c</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.0<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">c</code><code class="variable-quote">'</code><code class="variable-group">}</code></code><br />
+      Free particle
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="WaveBlocks.PotentialLibrary-module.html#quadratic" class="summary-name">quadratic</a> = <code title="{'defaults': {'sigma': '1/2'}, 'potential': '1/2 * sigma * x**2'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2</code><code class="variable-quote">'</code><code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 *</code><code class="variable-ellipsis">...</code></code><br />
       Simple harmonic potential
     </td>
@@ -97,8 +105,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="WaveBlocks.PotentialLibrary-module.html#pert_quadratic" class="summary-name">pert_quadratic</a> = <code title="{'defaults': {'sigma': 0.05},
- 'potential': '1/2 * sigma * x**2 + 1/2 * eps**2 * x**2'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.05<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-ellipsis">...</code></code><br />
+        <a href="WaveBlocks.PotentialLibrary-module.html#pert_quadratic" class="summary-name">pert_quadratic</a> = <code title="{'defaults': {'delta': 0.2, 'sigma': 0.05},
+ 'potential': '1/2 * sigma * x**2 + 1/2 * delta**2 * x**2'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">delta</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.2<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.05<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
       Perturbed harmonic potential
     </td>
   </tr>
@@ -114,9 +122,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="WaveBlocks.PotentialLibrary-module.html#cos_waves" class="summary-name">cos_waves</a> = <code title="{'defaults': {'alpha': 0.07, 'beta': 1.0},
- 'potential': 'alpha * (1 - cos(beta*x))'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alpha</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.07<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">beta</code><code class="variable-quote">'</code><code class="variable-op">: </code>1.0<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potent</code><code class="variable-ellipsis">...</code></code><br />
+        <a href="WaveBlocks.PotentialLibrary-module.html#cos_waves" class="summary-name">cos_waves</a> = <code title="{'defaults': {'alpha': 0.07, 'xi': 1.0},
+ 'potential': 'alpha * (1 - cos(xi*x))'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alpha</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.07<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">xi</code><code class="variable-quote">'</code><code class="variable-op">: </code>1.0<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potentia</code><code class="variable-ellipsis">...</code></code><br />
       A potential consisting of a cosine wave
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="WaveBlocks.PotentialLibrary-module.html#morse" class="summary-name">morse</a> = <code title="{'defaults': {'D': 3.0, 'a': 0.3, 'o': 0.0},
+ 'potential': 'D * (1 - exp(-a*(x-o)))**2'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">D</code><code class="variable-quote">'</code><code class="variable-op">: </code>3.0<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">a</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.3<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">o</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.0<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potentia</code><code class="variable-ellipsis">...</code></code><br />
+      The Morse potential
     </td>
   </tr>
 <tr>
@@ -148,7 +165,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="v_shape"></a><span class="summary-name">v_shape</span> = <code title="{'potential': '1/2 * sqrt(9/16 * eps**2 + tanh(x)**2)'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 * sqrt(9/16 * eps**2 + tanh(x)**2)</code><code class="variable-quote">'</code><code class="variable-group">}</code></code><br />
+        <a href="WaveBlocks.PotentialLibrary-module.html#v_shape" class="summary-name">v_shape</a> = <code title="{'defaults': {'delta': 0.2},
+ 'potential': '1/2 * sqrt(tanh(x)**2+4*delta**2)'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">delta</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.2<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 * sqr</code><code class="variable-ellipsis">...</code></code><br />
       A narrow 'V'-like potential
     </td>
   </tr>
@@ -313,8 +331,8 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.05<code class="variable-group">}</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 * sigma * x**2 + 1/2 * eps**2 * x**2</code><code class="variable-quote">'</code><code class="variable-group">}</code>
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">delta</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.2<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.05<code class="variable-group">}</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 * sigma * x**2 + 1/2 * delta**2 * x**2</code><code class="variable-quote">'</code><code class="variable-group">}</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -350,8 +368,27 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alpha</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.07<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">beta</code><code class="variable-quote">'</code><code class="variable-op">: </code>1.0<code class="variable-group">}</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">alpha * (1 - cos(beta*x))</code><code class="variable-quote">'</code><code class="variable-group">}</code>
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alpha</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.07<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">xi</code><code class="variable-quote">'</code><code class="variable-op">: </code>1.0<code class="variable-group">}</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">alpha * (1 - cos(xi*x))</code><code class="variable-quote">'</code><code class="variable-group">}</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="morse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">morse</h3>
+  <p>The Morse potential</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">D</code><code class="variable-quote">'</code><code class="variable-op">: </code>3.0<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">a</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.3<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">o</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.0<code class="variable-group">}</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">D * (1 - exp(-a*(x-o)))**2</code><code class="variable-quote">'</code><code class="variable-group">}</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -407,6 +444,25 @@
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 <code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">sigma</code><code class="variable-quote">'</code><code class="variable-op">: </code>10.0<code class="variable-group">}</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">atan(sigma*x) + pi/2</code><code class="variable-quote">'</code><code class="variable-group">}</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="v_shape"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">v_shape</h3>
+  <p>A narrow 'V'-like potential</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">defaults</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">delta</code><code class="variable-quote">'</code><code class="variable-op">: </code>0.2<code class="variable-group">}</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">potential</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">1/2 * sqrt(tanh(x)**2+4*delta**2)</code><code class="variable-quote">'</code><code class="variable-group">}</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -642,7 +698,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:46 2011
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:39 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

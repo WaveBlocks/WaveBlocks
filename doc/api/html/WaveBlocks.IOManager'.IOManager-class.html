@@ -131,7 +131,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="create_block"></a><span class="summary-sig-name">create_block</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#create_block" class="summary-sig-name">create_block</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">groupid</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">global</code><code class="variable-quote">'</code></span>)</span><br />
+      Create a data block with the specified block ID.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.create_block">source&nbsp;code</a></span>
             
@@ -166,9 +169,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="delete_simulation_parameters"></a><span class="summary-sig-name">delete_simulation_parameters</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#create_group" class="summary-sig-name">create_group</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">groupid</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Create a data group with the specified group ID.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.delete_simulation_parameters">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.create_group">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -183,7 +188,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="finalize"></a><span class="summary-sig-name">finalize</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Close the open output files.</td>
+      Close the open output file and reset the internal information.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.finalize">source&nbsp;code</a></span>
             
@@ -218,8 +223,67 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_number_blocks"></a><span class="summary-sig-name">get_number_blocks</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the number of data blocks the data file currently consists of.</td>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#get_block_ids" class="summary-sig-name">get_block_ids</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">groupid</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">grouped</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return a list containing the IDs for all blocks in the current file 
+      structure.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_block_ids">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#get_group_ids" class="summary-sig-name">get_group_ids</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">exclude</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span><br />
+      Return a list containing the IDs for all groups in the current file 
+      structure.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_group_ids">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#get_group_of_block" class="summary-sig-name">get_group_of_block</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">blockid</span>)</span><br />
+      Return the ID of the group a given block belongs to or <i>None</i> if
+      there is no such data block.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_group_of_block">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#get_number_blocks" class="summary-sig-name">get_number_blocks</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">groupid</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the number of data blocks in the current file structure.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_number_blocks">source&nbsp;code</a></span>
             
@@ -235,11 +299,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_parameters"></a><span class="summary-sig-name">get_parameters</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the reference to the current <i>ParameterProvider</i> 
-      instance.</td>
+          <td><span class="summary-sig"><a name="get_number_groups"></a><span class="summary-sig-name">get_number_groups</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the number of block groups in the current file structure.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_parameters">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_number_groups">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -291,46 +354,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="save_simulation_parameters"></a><span class="summary-sig-name">save_simulation_parameters</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">parameters</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.save_simulation_parameters">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.IOManager%27.IOManager-class.html#split_data" class="summary-sig-name">split_data</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">data</span>,
         <span class="summary-sig-arg">axis</span>)</span><br />
       Split a multi-dimensional data block into slabs along a given axis.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.split_data">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="update_simulation_parameters"></a><span class="summary-sig-name">update_simulation_parameters</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">parameters</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.update_simulation_parameters">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -357,6 +386,36 @@
   </td>
 </tr>
 </table>
+<a name="create_block"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_block</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">blockid</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">groupid</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">global</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.create_block">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Create a data block with the specified block ID. Each data block can 
+  store several chunks of information, and there can be an arbitrary number
+  of data blocks per file.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>blockid</code></strong> - The ID for the new data block. If not given the blockid will be 
+          choosen automatically. The block ID has to be unique.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The block ID of the created block.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="create_file"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -376,6 +435,44 @@
   <p>Set up a new <i>IOManager</i> instance. The output files are created 
   and opened.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>parameters</code></strong> - A <i>ParameterProvider</i> instance containing the current 
+          simulation parameters. This is only used for determining the size
+          of new data sets.</li>
+        <li><strong class="pname"><code>filename</code></strong> - The filename (optionally with filepath) of the file we try to 
+          create. If not given the default value from <i>GlobalDefaults</i>
+          is used.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="create_group"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_group</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">groupid</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.create_group">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Create a data group with the specified group ID. Each data group can 
+  contain an arbitrary number of data blocks, and there can be an arbitrary
+  number of data groups per file.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>groupid</code></strong> - The ID for the new data group. If not given the group ID will be 
+          choosen automatically. The group ID has to be unique.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The group ID of the created group.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -403,6 +500,113 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="get_block_ids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_block_ids</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">groupid</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">grouped</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_block_ids">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a list containing the IDs for all blocks in the current file 
+  structure.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>groupid</code></strong> - An optional group ID, if given we return only block IDs for 
+          blocks which are a member of this group. If it is <i>None</i> we 
+          return all block IDs.</li>
+        <li><strong class="pname"><code>grouped</code></strong> - If <i>True</i> we group the block IDs by their group into lists. 
+          This option is only relevant in case the <i>groupid</i> is not 
+          given.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_group_ids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_group_ids</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">exclude</span>=<span class="sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_group_ids">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a list containing the IDs for all groups in the current file 
+  structure.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>exclude</code></strong> - A list of group IDs to exclude. Per default no group is excluded.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_group_of_block"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_group_of_block</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">blockid</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_group_of_block">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the ID of the group a given block belongs to or <i>None</i> if 
+  there is no such data block.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>blockid</code></strong> - The ID of the given block.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_blocks"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_blocks</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">groupid</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.IOManager%27-pysrc.html#IOManager.get_number_blocks">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the number of data blocks in the current file structure.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>groupid</code></strong> - An optional group ID, if given we count only data blocks which 
+          are a member of this group. If it is <i>None</i> we count all 
+          data blocks.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="open_file"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -423,7 +627,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>filename</code></strong> - The filename/path of the file we try to load.</li>
+        <li><strong class="pname"><code>filename</code></strong> - The filename (optionally with filepath) of the file we try to 
+          load. If not given the default value from <i>GlobalDefaults</i> 
+          is used.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -481,7 +687,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:46 2011
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:40 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

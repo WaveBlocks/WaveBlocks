@@ -92,7 +92,7 @@
           <td><span class="summary-sig"><a name="add_energy"></a><span class="summary-sig-name">add_energy</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">parameters</span>,
         <span class="summary-sig-arg">timeslots</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">total</span>=<span class="summary-sig-default">False</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#add_energy">source&nbsp;code</a></span>
@@ -110,7 +110,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="delete_energy"></a><span class="summary-sig-name">delete_energy</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span><br />
       Remove the stored energies</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#delete_energy">source&nbsp;code</a></span>
@@ -128,7 +128,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="has_energy"></a><span class="summary-sig-name">has_energy</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span><br />
       Ask if the specified data block has the desired data tensor.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#has_energy">source&nbsp;code</a></span>
@@ -148,7 +148,7 @@
           <td><span class="summary-sig"><a href="WaveBlocks.IOM_plugin_energy-module.html#save_energy" class="summary-sig-name">save_energy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">energies</span>,
         <span class="summary-sig-arg">timestep</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span><br />
       Save the kinetic and potential energies to a file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#save_energy">source&nbsp;code</a></span>
@@ -168,7 +168,7 @@
           <td><span class="summary-sig"><a href="WaveBlocks.IOM_plugin_energy-module.html#save_energy_total" class="summary-sig-name">save_energy_total</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">total_energy</span>,
         <span class="summary-sig-arg">timestep</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span><br />
       Save the total to a file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#save_energy_total">source&nbsp;code</a></span>
@@ -186,7 +186,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="load_energy_timegrid"></a><span class="summary-sig-name">load_energy_timegrid</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span></td>
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#load_energy_timegrid">source&nbsp;code</a></span>
             
@@ -205,7 +205,7 @@
           <td><span class="summary-sig"><a name="load_energy"></a><span class="summary-sig-name">load_energy</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">timestep</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">split</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span></td>
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#load_energy">source&nbsp;code</a></span>
             
@@ -223,7 +223,7 @@
         <tr>
           <td><span class="summary-sig"><a name="load_energy_total"></a><span class="summary-sig-name">load_energy_total</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">timestep</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">block</span>=<span class="summary-sig-default">0</span>)</span></td>
+        <span class="summary-sig-arg">blockid</span>=<span class="summary-sig-default">0</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#load_energy_total">source&nbsp;code</a></span>
             
@@ -287,7 +287,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">save_energy</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">energies</span>,
         <span class="sig-arg">timestep</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">block</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">blockid</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#save_energy">source&nbsp;code</a></span>&nbsp;
@@ -313,7 +313,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">save_energy_total</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">total_energy</span>,
         <span class="sig-arg">timestep</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">block</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">blockid</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.IOM_plugin_energy-pysrc.html#save_energy_total">source&nbsp;code</a></span>&nbsp;
@@ -353,7 +353,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 14 21:13:46 2011
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:39 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
