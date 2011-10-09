@@ -71,7 +71,7 @@ def load_data(resultsdir, evaluation_times, which_norm="wf"):
             axisdata[index].append(parameters_f["dt"])
 
             # Get the data
-            grid = iom_f.load_grid()
+            grid = iom_f.load_grid(blockid="global")
 
             WF = WaveFunction(parameters_f)
             WF.set_grid(grid)

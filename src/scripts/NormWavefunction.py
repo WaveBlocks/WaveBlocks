@@ -18,7 +18,10 @@ def compute_norm(iom, blockid=0):
     """
     parameters = iom.load_parameters()
 
-    nodes = iom.load_grid(blockid=blockid)
+    if iom.has_grid(blockid=blockid):
+        grid = iom.load_grid(blockid=blockid)
+    else:
+        grid = iom.load_grid(blockid="global")
 
     # Number of time steps we saved
     timesteps = iom.load_wavefunction_timegrid(blockid=blockid)
@@ -29,7 +32,7 @@ def compute_norm(iom, blockid=0):
 
     # Precalculate eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
-    eigenvectors = Potential.evaluate_eigenvectors_at(nodes)
+    eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     WF = WaveFunction(parameters)
 
@@ -41,7 +44,7 @@ def compute_norm(iom, blockid=0):
         values = [ values[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Calculate the norm of the wave functions projected into the eigenbasis
-        values_e = Potential.project_to_eigen(nodes, values, eigenvectors)
+        values_e = Potential.project_to_eigen(grid, values, eigenvectors)
         WF.set_values(values_e)
         norms = WF.get_norm()
 

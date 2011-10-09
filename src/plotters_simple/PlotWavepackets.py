@@ -35,7 +35,7 @@ def plot_frames_homogeneous(iom, blockid=0, view=None):
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(blockid=blockid)
+    grid = iom.load_grid(blockid="global")
     params = iom.load_wavepacket_parameters(blockid=blockid)
     coeffs = iom.load_wavepacket_coefficients(blockid=blockid)
 
@@ -80,7 +80,7 @@ def plot_frames_inhomogeneous(iom, blockid=0, view=None):
     Potential = PotentialFactory.create_potential(parameters)
 
     # Retrieve simulation data
-    grid = iom.load_grid(blockid=blockid)
+    grid = iom.load_grid(blockid="global")
     params = iom.load_inhomogwavepacket_parameters(blockid=blockid)
     coeffs = iom.load_inhomogwavepacket_coefficients(blockid=blockid)
 

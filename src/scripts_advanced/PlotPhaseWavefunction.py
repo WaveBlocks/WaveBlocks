@@ -26,7 +26,7 @@ def plot_frames(iom, blockid=0, view=None, imgsize=(12,9)):
     """
     parameters = iom.load_parameters()
 
-    grid = iom.load_grid(blockid=blockid)
+    grid = iom.load_grid(blockid="global")
     timegrid = iom.load_wavefunction_timegrid(blockid=blockid)
 
     # Precompute eigenvectors for efficiency

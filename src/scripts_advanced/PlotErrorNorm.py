@@ -64,7 +64,7 @@ def load_data(resultspath, which_norm="wf"):
         axisdata.append(parameters_f["eps"])
 
         # Get the data
-        grid = iom_f.load_grid()
+        grid = iom_f.load_grid(blockid="global")
         timesteps = iom_f.load_wavefunction_timegrid()
         data_f = iom_f.load_wavefunction()
         data_h = iom_h.load_wavefunction()

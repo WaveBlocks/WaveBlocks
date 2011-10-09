@@ -37,7 +37,7 @@ def read_data(iom, blockid=0):
     """
     parameters = iom.load_parameters()
     # The real space grid
-    grid = iom.load_grid(blockid=blockid)
+    grid = iom.load_grid(blockid="global")
     # The Fourier space grid
     omega_1 = arange(0, parameters["ngn"]/2.0)
     omega_2 = arange(-parameters["ngn"]/2.0, 0, 1)

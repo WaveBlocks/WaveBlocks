@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     parameters = iom.load_parameters()
     potential = PotentialFactory.create_potential(parameters)
-    grid = iom.load_grid()
+    grid = iom.load_grid(blockid="global")
 
     plot_potential(grid, potential, fill=False)
 

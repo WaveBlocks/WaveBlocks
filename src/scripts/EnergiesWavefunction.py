@@ -25,7 +25,11 @@ def compute_energy(iom, blockid=0):
     nrtimesteps = timesteps.shape[0]
 
     # Retrieve simulation data
-    nodes = iom.load_grid(blockid=blockid)
+    if iom.has_grid(blockid=blockid):
+        grid = iom.load_grid(blockid=blockid)
+    else:
+        grid = iom.load_grid(blockid="global")
+
     opT, opV = iom.load_fourieroperators(blockid=blockid)
 
     # We want to save norms, thus add a data slot to the data file
@@ -33,7 +37,7 @@ def compute_energy(iom, blockid=0):
 
     # Precalculate eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
-    eigenvectors = Potential.evaluate_eigenvectors_at(nodes)
+    eigenvectors = Potential.evaluate_eigenvectors_at(grid)
     nst = Potential.get_number_components()
 
     WF = WaveFunction(parameters)
@@ -46,7 +50,7 @@ def compute_energy(iom, blockid=0):
         values = [ values[j,...] for j in xrange(parameters["ncomponents"]) ]
 
         # Project wavefunction values to eigenbasis
-        values = Potential.project_to_eigen(nodes, values, eigenvectors)
+        values = Potential.project_to_eigen(grid, values, eigenvectors)
         WF.set_values(values)
 
         ekinlist = []
@@ -60,7 +64,7 @@ def compute_energy(iom, blockid=0):
             tmp[index] = item
 
             # Project this vector to the canonical basis
-            tmp = Potential.project_to_canonical(nodes, tmp, eigenvectors)
+            tmp = Potential.project_to_canonical(grid, tmp, eigenvectors)
             WF.set_values(tmp)
 
             # And calculate the energies of these components
