@@ -21,9 +21,10 @@ from WaveBlocks.Plot import plotcf
 import GraphicsDefaults as GD
 
 
-def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
+def plot_frames(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
     @param iom: An I{IOManager} instance providing the simulation data.
+    @param gid: The group ID of the group where the two packets are stored.
     @keyword view: The aspect ratio.
     @keyword plotphase: Whether to plot the complex phase. (slow)
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
@@ -31,20 +32,23 @@ def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr
     """
     parameters = iom.load_parameters()
 
-    grid = iom.load_grid()
+    # Block IDs for mother and child wavepacket
+    bidm, bidc = iom.get_block_ids(groupid=gid)
+
+    grid = iom.load_grid(blockid="global")
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
-    timegrid = iom.load_wavefunction_timegrid()
+    timegrid = iom.load_wavefunction_timegrid(blockid=bidm)
 
     for step in timegrid:
         print(" Timestep # " + str(step))
 
         # Retrieve spawn data for both packets
         try:
-            wave_m = iom.load_wavefunction(timestep=step, blockid=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=bidm)
             values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_mother_data = True
         except ValueError:
@@ -52,7 +56,7 @@ def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr
 
         # Retrieve spawn data
         try:
-            wave_s = iom.load_wavefunction(timestep=step, blockid=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=bidc)
             values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             have_spawn_data = True
         except ValueError:
@@ -106,9 +110,10 @@ def plot_frames(iom, view=None, plotphase=True, plotcomponents=False, plotabssqr
     print(" Plotting frames finished")
 
 
-def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
+def plot_frames_split(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    @param f: An I{IOManager} instance providing the simulation data.
+    @param iom: An I{IOManager} instance providing the simulation data.
+    @param gid: The group ID of the group where the two packets are stored.
     @keyword view: The aspect ratio.
     @keyword plotphase: Whether to plot the complex phase. (slow)
     @keyword plotcomponents: Whether to plot the real/imaginary parts..
@@ -117,13 +122,16 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
     parameters = iom.load_parameters()
     n = parameters["ncomponents"]
 
-    grid = iom.load_grid()
+    # Block IDs for mother and child wavepacket
+    bidm, bidc = iom.get_block_ids(groupid=gid)
+
+    grid = iom.load_grid(blockid="global")
 
     # Precompute eigenvectors for efficiency
     Potential = PotentialFactory.create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
-    timegrid = iom.load_wavefunction_timegrid()
+    timegrid = iom.load_wavefunction_timegrid(blockid=bidm)
 
     for step in timegrid:
         print(" Timestep # " + str(step))
@@ -134,7 +142,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
 
         # Retrieve spawn data for both packets and split the data as necessary
         try:
-            wave_m = iom.load_wavefunction(timestep=step, blockid=0)
+            wave_m = iom.load_wavefunction(timestep=step, blockid=bidm)
             values_m = [ wave_m[j,...] for j in xrange(parameters["ncomponents"]) ]
             yl = values_m[0][grid<=X0]
             yr = values_m[0][grid>X0]
@@ -144,7 +152,7 @@ def plot_frames_split(f, view=None, plotphase=True, plotcomponents=False, plotab
 
         # Retrieve spawn data
         try:
-            wave_s = iom.load_wavefunction(timestep=step, blockid=1)
+            wave_s = iom.load_wavefunction(timestep=step, blockid=bidc)
             values_s = [ wave_s[j,...] for j in xrange(parameters["ncomponents"]) ]
             ysl = values_s[0][grid<=X0]
             ysr = values_s[0][grid>X0]

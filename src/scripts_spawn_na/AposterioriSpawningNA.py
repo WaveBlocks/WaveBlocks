@@ -178,7 +178,7 @@ if __name__ == "__main__":
 
     # Some data in the global data block
     iomout.add_grid(parametersout, blockid="global")
-    iomout.save_grid(iomin.load_grid(), blockid="global")
+    iomout.save_grid(iomin.load_grid(blockid="global"), blockid="global")
 
     # Allocate all the data blocks
     for i in xrange(len(parametersout["spawn_components"])):
