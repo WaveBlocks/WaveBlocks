@@ -97,7 +97,7 @@ def compute(parameters_fo, parameters_fs, timegrids, AllPA, AllC):
     # Quadrature, assume same quadrature order for both packets
     # Assure the "right" quadrature is choosen if OWP and S*WP have
     # different basis sizes
-    if OWP.get_basis_size() > S1WP.get_basis_size():
+    if max(OWP.get_basis_size()) > max(S1WP.get_basis_size()):
         quadrature.set_qr(OWP.get_quadrature().get_qr())
     else:
         quadrature.set_qr(S1WP.get_quadrature().get_qr())

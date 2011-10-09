@@ -60,7 +60,7 @@ class NonAdiabaticSpawner(Spawner):
             return None
 
         # Estimate position and momentum of |w>
-        k = np.arange(1, packet.get_basis_size())
+        k = np.arange(1, packet.get_basis_size(component=component))
         ck   = c[1:]
         ckm1 = c[:-1]
         tmp = np.sum(np.conj(ck) * ckm1 * np.sqrt(k))
@@ -69,12 +69,12 @@ class NonAdiabaticSpawner(Spawner):
         b = p + np.sqrt(2)*self.eps/w * np.real(P*tmp)
 
         # theta_1
-        k = np.arange(0, packet.get_basis_size())
+        k = np.arange(0, packet.get_basis_size(component=component))
         ck = c[:]
         theta1 = np.sum(np.conj(ck) * ck * (2.0*k + 1.0))
 
         # theta_2
-        k = np.arange(0, packet.get_basis_size()-2)
+        k = np.arange(0, packet.get_basis_size(component=component)-2)
         ck   = c[:-2]
         ckp2 = c[2:]
         theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt(k*k+3*k+2))
@@ -122,7 +122,7 @@ class NonAdiabaticSpawner(Spawner):
         c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
 
         # Spawned packet
-        c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
+        c_new_s = np.zeros((child.get_basis_size(component=component),1), dtype=np.complexfloating)
         # Pure $\phi_order$ function
         c_new_s[order,0] = 1.0
         # But normalized
@@ -145,14 +145,14 @@ class NonAdiabaticSpawner(Spawner):
         c_new_m = np.zeros(c_old.shape, dtype=np.complexfloating)
 
         # Spawned packet
-        c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
+        c_new_s = np.zeros((child.get_basis_size(component=component),1), dtype=np.complexfloating)
 
         # The quadrature
         quadrature = InhomogeneousQuadrature()
 
         # Quadrature rule. Assure the "right" quadrature is choosen if
         # mother and child have different basis sizes
-        if mother.get_basis_size() > child.get_basis_size():
+        if mother.get_basis_size(component=component) > child.get_basis_size(component=component):
             quadrature.set_qr(mother.get_quadrature().get_qr())
         else:
             quadrature.set_qr(child.get_quadrature().get_qr())
@@ -166,7 +166,7 @@ class NonAdiabaticSpawner(Spawner):
         basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
         basis_s = child.evaluate_basis_at(nodes, prefactor=True)
 
-        max_order = min(child.get_basis_size(), self.max_order)
+        max_order = min(child.get_basis_size(component=component), self.max_order)
 
         # Project to the basis of the spawned wavepacket
         # Original, inefficient code for projection

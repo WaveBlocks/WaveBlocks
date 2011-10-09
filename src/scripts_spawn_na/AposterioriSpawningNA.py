@@ -64,7 +64,7 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
     # Quadrature, assume same quadrature order for both packets
     # Assure the "right" quadrature is choosen if mother and child have
     # different basis sizes
-    if HAWP.get_basis_size() > SWP.get_basis_size():
+    if max(HAWP.get_basis_size()) > max(SWP.get_basis_size()):
         quadrature.set_qr(HAWP.get_quadrature().get_qr())
     else:
         quadrature.set_qr(SWP.get_quadrature().get_qr())

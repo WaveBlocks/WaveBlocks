@@ -52,7 +52,7 @@ class AdiabaticSpawner(Spawner):
             return None
 
         # Compute spawning position and impulse
-        k = np.arange(self.K+1, packet.get_basis_size())
+        k = np.arange(self.K+1, packet.get_basis_size(component=component))
         ck   = c[self.K+1:]
         ckm1 = c[self.K:-1]
         tmp = np.sum(np.conj(ck) * ckm1 * np.sqrt(k))
@@ -61,12 +61,12 @@ class AdiabaticSpawner(Spawner):
         b = p + np.sqrt(2)*self.eps/w * np.real(P * tmp)
 
         # theta_1
-        k = np.arange(self.K, packet.get_basis_size())
+        k = np.arange(self.K, packet.get_basis_size(component=component))
         ck = c[self.K:]
         theta1 = np.sum(np.abs(ck)**2 * (2.0*k + 1.0))
 
         # theta_2
-        k = np.arange(self.K, packet.get_basis_size()-2)
+        k = np.arange(self.K, packet.get_basis_size(component=component)-2)
         ck   = c[self.K:-2]
         ckp2 = c[self.K+2:]
         theta2 = np.sum(np.conj(ckp2) * ck * np.sqrt((k+1)*(k+2)))
@@ -132,14 +132,14 @@ class AdiabaticSpawner(Spawner):
         c_new_m[:self.K,:] = c_old[:self.K,:]
 
         # Spawned packet
-        c_new_s = np.zeros((child.get_basis_size(),1), dtype=np.complexfloating)
+        c_new_s = np.zeros((child.get_basis_size(component=component),1), dtype=np.complexfloating)
 
         # The quadrature
         quadrature = InhomogeneousQuadrature()
 
         # Quadrature rule. Assure the "right" quadrature is choosen if
         # mother and child have different basis sizes
-        if mother.get_basis_size() > child.get_basis_size():
+        if mother.get_basis_size(component=component) > child.get_basis_size(component=component):
             quadrature.set_qr(mother.get_quadrature().get_qr())
         else:
             quadrature.set_qr(child.get_quadrature().get_qr())
@@ -153,7 +153,7 @@ class AdiabaticSpawner(Spawner):
         basis_m = mother.evaluate_basis_at(nodes, prefactor=True)
         basis_s = child.evaluate_basis_at(nodes, prefactor=True)
 
-        max_order = min(child.get_basis_size(), self.max_order)
+        max_order = min(child.get_basis_size(component=component), self.max_order)
 
         # Project to the basis of the spawned wavepacket
         # Original, inefficient code for projection
