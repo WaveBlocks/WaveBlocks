@@ -92,20 +92,6 @@ class HagedornPropagator(Propagator):
         return self.packet
 
 
-    def get_wavefunction(self, nodes):
-        """Construct a I{WaveFunction} object which contains the components $\Phi_i$
-        of the Hagedorn wavepacket evaluated at the given nodes $\gamma$.
-        @param nodes: The nodes $\gamma$ on which the Hagedorn wavepacket is evaluated.
-        @return: A I{WaveFunction} instance representing the values of the current $\Ket{\Psi}$.
-        @note: This method is quite expensive.
-        """
-        values = self.packet.evaluate_at(nodes, prefactor=True)
-        WF = WaveFunction(self.parameters)
-        WF.set_grid(nodes)
-        WF.set_values(values)
-        return WF
-
-
     def propagate(self):
         """Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket
         at time $t + \tau$. We perform exactly one timestep $\tau$ here.

@@ -42,15 +42,6 @@ class Propagator:
         raise NotImplementedError("get_potential(...)")
 
 
-    def get_wavefunction(self):
-        """@return: Create a I{WaveFunction} instance representing the wavefunction
-        evaluated on a given grid.
-        @raise NotImplementedError: This is an abstract base class.
-        @note: This function can have an additional parameter for providing the grid.
-        """
-        raise NotImplementedError("get_wavefunction(...)")
-
-
     def propagate(self):
         """Given the wavefunction $\Psi$ at time $t$, calculate the new $\Psi$
         at time $t + \tau$. We do exactly one timestep $\tau$ here.
