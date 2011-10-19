@@ -18,9 +18,9 @@ def compute_grid(iom, blockid):
     parameters = iom.load_parameters(blockid="global")
 
     # Compute the position space grid points
-    nodes = parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/parameters["ngn"], dtype=np.complexfloating)
+    nodes = parameters["f"] * np.pi * np.arange(-1, 1, 2.0/parameters["ngn"], dtype=np.complexfloating)
 
-    iom.add_grid(self.parameters, blockid=blockid)
+    iom.add_grid(parameters, blockid=blockid)
     iom.save_grid(nodes, blockid=blockid)
 
 
