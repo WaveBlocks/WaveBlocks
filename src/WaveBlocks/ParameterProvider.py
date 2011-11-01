@@ -70,20 +70,12 @@ class ParameterProvider:
         # Perform the computation only if the basic values are available.
         # This is necessary to add flexibility and essentially read in *any*
         # parameter file with heavily incomplete value sets. (F.e. spawn configs)
-        if self.params.has_key("T") and self.params.has_key("dt"):
-            self._tm = TimeManager()
-            self._tm.set_T(self["T"])
-            self._tm.set_dt(self["dt"])
-
-            # Set the interval for saving data
-            self._tm.set_interval(self["write_nth"])
-
-            # Set the fixed times for saving data
-            if self.has_key("save_at"):
-                self._tm.add_to_savelist(self["save_at"])
-
+        try:
             # The number of time steps we will perform.
-            self.params["nsteps"] = self._tm.compute_number_timesteps()
+            tm = TimeManager(self)
+            self.params["nsteps"] = tm.compute_number_timesteps()
+        except:
+            pass
 
         if self.params.has_key("potential"):
             # Ugly hack. Should improve handling of potential libraries
@@ -134,7 +126,10 @@ class ParameterProvider:
     def get_timemanager(self):
         """Return the embedded I{TimeManager} instance.
         """
-        return self._tm
+        try:
+            return TimeManager(self.params)
+        except:
+            return None
 
 
     def get_parameters(self):

@@ -26,14 +26,27 @@ class TimeManager:
     if and when to save data. But we do not touch any data in here. 
     """
 
-    def __init__(self):
-        # Arbitrary default values
-        self.T = 0.0
-        self.dt = 1.0
+    def __init__(self, parameters):
+        if parameters is None:
+            parameters = {}
+
+        if parameters.has_key("T") and parameters.has_key("dt"):
+            self.set_T(parameters["T"])
+            self.set_dt(parameters["dt"])
+        else:
+            raise KeyError("Parameters provide to little data to construct a 'TimeManager'.")
+
         #: Interval for saving
-        self.interval = 1
+        if parameters.has_key("write_nth"):
+            self.set_interval(parameters["write_nth"])
+        else:
+            self.set_interval(1)
+
         #: List of timesteps when we have to save
-        self.savetimes = []
+        if parameters.has_key("save_at"):
+            self.add_to_savelist(parameters["save_at"])
+        else:
+            self.savetimes = []
 
 
     def __str__(self):
