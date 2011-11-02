@@ -26,22 +26,22 @@
 \section{Introduction}
 
 The \texttt{WaveBlocks} project is a collection of reusable software components
-providing many of the objects used in the study of semi-classical wavewackets.
+providing many of the objects used in the study of semi-classical wavepackets.
 Currently it's all about the time-dependent Schrödinger equation and the time
 evolution of initial states.
 
 One of the main goals is to provide a set of building blocks - hence the project's
 name - that are well tested and reliable. The included features range from very
-simple mathematical things like specialised quadrature rules to basic data
+simple mathematical operations like specialised quadrature rules to basic data
 structures for semi-classical wavepackets to more high-level simulation algorithms
 and some non-standard plotting functions. Of course there are also routines
 included for saving, managing and evaluating simulation results in a flexible
-manner. And all of these components are put together in an easy to use and easy
+manner. All of these components are put together in an easy to use and easy
 to extend framework.
 
-The whole project is written in the \emph{python} programming language and put
-a strong emphasis on readable code and a clean software design, speed and
-efficiency are not the main concern for the moment.
+The whole project is written in the \emph{python} programming language and a 
+strong emphasis is put on readable code and clean software design. Speed and
+efficiency are, however, not the main concern for the moment.
 
 \section{Download}
 
@@ -69,7 +69,7 @@ package manager to download and install all the dependencies.
 
 First, make sure you run \texttt{python 2.x} and not \texttt{python 3.x} because
 some of the following packages will not (yet) work with the latest python version.
-All necessary dependencies are listed here together with a brief statement why we
+All necessary dependencies are listed here together with a brief statement of why we
 need the package.
 
 \begin{itemize}
@@ -78,7 +78,7 @@ need the package.
   \item \texttt{Scipy}, available from \url{http://www.scipy.org/} \\
         Scipy interfaces fast numerical subroutines (BLAS, LAPACK, FFTW).
   \item \texttt{Sympy}, available from \url{http://sympy.org/} \\
-        Sympy gives raise to (limited) symbolic calculation.
+        Sympy gives rise to (limited) symbolic calculation.
   \item \texttt{Matplotlib}, available from \url{http://matplotlib.sourceforge.net/} \\
         Matplotlib is used for plotting.
   \item \texttt{h5py}, available from \url{http://h5py.alfven.org/} \\
@@ -88,7 +88,7 @@ need the package.
 \end{itemize}
 
 The \texttt{mayavi2} dependency is weak in the sense that the whole \texttt{WaveBlocks}
-code runs fine without it and only the (experimental) 3-dimensional plot functions
+code runs fine without it and only the (experimental) 3-dimensional plotting functions
 are not available.
 
 The package \texttt{numdifftools} is already included in the program archive.
@@ -109,10 +109,10 @@ which is the python library and a small subset of the whole project.
 \subsection*{Using a tarball}
 
 Installing the \texttt{WaveBlocks} code itself is trivial if you use one of the
-provided tarballs you just have to unpack the program archive and place the
+provided tarballs. You just have to unpack the program archive and place the
 directories \texttt{src/WaveBlocks} (which contains the library part of \texttt{WaveBlocks})
 and \texttt{src/numdifftools} somewhere in your file system. Make sure the
-location is within your \textit{python path} otherwise you'll have to adapt the
+location is within your \textit{python path}, otherwise you'll have to adapt the
 environment variable \texttt{PYTHONPATH}.
 
 For example if you place these two directories below \verb|~/python| then you have
@@ -162,7 +162,7 @@ with the \texttt{numdifftools} python package.
 
 We can just copy the files as they won't change in the svn repository
 often. But it's a wise idea not to copy \verb|~/WB/src/WaveBlocks| but
-just use symbolic links. (If you have multiple checkouts this is also a simple
+to instead use symbolic links. (If you have multiple checkouts this is also a simple
 way to choose which one will be used when you just type \texttt{import WaveBlocks}
 at a python prompt. This is similar to the \emph{alternatives} framework in Debian.)
 You may just follow the shell command given here for a working sample setup.
@@ -185,15 +185,15 @@ shell.)
 \subsection*{The scripts}
 
 The scripts (everything in \texttt{src/scripts*}, \texttt{src/plotters*} and \texttt{src/tests*})
-that perform simulations, data evaluation and plotting can now be put and called
+that perform simulations, data evaluation and plotting can now be stored and called
 from anywhere as these file are just plain python scripts that \emph{import} the
 \texttt{WaveBlocks} python module. It's best to put these scripts all together
 in a directory where you plan to work and perform simulations.
 
 \section{Supported computing platforms}
 
-The \texttt{WaveBlocks} code should run on Windows and Mac OS X too provided
-that the required python dependencies are installed. However, we did not test it.
+The \texttt{WaveBlocks} code should run on Windows and Mac OS X, provided
+that the required python dependencies are installed. However, this has not yet been tested.
 
 \section{More information about the internals}
 
@@ -238,24 +238,25 @@ use the following bibtex snippet.
 
 \chapter{Using \texttt{WaveBlocks} for performing simulations}
 
-In this chapter we show how to use the code for performing simulations. The process
-is always the same. There is a \emph{pre processing} step where we configure the
-simulations we want to perform. Then the is the \emph{main} step where the simulation
-is run. And finally, there follows a \emph{post processing} step where we evaluate
+In this chapter we show how to use the \texttt{WaveBlocks} framework for performing
+simulations. The process is always the same and consists of a pre-processing step, a
+main step and a post-processing step. The \emph{preprocessing} step where we configure the
+simulations we want to perform. Then there is the \emph{main} step where the simulation
+is run. Finally, there follows a \emph{postprocessing} step where we evaluate
 the data and (optionally) create visualisations. We will see that the post processing
 step consists of many small and independent substeps reflecting the various options
-on what to do with the data obtained.
+of what to do with the data obtained.
 
-\section{Setup and run a single simulation}
+\section{Set up and run a single simulation}
 
 Let's first show how to set up a single simulation. The basic workflow consists of
 several steps. First we have to prepare the simulation, then we run the main simulation
 program. This gives us a data file with the simulation results. Then we can apply various
-post processing steps, for example compute energies, plot norms and many more.
+post processing steps, for example the computation of energies, plotting of norms and many more.
 
 The first step is to create a configuration file and set the parameters. Let's
 call the file \texttt{parameters\_01.py}. The full content of this file is printed
-in listing \ref{lstparameters01}. For an overview of the available setting, see \ref{ref??}.
+in Listing \ref{lstparameters01}. For an overview of the available settings, see \ref{ref??}.
 
 Now we have to run the main simulation program. This is done by the following command
 
@@ -266,12 +267,12 @@ Now we have to run the main simulation program. This is done by the following co
 where we have to provide the configuration file as the first command line option
 of the \texttt{Main.py} program. When the program terminates, it leaves a file
 called \texttt{simulation\_results.hdf5} which contains all the simulation data.
-We can use the program \texttt{hdfview} to gain some insight whats in this file.
+We can use the program \texttt{hdfview} to gain some insight of the contents of the file.
 
 Now we can start with the post processing of the data. Assume we want to plot
-the norms and energies of the wave function during the time evolution. These data
-are not computed during the simulation, but we can get them from the saved
-information. The following two command will compute these data and store them
+the norms and energies of the wave function during the time evolution. These is
+not computed during the simulation, but we can get it from the stored
+information. The following two commands will compute these data and store them
 in \texttt{simulation\_results.hdf5}
 
 \begin{verbatim}
@@ -279,7 +280,7 @@ in \texttt{simulation\_results.hdf5}
   python ComputeEnergies.py
 \end{verbatim}
 
-What remains is plotting of the data. This is done by two other scripts:
+What remains is the visualization the data. This is done by two plot scripts:
 
 \begin{verbatim}
   python PlotNorms.py
@@ -287,7 +288,7 @@ What remains is plotting of the data. This is done by two other scripts:
 \end{verbatim}
 
 The post processing step usually splits into two substeps. First we compute additional
-data and the we visualise these data. The two substeps are performed by individual
+data and then we visualise these data. The two substeps are performed by individual
 scripts.
 
 % \lstinputlisting{examples/parameters_01.py}
@@ -368,15 +369,15 @@ parameters vary, we can avoid this tedious work. The tool that takes over the
 task is named \texttt{ConfigurationGenerator.py}. It takes a so called \emph{meta configuration}
 and then produces a set of ordinary configuration files.
 
-Let's do a simple example, assume that our sample meta configuration file is \texttt{metaconfiguration\_02.py},
-its content is reprinted in listing \ref{lstmetaconf02}. The file is just another
+Let's look at a simple example: assume that our sample meta configuration file is \texttt{metaconfiguration\_02.py},
+its content is reprinted in Listing \ref{lstmetaconf02}. The file is just another
 plain python file with only informal constraints. There must be two dicts named
 \texttt{GP} and \texttt{LP} in the top level namespace. The first one, \texttt{GP},
 contains all the parameters that are global to the set of configuration. While the second
 one, \texttt{LP}, contains lists of the parameters that vary with each simulation.
 The configuration generator then computes the cartesian product of all these
 lists in \texttt{LP}. Then, for each tuple of this cartesian product it adds all
-parameters from \texttt{GP}, this yields a single configuration.
+parameters from \texttt{GP}, yielding a single configuration.
 
 \begin{lstlisting}[float=tp,frame=single,label=lstmetaconf02,caption={Sample meta configuration \texttt{metaconfiguration\_02.py}}]
 # Global parameters that stay the same for all simulations:
@@ -430,7 +431,7 @@ pairs. These can be used later in the post processing step by the functions from
 \texttt{FileTools.py} for sorting and grouping the simulations with respect to
 almost arbitrary criteria.
 
-These configuration files can now be fed to the main simulation program on after
+These configuration files can now be fed to the main simulation program one after
 another as shown in the last section. We could again do this manually but there is
 a better solution.
 
@@ -531,7 +532,7 @@ Usage of \texttt{Filetools.py}
 
 \section{The big picture}
 
-The \texttt{WaveBlocks} project splits into two parts. The first part (and this
+The \texttt{WaveBlocks} project is split into two parts. The first part (and this
 is called \texttt{WaveBlocks} too) is nothing else than a library or \emph{python package}
 which collects code modules that are general enough to be useful in many different applications
 and simulation contexts. The second part consist of several scripts that use code
@@ -543,14 +544,14 @@ while others originated from a single very specific research question \ldots
 \section{In the Core}
 
 In this section we describe the important parts of the \texttt{WaveBlocks} package
-from a user point of view. (For the developers point of view, see chapter ?)
+from a user point of view. (For the developers point of view, see Chapter ?)
 
 \subsection{Ready made Potentials}
 \label{sec:ready_made_potentials}
 
 The following sections contain all potentials that are implemented in the
 \emph{potential library}. The plots show the eigenvalues or energy surfaces.
-Some potential have additional parameters, the default values for these are
+Some potentials have additional parameters, the default values for these are
 also shown.
 
 \subsubsection{Potentials with one energy level}
@@ -996,13 +997,13 @@ are specified the same way as in the homogeneous case above.
 
 \subsection{Required parameter sets}
 
-The simulations can be configured with a very flexible scheme. Namely is possible
-to just specify the values that are really necessary and omit all others. There
+The simulations can be configured with a very flexible scheme. One must only
+specify the values that are really necessary and can omit all others. There
 are some input parameters that have to be provided in any case and many others that
-are only necessary for a specific algorithm or are pure optional.
+are only necessary for a specific algorithm or are purely optional.
 
-In this section of the manual all parameters that can be provided are listed.
-But you are free to define additional parameters and use them in a data evaluation
+In this section all parameters that can be provided are listed.
+You are free to define additional parameters and use them in a data evaluation
 script. Just make sure there is no variable name clash.
 
 % \begin{description}
@@ -1024,7 +1025,7 @@ script. Just make sure there is no variable name clash.
 
   \item[\texttt{potential}] The potential
   \begin{itemize}
-    \item Possible values: see section \ref{sec:ready_made_potentials}
+    \item Possible values: see Section \ref{sec:ready_made_potentials}
     \item Data type: string or dict
   \end{itemize}
 
@@ -1067,7 +1068,7 @@ script. Just make sure there is no variable name clash.
     of the respective \texttt{SimulationLoop} subclass.)
   \begin{itemize}
     \item Possible values: A list of integers and/or floats. Integers are interpreted
-    as timesteps and floats as (absolute) times. Be always aware of this difference
+    as timesteps and floats as (absolute) times. Always be aware of this difference
     in interpretation!
     \item Data type: integer or float
     \item Default value: an empty list, thus saving at special points in time
@@ -1156,7 +1157,7 @@ An example of such a parameter is the \texttt{delta} of the \texttt{delta\_gap} 
 \subsubsection{Parameters related to spawning}
 
 There are a number of parameters which are all related to the different
-spawning techniques. The name of these parameters starts always with the prefix
+spawning techniques. The name of these parameters always starts with the prefix
 \texttt{spawn}.
 
 \begin{description}
@@ -1178,7 +1179,7 @@ spawning techniques. The name of these parameters starts always with the prefix
   \end{itemize}
 
   \item[\texttt{spawn\_method}] Specify the spawning algorithm used.
-  If \texttt{"lumping"} we spawn just a normed wavepacket by copying over the norm
+  If \texttt{"lumping"} we just spawn a normed wavepacket by copying over the norm
   of the \emph{spawn candidate}. If \texttt{"projection"} a full basis projection is done
   up to the maximal order given by the parameter \texttt{spawn\_max\_order}.
   \begin{itemize}
@@ -1188,7 +1189,7 @@ spawning techniques. The name of these parameters starts always with the prefix
 
   \item[\texttt{spawn\_max\_order}] The maximal order (size) of the spawned wavepacket
   i.e. on how many new basis functions the basis projection is performed.
-  This makes sense only in combination with the \texttt{spawn\_normed\_gaussian}
+  This only makes sense in combination with the \texttt{spawn\_normed\_gaussian}
   parameter set to \texttt{False}. Note: this is \emph{not} the basis size of the
   spawned wavepacket.
   \begin{itemize}
@@ -1210,25 +1211,25 @@ spawning techniques. The name of these parameters starts always with the prefix
 
 \section{Data storage}
 
-What data get written to disk. How can we retrieve data, IOM basics, usage, etc
+What data are written to disk. How can we retrieve data, IOM basics, usage, etc
 
 \subsection{How IOM works}
 
-The so called \emph{IOManager} is responsible for storing all our data. It provides a
-meaningful API for storing and retrieving simulation data and in fact the goal is to
-make data handling from scripts as easy as possible. The IOManager uses the low level
+The so-called \emph{IOManager} is responsible for storing all our data. It provides a
+meaningful API for storing and retrieving simulation data and the goal is to
+make data handling from scripts as easy as possible. The IOManager uses the low-level
 \texttt{hdf5} file format to actually store the numerical data efficiently. Dealing directly
 with the hdf5 API provided by \texttt{h5py} would be cumbersome as we would have
 to remember much more details about how the data are stored inside an hdf file. With this thin
 layer we just tell the IOM which data we want to store or load and it performs
-all the low level stuff behind out back.
+all the low-level stuff behind our back.
 
-Please note that the tab-completion of the \texttt{ipython} won't work as usual
+Please note that the tab-completion of \texttt{ipython} won't work as usual
 on \texttt{IOManager} instances because of its plugin architecture. The plugins
 allow to add functionality at runtime and only when its really used. Thus a
 (member)function may be loaded right at the moment it gets called the first time.
 This is the reason why tab-completion and introspection will not work for
-(member)functions that were never called before.
+(member)functions that had never been called before.
 
 \subsection{What gets stored}
 
@@ -1248,7 +1249,7 @@ simulation results file.
   \label{fig:hdfschema}
 \end{figure}
 
-The figure \ref{fig:blockschema} shows the internal structure of a single data
+Figure \ref{fig:blockschema} shows the internal structure of a single data
 block. The dark blocks are at the level of individual data tensors while the
 lighter grey boxes represent hdf groups. Note that not all data sets may exist
 at all and that each group can have different subsets. For example if you never
@@ -1259,7 +1260,7 @@ of wavepackets on a given domain-wide grid.
 \begin{figure}
   \centering
   \includegraphics[scale=0.75]{./fig/structure_datablock.pdf}
-  \caption{Possible structure of a single data block. Not all data does always exist.}
+  \caption{Possible structure of a single data block. Not all data always exist.}
   \label{fig:blockschema}
 \end{figure}
 
@@ -1277,7 +1278,7 @@ time range etc.
 The two parameters \verb|write_nth| and \verb|save_at| are used to configure the
 way you wish to save data. While the first is used to specify the details of saving
 at regular time intervals, the second one provides the means to specify a list
-of points in time when saving should take place. A few examples on saving at regular
+of points in time when saving should take place. A few examples of saving at regular
 intervals.
 
 \begin{verbatim}
@@ -1287,7 +1288,7 @@ intervals.
   # Save data each 5th timestep
   write_nth = 5
 
-  # Never saving data at regular intervalls
+  # Never save data
   write_nth = 0
 \end{verbatim}
 
@@ -1296,8 +1297,8 @@ corresponding to the end of the simulation is not an integer multiple of the val
 of this parameter then the data from the end is missing. (This should be quite obvious!)
 
 The parameter \verb|save_at| has to be a python list containing integers
-and/or floats. And there is a \emph{big difference} between the two data types
-you always have to be aware of! Integers values are interpreted as \emph{timesteps}
+and/or floats. There is a \emph{big difference} between the two data types
+you always have to be aware of! Integer values are interpreted as \emph{timesteps}
 while floats will be taken as \emph{times}. A few examples on saving at specified
 times only:
 
@@ -1326,11 +1327,11 @@ the following
 
 which translates to the: \emph{Save the data each 15 steps and additionally
 save the data at the timesteps 1, 2, 3, 10 and 40 and save the data at the time 3.2,
-23.45 and 23.55.} It is assumed the the \emph{time} is an integer multiple of the
+23.45 and 23.55.} It is assumed that \emph{time} is an integer multiple of the
 \emph{timestep} size. (Otherwise more or less careful rounding will be applied.)
 The list doesn't have to be in monotone order and duplicates will be removed as well
 as values outside the interval $[0, T]$ where $T$ is the time at which the simulation
-stops. A good use case for a mixed specification is for example saving a big
+stops. A good use case for a mixed specification is for example saving at big
 intervals but including the very end of the simulation:
 
 \begin{verbatim}
@@ -1464,8 +1465,8 @@ In detail description on how to generate valid configurations
 
 \subsection{Running simulations}
 
-To run a single simulation, use the \texttt{Main.py} script. The first command
-line argument is the simulation configuration file (with an arbitrary file path).
+To run a single simulation, use the \texttt{Main.py} script. The first command-line
+argument is the simulation configuration file (with an arbitrary file path).
 
 \begin{verbatim}
   python Main.py path/to/the/simulationparameters.py
@@ -1480,10 +1481,10 @@ has three command line parameters and all are optional with sensible defaults.
 The first specifies the \emph{batch configuration} that will be used. The second
 is a directory path pointing to the directory where the configuration files
 are located. All python files within that directory (excluding recursive descent)
-will be treated as simulation configurations. The directory path default to
+will be treated as simulation configurations. The directory path defaults to
 \texttt{./configurations/}. Last but not least the third argument specifies the
 directory path where the simulation results (numerical data, plots etc) will be
-placed after the simulation finished. This defaults to \texttt{./results/}
+placed after the simulation finishes. This defaults to \texttt{./results/}
 with one subdirectory for each simulation configuration. A call looks like:
 
 \begin{verbatim}
@@ -1522,7 +1523,7 @@ See the API documentation.
 In this chapter we describe the steps to extend the \texttt{WaveBlocks}
 code base with respect to various central aspects. The most important aspect
 is probably the possibility to add new potentials of whatever kind. The other
-topics include the question on how to save more data and what it takes to
+topics include the question of how to save more data and what it takes to
 implement new simulation algorithms.
 
 \section{Structure of potential definitions}
