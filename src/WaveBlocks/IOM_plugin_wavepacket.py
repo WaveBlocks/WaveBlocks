@@ -27,10 +27,9 @@ def add_wavepacket(self, parameters, timeslots=None, blockid=0):
     if timeslots is None:
         # This case is event based storing
         daset_tg = grp_wp.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
-        daset_bs = grp_wp.create_dataset("basis_size", (1, parameters["ncomponents"]), dtype=np.integer, chunks=(1, 1, bs))
+        daset_bs = grp_wp.create_dataset("basis_size", (1, parameters["ncomponents"]), dtype=np.integer, chunks=(1, parameters["ncomponents"]))
         daset_pi = grp_wp.create_dataset("Pi", (1, 1, 5), dtype=np.complexfloating, chunks=(1, 1, 5))
-        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], bs),
-                                        dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], bs))
+        daset_c = grp_wp.create_dataset("coefficients", (1, parameters["ncomponents"], bs), dtype=np.complexfloating, chunks=(1, parameters["ncomponents"], bs))
 
         daset_tg.resize(0, axis=0)
         daset_bs.resize(0, axis=0)
