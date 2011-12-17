@@ -104,14 +104,14 @@ class HagedornPropagator(Propagator):
         self.packet.S = self.packet.S + 0.25*dt * self.packet.p**2
 
         # Do a potential step with the local quadratic part
-        V = self.potential.evaluate_local_quadratic_at(self.packet.q)
+        V = self.potential.evaluate_local_quadratic_at(self.packet.q, diagonal_component=self.leading)
 
         self.packet.p = self.packet.p - dt * V[1]
         self.packet.P = self.packet.P - dt * V[2] * self.packet.Q
         self.packet.S = self.packet.S - dt * V[0]
 
         # Do a potential step with the local non-quadratic taylor remainder
-        F = self.quadrature.build_matrix(self.packet, self.potential.evaluate_local_remainder_at)
+        F = self.quadrature.build_matrix(self.packet, partial(self.potential.evaluate_local_remainder_at, diagonal_component=self.leading))
 
         coefficients = self.packet.get_coefficient_vector()
         coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
