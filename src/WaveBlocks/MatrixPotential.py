@@ -31,7 +31,7 @@ class MatrixPotential:
         """
         raise NotImplementedError("'MatrixPotential' is an abstract base class.")
 
-        
+
     def get_number_components(self):
         """@return: The number $N$ of components the potential supports.
         @raise NotImplementedError: This is an abstract base class.
@@ -46,7 +46,7 @@ class MatrixPotential:
         evaluated or 'None' to evaluate all.
         @raise NotImplementedError: This is an abstract base class.
         """
-        raise NotImplementedError("evaluate_at(...)")     
+        raise NotImplementedError("evaluate_at(...)")
 
 
     def calculate_eigenvalues(self):
@@ -191,7 +191,7 @@ class MatrixPotential:
     def evaluate_local_remainder_at(self, position, nodes, component=None):
         """Numerically evaluate the non-quadratic remainder matrix $W$ of the quadratic
         approximation matrix $U$ of the potential's eigenvalues in $\Lambda$ at the
-        given nodes $\gamma$. This function is used for the homogeneous and the 
+        given nodes $\gamma$. This function is used for the homogeneous and the
         inhomogeneous case and just evaluates the remainder matrix $W$.
         @param position: The point $q$ where the Taylor series is computed.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
@@ -200,32 +200,3 @@ class MatrixPotential:
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("evaluate_local_remainder_at(...)")
-
-
-    def calculate_local_quadratic_multi(self):
-        """Calculate the local quadratic approximation matrix $U$ of all the
-        potential's eigenvalues in $\Lambda$. This function is used for the inhomogeneous case.
-        @raise NotImplementedError: This is an abstract base class.
-        """
-        raise NotImplementedError("calculate_local_quadratic_multi(...)")
-    
-    
-    def evaluate_local_quadratic_multi_at(self, nodes, component=None):
-        """Numerically evaluate the local quadratic approximation matrix $U$ of
-        the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
-        This function is used for the inhomogeneous case.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-        @keyword component: The component $\left(i,j\right)$ of the quadratic approximation
-        matrix $U$ that is evaluated.
-        @raise NotImplementedError: This is an abstract base class.
-        """
-        raise NotImplementedError("evaluate_local_quadratic_multi_at(...)")
-
-
-    def calculate_local_remainder_multi(self):
-        """Calculate the non-quadratic remainder matrix $W$ of the quadratic
-        approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
-        This function is used for the inhomogeneous case.
-        @raise NotImplementedError: This is an abstract base class.
-        """
-        raise NotImplementedError("calculate_local_remainder_multi(...)")

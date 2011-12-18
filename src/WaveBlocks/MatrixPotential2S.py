@@ -50,6 +50,10 @@ class MatrixPotential2S(MatrixPotential):
         self.remainder_eigen_s = {}
         self.remainder_eigen_n = {}
 
+        # [] -> [remainder]
+        self.remainder_eigen_ih_s = None
+        self.remainder_eigen_ih_n = None
+
 
     def __str__(self):
         """Put the number of components and the analytical expression (the matrix) into a printable string.
@@ -74,9 +78,9 @@ class MatrixPotential2S(MatrixPotential):
         if component is not None:
             (row, col) = component
             f = self.potential_n[row * self.number_components + col]
-            result = numpy.array(f(nodes), dtype=numpy.complexfloating)
+            result = numpy.array(f(nodes), dtype=numpy.floating)
         else:
-            result = tuple([ numpy.array(f(nodes), dtype=numpy.complexfloating) for f in self.potential_n ])
+            result = tuple([ numpy.array(f(nodes), dtype=numpy.floating) for f in self.potential_n ])
 
         return result
 
@@ -120,7 +124,7 @@ class MatrixPotential2S(MatrixPotential):
             if row == col:
                 result = tmp[row]
             else:
-                result = numpy.zeros(tmp[row].shape, dtype=numpy.complexfloating)
+                result = numpy.zeros(tmp[row].shape, dtype=numpy.floating)
         elif as_matrix is True:
             result = []
             for row in xrange(self.number_components):
@@ -128,7 +132,7 @@ class MatrixPotential2S(MatrixPotential):
                     if row == col:
                         result.append(tmp[row])
                     else:
-                        result.append( numpy.zeros(tmp[row].shape, dtype=numpy.complexfloating) )
+                        result.append( numpy.zeros(tmp[row].shape, dtype=numpy.floating) )
         else:
             result = tmp
 
@@ -323,15 +327,13 @@ class MatrixPotential2S(MatrixPotential):
         return values
 
 
-    def calculate_local_quadratic(self, diagonal_component):
+    def _calculate_local_quadratic_component(self, diagonal_component):
         """Calculate the local quadratic approximation matrix $U$ of the potential's
         eigenvalues in $\Lambda$. This function is used for the homogeneous case and
         takes into account the leading component $\chi$.
         @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
         that gets expanded into a Taylor series $u_i$.
         """
-        self.calculate_eigenvalues()
-
         if self.taylor_eigen_s.has_key(diagonal_component):
             # Calculation already done at some earlier time
             return
@@ -349,10 +351,30 @@ class MatrixPotential2S(MatrixPotential):
 
         # Construct functions to evaluate the approximation at point q at the given nodes
         assert(not self.taylor_eigen_n.has_key(diagonal_component))
+
         self.taylor_eigen_n[diagonal_component] = [
             (order, sympy.vectorize(0)(sympy.lambdify([self.x], f, "numpy")))
             for order, f in self.taylor_eigen_s[diagonal_component]
             ]
+
+
+    def calculate_local_quadratic(self, diagonal_component=None):
+        """Calculate the local quadratic approximation matrix $U$ of the potential's
+        eigenvalues in $\Lambda$. This function can be used for the homogeneous case
+        and takes into account the leading component $\chi$.
+        If the parameter $\chi$ is not given, calculate the local quadratic approximation
+        matrix $U$ of all the potential's eigenvalues in $\Lambda$. This function is used
+        for the inhomogeneous case.
+        @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
+        that gets expanded into a Taylor series $u_i$.
+        """
+        self.calculate_eigenvalues()
+
+        if diagonal_component is not None:
+            self._calculate_local_quadratic_component(diagonal_component)
+        else:
+            for component in xrange(self.number_components):
+                self._calculate_local_quadratic_component(component)
 
 
     def evaluate_local_quadratic_at(self, nodes, diagonal_component):
@@ -364,21 +386,33 @@ class MatrixPotential2S(MatrixPotential):
         @keyword diagonal_component: The eigenvalue to which we evaluate the quadratic approximation.
         @return: A list of arrays containing the values of $U_{i,j}$ at the nodes $\gamma$.
         """
-        return tuple([
-            numpy.array(f(nodes), dtype=numpy.complexfloating)
-            for order, f in self.taylor_eigen_n[diagonal_component]
-            ])
+        """Numerically evaluate the local quadratic approximation matrix $U$ of
+        the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
+        This function is used for the inhomogeneous case.
+        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
+        @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
+        that gets expanded into a Taylor series $u_i$.
+        @return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $\gamma$.
+        """
+        if diagonal_component is not None:
+            return tuple([
+                numpy.array(f(nodes), dtype=numpy.floating)
+                for order, f in self.taylor_eigen_n[diagonal_component]
+                ])
+        else:
+            return tuple([
+                [ numpy.array(f(nodes), dtype=numpy.floating) for order, f in item ]
+                for item in self.taylor_eigen_n.itervalues()
+                ])
 
 
-    def calculate_local_remainder(self, diagonal_component):
+    def _calculate_remainder_component(self, diagonal_component):
         """Calculate the non-quadratic remainder matrix $W$ of the quadratic
         approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
         This function is used for the homogeneous case and takes into account the
         leading component $\chi$.
         @param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.
         """
-        self.calculate_eigenvalues()
-
         if self.remainder_eigen_s.has_key(diagonal_component):
             # Calculation already done at some earlier time
             return
@@ -414,7 +448,60 @@ class MatrixPotential2S(MatrixPotential):
             ]
 
 
-    def evaluate_local_remainder_at(self, position, nodes, diagonal_component, component=None):
+    def _calculate_local_remainder_inhomogeneous(self):
+        """Calculate the non-quadratic remainder matrix $W$ of the quadratic
+        approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
+        This function is used for the inhomogeneous case.
+        """
+        if self.remainder_eigen_ih_s is not None:
+            # Calculation already done at some earlier time
+            return
+        else:
+            self.remainder_eigen_ih_s = []
+
+        # Quadratic taylor series for all eigenvalues
+        quadratic = []
+
+        for item in self.eigenvalues_s:
+            # point where the taylor series is computed
+            q = sympy.Symbol("q")
+
+            p = item.subs(self.x, q)
+            j = sympy.diff(item, self.x)
+            j = j.subs(self.x, q)
+            h = sympy.diff(item, self.x, 2)
+            h = h.subs(self.x, q)
+
+            qa =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
+
+            quadratic.append(qa)
+
+        for row in xrange(self.number_components):
+            for col in xrange(self.number_components):
+                e = self.potential[row,col]
+                if col == row:
+                    e = sympy.simplify(e - quadratic[row])
+                self.remainder_eigen_ih_s.append(e)
+
+        # Construct functions to evaluate the approximation at point q at the given nodes
+        assert(self.remainder_eigen_ih_n is None)
+
+        self.remainder_eigen_ih_n = [
+            sympy.vectorize(1)(sympy.lambdify([q, self.x], item, "numpy"))
+            for item in self.remainder_eigen_ih_s
+            ]
+
+
+    def calculate_local_remainder(self, diagonal_component=None):
+        self.calculate_eigenvalues()
+
+        if diagonal_component is not None:
+            self._calculate_remainder_component(diagonal_component)
+        else:
+            self._calculate_local_remainder_inhomogeneous()
+
+
+    def evaluate_local_remainder_at(self, position, nodes, diagonal_component=None, component=None):
         """Numerically evaluate the non-quadratic remainder matrix $W$ of the quadratic
         approximation matrix $U$ of the potential's eigenvalues in $\Lambda$ at the
         given nodes $\gamma$. This function is used for the homogeneous and the
@@ -426,104 +513,16 @@ class MatrixPotential2S(MatrixPotential):
         @return: A list with a single entry consisting of an array containing the
         values of $W$ at the nodes $\gamma$.
         """
+        if diagonal_component is not None:
+            data = self.remainder_eigen_n[diagonal_component]
+        else:
+            data = self.remainder_eigen_ih_n
+
         if component is not None:
             (row, col) = component
-            f = self.remainder_eigen_n[diagonal_component][row*self.number_components+col]
-            result = numpy.array(f(position, nodes), dtype=numpy.complexfloating)
+            f = data[row*self.number_components+col]
+            result = numpy.array(f(position, nodes), dtype=numpy.floating)
         else:
-            result = tuple([
-                numpy.array(f(position, nodes), dtype=numpy.complexfloating)
-                for f in self.remainder_eigen_n[diagonal_component]
-                ])
+            result = tuple([ numpy.array(f(position, nodes), dtype=numpy.floating) for f in data ])
 
         return result
-
-
-    # def calculate_local_quadratic_multi(self):
-    #     """Calculate the local quadratic approximation matrix $U$ of all the
-    #     potential's eigenvalues in $\Lambda$. This function is used for the inhomogeneous case.
-    #     """
-    #     self.calculate_eigenvalues()
-    #     self.quadratic_multi_s = []
-
-    #     for index, item in enumerate(self.__eigenvalues_s):
-    #         tmp = []
-    #         tmp.append(item)
-
-    #         vj = sympy.simplify( sympy.diff(item, self.x, 1) )
-    #         tmp.append(vj)
-
-    #         vh = sympy.simplify( sympy.diff(item, self.x, 2) )
-    #         tmp.append(vh)
-
-    #         self.quadratic_multi_s.append(tmp)
-
-    #     # Construct function to evaluate the approximation at point q at the given nodes
-    #     self.quadratic_multi_n = []
-    #     for component in self.quadratic_multi_s:
-    #         tmp = []
-    #         for item in component:
-    #             tmp.append( sympy.vectorize(0)(sympy.lambdify([self.x], item, "numpy")) )
-    #         self.quadratic_multi_n.append(tmp)
-
-
-    # def evaluate_local_quadratic_multi_at(self, nodes, component=None):
-    #     """Numerically evaluate the local quadratic approximation matrix $U$ of
-    #     the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
-    #     This function is used for the inhomogeneous case.
-    #     @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-    #     @keyword component: The component $\left(i,j\right)$ of the quadratic approximation
-    #     matrix $U$ that is evaluated.
-    #     @return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $\gamma$.
-    #     """
-    #     if component is not None:
-    #         result = [ numpy.array(f(nodes), dtype=numpy.complexfloating) for f in self.quadratic_multi_n[component] ]
-    #     else:
-    #         result = []
-    #         for item in self.quadratic_multi_n:
-    #             tmp = []
-    #             for f in item:
-    #                 tmp.append( numpy.array(f(nodes), dtype=numpy.complexfloating) )
-    #             result.append(tmp)
-
-    #     return result
-
-
-    # def calculate_local_remainder_multi(self):
-    #     """Calculate the non-quadratic remainder matrix $W$ of the quadratic
-    #     approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
-    #     This function is used for the inhomogeneous case.
-    #     """
-    #     self.calculate_eigenvalues()
-
-    #     quadratic = []
-
-    #     # Quadratic taylor series for all eigenvalues
-    #     for index, item in enumerate(self.__eigenvalues_s):
-    #         # point where the taylor series is computed
-    #         q = sympy.Symbol("q")
-
-    #         p = item.subs(self.x, q)
-    #         j = sympy.diff(item, self.x)
-    #         j = j.subs(self.x, q)
-    #         h = sympy.diff(item, self.x, 2)
-    #         h = h.subs(self.x, q)
-
-    #         qa =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
-
-    #         quadratic.append(qa)
-
-    #     self.nonquadratic_s = []
-
-    #     for row in xrange(self.number_components):
-    #         for col in xrange(self.number_components):
-    #             e = self.potential[row,col]
-    #             if col == row:
-    #                 e = sympy.simplify(e - quadratic[row])
-    #             self.nonquadratic_s.append(e)
-
-    #     # Construct functions to evaluate the approximation at point q at the given nodes
-    #     self.nonquadratic_n = []
-    #     for item in self.nonquadratic_s:
-    #         self.nonquadratic_n.append( sympy.vectorize(1)(sympy.lambdify([q, self.x], item, "numpy")) )
-

@@ -59,8 +59,8 @@ class HagedornPropagatorInhomogeneous(Propagator):
             raise ValueError("Unknown matrix exponential algorithm")
 
         # Precalculate the potential splitting
-        self.potential.calculate_local_quadratic_multi()
-        self.potential.calculate_local_remainder_multi()
+        self.potential.calculate_local_quadratic()
+        self.potential.calculate_local_remainder()
 
 
     def __str__(self):
@@ -104,7 +104,7 @@ class HagedornPropagatorInhomogeneous(Propagator):
         for component in xrange(self.number_components):
             (P,Q,S,p,q) = self.packet.get_parameters(component=component)
 
-            V = self.potential.evaluate_local_quadratic_multi_at(q, component=component)
+            V = self.potential.evaluate_local_quadratic_at(q, diagonal_component=component)
 
             p = p - dt * V[1]
             P = P - dt * V[2] * Q
