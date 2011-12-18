@@ -170,7 +170,7 @@ class IOManager:
         if groupid is None:
             return self._block_count
         else:
-            return len(self.get_blocks_in_group(groupid))
+            return len(self.get_block_ids(groupid=groupid))
 
 
     def get_number_groups(self):
