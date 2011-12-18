@@ -10,11 +10,11 @@ for wavepackets and spawning in the adiabatic case.
 
 from functools import partial
 import numpy as np
-import scipy.linalg as spla
 
 from Propagator import Propagator
 from HagedornWavepacket import HagedornWavepacket
 from AdiabaticSpawner import AdiabaticSpawner
+import SpawnConditionFactory as SCF
 
 
 class SpawnAdiabaticPropagator(Propagator):
@@ -39,18 +39,16 @@ class SpawnAdiabaticPropagator(Propagator):
         #: Number $N$ of components the wavepacket $\Ket{\Psi}$ has got.
         self.number_components = self.potential.get_number_components()
 
-        #: The Hagedorn wavepacket.
+        #: The Hagedorn wavepackets.
         self.packets = [ (packet,leading_component) ]
 
         # Cache some parameter values for efficiency
         self.parameters = parameters
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
-        self.K = parameters["spawn_K0"]
-        self.threshold = parameters["spawn_threshold"]
 
-        self.spawn_condition = lambda time, packet, component: (time >= 5.25 and time < 5.25+self.parameters["dt"])
-        #self.spawn_condition = lambda time, packet, component: (P.get_norm(component=component) >= self.threshold)
+        #: The condition which determines when to spawn.
+        self.spawn_condition = SCF.get_condition(parameters)
 
         # Decide about the matrix exponential algorithm to use
         method = parameters["matrix_exponential"]
@@ -99,14 +97,14 @@ class SpawnAdiabaticPropagator(Propagator):
             return self.packets[packet][0]
 
 
-    def propagate(self):
+    def propagate(self, time):
         """Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket
         at time $t + \tau$. We perform exactly one timestep $\tau$ here.
         """
         dt = self.dt
 
         # Perform spawning in necessary
-        todo = self.should_spwan()
+        todo = self.should_spwan(time)
         for info in todo:
             self.spawn(info)
 
@@ -138,7 +136,7 @@ class SpawnAdiabaticPropagator(Propagator):
             packet.S = packet.S + 0.25 * dt * packet.p**2
 
 
-    def should_spwan(self):
+    def should_spwan(self, time):
         """Check if there is a reason to spawn a new wavepacket.
         """
         spawn_todo = []
@@ -149,15 +147,7 @@ class SpawnAdiabaticPropagator(Propagator):
 
         for packet, leading_chi in self.packets:
             # Spawn condition fulfilled?
-            #should_spawn = self.spawn_condition(packet)
-
-            c = packet.get_coefficients()
-            c = np.squeeze(c[0][:])
-
-            #n_low = spla.norm(c[:self.K])
-            n_high = spla.norm(c[self.K:])
-
-            should_spawn = (n_high >= self.threshold)
+            should_spawn = self.spawn_condition(self.parameters, time, packet, component=0)
 
             if should_spawn:
                 spawn_todo.append(packet)

@@ -14,6 +14,7 @@ import numpy as np
 from Propagator import Propagator
 from HagedornWavepacket import HagedornWavepacket
 from NonAdiabaticSpawner import NonAdiabaticSpawner
+import SpawnConditionFactory as SCF
 
 
 class SpawnNonAdiabaticPropagator(Propagator):
@@ -45,12 +46,9 @@ class SpawnNonAdiabaticPropagator(Propagator):
         self.parameters = parameters
         self.dt = parameters["dt"]
         self.eps = parameters["eps"]
-        self.threshold = parameters["spawn_threshold"]
 
-        # Spawning conditions:
-        # TODO: outsource!
-        self.spawn_condition = lambda time, packet, component: (time >= 5.25 and time < 5.25+self.parameters["dt"])
-        #self.spawn_condition = lambda time, packet, component: (P.get_norm(component=component) >= self.threshold)
+        #: The condition which determines when to spawn.
+        self.spawn_condition = SCF.get_condition(parameters)
 
         # Decide about the matrix exponential algorithm to use
         method = parameters["matrix_exponential"]
@@ -155,7 +153,7 @@ class SpawnNonAdiabaticPropagator(Propagator):
 
             for component in [ c for c in components if c != leading_chi ]:
                 # Spawn condition fulfilled?
-                should_spawn = self.spawn_condition(time, packet, component)
+                should_spawn = self.spawn_condition(self.parameters, time, P, component)
 
                 if should_spawn:
                     spawn_todo.append((packet, component))

@@ -91,7 +91,7 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         for i in xrange(1, tm.get_nsteps()+1):
             print(" doing timestep "+str(i))
 
-            self.propagator.propagate()
+            self.propagator.propagate(tm.compute_time(i))
 
             # Save some simulation data
             if tm.must_save(i):
