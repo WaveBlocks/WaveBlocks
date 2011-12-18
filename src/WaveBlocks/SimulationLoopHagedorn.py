@@ -99,8 +99,8 @@ class SimulationLoopHagedorn(SimulationLoop):
         # Write some initial values to disk
         nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
         self.IOManager.save_grid(nodes, blockid="global")
-        self.IOManager.save_wavepacket_parameters(self.propagator.get_wavepacket().get_parameters(), timestep=0)
-        self.IOManager.save_wavepacket_coefficients(self.propagator.get_wavepacket().get_coefficients(), timestep=0)
+        self.IOManager.save_wavepacket_parameters(self.propagator.get_wavepackets().get_parameters(), timestep=0)
+        self.IOManager.save_wavepacket_coefficients(self.propagator.get_wavepackets().get_coefficients(), timestep=0)
 
 
     def run_simulation(self):
@@ -116,8 +116,8 @@ class SimulationLoopHagedorn(SimulationLoop):
 
             # Save some simulation data
             if tm.must_save(i):
-                self.IOManager.save_wavepacket_parameters(self.propagator.get_wavepacket().get_parameters(), timestep=i)
-                self.IOManager.save_wavepacket_coefficients(self.propagator.get_wavepacket().get_coefficients(), timestep=i)
+                self.IOManager.save_wavepacket_parameters(self.propagator.get_wavepackets().get_parameters(), timestep=i)
+                self.IOManager.save_wavepacket_coefficients(self.propagator.get_wavepackets().get_coefficients(), timestep=i)
 
 
     def end_simulation(self):

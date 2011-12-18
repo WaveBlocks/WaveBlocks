@@ -406,7 +406,7 @@ class MatrixPotential2S(MatrixPotential):
                 ])
 
 
-    def _calculate_remainder_component(self, diagonal_component):
+    def _calculate_local_remainder_component(self, diagonal_component):
         """Calculate the non-quadratic remainder matrix $W$ of the quadratic
         approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
         This function is used for the homogeneous case and takes into account the
@@ -496,7 +496,7 @@ class MatrixPotential2S(MatrixPotential):
         self.calculate_eigenvalues()
 
         if diagonal_component is not None:
-            self._calculate_remainder_component(diagonal_component)
+            self._calculate_local_remainder_component(diagonal_component)
         else:
             self._calculate_local_remainder_inhomogeneous()
 
@@ -521,8 +521,6 @@ class MatrixPotential2S(MatrixPotential):
         if component is not None:
             (row, col) = component
             f = data[row*self.number_components+col]
-            result = numpy.array(f(position, nodes), dtype=numpy.floating)
+            return numpy.array(f(position, nodes), dtype=numpy.floating)
         else:
-            result = tuple([ numpy.array(f(position, nodes), dtype=numpy.floating) for f in data ])
-
-        return result
+            return tuple([ numpy.array(f(position, nodes), dtype=numpy.floating) for f in data ])

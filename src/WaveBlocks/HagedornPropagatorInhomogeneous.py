@@ -78,7 +78,7 @@ class HagedornPropagatorInhomogeneous(Propagator):
         return self.potential
 
 
-    def get_wavepacket(self):
+    def get_wavepackets(self):
         """@return: The I{HagedornWavepacketInhomogeneous} instance that represents the
         current wavepacket $\Ket{\Psi}$."""
         return self.packet
