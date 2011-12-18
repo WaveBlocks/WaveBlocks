@@ -23,7 +23,7 @@ class TimeManager:
     T = N * dt  and in analogy  t = n * dt
     There are also conversion routines for t and n.
     Additionally the class contains some routines for determining
-    if and when to save data. But we do not touch any data in here. 
+    if and when to save data. But we do not touch any data in here.
     """
 
     def __init__(self, parameters):
@@ -35,6 +35,11 @@ class TimeManager:
             self.set_dt(parameters["dt"])
         else:
             raise KeyError("Parameters provide to little data to construct a 'TimeManager'.")
+
+        if parameters.has_key("nsteps"):
+            self.set_nsteps(parameters["nsteps"])
+        else:
+            self.set_nsteps(None)
 
         #: Interval for saving
         if parameters.has_key("write_nth"):
@@ -72,19 +77,35 @@ class TimeManager:
         self.dt = dt
 
 
+    def set_nsteps(self, nsteps):
+        """Set the number of timesteps the simulation runs.
+        @param nsteps: The number timesteps we do.
+        """
+        self.nsteps = nsteps
+
+
     def set_interval(self, interval):
         """Set the inteval for saving results.
         @param interval: The interval at which we save simulation results.
         @note: A value of 0 means we never save data at any regular interval.
         """
         self.interval = interval
-        
+
+
+    def get_nsteps(self):
+        if self.nsteps is None:
+            self.nsteps = self.compute_number_timesteps(self)
+        return self.nsteps
+
 
     def compute_number_timesteps(self):
         """Computes the number of time steps we will perform.
         """
         # This is independent from if, when and what data we save
-        return int( floor(self.T / self.dt) )
+        if self.nsteps is not None:
+            return self.nsteps
+        else:
+            return int( floor(self.T / self.dt) )
 
 
     def compute_timestep(self, t):
@@ -94,10 +115,10 @@ class TimeManager:
         """
         stepo = t / self.dt
         step = round(stepo)
-        
+
         if abs(stepo - step) > 10**-10:
             print("Warning: questionable rounding for timestep computation!")
-            
+
         return int(step)
 
 
@@ -106,7 +127,7 @@ class TimeManager:
         @param n: The timestep n of which we want to find the corresponding time.
         """
         return 1.0 * n * self.dt
-        
+
 
     def add_to_savelist(self, alist):
         """Add a list of times and/or timesteps to the list of times
@@ -126,7 +147,7 @@ class TimeManager:
                 timesteps.append(item)
             elif type(item) == float:
                 timesteps.append( self.compute_timestep(item) )
-        
+
         # Validate timesteps and check if n in [0,...,N]
         tmp = len(timesteps)
         nsteps = self.compute_number_timesteps()
@@ -166,7 +187,7 @@ class TimeManager:
 
         # Total number of saves we will perform is given by the sum plus the initial value
         number_saves = 1 + n_si + n_sl
-        
+
         return number_saves
 
 
