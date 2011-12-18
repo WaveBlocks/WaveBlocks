@@ -1,6 +1,6 @@
 """The WaveBlocks Project
 
-This file contains the main loop for simple adiabatic spawning simulations.
+This file contains the main loop for simple non-adiabatic spawning simulations.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin
@@ -10,6 +10,7 @@ This file contains the main loop for simple adiabatic spawning simulations.
 import numpy as np
 import scipy as sp
 
+from TimeManager import TimeManager
 from SimulationLoop import SimulationLoop
 from PotentialFactory import PotentialFactory
 from HagedornWavepacket import HagedornWavepacket
@@ -27,22 +28,15 @@ class SimulationLoopSpawnNonAdiabatic(SimulationLoop):
         # Keep a reference to the simulation parameters
         self.parameters = parameters
 
+        self.tm = TimeManager(parameters)
+
         #: The time propagator instance driving the simulation.
         self.propagator = None
 
         #: A I{IOManager} instance for saving simulation results.
-        self.IOManager = None
-
-        #: The number of time steps we will perform.
-        self.nsteps = parameters["nsteps"]
-
-        # Set up serializing of simulation data
-        self.IOManager = IOManager()
-        self.IOManager.create_file(self.parameters)
-        gid = self.IOManager.create_group()
-        self.IOManager.create_block(groupid=gid)
-        # Second data block for the spawned packet
-        self.IOManager.create_block(groupid=gid)
+        self.iom = IOManager()
+        self.iom.create_file(self.parameters)
+        self.gid = self.iom.create_group()
 
 
     def prepare_simulation(self):
@@ -79,43 +73,40 @@ class SimulationLoopSpawnNonAdiabatic(SimulationLoop):
         # Finally create and initialize the propagator instace
         self.propagator = SpawnNonAdiabaticPropagator(potential, packet, self.parameters["leading_component"], self.parameters)
 
-        # Which data do we want to save
-        tm = self.parameters.get_timemanager()
-        slots = tm.compute_number_saves()
-
-        self.IOManager.add_grid(self.parameters, blockid="global")
-        self.IOManager.add_wavepacket(self.parameters, timeslots=slots)
-        self.IOManager.add_wavepacket(self.parameters, blockid=1)
-
         # Write some initial values to disk
-        nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
-        self.IOManager.save_grid(nodes, blockid="global")
-
-        packet = self.propagator.get_wavepacket(packet=0)
-        self.IOManager.save_wavepacket_coefficients(packet.get_coefficients(), timestep=0)
-        self.IOManager.save_wavepacket_parameters(packet.get_parameters(), timestep=0)
+        slots = self.tm.compute_number_saves()
+        for packet in self.propagator.get_wavepackets():
+            bid = self.iom.create_block(groupid=self.gid)
+            self.iom.add_wavepacket(self.parameters, timeslots=slots, blockid=bid)
+            self.iom.save_wavepacket_coefficients(packet.get_coefficients(), blockid=bid, timestep=0)
+            self.iom.save_wavepacket_parameters(packet.get_parameters(), blockid=bid, timestep=0)
 
 
     def run_simulation(self):
         """Run the simulation loop for a number of time steps. The number of steps
         is calculated in the I{initialize} function."""
-        tm = self.parameters.get_timemanager()
+        tm = self.tm
 
         # Run the simulation for a given number of timesteps
-        for i in xrange(1, self.nsteps+1):
+        for i in xrange(1, tm.get_nsteps()+1):
             print(" doing timestep "+str(i))
 
             self.propagator.propagate(tm.compute_time(i))
 
             # Save some simulation data
             if tm.must_save(i):
-                for index, packet in enumerate(self.propagator.get_wavepacket()):
-                    self.IOManager.save_wavepacket_coefficients(packet.get_coefficients(), timestep=i, blockid=index)
-                    self.IOManager.save_wavepacket_parameters(packet.get_parameters(), timestep=i, blockid=index)
+                # Check if we need more data blocks for newly spawned packets
+                if self.iom.get_number_blocks(groupid=self.gid) < self.propagator.get_number_packets():
+                    bid = self.iom.create_block(groupid=self.gid)
+                    self.iom.add_wavepacket(self.parameters, blockid=bid)
+
+                for index, packet in enumerate(self.propagator.get_wavepackets()):
+                    self.iom.save_wavepacket_coefficients(packet.get_coefficients(), timestep=i, blockid=index)
+                    self.iom.save_wavepacket_parameters(packet.get_parameters(), timestep=i, blockid=index)
 
 
     def end_simulation(self):
         """Do the necessary cleanup after a simulation. For example request the
         IOManager to write the data and close the output files.
         """
-        self.IOManager.finalize()
+        self.iom.finalize()
