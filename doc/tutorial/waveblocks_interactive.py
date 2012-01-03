@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 # <nbformat>2</nbformat>
 
+# <codecell>
+
+from numpy import *
+from matplotlib.pyplot import *
+
+%load_ext sympyprt
+
 # <markdowncell>
 
 # This is an example session showing the interactive use of the WaveBlocks simulation packet.
@@ -23,7 +30,7 @@ params = {"eps":0.1, "ncomponents":1, "potential":"quadratic", "dt":0.1, "matrix
 
 # <codecell>
 
-Phi = HagedornWavepacket(params)
+Psi = HagedornWavepacket(params)
 
 # <markdowncell>
 
@@ -31,7 +38,7 @@ Phi = HagedornWavepacket(params)
 
 # <codecell>
 
-Pi = Phi.get_parameters()
+Pi = Psi.get_parameters()
 Pi
 
 # <codecell>
@@ -43,7 +50,7 @@ Pi
 
 # <codecell>
 
-Phi.set_parameters(Pi)
+Psi.set_parameters(Pi)
 
 # <markdowncell>
 
@@ -51,7 +58,7 @@ Phi.set_parameters(Pi)
 
 # <codecell>
 
-Phi.set_coefficient(0,1,1)
+Psi.set_coefficient(0,1,1)
 
 # <markdowncell>
 
@@ -63,7 +70,7 @@ x = linspace(0.5,1.5,1000)
 
 # <codecell>
 
-y = Phi.evaluate_at(x, prefactor=True)[0]
+y = Psi.evaluate_at(x, prefactor=True)[0]
 
 # <codecell>
 
@@ -83,7 +90,7 @@ ylabel(r"$|\Psi|^2$")
 
 # <codecell>
 
-c = Phi.get_coefficients(component=0)
+c = Psi.get_coefficients(component=0)
 c = squeeze(c)
 
 # <codecell>
@@ -126,11 +133,11 @@ ylabel(r"$V(x)$")
 
 # <codecell>
 
-Phi.set_quadrature(None)
+Psi.set_quadrature(None)
 
 # <codecell>
 
-Q = Phi.get_quadrature()
+Q = Psi.get_quadrature()
 Q
 
 # <markdowncell>
@@ -165,7 +172,7 @@ ylabel(r"$\omega_i$")
 
 # <codecell>
 
-P = HagedornPropagator(V, Phi, 0, params)
+P = HagedornPropagator(V, Psi, 0, params)
 
 # <markdowncell>
 
@@ -188,13 +195,13 @@ for i in xrange(16):
 
 # <codecell>
 
-cnew = Phi.get_coefficients(component=0)
+cnew = Psi.get_coefficients(component=0)
 cnew = squeeze(cnew)
 
 # <codecell>
 
 figure(figsize=(6,4))
-stemcf(arange(8), angle(cnew), abs(c)**2)
+stemcf(arange(cnew.shape[0]), angle(cnew), abs(cnew)**2)
 xlabel(r"$k$")
 ylabel(r"$c_k$")
 
@@ -212,7 +219,7 @@ params["dt"] *= -1
 
 # <codecell>
 
-Pinv = HagedornPropagator(V, Phi, 0, params)
+Pinv = HagedornPropagator(V, Psi, 0, params)
 
 # <codecell>
 
@@ -227,7 +234,7 @@ for i in xrange(16):
 
 # <codecell>
 
-Phi.get_parameters()
+Psi.get_parameters()
 
 # <markdowncell>
 
