@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 # <nbformat>2</nbformat>
 
-# <codecell>
-
-from numpy import *
-from matplotlib.pyplot import *
-
-%load_ext sympyprt
-
 # <markdowncell>
 
 # This is an example session showing the interactive use of the WaveBlocks simulation packet.
@@ -75,6 +68,8 @@ y = Phi.evaluate_at(x, prefactor=True)[0]
 # <codecell>
 
 plot(x, abs(y)**2)
+xlabel(r"$x$")
+ylabel(r"$|\Psi|^2$")
 
 # <codecell>
 
@@ -83,6 +78,8 @@ from WaveBlocks.Plot import plotcf, stemcf
 # <codecell>
 
 plotcf(x, angle(y), abs(y)**2)
+xlabel(r"$x$")
+ylabel(r"$|\Psi|^2$")
 
 # <codecell>
 
@@ -97,6 +94,8 @@ c.shape
 
 figure(figsize=(6,4))
 stemcf(arange(c.shape[0]), angle(c), abs(c)**2)
+xlabel(r"$k$")
+ylabel(r"$c_k$")
 
 # <markdowncell>
 
@@ -128,6 +127,37 @@ ylabel(r"$V(x)$")
 # <codecell>
 
 Phi.set_quadrature(None)
+
+# <codecell>
+
+Q = Phi.get_quadrature()
+Q
+
+# <markdowncell>
+
+# Now retrieve the bare quadrature rule $(\gamma, \omega)$
+
+# <codecell>
+
+QR = Q.get_qr()
+
+# <markdowncell>
+
+# And extract nodes and weights
+
+# <codecell>
+
+g = QR.get_nodes()
+w = QR.get_weights()
+
+# <codecell>
+
+figure(figsize=(6,4))
+stem(squeeze(real(g)),squeeze(real(w)))
+xlim(-4.5,4.5)
+ylim(0,1.2)
+xlabel(r"$\gamma_i$")
+ylabel(r"$\omega_i$")
 
 # <markdowncell>
 
@@ -165,6 +195,8 @@ cnew = squeeze(cnew)
 
 figure(figsize=(6,4))
 stemcf(arange(8), angle(cnew), abs(c)**2)
+xlabel(r"$k$")
+ylabel(r"$c_k$")
 
 # <markdowncell>
 
