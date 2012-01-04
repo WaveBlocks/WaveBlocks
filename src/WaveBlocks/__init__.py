@@ -9,6 +9,8 @@ from QuadratureRule import QuadratureRule
 from GaussHermiteQR import GaussHermiteQR
 from TrapezoidalQR import TrapezoidalQR
 
+from MatrixExponentialFactory import MatrixExponentialFactory
+
 from Quadrature import Quadrature
 from HomogeneousQuadrature import HomogeneousQuadrature
 from InhomogeneousQuadrature import InhomogeneousQuadrature
