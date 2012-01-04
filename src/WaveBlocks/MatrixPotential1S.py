@@ -146,7 +146,7 @@ class MatrixPotential1S(MatrixPotential):
         @note: This function is idempotent.
         """
         if self.exponential is None:
-            self.exponential = sympy.simplify(sympy.exp(factor*self.potential))
+            self.exponential = sympy.exp(factor*self.potential)
 
 
     def evaluate_exponential_at(self, nodes):
@@ -258,10 +258,10 @@ class MatrixPotential1S(MatrixPotential):
         h = sympy.diff(f, self.x, 2)
         h = h.subs(self.x, q)
 
-        quadratic =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
+        quadratic =  p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2
 
         # Symbolic expression for the taylor expansion remainder term
-        self.remainder_eigen_s = sympy.simplify(self.potential - quadratic)
+        self.remainder_eigen_s = self.potential - quadratic
 
         # Construct functions to evaluate the approximation at point q at the given nodes
         assert(self.remainder_eigen_n is None)

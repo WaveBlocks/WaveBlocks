@@ -40,14 +40,7 @@ class MatrixPotentialMS(MatrixPotential):
         # prepare the function in every potential matrix cell for numerical evaluation
         self.potential_n = tuple([ sympy.vectorize(0)(sympy.lambdify(self.x, item, "numpy")) for item in self.potential ])
 
-        # Symbolic and numerical eigenvalues and eigenvectors
-        self.eigenvalues_s = None
-        self.eigenvalues_n = None
-        self.eigenvectors_s = None
-        self.eigenvectors_n = None
-
         # {}[chi] -> [(order, function),...]
-        self.taylor_eigen_s = {}
         self.taylor_eigen_n = {}
 
         # {}[chi] -> [remainder]

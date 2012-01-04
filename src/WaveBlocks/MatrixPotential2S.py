@@ -100,7 +100,7 @@ class MatrixPotential2S(MatrixPotential):
         l1 = (sympy.sqrt(c**2-2*a*c+4*b**2+a**2)+c+a)/2
         l2 = -(sympy.sqrt(c**2-2*a*c+4*b**2+a**2)-c-a)/2
 
-        self.eigenvalues_s = tuple([ sympy.simplify(item) for item in [l1,l2] ])
+        self.eigenvalues_s = tuple([ item for item in [l1,l2] ])
         self.eigenvalues_n = tuple([ sympy.vectorize(0)(sympy.lambdify(self.x, item, "numpy")) for item in self.eigenvalues_s ])
 
 
@@ -250,16 +250,16 @@ class MatrixPotential2S(MatrixPotential):
 
         if sympy.Eq(D,0):
             # special case
-            M[0,0] = sympy.simplify( t * (1 + (a-d)/2) )
-            M[0,1] = sympy.simplify( t * b )
-            M[1,0] = sympy.simplify( t * c )
-            M[1,1] = sympy.simplify( t * (1 - (a-d)/2) )
+            M[0,0] = t * (1 + (a-d)/2)
+            M[0,1] = t * b
+            M[1,0] = t * c
+            M[1,1] = t * (1 - (a-d)/2)
         else:
             # general case
-            M[0,0] = sympy.simplify( t * (sympy.cosh(D) + (a-d)/2 * sympy.sinh(D)/D) )
-            M[0,1] = sympy.simplify( t * (b * sympy.sinh(D)/D) )
-            M[1,0] = sympy.simplify( t * (c * sympy.sinh(D)/D) )
-            M[1,1] = sympy.simplify( t * (sympy.cosh(D) - (a-d)/2 * sympy.sinh(D)/D) )
+            M[0,0] = t * (sympy.cosh(D) + (a-d)/2 * sympy.sinh(D)/D)
+            M[0,1] = t * (b * sympy.sinh(D)/D)
+            M[1,0] = t * (c * sympy.sinh(D)/D)
+            M[1,1] = t * (sympy.cosh(D) - (a-d)/2 * sympy.sinh(D)/D)
 
         self.exponential = M
 
@@ -343,10 +343,10 @@ class MatrixPotential2S(MatrixPotential):
         v = self.eigenvalues_s[diagonal_component]
         self.taylor_eigen_s[diagonal_component].append((0, v))
 
-        vj = sympy.simplify( sympy.diff(v, self.x, 1) )
+        vj = sympy.diff(v, self.x, 1)
         self.taylor_eigen_s[diagonal_component].append((1, vj))
 
-        vh = sympy.simplify( sympy.diff(v, self.x, 2) )
+        vh = sympy.diff(v, self.x, 2)
         self.taylor_eigen_s[diagonal_component].append((2, vh))
 
         # Construct functions to evaluate the approximation at point q at the given nodes
@@ -430,13 +430,13 @@ class MatrixPotential2S(MatrixPotential):
         h = sympy.diff(f, self.x, 2)
         h = h.subs(self.x, q)
 
-        quadratic =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
+        quadratic =  p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2
 
         for row in xrange(self.number_components):
             for col in xrange(self.number_components):
                 e = self.potential[row,col]
                 if col == row:
-                    e = sympy.simplify(e - quadratic)
+                    e = e - quadratic
                 self.remainder_eigen_s[diagonal_component].append(e)
 
         # Construct functions to evaluate the approximation at point q at the given nodes
@@ -472,7 +472,7 @@ class MatrixPotential2S(MatrixPotential):
             h = sympy.diff(item, self.x, 2)
             h = h.subs(self.x, q)
 
-            qa =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
+            qa =  p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2
 
             quadratic.append(qa)
 
@@ -480,7 +480,7 @@ class MatrixPotential2S(MatrixPotential):
             for col in xrange(self.number_components):
                 e = self.potential[row,col]
                 if col == row:
-                    e = sympy.simplify(e - quadratic[row])
+                    e = e - quadratic[row]
                 self.remainder_eigen_ih_s.append(e)
 
         # Construct functions to evaluate the approximation at point q at the given nodes
