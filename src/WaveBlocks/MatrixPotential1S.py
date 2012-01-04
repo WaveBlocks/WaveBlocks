@@ -33,15 +33,24 @@ class MatrixPotential1S(MatrixPotential):
         self.potential = expression
         # Unpack single matrix entry
         self.potential = self.potential[0,0]
+        self.exponential = None
 
         self.number_components = 1
 
         # prepare the function in every potential matrix cell for numerical evaluation
-        self.functions = sympy.vectorize(0)(sympy.lambdify(self.x, self.potential, "numpy"))
+        self.potential_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.potential, "numpy"))
 
-        # Some flags used for memoization
-        self.__valid_eigenvalues = False
-        self.__valid_eigenvectors = False
+        # Symbolic and numerical eigenvalues and eigenvectors
+        self.eigenvalues_s = None
+        self.eigenvalues_n = None
+        self.eigenvectors_s = None
+        self.eigenvectors_n = None
+
+        self.taylor_eigen_s = None
+        self.taylor_eigen_n = None
+
+        self.remainder_eigen_s = None
+        self.remainder_eigen_n = None
 
 
     def __str__(self):
@@ -64,23 +73,20 @@ class MatrixPotential1S(MatrixPotential):
         @keyword as_matrix: Dummy parameter which has no effect here.
         @return: A list with the single entry evaluated at the nodes.
         """
-        result = tuple([ numpy.array(self.functions(nodes), dtype=numpy.complexfloating) ])
-        return result
+        return tuple([ numpy.array(self.potential_n(nodes), dtype=numpy.floating) ])
 
 
     def calculate_eigenvalues(self):
         """Calculate the eigenvalue $\lambda_0\ofs{x}$ of the potential $V\ofs{x}$.
         In the scalar case this is just the matrix entry $V_{0,0}$.
-        @note: Note: the eigenvalues are memoized for later reuse.
+        @note: This function is idempotent and the eigenvalues are memoized for later reuse.
         """
-        if self.__valid_eigenvalues != True:
+        if self.eigenvalues_s is None:
             self.eigenvalues_s = self.potential
-            self.eigf = sympy.vectorize(0)(sympy.lambdify(self.x, self.potential, "numpy"))
-            # Ok, now we have valid eigenvalues at hand
-            self.__valid_eigenvalues = True
+            self.eigenvalues_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.potential, "numpy"))
 
 
-    def evaluate_eigenvalues_at(self, nodes, diagonal_component=None, as_matrix=True):
+    def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
         """Evaluate the eigenvalue $\lambda_0\ofs{x}$ at some grid nodes $\gamma$.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalue at.
         @keyword diagonal_component: Dummy parameter that has no effect here.
@@ -89,20 +95,17 @@ class MatrixPotential1S(MatrixPotential):
         """
         self.calculate_eigenvalues()
 
-        result = tuple([ numpy.array(self.eigf(nodes)) ])
-        return result
+        return tuple([ numpy.array(self.eigenvalues_n(nodes)) ])
 
 
     def calculate_eigenvectors(self):
         """Calculate the eigenvector $nu_0\ofs{x}$ of the potential $V\ofs{x}$.
         In the scalar case this is just the value $1$.
-        @note: The eigenvectors are memoized for later reuse.
+        @note: This function is idempotent and the eigenvectors are memoized for later reuse.
         """
-        if self.__valid_eigenvectors != True:
+        if self.eigenvectors_s is None:
             self.eigenvectors_s = sympy.Matrix([[1]])
             self.eigenvectors_n = sympy.vectorize(0)(sympy.lambdify(self.x, 1, "numpy"))
-            # Ok, now we have valid eigenvectors at hand
-            self.__valid_eigenvectors = True
 
 
     def evaluate_eigenvectors_at(self, nodes):
@@ -112,8 +115,7 @@ class MatrixPotential1S(MatrixPotential):
         """
         self.calculate_eigenvectors()
 
-        result = numpy.ones((1, len(nodes)), dtype=numpy.floating)
-        return tuple([ result ])
+        return tuple([ numpy.ones((1, len(nodes)), dtype=numpy.floating) ])
 
 
     def project_to_eigen(self, nodes, values, basis=None):
@@ -121,9 +123,9 @@ class MatrixPotential1S(MatrixPotential):
         @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
         @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: This method does nothing and return the values.
+        @return: This method does nothing and returns the values.
         """
-        return values[:]
+        return values.copy()
 
 
     def project_to_canonical(self, nodes, values, basis=None):
@@ -131,9 +133,9 @@ class MatrixPotential1S(MatrixPotential):
         @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
         @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: This method does nothing and return the values.
+        @return: This method does nothing and returns the values.
         """
-        return values[:]
+        return values.copy()
 
 
     def calculate_exponential(self, factor=1):
@@ -141,8 +143,10 @@ class MatrixPotential1S(MatrixPotential):
         the matrix is of size $1 \times 1$ thus the exponential simplifies to
         the scalar exponential function.
         @keyword factor: A prefactor $\alpha$ in the exponential.
+        @note: This function is idempotent.
         """
-        self.exponential = sympy.simplify( sympy.exp(factor*self.potential) )
+        if self.exponential is None:
+            self.exponential = sympy.exp(factor*self.potential)
 
 
     def evaluate_exponential_at(self, nodes):
@@ -154,20 +158,18 @@ class MatrixPotential1S(MatrixPotential):
         # http://www.mail-archive.com/sympy@googlegroups.com/msg05137.html
         lookup = {"I" : 1j}
 
-        # prepare the function of every potential matrix exponential cell for
-        # numerical evaluation
+        # prepare the function of every potential matrix exponential cell for numerical evaluation
         self.expfunctions = sympy.vectorize(0)(sympy.lambdify(self.x, self.exponential, (lookup, "numpy")))
 
-        result = tuple([ numpy.array(self.expfunctions(nodes)) ])
-        return result
+        return tuple([ numpy.array(self.expfunctions(nodes)) ])
 
 
     def calculate_jacobian(self):
         """Calculate the jacobian matrix for the component $V_{0,0}$ of the potential.
         For potentials which depend only one variable $x$, this equals the first derivative.
         """
-        self.jacobian = sympy.diff(self.potential, self.x)
-        self.jacobian_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.jacobian, "numpy"))
+        self.jacobian_s = sympy.diff(self.potential, self.x)
+        self.jacobian_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.jacobian_s, "numpy"))
 
 
     def evaluate_jacobian_at(self, nodes, component=None):
@@ -176,16 +178,15 @@ class MatrixPotential1S(MatrixPotential):
         @keyword component: Dummy parameter that has no effect here.
         @return: The value of the potential's jacobian at the given nodes.
         """
-        values = tuple([ self.jacobian_n(nodes) ])
-        return values
+        return tuple([ self.jacobian_n(nodes) ])
 
 
     def calculate_hessian(self):
         """Calculate the hessian matrix for component $V_{0,0}$ of the potential.
         For potentials which depend only one variable $x$, this equals the second derivative.
         """
-        self.hessian = sympy.diff(self.potential, self.x, 2)
-        self.hessian_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.hessian, "numpy"))
+        self.hessian_s = sympy.diff(self.potential, self.x, 2)
+        self.hessian_n = sympy.vectorize(0)(sympy.lambdify(self.x, self.hessian_s, "numpy"))
 
 
     def evaluate_hessian_at(self, nodes, component=None):
@@ -194,48 +195,58 @@ class MatrixPotential1S(MatrixPotential):
         @keyword component: Dummy parameter that has no effect here.
         @return: The value of the potential's hessian at the given nodes.
         """
-        values = tuple([ self.hessian_n(nodes) ])
-        return values
+        return tuple([ self.hessian_n(nodes) ])
 
 
-    def calculate_local_quadratic(self, diagonal_component=0):
+    def calculate_local_quadratic(self, diagonal_component=None):
         """Calculate the local quadratic approximation $U$ of the potential's
         eigenvalue $\lambda$.
         @keyword diagonal_component: Dummy parameter that has no effect here.
+        @note: This function is idempotent.
         """
+        # Calculation already done at some earlier time?
+        if self.taylor_eigen_s is not None:
+            return
+
         self.calculate_eigenvalues()
         self.calculate_jacobian()
         self.calculate_hessian()
 
-        self.quadratic_s = []
-
-        self.quadratic_s.append(self.eigenvalues_s)
-        self.quadratic_s.append(self.jacobian)
-        self.quadratic_s.append(self.hessian)
+        self.taylor_eigen_s = [ (0, self.eigenvalues_s), (1, self.jacobian_s), (2, self.hessian_s) ]
 
         # Construct function to evaluate the approximation at point q at the given nodes
-        self.quadratic_n = [ sympy.vectorize(0)(sympy.lambdify([self.x], item, "numpy")) for item in self.quadratic_s ]
+        assert(self.taylor_eigen_n is None)
+
+        self.taylor_eigen_n = [
+            (order, sympy.vectorize(0)(sympy.lambdify([self.x], f, "numpy")))
+            for order, f in self.taylor_eigen_s
+            ]
 
 
-    def evaluate_local_quadratic_at(self, nodes):
+    def evaluate_local_quadratic_at(self, nodes, diagonal_component=None):
         """Numerically evaluate the local quadratic approximation $U$ of
         the potential's eigenvalue $\lambda$ at the given grid nodes $\gamma$.
         This function is used for the homogeneous case.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
         @return: An array containing the values of $U$ at the nodes $\gamma$.
         """
-        result = tuple([ numpy.array(f(nodes), dtype=numpy.complexfloating) for f in self.quadratic_n ])
-        return result
+        return tuple([ numpy.array(f(nodes), dtype=numpy.floating) for order, f in self.taylor_eigen_n ])
 
 
-    def calculate_local_remainder(self, diagonal_component=0):
+    def calculate_local_remainder(self, diagonal_component=None):
         """Calculate the non-quadratic remainder $W$ of the quadratic
         approximation $U$ of the potential's eigenvalue $\lambda$.
         This function is used for the homogeneous case and takes into account
         the leading component $\chi$.
         @param diagonal_component: Dummy parameter that has no effect here.
+        @note: This function is idempotent.
         """
+        # Calculation already done at some earlier time?
+        if self.remainder_eigen_s is not None:
+            return
+
         self.calculate_eigenvalues()
+
         f = self.eigenvalues_s
 
         # point where the taylor series is computed
@@ -247,16 +258,18 @@ class MatrixPotential1S(MatrixPotential):
         h = sympy.diff(f, self.x, 2)
         h = h.subs(self.x, q)
 
-        quadratic =  sympy.simplify(p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2)
+        quadratic =  p + j*(self.x-q) + sympy.Rational(1,2)*h*(self.x-q)**2
 
         # Symbolic expression for the taylor expansion remainder term
-        self.nonquadratic_s = sympy.simplify(self.potential - quadratic)
+        self.remainder_eigen_s = self.potential - quadratic
 
         # Construct functions to evaluate the approximation at point q at the given nodes
-        self.nonquadratic_n = sympy.vectorize(1)(sympy.lambdify([q, self.x], self.nonquadratic_s, "numpy"))
+        assert(self.remainder_eigen_n is None)
+
+        self.remainder_eigen_n = sympy.vectorize(1)(sympy.lambdify([q, self.x], self.remainder_eigen_s, "numpy"))
 
 
-    def evaluate_local_remainder_at(self, position, nodes, component=None):
+    def evaluate_local_remainder_at(self, position, nodes, diagonal_component=None, component=None):
         """Numerically evaluate the non-quadratic remainder $W$ of the quadratic
         approximation $U$ of the potential's eigenvalue $\lambda$ at the given nodes $\gamma$.
         This function is used for the homogeneous and the inhomogeneous case and
@@ -267,33 +280,4 @@ class MatrixPotential1S(MatrixPotential):
         @return: A list with a single entry consisting of an array containing the
         values of $W$ at the nodes $\gamma$.
         """
-        result = tuple([ numpy.array(self.nonquadratic_n(position, nodes), dtype=numpy.complexfloating) ])
-        return result
-
-
-    def calculate_local_quadratic_multi(self):
-        """Calculate the local quadratic approximation $U$ of the potential's
-        eigenvalue $\lambda$. This function is used for the inhomogeneous case.
-        @raise ValueError: There are no inhomogeneous wavepackets with a single component.
-        """
-        raise ValueError("There are no inhomogeneous wavepackets with a single component!")
-
-
-    def evaluate_local_quadratic_multi_at(self, nodes, component=None):
-        """Numerically evaluate the local quadratic approximation $U$ of
-        the potential's eigenvalue $\lambda$ at the given grid nodes $\gamma$.
-        This function is used for the inhomogeneous case.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-        @keyword component: Dummy parameter that has no effect here.
-        @raise ValueError: There are no inhomogeneous wavepackets with a single component.
-        """
-        raise ValueError("There are no inhomogeneous wavepackets with a single component!")
-
-
-    def calculate_local_remainder_multi(self):
-        """Calculate the non-quadratic remainder $W$ of the quadratic
-        approximation $U$ of the potential's eigenvalue $\lambda$.
-        This function is used for the inhomogeneous case.
-        @raise ValueError: There are no inhomogeneous wavepackets with a single component.
-        """
-        raise ValueError("There are no inhomogeneous wavepackets with a single component!")
+        return tuple([ numpy.array(self.remainder_eigen_n(position, nodes), dtype=numpy.floating) ])

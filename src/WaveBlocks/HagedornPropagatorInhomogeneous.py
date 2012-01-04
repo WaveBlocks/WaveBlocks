@@ -7,10 +7,9 @@ This file contains the Hagedorn propagator class for inhomogeneous wavepackets.
 @license: Modified BSD License
 """
 
-from functools import partial
-
 from WaveFunction import WaveFunction
 from Propagator import Propagator
+from MatrixExponentialFactory import MatrixExponentialFactory
 
 
 class HagedornPropagatorInhomogeneous(Propagator):
@@ -46,21 +45,11 @@ class HagedornPropagatorInhomogeneous(Propagator):
         self.quadrature = packet.get_quadrature()
 
         # Decide about the matrix exponential algorithm to use
-        method = parameters["matrix_exponential"]
-
-        if method == "pade":
-            from MatrixExponential import matrix_exp_pade
-            self.__dict__["matrix_exponential"] = matrix_exp_pade
-        elif method == "arnoldi":
-            from MatrixExponential import matrix_exp_arnoldi
-            arnoldi_steps = min(parameters["basis_size"], parameters["arnoldi_steps"])
-            self.__dict__["matrix_exponential"] = partial(matrix_exp_arnoldi, k=arnoldi_steps)
-        else:
-            raise ValueError("Unknown matrix exponential algorithm")
+        self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
 
         # Precalculate the potential splitting
-        self.potential.calculate_local_quadratic_multi()
-        self.potential.calculate_local_remainder_multi()
+        self.potential.calculate_local_quadratic()
+        self.potential.calculate_local_remainder()
 
 
     def __str__(self):
@@ -78,7 +67,7 @@ class HagedornPropagatorInhomogeneous(Propagator):
         return self.potential
 
 
-    def get_wavepacket(self):
+    def get_wavepackets(self):
         """@return: The I{HagedornWavepacketInhomogeneous} instance that represents the
         current wavepacket $\Ket{\Psi}$."""
         return self.packet
@@ -104,7 +93,7 @@ class HagedornPropagatorInhomogeneous(Propagator):
         for component in xrange(self.number_components):
             (P,Q,S,p,q) = self.packet.get_parameters(component=component)
 
-            V = self.potential.evaluate_local_quadratic_multi_at(q, component=component)
+            V = self.potential.evaluate_local_quadratic_at(q, diagonal_component=component)
 
             p = p - dt * V[1]
             P = P - dt * V[2] * Q

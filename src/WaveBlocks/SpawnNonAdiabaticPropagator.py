@@ -1,7 +1,7 @@
 """The WaveBlocks Project
 
-This file contains a very simple spawning propagator class
-for wavepackets and spawning in the adiabatic case.
+This file contains a simple spawning propagator class
+for wavepackets and spawning in the non-adiabatic case.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
@@ -12,17 +12,18 @@ from Propagator import Propagator
 from HagedornWavepacket import HagedornWavepacket
 from MatrixExponentialFactory import MatrixExponentialFactory
 from HagedornPropagator import HagedornPropagator
-from AdiabaticSpawner import AdiabaticSpawner
+from NonAdiabaticSpawner import NonAdiabaticSpawner
 from SpawnConditionFactory import SpawnConditionFactory as SCF
 
 
-class SpawnAdiabaticPropagator(Propagator):
+class SpawnNonAdiabaticPropagator(Propagator):
     """This class can numerically propagate given initial values :math:`\Psi` in
     a potential :math:`V(x)`. The propagation is done for several given homogeneous
     Hagedorn wavepackets neglecting interaction."""
 
+
     def __init__(self, potential, packet, leading_component, parameters):
-        """Initialize a new :py:class:SpawnAdiabaticPropagator instance.
+        """Initialize a new :py:class:SpawnNonAdiabaticPropagator instance.
 
         :param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.
         :param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.
@@ -35,13 +36,13 @@ class SpawnAdiabaticPropagator(Propagator):
         if packet.get_number_components() != potential.get_number_components():
             raise ValueError("Wave packet does not match to the given potential!")
 
-        #: The potential $V\ofs{x}$ the packet feels.
+        #: The potential :math:`V(x)` the packet(s) feel.
         self.potential = potential
 
-        #: Number $N$ of components the wavepacket $\Ket{\Psi}$ has got.
+        #: The number :math:`N` of components the wavepacket :math:`\Psi` has got.
         self.number_components = self.potential.get_number_components()
 
-        #: The Hagedorn wavepackets.
+        #: The list of :py:class:`HagedornWavepacket` taking part in the simulation.
         self.packets = [ (packet,leading_component) ]
 
         # Cache some parameter values for efficiency
@@ -62,7 +63,7 @@ class SpawnAdiabaticPropagator(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the :py:class:`SpawnAdiabaticPropagator` instance."""
+        """Prepare a printable string representing the :py:class:`SpawnNonAdiabaticPropagator` instance."""
         return "Prapagation and spawning in the adabatic case."
 
 
@@ -118,19 +119,26 @@ class SpawnAdiabaticPropagator(Propagator):
     def should_spwan(self):
         """Check if there is a reason to spawn a new wavepacket.
         """
+        components = range(self.number_components)
         spawn_todo = []
 
         # What do we have to do now?
         # For each packet in the simulation
-        #   Check if we should spawn
+        #   For all its components except the leading one
+        #     Check if we should spawn on this component
 
         for packet, leading_chi in self.packets:
-            # Spawn condition fulfilled?
-            should_spawn = self.spawn_condition(packet, 0, self)
+            P = packet.clone()
+            P.project_to_eigen(self.potential)
 
-            if should_spawn:
-                spawn_todo.append(packet)
+            for component in [ c for c in components if c != leading_chi ]:
+                # Spawn condition fulfilled?
+                should_spawn = self.spawn_condition(P, component, self)
 
+                if should_spawn:
+                    spawn_todo.append((packet, component))
+
+        # return structure is [ (packet, component), ...]
         return spawn_todo
 
 
@@ -139,24 +147,34 @@ class SpawnAdiabaticPropagator(Propagator):
         appends the new :py:class:`HagedornWavepacket` instances to the list
         :py:attr:`packets` of packets.
         """
-        WP = info
+        # Transform the packet to the eigenbasis where spawning has to happen
+        WP, component = info
+        WP.project_to_eigen(self.potential)
+
+        # Prepare the potential (this functions are idempotent)
+        self.potential.calculate_local_quadratic(diagonal_component=component)
+        self.potential.calculate_local_remainder(diagonal_component=component)
 
         # Initialize an empty wavepacket for spawning
         SWP = HagedornWavepacket(self.parameters)
         SWP.set_quadrature(None)
 
         # Initialize a Spawner
-        AS = AdiabaticSpawner(self.parameters)
+        NAS = NonAdiabaticSpawner(self.parameters)
 
         # Estimate the parameter set Pi
-        Pi = AS.estimate_parameters(WP, component=0)
+        Pi = NAS.estimate_parameters(WP, component=component)
 
         # Spawn a new packet
         if Pi is not None:
             SWP.set_parameters(Pi)
 
             # Project the coefficients from mother to child
-            AS.project_coefficients(WP, SWP)
+            NAS.project_coefficients(WP, SWP, component=component)
+
+            # Transform both packets back to the canonical basis where propagation happens
+            WP.project_to_canonical(self.potential)
+            SWP.project_to_canonical(self.potential)
 
             # Append the spawned packet to the world
-            self.packets.append((SWP,0))
+            self.packets.append((SWP,component))

@@ -10,7 +10,7 @@ Pade approximations and an Arnoldi iteration method.
 @license: Modified BSD License
 """
 
-from numpy import zeros, hstack, mat, dot, complexfloating
+from numpy import zeros, hstack, mat, dot, complexfloating, asarray
 from scipy.linalg import norm, expm
 
 
@@ -53,4 +53,4 @@ def matrix_exp_arnoldi(A, v, factor, k):
     V, H = arnoldi(A, v, min(min(A.shape), k))
     eH = mat(expm(-1.0j*factor*H[:-1,:]))
     r = V[:,:-1] * eH[:,0]
-    return r * norm(v)
+    return asarray(r * norm(v))

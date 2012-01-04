@@ -22,6 +22,10 @@ class PotentialFactory:
     implemented in I{MatrixPotentialMS}.
     """
 
+    def __init__(self):
+        pass
+
+
     @staticmethod
     def create_potential(parameters):
         """Static method that creates a I{MatrixPotential} instance and decides
@@ -50,14 +54,14 @@ class PotentialFactory:
             potential_description = potential_reference
         else:
             raise ValueError("Invalid potential reference.")
-        
+
         # The symbolic expression strings of the potential
         pot = potential_description["potential"]
 
         # Potential is just one level, wrap it into a matrix
         if type(pot) == str:
             pot = [[pot]]
-        
+
         # Sympify the expression strings for each entry of the potential matrix
         potmatrix = [ [ sympy.sympify(item) for item in row ] for row in pot ]
 
@@ -129,5 +133,5 @@ class PotentialFactory:
         else:
             from MatrixPotentialMS import MatrixPotentialMS
             potential = MatrixPotentialMS(potential_matrix, free_symbols)
-        
+
         return potential

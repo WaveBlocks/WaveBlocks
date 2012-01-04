@@ -43,6 +43,10 @@ elif PA["algorithm"] == "spawning_adiabatic":
     from WaveBlocks import SimulationLoopSpawnAdiabatic
     SL = SimulationLoopSpawnAdiabatic(PA)
 
+elif PA["algorithm"] == "spawning_nonadiabatic":
+    from WaveBlocks import SimulationLoopSpawnNonAdiabatic
+    SL = SimulationLoopSpawnNonAdiabatic(PA)
+
 else:
     raise ValueError("Invalid propagator algorithm.")
 
