@@ -22,7 +22,7 @@ def compute_energy(iom, blockid=0):
     timesteps = iom.load_wavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     # Retrieve simulation data
     params = iom.load_wavepacket_parameters(blockid=blockid)

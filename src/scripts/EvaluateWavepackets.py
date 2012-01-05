@@ -26,7 +26,7 @@ def compute_evaluate_wavepackets(iom, basis="eigen", blockid=0):
     nrtimesteps = timesteps.shape[0]
 
     # Prepare the potential for basis transformations
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     # Retrieve simulation data
     if iom.has_grid(blockid=blockid):

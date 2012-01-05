@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     # Read a configuration file with the spawn parameters
     try:
-        parametersspawn = ParameterLoader().load_parameters(sys.argv[2])
+        parametersspawn = ParameterLoader().load_from_file(sys.argv[2])
     except IndexError:
         raise IOError("No spawn configuration given!")
 

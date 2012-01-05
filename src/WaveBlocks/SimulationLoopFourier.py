@@ -53,7 +53,7 @@ class SimulationLoopFourier(SimulationLoop):
         nodes = self.parameters["f"] * sp.pi * sp.arange(-1, 1, 2.0/self.parameters["ngn"], dtype=np.complexfloating)
 
         # The potential instance
-        potential = PF.create_potential(self.parameters)
+        potential = PF().create_potential(self.parameters)
 
         # Check for enough initial values
         if not self.parameters.has_key("initial_values"):

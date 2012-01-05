@@ -47,7 +47,7 @@ for pot in pots:
 
     # Create the potential "the right way"
     params["potential"] = pot
-    P = PotentialFactory.create_potential(params)
+    P = PotentialFactory().create_potential(params)
     y = P.evaluate_eigenvalues_at(x)
 
     # Plot the potential

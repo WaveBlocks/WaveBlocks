@@ -39,7 +39,7 @@ def aposteriori_spawning(fin, fout, pin, pout, save_canonical=True):
     coeffs = [ [ coeffs[i,j,:] for j in xrange(pin["ncomponents"]) ] for i in xrange(nrtimesteps) ]
 
     # The potential
-    Potential = PotentialFactory.create_potential(pin)
+    Potential = PotentialFactory().create_potential(pin)
 
     # Initialize a mother Hagedorn wavepacket with the data from another simulation
     HAWP = HagedornWavepacket(pin)
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
     # Read a configuration file with the spawn parameters
     try:
-        parametersspawn = ParameterLoader().load_parameters(sys.argv[2])
+        parametersspawn = ParameterLoader().load_from_file(sys.argv[2])
     except IndexError:
         raise IOError("No spawn configuration given!")
 

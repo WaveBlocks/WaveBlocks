@@ -125,7 +125,7 @@ class MatrixPotential1S(MatrixPotential):
         @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
         @return: This method does nothing and returns the values.
         """
-        return values.copy()
+        return [ values[0].copy() ]
 
 
     def project_to_canonical(self, nodes, values, basis=None):
@@ -135,7 +135,7 @@ class MatrixPotential1S(MatrixPotential):
         @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
         @return: This method does nothing and returns the values.
         """
-        return values.copy()
+        return [ values[0].copy() ]
 
 
     def calculate_exponential(self, factor=1):

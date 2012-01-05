@@ -12,28 +12,31 @@ import sympy
 
 
 class PotentialFactory:
-    """A factory for I{MatrixPotential} instances. We decide which subclass of the
-    abstract base class I{MatrixPotential} to instantiate according to the size
-    of the potential's matrix. For a $1 \times 1$ matrix we can use the class I{MatrixPotential1S}
-    which implements simplified scalar symbolic calculations. In the case of a $2 \times 2$
-    matrix we use the class I{MatrixPotential2S} that implements the full symbolic
-    calculations for matrices. And for matrices of size bigger than $2 \times 2$ symbolic
-    calculations are unfeasible and we have to fall back to pure numerical methods
-    implemented in I{MatrixPotentialMS}.
+    """A factory for :py:class:`MatrixPotential` instances. We decide which subclass of the
+    abstract base class :py:class:`MatrixPotential` to instantiate according to the size
+    of the potential's matrix. For a :math:`1 \\times 1` matrix we can use the class
+    :py:class:`MatrixPotential1S` which implements simplified scalar symbolic calculations.
+    In the case of a :math:`2 \\times 2` matrix we use the class :py:class:`MatrixPotential2S`
+    that implements the full symbolic calculations for matrices. And for matrices of size
+    bigger than :math:`2 \\times 2` symbolic calculations are unfeasible and we have to
+    fall back to pure numerical methods implemented in :py:class:`MatrixPotentialMS`.
     """
 
     def __init__(self):
         pass
 
 
-    @staticmethod
-    def create_potential(parameters):
-        """Static method that creates a I{MatrixPotential} instance and decides
+    def create_potential(self, parameters):
+        """The method that creates a :py:class:`MatrixPotential` instance and decides
         which subclass to instantiate depending on the given potential expression.
-        @param parameters: A I{ParameterProvider} instance with all necessary parameters (at least a 'potential' entry).
-        @return: An adequate I{MatrixPotential} instance.
-        @raise ValueError: In case of various input error, f.e. if the potential
-        can not be found or if the potential matrix is not square etc.
+
+        :param parameters: A :py:class:`ParameterProvider` instance with all necessary
+                           parameters (at least a ``potential`` entry).
+
+        :return: An adequate :py:class:`MatrixPotential` instance.
+
+        :raises: :py:class:`ValueError` In case of various input error, f.e. if the potential can
+                 not be found or if the potential matrix is not square etc.
         """
         # The potential reference given in the parameter provider.
         # This may be a string which is the common name of the potential

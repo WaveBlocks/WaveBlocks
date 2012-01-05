@@ -48,7 +48,7 @@ class SimulationLoopHagedorn(SimulationLoop):
         potential and initial values according to the configuration.
         @raise ValueError: For invalid or missing input data.
         """
-        potential = PF.create_potential(self.parameters)
+        potential = PF().create_potential(self.parameters)
         N = potential.get_number_components()
 
         # Check for enough initial values

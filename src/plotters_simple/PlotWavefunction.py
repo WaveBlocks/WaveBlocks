@@ -32,7 +32,7 @@ def plot_frames(iom, blockid=0, view=None, plotphase=True, plotcomponents=False,
     timegrid = iom.load_wavefunction_timegrid(blockid=blockid)
 
     # Precompute eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     for step in timegrid:

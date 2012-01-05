@@ -34,7 +34,7 @@ def plot_frames_homogeneous(iom, gid=0, plotphase=False, plotcomponents=False, p
     bidm, bidc = iom.get_block_ids(groupid=gid)
 
     # Precompute eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     timegrid_m = iom.load_wavefunction_timegrid(blockid=bidm)
     timegrid_s = iom.load_wavefunction_timegrid(blockid=bidc)

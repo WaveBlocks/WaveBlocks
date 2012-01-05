@@ -40,7 +40,7 @@ def plot_frames_homogeneous(iom, bid, view=None):
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p["ncomponents"]) ] for i in xrange(nrtimesteps)]
 
     # Initialize a Hagedorn wavepacket with the data
-    Potential = PotentialFactory.create_potential(p)
+    Potential = PotentialFactory().create_potential(p)
 
     HAWP = HagedornWavepacket(p)
     HAWP.set_quadrature(None)
@@ -80,7 +80,7 @@ def plot_frames_inhomogeneous(iom, bid, view=None):
     coeffs = [ [ coeffs[i,j,:] for j in xrange(p["ncomponents"]) ] for i in xrange(nrtimesteps)]
 
     # Initialize a Hagedorn wavepacket with the data
-    Potential = PotentialFactory.create_potential(p)
+    Potential = PotentialFactory().create_potential(p)
 
     HAWP = HagedornWavepacketInhomogeneous(p)
     HAWP.set_quadrature(None)

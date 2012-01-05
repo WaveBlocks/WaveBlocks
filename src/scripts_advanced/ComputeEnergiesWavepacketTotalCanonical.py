@@ -26,7 +26,7 @@ def compute_energy(iom, blockid=0):
     # We want to save energies, thus add a data slot to the data file
     iom.add_energy(p, timeslots=nrtimesteps, blockid=blockid, total=True)
 
-    Potential = PotentialFactory.create_potential(p)
+    Potential = PotentialFactory().create_potential(p)
 
     params = iom.load_wavepacket_parameters(blockid=blockid)
     coeffs = iom.load_wavepacket_coefficients(blockid=blockid)

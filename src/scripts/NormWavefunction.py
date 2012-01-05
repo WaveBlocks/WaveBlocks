@@ -31,7 +31,7 @@ def compute_norm(iom, blockid=0):
     iom.add_norm(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Precalculate eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     WF = WaveFunction(parameters)

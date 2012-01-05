@@ -38,7 +38,7 @@ def plot_frames(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plo
     grid = iom.load_grid(blockid="global")
 
     # Precompute eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     timegrid = iom.load_wavefunction_timegrid(blockid=bidm)
@@ -128,7 +128,7 @@ def plot_frames_split(iom, gid=0, view=None, plotphase=True, plotcomponents=Fals
     grid = iom.load_grid(blockid="global")
 
     # Precompute eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
     timegrid = iom.load_wavefunction_timegrid(blockid=bidm)

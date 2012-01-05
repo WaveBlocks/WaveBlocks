@@ -65,7 +65,7 @@ def load_data(resultspath):
             grid = iom_f.load_grid(blockid="global")
 
             # Precalculate eigenvectors for efficiency
-            Potential = PotentialFactory.create_potential(parameters_f)
+            Potential = PotentialFactory().create_potential(parameters_f)
             eigenvectors = Potential.evaluate_eigenvectors_at(grid)
 
             # Get the data

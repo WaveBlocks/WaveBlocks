@@ -21,7 +21,7 @@ except IndexError:
 print("Testing configuration from file: " + parametersfile)
 
 # Set up the parameter singleton and read the parameters
-PA = ParameterLoader().load_parameters(parametersfile)
+PA = ParameterLoader().load_from_file(parametersfile)
 
 if not PA["dt"] <= PA["eps"] ** 2:
     print(" The parameters violate the timestep constraint!")

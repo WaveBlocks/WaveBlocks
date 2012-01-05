@@ -36,7 +36,7 @@ def compute_energy(iom, blockid=0):
     iom.add_energy(parameters, timeslots=nrtimesteps, blockid=blockid)
 
     # Precalculate eigenvectors for efficiency
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
     eigenvectors = Potential.evaluate_eigenvectors_at(grid)
     nst = Potential.get_number_components()
 

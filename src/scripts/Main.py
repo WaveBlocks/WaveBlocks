@@ -21,7 +21,7 @@ except IndexError:
 print("Using configuration from file: " + parametersfile)
 
 # Set up the parameter provider singleton
-PA = ParameterLoader().load_parameters(parametersfile)
+PA = ParameterLoader().load_from_file(parametersfile)
 
 # Print the parameters that apply for this simulation
 print(PA)

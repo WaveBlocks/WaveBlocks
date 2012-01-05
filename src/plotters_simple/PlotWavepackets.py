@@ -32,7 +32,7 @@ def plot_frames_homogeneous(iom, blockid=0, view=None):
     nrtimesteps = timesteps.shape[0]
 
     # Initialize a Hagedorn wavepacket with the data
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     # Retrieve simulation data
     grid = iom.load_grid(blockid="global")
@@ -77,7 +77,7 @@ def plot_frames_inhomogeneous(iom, blockid=0, view=None):
     nrtimesteps = timesteps.shape[0]
 
     # Initialize a Hagedorn wavepacket with the data
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     # Retrieve simulation data
     grid = iom.load_grid(blockid="global")

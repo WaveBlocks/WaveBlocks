@@ -22,7 +22,7 @@ def compute_norm(iom, blockid=0):
     timesteps = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
     nrtimesteps = timesteps.shape[0]
 
-    Potential = PotentialFactory.create_potential(parameters)
+    Potential = PotentialFactory().create_potential(parameters)
 
     # Retrieve simulation data
     params = iom.load_inhomogwavepacket_parameters(blockid=blockid)

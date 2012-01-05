@@ -79,7 +79,7 @@ class ParameterProvider:
 
         if self.params.has_key("potential"):
             # Ugly hack. Should improve handling of potential libraries
-            Potential = PF.create_potential(self)
+            Potential = PF().create_potential(self)
             # Number of components of $\Psi$
             self.params["ncomponents"] = Potential.get_number_components()
 

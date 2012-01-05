@@ -18,11 +18,20 @@ from WaveBlocks import *
 
 # <markdowncell>
 
-# Some simulation parameters:
+# Some simulation parameters in a plain python dict:
 
 # <codecell>
 
-params = {"eps":0.1, "ncomponents":1, "potential":"quadratic", "dt":0.1, "matrix_exponential":"pade"}
+configuration = {"eps":0.1, "ncomponents":1, "potential":"quadratic", "dt":0.1}
+
+# <markdowncell>
+
+# From which we create a ``ParameterProvider`` instance
+
+# <codecell>
+
+params = ParameterLoader().load_from_dict(configuration)
+print(params)
 
 # <markdowncell>
 
@@ -110,7 +119,7 @@ ylabel(r"$c_k$")
 
 # <codecell>
 
-V = PotentialFactory.create_potential(params)
+V = PotentialFactory().create_potential(params)
 
 # <codecell>
 
@@ -129,7 +138,7 @@ ylabel(r"$V(x)$")
 
 # <markdowncell>
 
-# Don't forget to set up the quadratur rule $(\gamma, \omega)$
+# Don't forget to set up the quadrature rule $(\gamma, \omega)$
 
 # <codecell>
 
@@ -216,6 +225,10 @@ ylabel(r"$c_k$")
 # <codecell>
 
 params["dt"] *= -1
+
+# <codecell>
+
+print(params)
 
 # <codecell>
 

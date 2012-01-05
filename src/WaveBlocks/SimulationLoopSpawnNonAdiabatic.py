@@ -44,7 +44,7 @@ class SimulationLoopSpawnNonAdiabatic(SimulationLoop):
         potential and initial values according to the configuration.
         @raise ValueError: For invalid or missing input data.
         """
-        potential = PotentialFactory.create_potential(self.parameters)
+        potential = PotentialFactory().create_potential(self.parameters)
         N = potential.get_number_components()
 
         # Check for enough initial values
