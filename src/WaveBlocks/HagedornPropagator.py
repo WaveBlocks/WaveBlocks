@@ -31,7 +31,7 @@ class HagedornPropagator(Propagator):
                             the number of energy levels :math:`\lambda_i` of the potential.
         """
         if packet.get_number_components() != potential.get_number_components():
-            raise ValueError("Wave packet does not match to the given potential!")
+            raise ValueError("Wavepacket does not match to the given potential!")
 
         #: The potential :math:`V(x)` the packet(s) feel.
         self.potential = potential
@@ -45,13 +45,8 @@ class HagedornPropagator(Propagator):
         #: propagating the Hagedorn parameters.
         self.packets = [(packet, leading_component)]
 
-        if self.packets[0][0].get_number_components() != self.number_components:
-            raise ValueError("Wave packet does not match to the potential.")
-
-        # Cache some parameter values for efficiency
+        # Keep a reference to the parameter provider instance
         self.parameters = parameters
-        self.dt = parameters["dt"]
-        self.eps = parameters["eps"]
 
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
@@ -107,7 +102,9 @@ class HagedornPropagator(Propagator):
         """Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
         wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau` here.
         """
-        dt = self.dt
+        # Cache some parameter values for efficiency
+        dt = self.parameters["dt"]
+        eps = self.parameters["eps"]
 
         # Propagate all packets
         for packet, leading_chi in self.packets:
@@ -128,7 +125,7 @@ class HagedornPropagator(Propagator):
             F = quadrature.build_matrix(packet, partial(self.potential.evaluate_local_remainder_at, diagonal_component=leading_chi))
 
             coefficients = packet.get_coefficient_vector()
-            coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
+            coefficients = self.matrix_exponential(F, coefficients, dt/eps**2)
             packet.set_coefficient_vector(coefficients)
 
             # Do a kinetic step of dt/2

@@ -3,7 +3,7 @@
 This file contains the Hagedorn propagator class for inhomogeneous wavepackets.
 
 @author: R. Bourquin
-@copyright: Copyright (C) 2010, 2011 R. Bourquin
+@copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
 @license: Modified BSD License
 """
 
@@ -13,36 +13,35 @@ from MatrixExponentialFactory import MatrixExponentialFactory
 
 
 class HagedornPropagatorInhomogeneous(Propagator):
-    """This class can numerically propagate given initial values $\Ket{\Psi}$ in
-    a potential $V\ofs{x}$. The propagation is done for a given inhomogeneous
-    Hagedorn wavepacket."""
+    """This class can numerically propagate given initial values :math:`\Psi` in
+    a potential :math:`V(x)`. The propagation is done for a given set of inhomogeneous
+    Hagedorn wavepackets neglecting interaction."""
 
     def __init__(self, potential, packet, parameters):
-        """Initialize a new I{HagedornPropagatorInhomogeneous} instance.
-        @param potential: The potential the wavepacket $\Ket{\Psi}$ feels during the time propagation.
-        @param packet: The initial inhomogeneous Hagedorn wavepacket we propagate in time.
-        @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
-        match the number of energy levels $\lambda_i$ of the potential.
+        """Initialize a new :py:class:`HagedornPropagatorInhomogeneous` instance.
+
+        :param potential: The potential :math:`V(x)` the wavepacket :math:`\Psi` feels during the time propagation.
+        :param packet: The initial inhomogeneous Hagedorn wavepacket :math:`\Psi` we propagate in time.
+        :param parameters: A :py:class:`ParameterProvider` instance.
+
+        :raises ValueError: If the number of components of :math:`\Psi` does not match
+                            the number of energy levels :math:`\lambda_i` of the potential.
         """
         if packet.get_number_components() != potential.get_number_components():
-            raise ValueError("Wave packet does not match to the given potential!")
+            raise ValueError("Wavepacket does not match to the given potential!")
 
-        #: The potential $V\ofs{x}$ the packet feels.
+        #: The potential :math:`V(x)` the packet(s) feel.
         self.potential = potential
 
-        #: Number $N$ of components the wavepacket $\Ket{\Psi}$ has got.
+        #: Number :math:`N` of components the wavepacket :math:`\Psi` has got.
         self.number_components = self.potential.get_number_components()
 
-        #: The Hagedorn wavepacket.
-        self.packet = packet
+        #: A list of Hagedorn wavepackets :math:`\Psi`.
+        #: At the moment we do not use any codata here.
+        self.packets = [ packet ]
 
-        # Cache some parameter values for efficiency
+        # Keep a reference to the parameter provider instance
         self.parameters = parameters
-        self.dt = parameters["dt"]
-        self.eps = parameters["eps"]
-
-        # The quadrature instance matching the packet
-        self.quadrature = packet.get_quadrature()
 
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
@@ -53,67 +52,92 @@ class HagedornPropagatorInhomogeneous(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the I{HagedornPropagatorInhomogeneous} instance."""
+        """Prepare a printable string representing the :py:class:`HagedornPropagatorInhomogeneous` instance."""
         return "Hagedorn propagator for " + str(self.number_components) + " components."
 
 
     def get_number_components(self):
-        """@return: The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$."""
+        """:return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`."""
         return self.number_components
 
 
     def get_potential(self):
-        """@return: The I{MatrixPotential} instance used for time propagation."""
+        """Returns the potential used for time propagation.
+
+        :return: A :py:class:`MatrixPotential` instance.
+        """
         return self.potential
 
 
-    def get_wavepackets(self):
-        """@return: The I{HagedornWavepacketInhomogeneous} instance that represents the
-        current wavepacket $\Ket{\Psi}$."""
-        return self.packet
+    def get_wavepackets(self, packet=0):
+        """Return the wavepackets taking part in the simulation.
+
+        :param packet: The number of a single packet that is to be returned.
+        :type packet: Integer
+        :return: A list of :py:class:`HagedornWavepacketInhomogeneous`
+                 instances that represents the current wavepackets.
+        """
+        if packet is None:
+            return [ p for p in self.packets ]
+        else:
+            return self.packets[packet]
+
+
+    def set_wavepackets(self, packetlist):
+        """Set the wavepackets that the propagator will propagate.
+
+        :param packetlist: A list of new wavepackets to propagate.
+        """
+        self.packets = packetlist
 
 
     def propagate(self):
-        """Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket
-        at time $t + \tau$. We perform exactly one timestep $\tau$ here.
+        """Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
+        wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau` here.
         """
-        dt = self.dt
+        # Cache some parameter values for efficiency
+        dt = self.parameters["dt"]
+        eps = self.parameters["eps"]
 
-        # Do a kinetic step of dt/2
-        for component in xrange(self.number_components):
-            (P,Q,S,p,q) = self.packet.get_parameters(component=component)
+        # Propagate all packets
+        for packet in self.packets:
 
-            q = q + 0.5*dt * p
-            Q = Q + 0.5*dt * P
-            S = S + 0.25*dt * p**2
+            # Do a kinetic step of dt/2
+            for component in xrange(self.number_components):
+                (P,Q,S,p,q) = packet.get_parameters(component=component)
 
-            self.packet.set_parameters((P,Q,S,p,q), component=component)
+                q = q + 0.5*dt * p
+                Q = Q + 0.5*dt * P
+                S = S + 0.25*dt * p**2
 
-        # Do a potential step with the local quadratic part
-        for component in xrange(self.number_components):
-            (P,Q,S,p,q) = self.packet.get_parameters(component=component)
+                packet.set_parameters((P,Q,S,p,q), component=component)
 
-            V = self.potential.evaluate_local_quadratic_at(q, diagonal_component=component)
+            # Do a potential step with the local quadratic part
+            for component in xrange(self.number_components):
+                (P,Q,S,p,q) = packet.get_parameters(component=component)
 
-            p = p - dt * V[1]
-            P = P - dt * V[2] * Q
-            S = S - dt * V[0]
+                V = self.potential.evaluate_local_quadratic_at(q, diagonal_component=component)
 
-            self.packet.set_parameters((P,Q,S,p,q), component=component)
+                p = p - dt * V[1]
+                P = P - dt * V[2] * Q
+                S = S - dt * V[0]
 
-        # Do a potential step with the local non-quadratic taylor remainder
-        F = self.quadrature.build_matrix(self.packet, self.packet, self.potential.evaluate_local_remainder_at)
+                packet.set_parameters((P,Q,S,p,q), component=component)
 
-        coefficients = self.packet.get_coefficient_vector()
-        coefficients = self.matrix_exponential(F, coefficients, dt/self.eps**2)
-        self.packet.set_coefficient_vector(coefficients)
+            # Do a potential step with the local non-quadratic taylor remainder
+            quadrature = packet.get_quadrature()
+            F = quadrature.build_matrix(packet, packet, self.potential.evaluate_local_remainder_at)
 
-        # Do a kinetic step of dt/2
-        for component in xrange(self.number_components):
-            (P,Q,S,p,q) = self.packet.get_parameters(component=component)
+            coefficients = packet.get_coefficient_vector()
+            coefficients = self.matrix_exponential(F, coefficients, dt/eps**2)
+            packet.set_coefficient_vector(coefficients)
 
-            q = q + 0.5 * dt * p
-            Q = Q + 0.5 * dt * P
-            S = S + 0.25 * dt * p**2
+            # Do a kinetic step of dt/2
+            for component in xrange(self.number_components):
+                (P,Q,S,p,q) = packet.get_parameters(component=component)
 
-            self.packet.set_parameters((P,Q,S,p,q), component=component)
+                q = q + 0.5 * dt * p
+                Q = Q + 0.5 * dt * P
+                S = S + 0.25 * dt * p**2
+
+                packet.set_parameters((P,Q,S,p,q), component=component)
