@@ -54,6 +54,11 @@ class SpawnNonAdiabaticPropagator(Propagator):
         #: The condition which determines when to spawn.
         self.spawn_condition = SCF().get_condition(parameters)
 
+        # Setup the environment for the spawning condition.
+        # This may create additional data structures in 'self'.
+        f = SCF().get_condition_setup(parameters)
+        f(self)
+
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
 
@@ -128,7 +133,7 @@ class SpawnNonAdiabaticPropagator(Propagator):
         #     Check if we should spawn on this component
 
         for packet, leading_chi in self.packets:
-            P = packet.clone()
+            P = packet.clone(keepid=True)
             P.project_to_eigen(self.potential)
 
             for component in [ c for c in components if c != leading_chi ]:

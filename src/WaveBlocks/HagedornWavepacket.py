@@ -74,13 +74,16 @@ class HagedornWavepacket(Wavepacket):
         return s
 
 
-    def clone(self):
+    def clone(self, keepid=False):
         # Parameters of this packet
         params = {"ncomponents": self.number_components,
                   "eps":         self.eps}
 
         # Create a new Packet
         other = HagedornWavepacket(params)
+        # If we wish to keep the packet ID
+        if keepid is True:
+            other.set_id(self.get_id())
         # And copy over all (private) data
         other.set_basis_size(self.get_basis_size())
         other.set_quadrature(self.get_quadrature())

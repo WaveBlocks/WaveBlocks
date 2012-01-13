@@ -53,6 +53,11 @@ class SpawnAdiabaticPropagator(Propagator):
         #: The condition which determines when to spawn.
         self.spawn_condition = SCF().get_condition(parameters)
 
+        # Setup the environment for the spawning condition.
+        # This may create additional data structures in 'self'.
+        f = SCF().get_condition_setup(parameters)
+        f(self)
+
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
 

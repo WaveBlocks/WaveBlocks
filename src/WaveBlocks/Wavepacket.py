@@ -51,6 +51,30 @@ class Wavepacket:
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
+    def gen_id(self):
+        """Generate an (unique) ID per wavepacket instance.
+        """
+        #TODO: Better id generating function!
+        self._id = id(self)
+
+
+    def get_id(self):
+        """Return the packet ID of this wavepacket instance.
+        The ID may be used for storing packets in associative lists.
+        """
+        if not hasattr(self, "_id"):
+            self.gen_id()
+
+        return self._id
+
+
+    def set_id(self, anid):
+        """Manually set an ID for the current wavepacket instance.
+        """
+        assert(type(anid) is int)
+        self._id = anid
+
+
     def get_number_components(self):
         """@return: The number $N$ of components the wavepacket $\Psi$ has.
         """

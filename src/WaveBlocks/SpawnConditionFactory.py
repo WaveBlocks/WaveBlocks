@@ -17,6 +17,17 @@ class SpawnConditionFactory:
         pass
 
 
+    def get_condition_setup(self, parameters):
+        condition_name = parameters["spawn_condition"]
+        setup_name = condition_name + "_setup"
+
+        if SC.__dict__.has_key(setup_name):
+            return SC.__dict__[setup_name]
+        else:
+            # Return an empty lambda
+            return lambda p: None
+
+
     def get_condition(self, parameters):
         condition_name = parameters["spawn_condition"]
 
