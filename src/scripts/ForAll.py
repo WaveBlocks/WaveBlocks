@@ -15,6 +15,11 @@ import subprocess as sp
 from WaveBlocks.FileTools import get_result_dirs, get_results_file
 from WaveBlocks import GlobalDefaults
 
+try:
+    from GraphicsDefaults import output_format
+except:
+    output_format = ".png"
+
 
 def execute_for_all(resultspath, scriptcode):
     """Call a given python script with the simulation results data file as first
@@ -30,10 +35,10 @@ def execute_for_all(resultspath, scriptcode):
         afile = get_results_file(simulationpath)
 
         # Call the given script
-        sp.call(["python", scriptcode, afile])    
+        sp.call(["python", scriptcode, afile])
 
         # Move plots away if any
-        proc = sp.Popen("mv *.png " + simulationpath, shell=True)
+        proc = sp.Popen("mv *"+output_format+" " + simulationpath, shell=True)
         os.waitpid(proc.pid, 0)
 
 
