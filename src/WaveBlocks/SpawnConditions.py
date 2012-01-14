@@ -38,12 +38,37 @@ import collections as co
 import numpy as np
 import scipy.linalg as spla
 
+# Orcales
+#########
 
 def adiabatic_K_threshold(packet, component, env):
     c = np.squeeze(packet.get_coefficients(component=component))
-    #n_low = spla.norm(c[:parameters["spawn_K0"]])
+    #n_low = spla.norm(c[:env.parameters["spawn_K0"]])
     n_high = spla.norm(c[env.parameters["spawn_K0"]:])
     return (n_high >= env.parameters["spawn_threshold"])
+
+
+def adiabatic_K_derivative_threshold(packet, component, env):
+    pid = packet.get_id()
+
+    # If there is no data yet we have a new packet
+    if not env._spawndata.has_key(pid):
+        ml = env.parameters["spawn_hist_len"]
+        env._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
+
+    # Get the datastructure
+    da = env._spawndata[pid][component]
+
+    # Compute current norm and append to data
+    c = np.squeeze(packet.get_coefficients(component=component))
+    #no_low = spla.norm(c[:env.parameters["spawn_K0"]])
+    no_high = spla.norm(c[env.parameters["spawn_K0"]:])
+    da.append(no_high)
+
+    # Compute L2-norm of derivative
+    devno = spla.norm(np.diff(np.array(da)))
+
+    return (devno < env.parameters["spawn_deriv_threshold"] and no_high >= env.parameters["spawn_threshold"])
 
 
 def nonadiabatic_component_timestep(packet, component, env):
@@ -52,22 +77,6 @@ def nonadiabatic_component_timestep(packet, component, env):
 
 def nonadiabatic_component_threshold(packet, component, env):
     return (packet.get_norm(component=component) >= env.parameters["spawn_threshold"])
-
-
-def derivative_threshold_setup(env):
-    # Create a data structure which keeps old values for each wavepacket and component.
-    env._spawndata = {}
-
-    ml = env.parameters["spawn_hist_len"]
-
-    for p in env.get_wavepackets():
-        env._spawndata[p.get_id()] = [ co.deque(maxlen=ml) for i in xrange(p.get_number_components()) ]
-
-def derivative_threshold_l2_setup(env):
-    derivative_threshold_setup(env)
-
-def derivative_threshold_max_setup(env):
-    derivative_threshold_setup(env)
 
 
 def derivative_threshold_l2(packet, component, env):
@@ -111,3 +120,25 @@ def derivative_threshold_max(packet, component, env):
     devno = np.diff(np.array(da)).max()
 
     return (devno < env.parameters["spawn_deriv_threshold"] and no >= env.parameters["spawn_threshold"])
+
+
+# Setup methods
+###############
+
+def derivative_threshold_setup(env):
+    # Create a data structure which keeps old values for each wavepacket and component.
+    env._spawndata = {}
+
+    ml = env.parameters["spawn_hist_len"]
+
+    for p in env.get_wavepackets():
+        env._spawndata[p.get_id()] = [ co.deque(maxlen=ml) for i in xrange(p.get_number_components()) ]
+
+def derivative_threshold_l2_setup(env):
+    derivative_threshold_setup(env)
+
+def derivative_threshold_max_setup(env):
+    derivative_threshold_setup(env)
+
+def adiabatic_K_derivative_threshold_setup(env):
+    derivative_threshold_setup(env)
