@@ -19,18 +19,12 @@ def add_energy(self, parameters, timeslots=None, blockid=0, total=False):
 
     if timeslots is None:
         # This case is event based storing
-        daset_ek = grp_en.create_dataset("kinetic", (1, parameters["ncomponents"]), dtype=np.floating, chunks=(1, parameters["ncomponents"]))
-        daset_ep = grp_en.create_dataset("potential", (1, parameters["ncomponents"]), dtype=np.floating, chunks=(1, parameters["ncomponents"]))
-        daset_tg = grp_en.create_dataset("timegrid", (1,), dtype=np.integer, chunks=(1,))
-
-        daset_ek.resize(0, axis=0)
-        daset_ep.resize(0, axis=0)
-
-        daset_tg.resize(0, axis=0)
+        daset_ek = grp_en.create_dataset("kinetic", (0, parameters["ncomponents"]), dtype=np.floating, chunks=True, maxshape=(None,parameters["ncomponents"]))
+        daset_ep = grp_en.create_dataset("potential", (0, parameters["ncomponents"]), dtype=np.floating, chunks=True, maxshape=(None,parameters["ncomponents"]))
+        daset_tg = grp_en.create_dataset("timegrid", (0,), dtype=np.integer, chunks=True, maxshape=(None,))
 
         if total is True:
-            daset_to = grp_en.create_dataset("total", (1, 1), dtype=np.floating, chunks=(1, 1))
-            daset_to.resize(0, axis=0)
+            daset_to = grp_en.create_dataset("total", (0, 1), dtype=np.floating, chunks=True, maxshape=(None,1))
             daset_to.attrs["pointer"] = 0
     else:
         # User specified how much space is necessary.
