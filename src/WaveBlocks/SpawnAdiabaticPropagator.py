@@ -11,7 +11,6 @@ for wavepackets and spawning in the adiabatic case.
 from Propagator import Propagator
 from HagedornWavepacket import HagedornWavepacket
 from MatrixExponentialFactory import MatrixExponentialFactory
-from HagedornPropagator import HagedornPropagator
 from AdiabaticSpawner import AdiabaticSpawner
 from SpawnConditionFactory import SpawnConditionFactory as SCF
 
@@ -21,9 +20,10 @@ class SpawnAdiabaticPropagator(Propagator):
     a potential :math:`V(x)`. The propagation is done for several given homogeneous
     Hagedorn wavepackets neglecting interaction."""
 
-    def __init__(self, potential, packet, leading_component, parameters):
+    def __init__(self, propagator, potential, packet, leading_component, parameters):
         """Initialize a new :py:class:SpawnAdiabaticPropagator instance.
 
+        :param propagator: The propagator used for time propagation.
         :param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.
         :param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.
         :param leading_component: The leading component index :math:`\chi`.
@@ -48,7 +48,7 @@ class SpawnAdiabaticPropagator(Propagator):
         self.parameters = parameters
 
         # The propagator used for time propagation
-        self.propagator = HagedornPropagator(potential, packet, leading_component, parameters)
+        self.propagator = propagator
 
         #: The condition which determines when to spawn.
         oracle = SCF().get_condition(parameters)

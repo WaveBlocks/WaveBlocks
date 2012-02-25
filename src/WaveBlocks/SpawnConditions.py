@@ -61,7 +61,7 @@ class SpawnCondition:
 # Orcales ######################################################################
 ################################################################################
 
-class spawn_at_timestep(SpawnCondition):
+class spawn_at_time(SpawnCondition):
 
     def check_condition(self, packet, component, env):
         return (env.time >= self._parameters["spawn_time"] and env.time < self._parameters["spawn_time"]+self._parameters["dt"])

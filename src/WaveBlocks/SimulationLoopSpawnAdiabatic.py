@@ -14,6 +14,7 @@ from TimeManager import TimeManager
 from SimulationLoop import SimulationLoop
 from PotentialFactory import PotentialFactory
 from HagedornWavepacket import HagedornWavepacket
+from HagedornPropagator import HagedornPropagator
 from SpawnAdiabaticPropagator import SpawnAdiabaticPropagator
 from IOManager import IOManager
 
@@ -71,7 +72,8 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         packet.project_to_canonical(potential)
 
         # Finally create and initialize the propagator instace
-        self.propagator = SpawnAdiabaticPropagator(potential, packet, self.parameters["leading_component"], self.parameters)
+        inner = HagedornPropagator(potential, packet, self.parameters["leading_component"], self.parameters)
+        self.propagator = SpawnAdiabaticPropagator(inner, potential, packet, self.parameters["leading_component"], self.parameters)
 
         # Write some initial values to disk
         slots = self.tm.compute_number_saves()
