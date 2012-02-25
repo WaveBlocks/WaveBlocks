@@ -10,7 +10,7 @@ call_simulation = ["Main.py"]
 # All scripts in this list are called for each simulation
 # configuration but without additional arguments. They can
 # assume that the simulation results data file is available
-# at the default location ('simulation_results.hdf5').
+# at the default location ('./simulation_results.hdf5').
 call_for_each = ["ComputeNorms.py",
                  "ComputeEnergies.py",
                  #"PlotPotential.py",
