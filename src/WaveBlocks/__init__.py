@@ -1,7 +1,7 @@
 """The WaveBlocks Project
 
 @author: R. Bourquin
-@copyright: Copyright (C) 2010, 2011 R. Bourquin
+@copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
 @license: Modified BSD License
 """
 
@@ -48,11 +48,11 @@ from SpawnAdiabaticPropagator import SpawnAdiabaticPropagator
 from SpawnNonAdiabaticPropagator import SpawnNonAdiabaticPropagator
 from SimulationLoopSpawnAdiabatic import SimulationLoopSpawnAdiabatic
 from SimulationLoopSpawnNonAdiabatic import SimulationLoopSpawnNonAdiabatic
+from SpawnConditionFactory import SpawnConditionFactory
 
 # Just functions inside these modules.
 #from GlobalDefaults import GlobalDefaults
 #from FileTools import FileTools
-#from SpawnConditionFactory import SpawnConditionFactory
 
 # Enable dynamic plugin loading for IOManager
 import sys

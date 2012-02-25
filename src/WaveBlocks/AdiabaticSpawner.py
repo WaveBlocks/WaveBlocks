@@ -48,7 +48,8 @@ class AdiabaticSpawner(Spawner):
         w = spla.norm(ck)**2
 
         if w < self.threshold**2:
-            print(" Warning: really small w! Nothing to spawn!")
+            # This is to prevent malfunctions like division by 0 in the code below
+            print("  Warning: really small component! Nothing to spawn!")
             return None
 
         # Compute spawning position and impulse

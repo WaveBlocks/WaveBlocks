@@ -51,12 +51,9 @@ class SpawnAdiabaticPropagator(Propagator):
         self.propagator = HagedornPropagator(potential, packet, leading_component, parameters)
 
         #: The condition which determines when to spawn.
-        self.spawn_condition = SCF().get_condition(parameters)
-
+        oracle = SCF().get_condition(parameters)
         # Setup the environment for the spawning condition.
-        # This may create additional data structures in 'self'.
-        f = SCF().get_condition_setup(parameters)
-        f(self)
+        self.spawn_condition = oracle(self.parameters)
 
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)
@@ -131,9 +128,10 @@ class SpawnAdiabaticPropagator(Propagator):
 
         for packet, leading_chi in self.packets:
             # Spawn condition fulfilled?
-            should_spawn = self.spawn_condition(packet, 0, self)
+            should_spawn = self.spawn_condition.check_condition(packet, 0, self)
 
             if should_spawn:
+                print("  Spawn condition fulfilled for component 0 of packet with ID "+str(packet.get_id())+".")
                 spawn_todo.append(packet)
 
         return spawn_todo

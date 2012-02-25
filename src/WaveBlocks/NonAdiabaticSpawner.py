@@ -56,7 +56,8 @@ class NonAdiabaticSpawner(Spawner):
         w = np.sum(np.conj(c)*c)
 
         if w < self.threshold**2:
-            print(" Warning: really small w! Nothing to spawn!")
+            # This is to prevent malfunctions like division by 0 in the code below
+            print("  Warning: really small component! Nothing to spawn!")
             return None
 
         # Estimate position and momentum of |w>
