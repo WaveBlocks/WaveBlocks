@@ -161,5 +161,7 @@ class SpawnAdiabaticPropagator(Propagator):
             # Project the coefficients from mother to child
             AS.project_coefficients(WP, SWP)
 
+            print("  Spawned a new wavepacket with ID "+str(SWP.get_id())+".")
+
             # Append the spawned packet to the world
             self.packets.append((SWP,0))

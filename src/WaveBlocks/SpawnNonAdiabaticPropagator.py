@@ -138,7 +138,7 @@ class SpawnNonAdiabaticPropagator(Propagator):
                 should_spawn = self.spawn_condition.check_condition(P, component, self)
 
                 if should_spawn:
-                    print("Spawn condition fulfilled for component "+str(component)+" of packet with ID "+str(packet.get_id())+".")
+                    print("  Spawn condition fulfilled for component "+str(component)+" of packet with ID "+str(packet.get_id())+".")
                     spawn_todo.append((packet, component))
 
         # return structure is [ (packet, component), ...]
@@ -178,6 +178,8 @@ class SpawnNonAdiabaticPropagator(Propagator):
             # Transform both packets back to the canonical basis where propagation happens
             WP.project_to_canonical(self.potential)
             SWP.project_to_canonical(self.potential)
+
+            print("  Spawned a new wavepacket with ID "+str(SWP.get_id())+".")
 
             # Append the spawned packet to the world
             self.packets.append((SWP,component))

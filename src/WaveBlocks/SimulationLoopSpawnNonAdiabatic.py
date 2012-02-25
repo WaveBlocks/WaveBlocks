@@ -98,7 +98,7 @@ class SimulationLoopSpawnNonAdiabatic(SimulationLoop):
             # Save some simulation data
             if tm.must_save(i):
                 # Check if we need more data blocks for newly spawned packets
-                if self.iom.get_number_blocks(groupid=self.gid) < self.propagator.get_number_packets():
+                while self.iom.get_number_blocks(groupid=self.gid) < self.propagator.get_number_packets():
                     bid = self.iom.create_block(groupid=self.gid)
                     self.iom.add_wavepacket(self.parameters, blockid=bid)
 
