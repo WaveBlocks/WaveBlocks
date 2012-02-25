@@ -53,7 +53,7 @@ class SpawnAdiabaticPropagator(Propagator):
         #: The condition which determines when to spawn.
         oracle = SCF().get_condition(parameters)
         # Setup the environment for the spawning condition.
-        self.spawn_condition = oracle(self.parameters)
+        self.spawn_condition = oracle(self.parameters, self)
 
         # Decide about the matrix exponential algorithm to use
         self.__dict__["matrix_exponential"] = MatrixExponentialFactory().get_matrixexponential(parameters)

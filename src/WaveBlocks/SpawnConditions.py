@@ -33,7 +33,7 @@ class SpawnCondition:
     """This class in the base class for all spawn conditions.
     """
 
-    def __init__(self, parameters):
+    def __init__(self, parameters, env):
         """Initialize the new spawn condition. Most subclasses
         do not have to change this method. But some may need
         to set up persistent data structures e.g. for keeping
@@ -41,6 +41,8 @@ class SpawnCondition:
 
         :param parameters: The simulation parameters.
         :type parameters: A :py:class:`ParameterProvider` instance.
+        :param env: The caller environment.
+        :type env: A :py:class:`Propagator` subclass instance.
         """
         self._parameters = parameters
 
@@ -90,16 +92,16 @@ class high_k_norm_derivative_threshold(SpawnCondition):
         self._parameters = parameters
         # Create a data structure which keeps old values for each wavepacket and component.
         self._spawndata = {}
-        for p in env.get_wavepackets():
-            env._spawndata[p.get_id()] = [ co.deque(maxlen=parameters["spawn_hist_len"]) for i in xrange(p.get_number_components()) ]
 
 
     def check_condition(self, packet, component, env):
+        # The packet id
         pid = packet.get_id()
 
         # If there is no data yet we have a new packet
-        if not env._spawndata.has_key(pid):
-            env._spawndata[pid] = [ co.deque(maxlen=parameters["spawn_hist_len"]) for i in xrange(packet.get_number_components()) ]
+        if not self._spawndata.has_key(pid):
+            ml = self._parameters["spawn_hist_len"]
+            self._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
 
         # Get the datastructure
         da = self._spawndata[pid][component]
@@ -123,21 +125,19 @@ class norm_derivative_threshold_l2(SpawnCondition):
         self._parameters = parameters
         # Create a data structure which keeps old values for each wavepacket and component.
         self._spawndata = {}
-        for p in env.get_wavepackets():
-            env._spawndata[p.get_id()] = [ co.deque(maxlen=parameters["spawn_hist_len"]) for i in xrange(p.get_number_components()) ]
 
 
     def check_condition(self, packet, component, env):
-
+        # The packet id
         pid = packet.get_id()
 
         # If there is no data yet we have a new packet
-        if not env._spawndata.has_key(pid):
+        if not self._spawndata.has_key(pid):
             ml = self._parameters["spawn_hist_len"]
-            env._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
+            self._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
 
         # Get the datastructure
-        da = env._spawndata[pid][component]
+        da = self._spawndata[pid][component]
 
         # Compute current norm and append to data
         no = packet.get_norm(component=component)
@@ -156,8 +156,6 @@ class norm_derivative_threshold_max(SpawnCondition):
         self._parameters = parameters
         # Create a data structure which keeps old values for each wavepacket and component.
         self._spawndata = {}
-        for p in env.get_wavepackets():
-            env._spawndata[p.get_id()] = [ co.deque(maxlen=parameters["spawn_hist_len"]) for i in xrange(p.get_number_components()) ]
 
 
     def check_condition(self, packet, component, env):
@@ -165,12 +163,12 @@ class norm_derivative_threshold_max(SpawnCondition):
         pid = packet.get_id()
 
         # If there is no data yet we have a new packet
-        if not env._spawndata.has_key(pid):
+        if not self._spawndata.has_key(pid):
             ml = self._parameters["spawn_hist_len"]
-            env._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
+            self._spawndata[pid] = [ co.deque(maxlen=ml) for i in xrange(packet.get_number_components()) ]
 
         # Get the datastructure
-        da = env._spawndata[pid][component]
+        da = self._spawndata[pid][component]
 
         # Compute current norm and append to data
         no = packet.get_norm(component=component)
