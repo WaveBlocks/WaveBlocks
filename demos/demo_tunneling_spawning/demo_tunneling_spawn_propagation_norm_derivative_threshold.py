@@ -20,6 +20,13 @@ ngn = 4096
 
 write_nth = 20
 
-spawn_condition = "adiabatic_K_threshold"
+# Better spawning oracle
+spawn_method = "projection"
+spawn_max_order = 16
+spawn_order = 0
+
+spawn_condition = "high_k_norm_derivative_threshold"
 spawn_K0 = 100
-spawn_threshold = 0.32
+spawn_hist_len = 20
+spawn_threshold = 0.1
+spawn_deriv_threshold = 5e-06

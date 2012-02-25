@@ -31,9 +31,6 @@ spawn_method = "projection"
 spawn_order = 0
 spawn_max_order = 32
 
-#spawn_condition = "nonadiabatic_component_threshold"
-#spawn_threshold = 0.320
-
-spawn_condition = "nonadiabatic_component_timestep"
-spawn_time = 5.50
-spawn_threshold = 0.00001
+# This is a typical example where we spawn to early
+spawn_condition = "norm_threshold"
+spawn_threshold = 0.320
