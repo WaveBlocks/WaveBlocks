@@ -61,9 +61,9 @@
 </pre>
 
 <hr />
-<p>This class can numerically propagate given initial values $\Ket{\Psi}$
-  in a potential $V\ofs{x}$. The propagation is done for a given 
-  homogeneous Hagedorn wavepacket.</p>
+<p>This class can numerically propagate given initial values :math:`\Psi`
+  in a potential :math:`V(x)`. The propagation is done for several given 
+  homogeneous Hagedorn wavepackets neglecting interaction.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -89,11 +89,12 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">propagator</span>,
         <span class="summary-sig-arg">potential</span>,
         <span class="summary-sig-arg">packet</span>,
         <span class="summary-sig-arg">leading_component</span>,
         <span class="summary-sig-arg">parameters</span>)</span><br />
-      Initialize a new <i>HagedornPropagator</i> instance.</td>
+      Initialize a new :py:class:SpawnAdiabaticPropagator instance.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.__init__">source&nbsp;code</a></span>
             
@@ -110,8 +111,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Prepare a printable string representing the <i>HagedornPropagator</i>
-      instance.</td>
+      Prepare a printable string representing the 
+      :py:class:`SpawnAdiabaticPropagator` instance.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.__str__">source&nbsp;code</a></span>
             
@@ -128,8 +129,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_number_components" class="summary-sig-name">get_number_components</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$.</td>
+      :return: The number :math:`N` of components :math:`\Phi_i` of 
+      :math:`\Psi`.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_number_components">source&nbsp;code</a></span>
             
@@ -145,7 +146,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_number_packets"></a><span class="summary-sig-name">get_number_packets</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_number_packets" class="summary-sig-name">get_number_packets</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get the number of packets :math:`\Psi_n` taking part in the 
+      simulation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_number_packets">source&nbsp;code</a></span>
             
@@ -162,8 +165,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_potential" class="summary-sig-name">get_potential</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The <i>MatrixPotential</i> instance used for time propagation.</td>
+      :return: The :py:class:`MatrixPotential` instance used for time 
+      propagation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_potential">source&nbsp;code</a></span>
             
@@ -179,13 +182,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_wavepacket" class="summary-sig-name">get_wavepacket</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_wavepackets" class="summary-sig-name">get_wavepackets</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">packet</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Returns:
-      The <i>HagedornWavepacket</i> instance that represents the current 
-      wavepacket $\Ket{\Psi}$.</td>
+      Retrieve the wavepackets taking part in the simulation.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_wavepacket">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_wavepackets">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -199,9 +200,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#propagate" class="summary-sig-name">propagate</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket 
-      at time $t +    au$.</td>
+          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#propagate" class="summary-sig-name">propagate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>)</span><br />
+      Given the wavepacket :math:`\Psi` at time :math:`t` compute the 
+      propagated wavepacket at time :math:`t + \tau`.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.propagate">source&nbsp;code</a></span>
             
@@ -218,7 +220,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="should_spwan"></a><span class="summary-sig-name">should_spwan</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Check if it's time to spawn a new wavepacket.</td>
+      Check if there is a reason to spawn a new wavepacket.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.should_spwan">source&nbsp;code</a></span>
             
@@ -228,11 +230,22 @@
       
     </td>
   </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="WaveBlocks.Propagator%27.Propagator-class.html">Propagator'.Propagator</a></code></b>:
-      <code><a href="WaveBlocks.Propagator%27.Propagator-class.html#get_wavefunction">get_wavefunction</a></code>
-      </p>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#spawn" class="summary-sig-name">spawn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">info</span>)</span><br />
+      Really spawn the new wavepackets :math:`\tilde{\Psi}`.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.spawn">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -262,6 +275,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">propagator</span>,
         <span class="sig-arg">potential</span>,
         <span class="sig-arg">packet</span>,
         <span class="sig-arg">leading_component</span>,
@@ -273,19 +287,23 @@
     </td>
   </tr></table>
   
-  <p>Initialize a new <i>HagedornPropagator</i> instance.</p>
+  <pre class="literalblock">
+Initialize a new :py:class:SpawnAdiabaticPropagator instance.
+
+:param propagator: The propagator used for time propagation.
+:param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.
+:param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.
+:param leading_component: The leading component index :math:`\chi`.
+
+:raises ValueError: If the number of components of :math:`\Psi` does not
+                    match the number of energy levels :math:`\lambda_i`
+                    of the potential.
+
+</pre>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>potential</code></strong> - The potential the wavepacket $\Ket{\Psi}$ feels during the time 
-          propagation.</li>
-        <li><strong class="pname"><code>packet</code></strong> - The initial homogeneous Hagedorn wavepacket we propagate in time.</li>
-        <li><strong class="pname"><code>leading_component</code></strong> - The leading component index $\chi$.</li>
-    </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If the number of components of $\Ket{\Psi}$ does not match the 
-        number of energy levels $\lambda_i$ of the potential.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="WaveBlocks.Propagator%27.Propagator-class.html#__init__">Propagator'.Propagator.__init__</a>
@@ -308,8 +326,8 @@
     </td>
   </tr></table>
   
-  <p>Prepare a printable string representing the <i>HagedornPropagator</i> 
-  instance.</p>
+  <p>Prepare a printable string representing the 
+  :py:class:`SpawnAdiabaticPropagator` instance.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -335,10 +353,11 @@
     </td>
   </tr></table>
   
-  
+  <p>:return: The number :math:`N` of components :math:`\Phi_i` of 
+  :math:`\Psi`.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$.</dd>
+        <dd>The number of components of $\Ket{\Psi}$.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
@@ -346,6 +365,28 @@
     <dt>Overrides:
         <a href="WaveBlocks.Propagator%27.Propagator-class.html#get_number_components">Propagator'.Propagator.get_number_components</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_packets"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_packets</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_number_packets">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the number of packets :math:`\Psi_n` taking part in the 
+  simulation.</p>
+  <p>:return: The number of packets currently taking part in the 
+  simulation.</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -363,10 +404,11 @@
     </td>
   </tr></table>
   
-  
+  <p>:return: The :py:class:`MatrixPotential` instance used for time 
+  propagation.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The <i>MatrixPotential</i> instance used for time propagation.</dd>
+        <dd>The embedded <i>MatrixPotential</i> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
@@ -377,26 +419,31 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="get_wavepacket"></a>
+<a name="get_wavepackets"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wavepacket</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wavepackets</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">packet</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_wavepacket">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.get_wavepackets">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  
+  <pre class="literalblock">
+Retrieve the wavepackets taking part in the simulation.
+
+:param packet: The number of a single packet that is to be returned.
+:type packet: Integer
+:return: A list of :py:class:`HagedornWavepacket` instances that represents
+         the current wavepackets.
+
+</pre>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>The <i>HagedornWavepacket</i> instance that represents the 
-          current wavepacket $\Ket{\Psi}$.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -407,15 +454,18 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">propagate</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">propagate</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.propagate">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket at
-  time $t +    au$. We perform exactly one timestep $  au$ here.</p>
+  <p>Given the wavepacket :math:`\Psi` at time :math:`t` compute the 
+  propagated wavepacket at time :math:`t + \tau`. We perform exactly one 
+  timestep :math:`\tau` here. At every timestep we check the spawning 
+  condition.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -424,6 +474,28 @@
     <dt>Overrides:
         <a href="WaveBlocks.Propagator%27.Propagator-class.html#propagate">Propagator'.Propagator.propagate</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="spawn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">spawn</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">info</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27-pysrc.html#SpawnAdiabaticPropagator.spawn">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Really spawn the new wavepackets :math:`\tilde{\Psi}`. This method 
+  appends the new :py:class:`HagedornWavepacket` instances to the list 
+  :py:attr:`packets` of packets.</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -451,7 +523,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:40 2011
+    Generated by Epydoc 3.0.1 on Sat Feb 25 17:33:30 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

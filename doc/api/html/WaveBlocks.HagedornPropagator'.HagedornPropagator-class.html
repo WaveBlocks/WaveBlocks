@@ -61,9 +61,9 @@
 </pre>
 
 <hr />
-<p>This class can numerically propagate given initial values $\Ket{\Psi}$
-  in a potential $V\ofs{x}$. The propagation is done for a given 
-  homogeneous Hagedorn wavepacket.</p>
+<p>This class can numerically propagate given initial values :math:`\Psi`
+  in a potential :math:`V(x)`. The propagation is done for a given set of 
+  homogeneous Hagedorn wavepackets neglecting interaction.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -93,7 +93,7 @@
         <span class="summary-sig-arg">packet</span>,
         <span class="summary-sig-arg">leading_component</span>,
         <span class="summary-sig-arg">parameters</span>)</span><br />
-      Initialize a new <i>HagedornPropagator</i> instance.</td>
+      Initialize a new :py:class:`HagedornPropagator` instance.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.__init__">source&nbsp;code</a></span>
             
@@ -110,8 +110,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Prepare a printable string representing the <i>HagedornPropagator</i>
-      instance.</td>
+      Prepare a printable string representing the 
+      :py:class:`HagedornPropagator` instance.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.__str__">source&nbsp;code</a></span>
             
@@ -128,8 +128,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_number_components" class="summary-sig-name">get_number_components</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$.</td>
+      :return: The number :math:`N` of components :math:`\Phi_i` of 
+      :math:`\Psi`.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_number_components">source&nbsp;code</a></span>
             
@@ -146,8 +146,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_potential" class="summary-sig-name">get_potential</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The <i>MatrixPotential</i> instance used for time propagation.</td>
+      Returns the potential used for time propagation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_potential">source&nbsp;code</a></span>
             
@@ -163,32 +162,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_wavefunction" class="summary-sig-name">get_wavefunction</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">nodes</span>)</span><br />
-      Construct a <i>WaveFunction</i> object which contains the components 
-      $\Phi_i$ of the Hagedorn wavepacket evaluated at the given nodes 
-      $\gamma$.</td>
+          <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_wavepackets" class="summary-sig-name">get_wavepackets</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">packet</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Return the wavepackets taking part in the simulation.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavefunction">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_wavepacket" class="summary-sig-name">get_wavepacket</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The <i>HagedornWavepacket</i> instance that represents the current 
-      wavepacket $\Ket{\Psi}$.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavepacket">source&nbsp;code</a></span>
+            <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavepackets">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -203,10 +181,28 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#propagate" class="summary-sig-name">propagate</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket 
-      at time $t +    au$.</td>
+      Given the wavepacket :math:`\Psi` at time :math:`t` compute the 
+      propagated wavepacket at time :math:`t + \tau`.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.propagate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#set_wavepackets" class="summary-sig-name">set_wavepackets</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">packetlist</span>)</span><br />
+      Set the wavepackets that the propagator will propagate.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.set_wavepackets">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -252,19 +248,22 @@
     </td>
   </tr></table>
   
-  <p>Initialize a new <i>HagedornPropagator</i> instance.</p>
+  <pre class="literalblock">
+Initialize a new :py:class:`HagedornPropagator` instance.
+
+:param potential: The potential :math:`V(x)` the wavepacket :math:`\Psi` feels during the time propagation.
+:param packet: The initial homogeneous Hagedorn wavepacket :math:`\Psi` we propagate in time.
+:param leading_component: The leading component index :math:`\chi`.
+:param parameters: A :py:class:`ParameterProvider` instance.
+
+:raises ValueError: If the number of components of :math:`\Psi` does not match
+                    the number of energy levels :math:`\lambda_i` of the potential.
+
+</pre>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>potential</code></strong> - The potential the wavepacket $\Ket{\Psi}$ feels during the time 
-          propagation.</li>
-        <li><strong class="pname"><code>packet</code></strong> - The initial homogeneous Hagedorn wavepacket we propagate in time.</li>
-        <li><strong class="pname"><code>leading_component</code></strong> - The leading component index $\chi$.</li>
-    </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If the number of components of $\Ket{\Psi}$ does not match the 
-        number of energy levels $\lambda_i$ of the potential.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="WaveBlocks.Propagator%27.Propagator-class.html#__init__">Propagator'.Propagator.__init__</a>
@@ -287,8 +286,8 @@
     </td>
   </tr></table>
   
-  <p>Prepare a printable string representing the <i>HagedornPropagator</i> 
-  instance.</p>
+  <p>Prepare a printable string representing the 
+  :py:class:`HagedornPropagator` instance.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -314,10 +313,11 @@
     </td>
   </tr></table>
   
-  
+  <p>:return: The number :math:`N` of components :math:`\Phi_i` of 
+  :math:`\Psi`.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The number $N$ of components $\Phi_i$ of $\Ket{\Psi}$.</dd>
+        <dd>The number of components of $\Ket{\Psi}$.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
@@ -342,10 +342,11 @@
     </td>
   </tr></table>
   
-  
+  <p>Returns the potential used for time propagation.</p>
+  <p>:return: A :py:class:`MatrixPotential` instance.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>The <i>MatrixPotential</i> instance used for time propagation.</dd>
+        <dd>The embedded <i>MatrixPotential</i> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
@@ -356,64 +357,31 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="get_wavefunction"></a>
+<a name="get_wavepackets"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wavefunction</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">nodes</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wavepackets</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">packet</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavefunction">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavepackets">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Construct a <i>WaveFunction</i> object which contains the components 
-  $\Phi_i$ of the Hagedorn wavepacket evaluated at the given nodes 
-  $\gamma$.</p>
+  <pre class="literalblock">
+Return the wavepackets taking part in the simulation.
+
+:param packet: The number of a single packet that is to be returned.
+:type packet: Integer
+:return: A list of :py:class:`HagedornWavepacket` instances that represents
+         the current wavepackets.
+
+</pre>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>nodes</code></strong> - The nodes $\gamma$ on which the Hagedorn wavepacket is evaluated.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <i>WaveFunction</i> instance representing the values of the 
-          current $\Ket{\Psi}$.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NotImplementedError</strong></code> - This is an abstract base class.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="WaveBlocks.Propagator%27.Propagator-class.html#get_wavefunction">Propagator'.Propagator.get_wavefunction</a>
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This method is quite expensive.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="get_wavepacket"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wavepacket</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.get_wavepacket">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>The <i>HagedornWavepacket</i> instance that represents the 
-          current wavepacket $\Ket{\Psi}$.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -431,8 +399,9 @@
     </td>
   </tr></table>
   
-  <p>Given the wavepacket $\Psi$ at time $t$, calculate a new wavepacket at
-  time $t +    au$. We perform exactly one timestep $  au$ here.</p>
+  <p>Given the wavepacket :math:`\Psi` at time :math:`t` compute the 
+  propagated wavepacket at time :math:`t + \tau`. We perform exactly one 
+  timestep :math:`\tau` here.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -441,6 +410,27 @@
     <dt>Overrides:
         <a href="WaveBlocks.Propagator%27.Propagator-class.html#propagate">Propagator'.Propagator.propagate</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_wavepackets"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_wavepackets</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">packetlist</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="WaveBlocks.HagedornPropagator%27-pysrc.html#HagedornPropagator.set_wavepackets">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the wavepackets that the propagator will propagate.</p>
+  <p>:param packetlist: A list of new wavepackets to propagate.</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -468,7 +458,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:40 2011
+    Generated by Epydoc 3.0.1 on Sat Feb 25 17:33:29 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

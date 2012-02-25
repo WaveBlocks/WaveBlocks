@@ -56,6 +56,9 @@
       <em class="summary">An IOManager class that can save various simulation results into 
         data files.</em>
     </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.MatrixExponentialFactory%27.MatrixExponentialFactory-class.html">WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory</a></strong>:
+      <em class="summary">A factory for matrix exponential routines.</em>
+    </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.MatrixPotential%27.MatrixPotential-class.html">WaveBlocks.MatrixPotential'.MatrixPotential</a></strong>:
       <em class="summary">This class represents a potential $V\ofs{x}$.</em>
     <ul>
@@ -75,7 +78,7 @@
     <li> <strong class="uidlink"><a href="WaveBlocks.ParameterProvider%27.ParameterProvider-class.html">WaveBlocks.ParameterProvider'.ParameterProvider</a></strong>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.PotentialFactory%27.PotentialFactory-class.html">WaveBlocks.PotentialFactory'.PotentialFactory</a></strong>:
-      <em class="summary">A factory for <i>MatrixPotential</i> instances.</em>
+      <em class="summary">A factory for :py:class:`MatrixPotential` instances.</em>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.Propagator%27.Propagator-class.html">WaveBlocks.Propagator'.Propagator</a></strong>:
       <em class="summary">Propagators can numerically simulate the time evolution of quantum 
@@ -87,15 +90,19 @@
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html">WaveBlocks.HagedornPropagator'.HagedornPropagator</a></strong>:
       <em class="summary">This class can numerically propagate given initial values 
-        $\Ket{\Psi}$ in a potential $V\ofs{x}$.</em>
+        :math:`\Psi` in a potential :math:`V(x)`.</em>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.HagedornPropagatorInhomogeneous%27.HagedornPropagatorInhomogeneous-class.html">WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous</a></strong>:
       <em class="summary">This class can numerically propagate given initial values 
-        $\Ket{\Psi}$ in a potential $V\ofs{x}$.</em>
+        :math:`\Psi` in a potential :math:`V(x)`.</em>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html">WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator</a></strong>:
       <em class="summary">This class can numerically propagate given initial values 
-        $\Ket{\Psi}$ in a potential $V\ofs{x}$.</em>
+        :math:`\Psi` in a potential :math:`V(x)`.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnNonAdiabaticPropagator%27.SpawnNonAdiabaticPropagator-class.html">WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator</a></strong>:
+      <em class="summary">This class can numerically propagate given initial values 
+        :math:`\Psi` in a potential :math:`V(x)`.</em>
     </li>
     </ul>
     </li>
@@ -135,7 +142,29 @@
     <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopSpawnAdiabatic%27.SimulationLoopSpawnAdiabatic-class.html">WaveBlocks.SimulationLoopSpawnAdiabatic'.SimulationLoopSpawnAdiabatic</a></strong>:
       <em class="summary">This class acts as the main simulation loop.</em>
     </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SimulationLoopSpawnNonAdiabatic%27.SimulationLoopSpawnNonAdiabatic-class.html">WaveBlocks.SimulationLoopSpawnNonAdiabatic'.SimulationLoopSpawnNonAdiabatic</a></strong>:
+      <em class="summary">This class acts as the main simulation loop.</em>
+    </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.SpawnCondition-class.html">WaveBlocks.SpawnConditions.SpawnCondition</a></strong>:
+      <em class="summary">This class in the base class for all spawn conditions.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.high_k_norm_derivative_threshold-class.html">WaveBlocks.SpawnConditions.high_k_norm_derivative_threshold</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.high_k_norm_threshold-class.html">WaveBlocks.SpawnConditions.high_k_norm_threshold</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.norm_derivative_threshold_l2-class.html">WaveBlocks.SpawnConditions.norm_derivative_threshold_l2</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.norm_derivative_threshold_max-class.html">WaveBlocks.SpawnConditions.norm_derivative_threshold_max</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.norm_threshold-class.html">WaveBlocks.SpawnConditions.norm_threshold</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditions.spawn_at_time-class.html">WaveBlocks.SpawnConditions.spawn_at_time</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="WaveBlocks.SpawnConditionFactory%27.SpawnConditionFactory-class.html">WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory</a></strong>
     </li>
     <li> <strong class="uidlink"><a href="WaveBlocks.Spawner%27.Spawner-class.html">WaveBlocks.Spawner'.Spawner</a></strong>
     <ul>
@@ -195,7 +224,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:39 2011
+    Generated by Epydoc 3.0.1 on Sat Feb 25 17:33:29 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

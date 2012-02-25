@@ -54,28 +54,29 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class PotentialFactory</h1><p class="nomargin-top"><span class="codelink"><a href="WaveBlocks.PotentialFactory%27-pysrc.html#PotentialFactory">source&nbsp;code</a></span></p>
-<p>A factory for <i>MatrixPotential</i> instances. We decide which 
-  subclass of the abstract base class <i>MatrixPotential</i> to instantiate
-  according to the size of the potential's matrix. For a $1         imes 1$
-  matrix we can use the class <i>MatrixPotential1S</i> which implements 
-  simplified scalar symbolic calculations. In the case of a $2       imes 
-  2$ matrix we use the class <i>MatrixPotential2S</i> that implements the 
-  full symbolic calculations for matrices. And for matrices of size bigger 
-  than $2  imes 2$ symbolic calculations are unfeasible and we have to fall
-  back to pure numerical methods implemented in 
-  <i>MatrixPotentialMS</i>.</p>
+<p>A factory for :py:class:`MatrixPotential` instances. We decide which 
+  subclass of the abstract base class :py:class:`MatrixPotential` to 
+  instantiate according to the size of the potential's matrix. For a 
+  :math:`1 \times 1` matrix we can use the class 
+  :py:class:`MatrixPotential1S` which implements simplified scalar symbolic
+  calculations. In the case of a :math:`2 \times 2` matrix we use the class
+  :py:class:`MatrixPotential2S` that implements the full symbolic 
+  calculations for matrices. And for matrices of size bigger than :math:`2 
+  \times 2` symbolic calculations are unfeasible and we have to fall back 
+  to pure numerical methods implemented in 
+  :py:class:`MatrixPotentialMS`.</p>
 
-<!-- ==================== STATIC METHODS ==================== -->
-<a name="section-StaticMethods"></a>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td colspan="2" class="table-header">
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr valign="top">
-        <td align="left"><span class="table-header">Static Methods</span></td>
+        <td align="left"><span class="table-header">Instance Methods</span></td>
         <td align="right" valign="top"
-         ><span class="options">[<a href="#section-StaticMethods"
+         ><span class="options">[<a href="#section-InstanceMethods"
          class="privatelink" onclick="toggle_private();"
          >hide private</a>]</span></td>
       </tr>
@@ -88,10 +89,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="WaveBlocks.PotentialFactory%27.PotentialFactory-class.html#create_potential" class="summary-sig-name">create_potential</a>(<span class="summary-sig-arg">parameters</span>)</span><br />
-      Static method that creates a <i>MatrixPotential</i> instance and 
-      decides which subclass to instantiate depending on the given 
-      potential expression.</td>
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="WaveBlocks.PotentialFactory%27-pysrc.html#PotentialFactory.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="WaveBlocks.PotentialFactory%27.PotentialFactory-class.html#create_potential" class="summary-sig-name">create_potential</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">parameters</span>)</span><br />
+      The method that creates a :py:class:`MatrixPotential` instance and decides
+which subclass to instantiate depending on the given potential expression.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="WaveBlocks.PotentialFactory%27-pysrc.html#PotentialFactory.create_potential">source&nbsp;code</a></span>
             
@@ -127,30 +144,28 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_potential</span>(<span class="sig-arg">parameters</span>)</span>
-    <br /><em class="fname">Static Method</em>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_potential</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">parameters</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="WaveBlocks.PotentialFactory%27-pysrc.html#PotentialFactory.create_potential">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Static method that creates a <i>MatrixPotential</i> instance and 
-  decides which subclass to instantiate depending on the given potential 
-  expression.</p>
+  <pre class="literalblock">
+The method that creates a :py:class:`MatrixPotential` instance and decides
+which subclass to instantiate depending on the given potential expression.
+
+:param parameters: A :py:class:`ParameterProvider` instance with all necessary
+                   parameters (at least a ``potential`` entry).
+
+:return: An adequate :py:class:`MatrixPotential` instance.
+
+:raises: :py:class:`ValueError` In case of various input error, f.e. if the potential can
+         not be found or if the potential matrix is not square etc.
+
+</pre>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>parameters</code></strong> - A <i>ParameterProvider</i> instance with all necessary parameters
-          (at least a 'potential' entry).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>An adequate <i>MatrixPotential</i> instance.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - In case of various input error, f.e. if the potential can not be 
-        found or if the potential matrix is not square etc.</li>
-    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -178,7 +193,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  9 17:31:40 2011
+    Generated by Epydoc 3.0.1 on Sat Feb 25 17:33:30 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

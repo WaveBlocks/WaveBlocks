@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>WaveBlocks.SpawnNonAdiabaticPropagator'</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;WaveBlocks ::
+        Module&nbsp;SpawnNonAdiabaticPropagator'
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="WaveBlocks.SpawnNonAdiabaticPropagator%27-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="WaveBlocks.SpawnNonAdiabaticPropagator%27-module.html">Module WaveBlocks.SpawnNonAdiabaticPropagator'</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""The WaveBlocks Project</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">This file contains a simple spawning propagator class</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">for wavepackets and spawning in the non-adiabatic case.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">@author: R. Bourquin</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">@license: Modified BSD License</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Class WaveBlocks.Propagator'.Propagator=WaveBlocks.Propagator%27.Propagator-class.html"><a title="WaveBlocks.Propagator'.Propagator" class="py-name" href="#" onclick="return doclink('link-0', 'Propagator', 'link-0');">Propagator</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name"><a title="WaveBlocks.Propagator'.Propagator" class="py-name" href="#" onclick="return doclink('link-1', 'Propagator', 'link-0');">Propagator</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Class WaveBlocks.HagedornWavepacket'.HagedornWavepacket=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket" class="py-name" href="#" onclick="return doclink('link-2', 'HagedornWavepacket', 'link-2');">HagedornWavepacket</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket" class="py-name" href="#" onclick="return doclink('link-3', 'HagedornWavepacket', 'link-2');">HagedornWavepacket</a></tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Class WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory=WaveBlocks.MatrixExponentialFactory%27.MatrixExponentialFactory-class.html"><a title="WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory" class="py-name" href="#" onclick="return doclink('link-4', 'MatrixExponentialFactory', 'link-4');">MatrixExponentialFactory</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name"><a title="WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory" class="py-name" href="#" onclick="return doclink('link-5', 'MatrixExponentialFactory', 'link-4');">MatrixExponentialFactory</a></tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-6" class="py-name" targets="Class WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner=WaveBlocks.NonAdiabaticSpawner%27.NonAdiabaticSpawner-class.html"><a title="WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner" class="py-name" href="#" onclick="return doclink('link-6', 'NonAdiabaticSpawner', 'link-6');">NonAdiabaticSpawner</a></tt> <tt class="py-keyword">import</tt> <tt id="link-7" class="py-name"><a title="WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner" class="py-name" href="#" onclick="return doclink('link-7', 'NonAdiabaticSpawner', 'link-6');">NonAdiabaticSpawner</a></tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-8" class="py-name" targets="Class WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory=WaveBlocks.SpawnConditionFactory%27.SpawnConditionFactory-class.html"><a title="WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory" class="py-name" href="#" onclick="return doclink('link-8', 'SpawnConditionFactory', 'link-8');">SpawnConditionFactory</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name"><a title="WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory" class="py-name" href="#" onclick="return doclink('link-9', 'SpawnConditionFactory', 'link-8');">SpawnConditionFactory</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">SCF</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator"></a><div id="SpawnNonAdiabaticPropagator-def"><a name="L18"></a><tt class="py-lineno"> 18</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html">SpawnNonAdiabaticPropagator</a><tt class="py-op">(</tt><tt class="py-base-class">Propagator</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="SpawnNonAdiabaticPropagator-expanded"><a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">    <tt class="py-docstring">"""This class can numerically propagate given initial values :math:`\Psi` in</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">    a potential :math:`V(x)`. The propagation is done for several given homogeneous</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">    Hagedorn wavepackets neglecting interaction."""</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.__init__"></a><div id="SpawnNonAdiabaticPropagator.__init__-def"><a name="L24"></a><tt class="py-lineno"> 24</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.__init__-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">propagator</tt><tt class="py-op">,</tt> <tt class="py-param">potential</tt><tt class="py-op">,</tt> <tt class="py-param">packet</tt><tt class="py-op">,</tt> <tt class="py-param">leading_component</tt><tt class="py-op">,</tt> <tt class="py-param">parameters</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.__init__-expanded"><a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">        <tt class="py-docstring">"""Initialize a new :py:class:SpawnNonAdiabaticPropagator instance.</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">        :param propagator: The propagator used for time propagation.</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">        :param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        :param packet: The initial homogeneous Hagedorn wavepacket we propagate in time.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">        :param leading_component: The leading component index :math:`\chi`.</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-docstring">        :raises ValueError: If the number of components of :math:`\Psi` does not</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-docstring">                            match the number of energy levels :math:`\lambda_i`</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"><tt class="py-docstring">                            of the potential.</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">packet</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#get_number_components,Method WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components()=WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#get_number_components,Method WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.get_number_components()=WaveBlocks.HagedornPropagatorInhomogeneous%27.HagedornPropagatorInhomogeneous-class.html#get_number_components,Method WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#get_number_components,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#get_number_components,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#get_number_components,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#get_number_components,Method WaveBlocks.Propagator'.Propagator.get_number_components()=WaveBlocks.Propagator%27.Propagator-class.html#get_number_components,Method WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.get_number_components()=WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#get_number_components,Method WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.get_number_components()=WaveBlocks.SpawnNonAdiabaticPropagator%27.SpawnNonAdiabaticPropagator-class.html#get_number_components,Method WaveBlocks.WaveFunction'.WaveFunction.get_number_components()=WaveBlocks.WaveFunction%27.WaveFunction-class.html#get_number_components,Method WaveBlocks.Wavepacket.Wavepacket.get_number_components()=WaveBlocks.Wavepacket.Wavepacket-class.html#get_number_components"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.Propagator'.Propagator.get_number_components
+WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.get_number_components
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components
+WaveBlocks.Wavepacket.Wavepacket.get_number_components" class="py-name" href="#" onclick="return doclink('link-10', 'get_number_components', 'link-10');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.Propagator'.Propagator.get_number_components
+WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.get_number_components
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components
+WaveBlocks.Wavepacket.Wavepacket.get_number_components" class="py-name" href="#" onclick="return doclink('link-11', 'get_number_components', 'link-10');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"Wave packet does not match to the given potential!"</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-comment">#: The potential :math:`V(x)` the packet(s) feel.</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt> <tt class="py-op">=</tt> <tt class="py-name">potential</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">        <tt class="py-comment">#: The number :math:`N` of components the wavepacket :math:`\Psi` has got.</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">number_components</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.get_number_components
+WaveBlocks.HagedornPropagator'.HagedornPropagator.get_number_components
+WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.get_number_components
+WaveBlocks.MatrixPotential'.MatrixPotential.get_number_components
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.get_number_components
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.get_number_components
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.get_number_components
+WaveBlocks.Propagator'.Propagator.get_number_components
+WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.get_number_components
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.get_number_components
+WaveBlocks.WaveFunction'.WaveFunction.get_number_components
+WaveBlocks.Wavepacket.Wavepacket.get_number_components" class="py-name" href="#" onclick="return doclink('link-12', 'get_number_components', 'link-10');">get_number_components</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt class="py-comment">#: The list of :py:class:`HagedornWavepacket` taking part in the simulation.</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> <tt class="py-op">(</tt><tt class="py-name">packet</tt><tt class="py-op">,</tt><tt class="py-name">leading_component</tt><tt class="py-op">)</tt> <tt class="py-op">]</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-comment"># Cache some parameter values for efficiency</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">parameters</tt> <tt class="py-op">=</tt> <tt class="py-name">parameters</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-comment"># The propagator used for time propagation</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">propagator</tt> <tt class="py-op">=</tt> <tt class="py-name">propagator</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">        <tt class="py-comment">#: The condition which determines when to spawn.</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-name">oracle</tt> <tt class="py-op">=</tt> <tt class="py-name">SCF</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory.get_condition()=WaveBlocks.SpawnConditionFactory%27.SpawnConditionFactory-class.html#get_condition"><a title="WaveBlocks.SpawnConditionFactory'.SpawnConditionFactory.get_condition" class="py-name" href="#" onclick="return doclink('link-13', 'get_condition', 'link-13');">get_condition</a></tt><tt class="py-op">(</tt><tt class="py-name">parameters</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-comment"># Setup the environment for the spawning condition.</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">spawn_condition</tt> <tt class="py-op">=</tt> <tt class="py-name">oracle</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">parameters</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-comment"># Decide about the matrix exponential algorithm to use</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__dict__</tt><tt class="py-op">[</tt><tt class="py-string">"matrix_exponential"</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name"><a title="WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory" class="py-name" href="#" onclick="return doclink('link-14', 'MatrixExponentialFactory', 'link-4');">MatrixExponentialFactory</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory.get_matrixexponential()=WaveBlocks.MatrixExponentialFactory%27.MatrixExponentialFactory-class.html#get_matrixexponential"><a title="WaveBlocks.MatrixExponentialFactory'.MatrixExponentialFactory.get_matrixexponential" class="py-name" href="#" onclick="return doclink('link-15', 'get_matrixexponential', 'link-15');">get_matrixexponential</a></tt><tt class="py-op">(</tt><tt class="py-name">parameters</tt><tt class="py-op">)</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-comment"># Precalculate the potential splitting</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_quadratic()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#calculate_local_quadratic,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_quadratic()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#calculate_local_quadratic,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_quadratic()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#calculate_local_quadratic,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_quadratic()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#calculate_local_quadratic"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_quadratic
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_quadratic
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_quadratic
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_quadratic" class="py-name" href="#" onclick="return doclink('link-16', 'calculate_local_quadratic', 'link-16');">calculate_local_quadratic</a></tt><tt class="py-op">(</tt><tt class="py-name">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">leading_component</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Method WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_remainder()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#calculate_local_remainder,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_remainder()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#calculate_local_remainder,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_remainder()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#calculate_local_remainder,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_remainder()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#calculate_local_remainder"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_remainder
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_remainder
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_remainder
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_remainder" class="py-name" href="#" onclick="return doclink('link-17', 'calculate_local_remainder', 'link-17');">calculate_local_remainder</a></tt><tt class="py-op">(</tt><tt class="py-name">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">leading_component</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.__str__"></a><div id="SpawnNonAdiabaticPropagator.__str__-def"><a name="L67"></a><tt class="py-lineno"> 67</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.__str__-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.__str__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.__str__-expanded"><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-docstring">"""Prepare a printable string representing the :py:class:`SpawnNonAdiabaticPropagator` instance."""</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">"Prapagation and spawning in the adabatic case."</tt> </tt>
+</div><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.get_number_components"></a><div id="SpawnNonAdiabaticPropagator.get_number_components-def"><a name="L72"></a><tt class="py-lineno"> 72</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.get_number_components-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.get_number_components');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#get_number_components">get_number_components</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.get_number_components-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.get_number_components-expanded"><a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">        <tt class="py-docstring">""":return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`."""</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">number_components</tt> </tt>
+</div><a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.get_potential"></a><div id="SpawnNonAdiabaticPropagator.get_potential-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.get_potential-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.get_potential');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#get_potential">get_potential</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.get_potential-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.get_potential-expanded"><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-docstring">""":return: The :py:class:`MatrixPotential` instance used for time propagation."""</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt> </tt>
+</div><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.get_number_packets"></a><div id="SpawnNonAdiabaticPropagator.get_number_packets-def"><a name="L82"></a><tt class="py-lineno"> 82</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.get_number_packets-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.get_number_packets');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#get_number_packets">get_number_packets</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.get_number_packets-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.get_number_packets-expanded"><a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-docstring">"""Get the number of packets :math:`\Psi_n` taking part in the simulation.</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-docstring">        :return: The number of packets currently taking part in the simulation."""</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.get_wavepackets"></a><div id="SpawnNonAdiabaticPropagator.get_wavepackets-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.get_wavepackets-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.get_wavepackets');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#get_wavepackets">get_wavepackets</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">packet</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.get_wavepackets-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.get_wavepackets-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-docstring">"""Retrieve the wavepackets taking part in the simulation.</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt class="py-docstring">        :param packet: The number of a single packet that is to be returned.</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-docstring">        :type packet: Integer</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">        :return: A list of :py:class:`HagedornWavepacket` instances that represents</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt class="py-docstring">                 the current wavepackets.</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">packet</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-op">[</tt> <tt class="py-name">p</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt class="py-name">p</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt> <tt class="py-op">]</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt><tt class="py-op">[</tt><tt class="py-name">packet</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.propagate"></a><div id="SpawnNonAdiabaticPropagator.propagate-def"><a name="L103"></a><tt class="py-lineno">103</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.propagate-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.propagate');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#propagate">propagate</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">time</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.propagate-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.propagate-expanded"><a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-docstring">"""Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"><tt class="py-docstring">        wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau`</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"><tt class="py-docstring">        here. At every timestep we check the spawning condition.</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-comment"># Make time accessible for spawn condition testers</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">time</tt> <tt class="py-op">=</tt> <tt class="py-name">time</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-comment"># Perform spawning in necessary</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">        <tt class="py-name">todo</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Method WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.should_spwan()=WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#should_spwan,Method WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.should_spwan()=WaveBlocks.SpawnNonAdiabaticPropagator%27.SpawnNonAdiabaticPropagator-class.html#should_spwan"><a title="WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.should_spwan
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.should_spwan" class="py-name" href="#" onclick="return doclink('link-18', 'should_spwan', 'link-18');">should_spwan</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">info</tt> <tt class="py-keyword">in</tt> <tt class="py-name">todo</tt><tt class="py-op">:</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.spawn()=WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#spawn,Method WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.spawn()=WaveBlocks.SpawnNonAdiabaticPropagator%27.SpawnNonAdiabaticPropagator-class.html#spawn"><a title="WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.spawn
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.spawn" class="py-name" href="#" onclick="return doclink('link-19', 'spawn', 'link-19');">spawn</a></tt><tt class="py-op">(</tt><tt class="py-name">info</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">        <tt class="py-comment"># Propagate all packets</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">propagator</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Method WaveBlocks.HagedornPropagator'.HagedornPropagator.set_wavepackets()=WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#set_wavepackets,Method WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.set_wavepackets()=WaveBlocks.HagedornPropagatorInhomogeneous%27.HagedornPropagatorInhomogeneous-class.html#set_wavepackets"><a title="WaveBlocks.HagedornPropagator'.HagedornPropagator.set_wavepackets
+WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.set_wavepackets" class="py-name" href="#" onclick="return doclink('link-20', 'set_wavepackets', 'link-20');">set_wavepackets</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt><tt class="py-op">)</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">propagator</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method WaveBlocks.FourierPropagator'.FourierPropagator.propagate()=WaveBlocks.FourierPropagator%27.FourierPropagator-class.html#propagate,Method WaveBlocks.HagedornPropagator'.HagedornPropagator.propagate()=WaveBlocks.HagedornPropagator%27.HagedornPropagator-class.html#propagate,Method WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.propagate()=WaveBlocks.HagedornPropagatorInhomogeneous%27.HagedornPropagatorInhomogeneous-class.html#propagate,Method WaveBlocks.Propagator'.Propagator.propagate()=WaveBlocks.Propagator%27.Propagator-class.html#propagate,Method WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.propagate()=WaveBlocks.SpawnAdiabaticPropagator%27.SpawnAdiabaticPropagator-class.html#propagate,Method WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.propagate()=WaveBlocks.SpawnNonAdiabaticPropagator%27.SpawnNonAdiabaticPropagator-class.html#propagate"><a title="WaveBlocks.FourierPropagator'.FourierPropagator.propagate
+WaveBlocks.HagedornPropagator'.HagedornPropagator.propagate
+WaveBlocks.HagedornPropagatorInhomogeneous'.HagedornPropagatorInhomogeneous.propagate
+WaveBlocks.Propagator'.Propagator.propagate
+WaveBlocks.SpawnAdiabaticPropagator'.SpawnAdiabaticPropagator.propagate
+WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator.propagate" class="py-name" href="#" onclick="return doclink('link-21', 'propagate', 'link-21');">propagate</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.should_spwan"></a><div id="SpawnNonAdiabaticPropagator.should_spwan-def"><a name="L121"></a><tt class="py-lineno">121</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.should_spwan-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.should_spwan');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#should_spwan">should_spwan</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.should_spwan-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.should_spwan-expanded"><a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">        <tt class="py-docstring">"""Check if there is a reason to spawn a new wavepacket.</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">        <tt class="py-name">components</tt> <tt class="py-op">=</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">number_components</tt><tt class="py-op">)</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">        <tt class="py-name">spawn_todo</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-comment"># What do we have to do now?</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">        <tt class="py-comment"># For each packet in the simulation</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-comment">#   For all its components except the leading one</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">        <tt class="py-comment">#     Check if we should spawn on this component</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">packet</tt><tt class="py-op">,</tt> <tt class="py-name">leading_chi</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt><tt class="py-op">:</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">            <tt class="py-name">P</tt> <tt class="py-op">=</tt> <tt class="py-name">packet</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.clone()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#clone,Method WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.clone()=WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html#clone,Method WaveBlocks.Wavepacket.Wavepacket.clone()=WaveBlocks.Wavepacket.Wavepacket-class.html#clone"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.clone
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.clone
+WaveBlocks.Wavepacket.Wavepacket.clone" class="py-name" href="#" onclick="return doclink('link-22', 'clone', 'link-22');">clone</a></tt><tt class="py-op">(</tt><tt class="py-name">keepid</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">            <tt class="py-name">P</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name" targets="Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_eigen()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#project_to_eigen,Method WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_eigen()=WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html#project_to_eigen,Method WaveBlocks.MatrixPotential'.MatrixPotential.project_to_eigen()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#project_to_eigen,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_eigen()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#project_to_eigen,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_eigen()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#project_to_eigen,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_eigen()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#project_to_eigen,Method WaveBlocks.Wavepacket.Wavepacket.project_to_eigen()=WaveBlocks.Wavepacket.Wavepacket-class.html#project_to_eigen"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_eigen
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_eigen
+WaveBlocks.MatrixPotential'.MatrixPotential.project_to_eigen
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_eigen
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_eigen
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_eigen
+WaveBlocks.Wavepacket.Wavepacket.project_to_eigen" class="py-name" href="#" onclick="return doclink('link-23', 'project_to_eigen', 'link-23');">project_to_eigen</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">component</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt> <tt class="py-name">c</tt> <tt class="py-keyword">for</tt> <tt class="py-name">c</tt> <tt class="py-keyword">in</tt> <tt class="py-name">components</tt> <tt class="py-keyword">if</tt> <tt class="py-name">c</tt> <tt class="py-op">!=</tt> <tt class="py-name">leading_chi</tt> <tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">                <tt class="py-comment"># Spawn condition fulfilled?</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">                <tt class="py-name">should_spawn</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">spawn_condition</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Method WaveBlocks.SpawnConditions.SpawnCondition.check_condition()=WaveBlocks.SpawnConditions.SpawnCondition-class.html#check_condition,Method WaveBlocks.SpawnConditions.high_k_norm_derivative_threshold.check_condition()=WaveBlocks.SpawnConditions.high_k_norm_derivative_threshold-class.html#check_condition,Method WaveBlocks.SpawnConditions.high_k_norm_threshold.check_condition()=WaveBlocks.SpawnConditions.high_k_norm_threshold-class.html#check_condition,Method WaveBlocks.SpawnConditions.norm_derivative_threshold_l2.check_condition()=WaveBlocks.SpawnConditions.norm_derivative_threshold_l2-class.html#check_condition,Method WaveBlocks.SpawnConditions.norm_derivative_threshold_max.check_condition()=WaveBlocks.SpawnConditions.norm_derivative_threshold_max-class.html#check_condition,Method WaveBlocks.SpawnConditions.norm_threshold.check_condition()=WaveBlocks.SpawnConditions.norm_threshold-class.html#check_condition,Method WaveBlocks.SpawnConditions.spawn_at_time.check_condition()=WaveBlocks.SpawnConditions.spawn_at_time-class.html#check_condition"><a title="WaveBlocks.SpawnConditions.SpawnCondition.check_condition
+WaveBlocks.SpawnConditions.high_k_norm_derivative_threshold.check_condition
+WaveBlocks.SpawnConditions.high_k_norm_threshold.check_condition
+WaveBlocks.SpawnConditions.norm_derivative_threshold_l2.check_condition
+WaveBlocks.SpawnConditions.norm_derivative_threshold_max.check_condition
+WaveBlocks.SpawnConditions.norm_threshold.check_condition
+WaveBlocks.SpawnConditions.spawn_at_time.check_condition" class="py-name" href="#" onclick="return doclink('link-24', 'check_condition', 'link-24');">check_condition</a></tt><tt class="py-op">(</tt><tt class="py-name">P</tt><tt class="py-op">,</tt> <tt class="py-name">component</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">should_spawn</tt><tt class="py-op">:</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">                    <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-string">"  Spawn condition fulfilled for component "</tt><tt class="py-op">+</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">component</tt><tt class="py-op">)</tt><tt class="py-op">+</tt><tt class="py-string">" of packet with ID "</tt><tt class="py-op">+</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">packet</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Method WaveBlocks.Wavepacket.Wavepacket.get_id()=WaveBlocks.Wavepacket.Wavepacket-class.html#get_id"><a title="WaveBlocks.Wavepacket.Wavepacket.get_id" class="py-name" href="#" onclick="return doclink('link-25', 'get_id', 'link-25');">get_id</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">+</tt><tt class="py-string">"."</tt><tt class="py-op">)</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">                    <tt class="py-name">spawn_todo</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">packet</tt><tt class="py-op">,</tt> <tt class="py-name">component</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-comment"># return structure is [ (packet, component), ...]</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">spawn_todo</tt> </tt>
+</div><a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line"> </tt>
+<a name="SpawnNonAdiabaticPropagator.spawn"></a><div id="SpawnNonAdiabaticPropagator.spawn-def"><a name="L148"></a><tt class="py-lineno">148</tt> <a class="py-toggle" href="#" id="SpawnNonAdiabaticPropagator.spawn-toggle" onclick="return toggle('SpawnNonAdiabaticPropagator.spawn');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="WaveBlocks.SpawnNonAdiabaticPropagator'.SpawnNonAdiabaticPropagator-class.html#spawn">spawn</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">info</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SpawnNonAdiabaticPropagator.spawn-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SpawnNonAdiabaticPropagator.spawn-expanded"><a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">        <tt class="py-docstring">"""Really spawn the new wavepackets :math:`\\tilde{\Psi}`. This method</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-docstring">        appends the new :py:class:`HagedornWavepacket` instances to the list</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-docstring">        :py:attr:`packets` of packets.</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">        <tt class="py-comment"># Transform the packet to the eigenbasis where spawning has to happen</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">        <tt class="py-name">WP</tt><tt class="py-op">,</tt> <tt class="py-name">component</tt> <tt class="py-op">=</tt> <tt class="py-name">info</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">        <tt class="py-name">WP</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_eigen
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_eigen
+WaveBlocks.MatrixPotential'.MatrixPotential.project_to_eigen
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_eigen
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_eigen
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_eigen
+WaveBlocks.Wavepacket.Wavepacket.project_to_eigen" class="py-name" href="#" onclick="return doclink('link-26', 'project_to_eigen', 'link-23');">project_to_eigen</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">)</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">        <tt class="py-comment"># Prepare the potential (this functions are idempotent)</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_quadratic
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_quadratic
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_quadratic
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_quadratic" class="py-name" href="#" onclick="return doclink('link-27', 'calculate_local_quadratic', 'link-16');">calculate_local_quadratic</a></tt><tt class="py-op">(</tt><tt class="py-name">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">component</tt><tt class="py-op">)</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="WaveBlocks.MatrixPotential'.MatrixPotential.calculate_local_remainder
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.calculate_local_remainder
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.calculate_local_remainder
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.calculate_local_remainder" class="py-name" href="#" onclick="return doclink('link-28', 'calculate_local_remainder', 'link-17');">calculate_local_remainder</a></tt><tt class="py-op">(</tt><tt class="py-name">diagonal_component</tt><tt class="py-op">=</tt><tt class="py-name">component</tt><tt class="py-op">)</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">        <tt class="py-comment"># Initialize an empty wavepacket for spawning</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">        <tt class="py-name">SWP</tt> <tt class="py-op">=</tt> <tt id="link-29" class="py-name"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket" class="py-name" href="#" onclick="return doclink('link-29', 'HagedornWavepacket', 'link-2');">HagedornWavepacket</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">parameters</tt><tt class="py-op">)</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt class="py-name">SWP</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.set_quadrature()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#set_quadrature,Method WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.set_quadrature()=WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html#set_quadrature"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.set_quadrature
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.set_quadrature" class="py-name" href="#" onclick="return doclink('link-30', 'set_quadrature', 'link-30');">set_quadrature</a></tt><tt class="py-op">(</tt><tt class="py-name">None</tt><tt class="py-op">)</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">        <tt class="py-comment"># Initialize a Spawner</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">        <tt class="py-name">NAS</tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner" class="py-name" href="#" onclick="return doclink('link-31', 'NonAdiabaticSpawner', 'link-6');">NonAdiabaticSpawner</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">parameters</tt><tt class="py-op">)</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">        <tt class="py-comment"># Estimate the parameter set Pi</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">        <tt class="py-name">Pi</tt> <tt class="py-op">=</tt> <tt class="py-name">NAS</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Method WaveBlocks.AdiabaticSpawner'.AdiabaticSpawner.estimate_parameters()=WaveBlocks.AdiabaticSpawner%27.AdiabaticSpawner-class.html#estimate_parameters,Method WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner.estimate_parameters()=WaveBlocks.NonAdiabaticSpawner%27.NonAdiabaticSpawner-class.html#estimate_parameters,Method WaveBlocks.Spawner'.Spawner.estimate_parameters()=WaveBlocks.Spawner%27.Spawner-class.html#estimate_parameters"><a title="WaveBlocks.AdiabaticSpawner'.AdiabaticSpawner.estimate_parameters
+WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner.estimate_parameters
+WaveBlocks.Spawner'.Spawner.estimate_parameters" class="py-name" href="#" onclick="return doclink('link-32', 'estimate_parameters', 'link-32');">estimate_parameters</a></tt><tt class="py-op">(</tt><tt class="py-name">WP</tt><tt class="py-op">,</tt> <tt class="py-name">component</tt><tt class="py-op">=</tt><tt class="py-name">component</tt><tt class="py-op">)</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt class="py-comment"># Spawn a new packet</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">Pi</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line">            <tt class="py-name">SWP</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.set_parameters()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#set_parameters,Method WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.set_parameters()=WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html#set_parameters,Method WaveBlocks.ParameterProvider'.ParameterProvider.set_parameters()=WaveBlocks.ParameterProvider%27.ParameterProvider-class.html#set_parameters,Method WaveBlocks.Wavepacket.Wavepacket.set_parameters()=WaveBlocks.Wavepacket.Wavepacket-class.html#set_parameters"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.set_parameters
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.set_parameters
+WaveBlocks.ParameterProvider'.ParameterProvider.set_parameters
+WaveBlocks.Wavepacket.Wavepacket.set_parameters" class="py-name" href="#" onclick="return doclink('link-33', 'set_parameters', 'link-33');">set_parameters</a></tt><tt class="py-op">(</tt><tt class="py-name">Pi</tt><tt class="py-op">)</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line"> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">            <tt class="py-comment"># Project the coefficients from mother to child</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">            <tt class="py-name">NAS</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name" targets="Method WaveBlocks.AdiabaticSpawner'.AdiabaticSpawner.project_coefficients()=WaveBlocks.AdiabaticSpawner%27.AdiabaticSpawner-class.html#project_coefficients,Method WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner.project_coefficients()=WaveBlocks.NonAdiabaticSpawner%27.NonAdiabaticSpawner-class.html#project_coefficients,Method WaveBlocks.Spawner'.Spawner.project_coefficients()=WaveBlocks.Spawner%27.Spawner-class.html#project_coefficients"><a title="WaveBlocks.AdiabaticSpawner'.AdiabaticSpawner.project_coefficients
+WaveBlocks.NonAdiabaticSpawner'.NonAdiabaticSpawner.project_coefficients
+WaveBlocks.Spawner'.Spawner.project_coefficients" class="py-name" href="#" onclick="return doclink('link-34', 'project_coefficients', 'link-34');">project_coefficients</a></tt><tt class="py-op">(</tt><tt class="py-name">WP</tt><tt class="py-op">,</tt> <tt class="py-name">SWP</tt><tt class="py-op">,</tt> <tt class="py-name">component</tt><tt class="py-op">=</tt><tt class="py-name">component</tt><tt class="py-op">)</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line"> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">            <tt class="py-comment"># Transform both packets back to the canonical basis where propagation happens</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">            <tt class="py-name">WP</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Method WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_canonical()=WaveBlocks.HagedornWavepacket%27.HagedornWavepacket-class.html#project_to_canonical,Method WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_canonical()=WaveBlocks.HagedornWavepacketInhomogeneous%27.HagedornWavepacketInhomogeneous-class.html#project_to_canonical,Method WaveBlocks.MatrixPotential'.MatrixPotential.project_to_canonical()=WaveBlocks.MatrixPotential%27.MatrixPotential-class.html#project_to_canonical,Method WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_canonical()=WaveBlocks.MatrixPotential1S%27.MatrixPotential1S-class.html#project_to_canonical,Method WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_canonical()=WaveBlocks.MatrixPotential2S%27.MatrixPotential2S-class.html#project_to_canonical,Method WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_canonical()=WaveBlocks.MatrixPotentialMS%27.MatrixPotentialMS-class.html#project_to_canonical,Method WaveBlocks.Wavepacket.Wavepacket.project_to_canonical()=WaveBlocks.Wavepacket.Wavepacket-class.html#project_to_canonical"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_canonical
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_canonical
+WaveBlocks.MatrixPotential'.MatrixPotential.project_to_canonical
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_canonical
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_canonical
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_canonical
+WaveBlocks.Wavepacket.Wavepacket.project_to_canonical" class="py-name" href="#" onclick="return doclink('link-35', 'project_to_canonical', 'link-35');">project_to_canonical</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">)</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">            <tt class="py-name">SWP</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="WaveBlocks.HagedornWavepacket'.HagedornWavepacket.project_to_canonical
+WaveBlocks.HagedornWavepacketInhomogeneous'.HagedornWavepacketInhomogeneous.project_to_canonical
+WaveBlocks.MatrixPotential'.MatrixPotential.project_to_canonical
+WaveBlocks.MatrixPotential1S'.MatrixPotential1S.project_to_canonical
+WaveBlocks.MatrixPotential2S'.MatrixPotential2S.project_to_canonical
+WaveBlocks.MatrixPotentialMS'.MatrixPotentialMS.project_to_canonical
+WaveBlocks.Wavepacket.Wavepacket.project_to_canonical" class="py-name" href="#" onclick="return doclink('link-36', 'project_to_canonical', 'link-35');">project_to_canonical</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">potential</tt><tt class="py-op">)</tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line"> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-string">"  Spawned a new wavepacket with ID "</tt><tt class="py-op">+</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">SWP</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="WaveBlocks.Wavepacket.Wavepacket.get_id" class="py-name" href="#" onclick="return doclink('link-37', 'get_id', 'link-25');">get_id</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">+</tt><tt class="py-string">"."</tt><tt class="py-op">)</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line"> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">            <tt class="py-comment"># Append the spawned packet to the world</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">packets</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">SWP</tt><tt class="py-op">,</tt><tt class="py-name">component</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb 25 17:33:30 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
