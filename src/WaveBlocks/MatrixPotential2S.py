@@ -380,15 +380,6 @@ class MatrixPotential2S(MatrixPotential):
     def evaluate_local_quadratic_at(self, nodes, diagonal_component):
         """Numerically evaluate the local quadratic approximation matrix $U$ of
         the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
-        This function is used for the homogeneous case and takes into account the
-        leading component $\chi$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-        @keyword diagonal_component: The eigenvalue to which we evaluate the quadratic approximation.
-        @return: A list of arrays containing the values of $U_{i,j}$ at the nodes $\gamma$.
-        """
-        """Numerically evaluate the local quadratic approximation matrix $U$ of
-        the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
-        This function is used for the inhomogeneous case.
         @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
         @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
         that gets expanded into a Taylor series $u_i$.
