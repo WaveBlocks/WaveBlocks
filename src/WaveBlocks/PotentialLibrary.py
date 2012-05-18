@@ -15,7 +15,7 @@ code. To load the potentials, use the I{PotentialFactory}.
 #: Free particle
 free_particle = {}
 free_particle["potential"] = "c"
-free_particle["defaults"] = {"c":0.0}
+free_particle["defaults"] = {"c":"0"}
 
 #: Simple harmonic potential
 quadratic = {}
@@ -34,13 +34,13 @@ quartic["defaults"] = {"sigma":0.05}
 
 #: A potential consisting of a cosine wave
 cos_waves = {}
-cos_waves["potential"] = "alpha * (1 - cos(xi*x))"
-cos_waves["defaults"] = {"alpha":0.07, "xi":1.0}
+cos_waves["potential"] = "a * (1 - cos(b*x))"
+cos_waves["defaults"] = {"a":0.07, "b":1.0}
 
 #: The Morse potential
 morse = {}
-morse["potential"] = "D * (1 - exp(-a*(x-o)))**2"
-morse["defaults"] = {"D":3.0, "a":0.3, "o":0.0}
+morse["potential"] = "D * (1 - exp(-a*(x-x0)))**2"
+morse["defaults"] = {"D":3.0, "a":0.3, "x0":0.0}
 
 #: A double well potential
 double_well = {}
