@@ -135,6 +135,3 @@ ylabel(r"$\sqrt{2 \cdot \exp(i \cdot \phi)}$")
 title(r"$\sqrt{z} = \sqrt{r} \cdot \exp \left( i \cdot \frac{\phi}{2} \right)$")
 
 savefig("complex_sqrt_continuous2.png")
-
-
-show()
