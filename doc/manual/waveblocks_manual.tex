@@ -1,12 +1,27 @@
 \documentclass[a4paper,10pt]{report}
 \usepackage[utf8x]{inputenc}
 
+\usepackage[pagebackref,hyperindex=true]{hyperref}
+
 \usepackage{longtable}
 \input{./header_math.tex}
 \input{./header_gfx.tex}
 \input{./header_python_listing.tex}
 \usepackage{url}
 
+% Links in pdf
+\usepackage{color}
+\newcommand{\blue}{ \color{blue} }
+\definecolor{linkcol}{rgb}{0,0,0.4}
+\definecolor{citecol}{rgb}{0.5,0,0}
+
+\hypersetup
+{
+colorlinks=true,
+linkcolor=linkcol,
+citecolor=citecol,
+urlcolor=linkcol
+}
 
 \title{The \texttt{WaveBlocks} Manual}
 \author{Raoul Bourquin}
@@ -39,7 +54,7 @@ included for saving, managing and evaluating simulation results in a flexible
 manner. All of these components are put together in an easy to use and easy
 to extend framework.
 
-The whole project is written in the \emph{python} programming language and a 
+The whole project is written in the \emph{python} programming language and a
 strong emphasis is put on readable code and clean software design. Speed and
 efficiency are, however, not the main concern for the moment.
 
@@ -293,7 +308,7 @@ What remains is the visualization the data. This is done by two plot scripts:
 
 The post processing step usually splits into two substeps. First we compute additional
 data and then we visualise these data. The two substeps are performed by individual
-scripts. All these scripts optionally take the filename or filepath of the \texttt{simulation\_results.hdf5} 
+scripts. All these scripts optionally take the filename or filepath of the \texttt{simulation\_results.hdf5}
 as a further command line argument.
 
 % \lstinputlisting{examples/parameters_01.py}
@@ -510,7 +525,7 @@ we have the following bunch of files
   norms_drift_block0.png
   norms_sqr_block0.png
   Parameters[eps=0.1][delta=0.5eps].py
-  simulation_results.hdf5  
+  simulation_results.hdf5
 \end{verbatim}
 
 Each directory within \texttt{results} contains at least the simulation parameters
@@ -1341,7 +1356,7 @@ behaviour in detail. These parameters are described in the following list.
     \item Possible values: Non-negative integer in the range $\left[0, \ldots, K\right]$
                            where $K$ is the basis size given by \texttt{basis\_size}.
     \item Data type: integer
-    \item Used by: The conditions \texttt{high\_k\_norm\_threshold} and 
+    \item Used by: The conditions \texttt{high\_k\_norm\_threshold} and
                    \texttt{high\_k\_norm\_derivative\_threshold}. This
                    parameter is also used by all method that do a low/high
                    filtering.
