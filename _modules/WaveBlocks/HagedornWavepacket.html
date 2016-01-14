@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WaveBlocks.HagedornWavepacket &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../../index.html" />
+    <link rel="up" title="WaveBlocks" href="../WaveBlocks.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../WaveBlocks.html" accesskey="U">WaveBlocks</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for WaveBlocks.HagedornWavepacket</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;The WaveBlocks Project</span>
+
+<span class="sd">This file contains the class which represents a homogeneous Hagedorn wavepacket.</span>
+
+<span class="sd">@author: R. Bourquin</span>
+<span class="sd">@copyright: Copyright (C) 2010, 2011 R. Bourquin</span>
+<span class="sd">@license: Modified BSD License</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">complexfloating</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span> <span class="n">arange</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">conj</span><span class="p">,</span> <span class="n">dot</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+
+<span class="kn">from</span> <span class="nn">ComplexMath</span> <span class="kn">import</span> <span class="n">cont_sqrt</span>
+<span class="kn">from</span> <span class="nn">Wavepacket</span> <span class="kn">import</span> <span class="n">Wavepacket</span>
+<span class="kn">from</span> <span class="nn">HomogeneousQuadrature</span> <span class="kn">import</span> <span class="n">HomogeneousQuadrature</span>
+<span class="kn">import</span> <span class="nn">GlobalDefaults</span> <span class="kn">as</span> <span class="nn">GD</span>
+
+
+<div class="viewcode-block" id="HagedornWavepacket"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket">[docs]</a><span class="k">class</span> <span class="nc">HagedornWavepacket</span><span class="p">(</span><span class="n">Wavepacket</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class represents homogeneous vector valued wavepackets $\Ket{\Psi}$.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the I{HagedornWavepacket} object that represents $\Ket{\Psi}$.</span>
+<span class="sd">        @param parameters: A I{ParameterProvider} instance or a dict containing simulation parameters.</span>
+<span class="sd">        @raise ValueError: For $N &lt; 1$ or $K &lt; 2$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#: Number of components $\Phi_i$ the wavepacket $\Ket{\Psi}$ has got.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of components of the Hagedorn wavepacket has to be &gt;= 1.&quot;</span><span class="p">)</span>
+
+        <span class="c"># Size of the basis from which we construct the wavepacket.</span>
+        <span class="c"># If there is a key &quot;basis_size&quot; in the input parameters, the corresponding</span>
+        <span class="c"># value can be either a single int or a list of ints. If there is no such key</span>
+        <span class="c"># we use the values from the global defaults.</span>
+        <span class="k">if</span> <span class="n">parameters</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;basis_size&quot;</span><span class="p">):</span>
+            <span class="n">bs</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;basis_size&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of value(s) for basis size(s) does not match.&quot;</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span> <span class="o">=</span> <span class="n">bs</span><span class="p">[:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">*</span> <span class="p">[</span> <span class="n">bs</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">*</span> <span class="p">[</span> <span class="n">GD</span><span class="o">.</span><span class="n">default_basis_size</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">bs</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">bs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of basis fucntions for Hagedorn wavepacket has to be &gt;= 2.&quot;</span><span class="p">)</span>
+
+        <span class="c"># Cache the parameter values epsilon we will use over and over again.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;eps&quot;</span><span class="p">]</span>
+
+        <span class="c">#: The parameter set Pi initialized to the Harmonic Oscillator Eigenfunctions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">GD</span><span class="o">.</span><span class="n">default_Pi</span>
+
+        <span class="c">#: The coefficients $c^i$ of the linear combination for each component $\Phi_k$.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span> <span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span> <span class="p">]</span>
+
+        <span class="c">#: An object that can compute brakets via quadrature.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cont_sqrt_cache</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;@return: A string describing the Hagedorn wavepacket.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span>  <span class="s">&quot;Homogeneous Hagedorn wavepacket with &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; components</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keepid</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="c"># Parameters of this packet</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;ncomponents&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">,</span>
+                  <span class="s">&quot;eps&quot;</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">}</span>
+
+        <span class="c"># Create a new Packet</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">HagedornWavepacket</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="c"># If we wish to keep the packet ID</span>
+        <span class="k">if</span> <span class="n">keepid</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span>
+        <span class="c"># And copy over all (private) data</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">set_basis_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_basis_size</span><span class="p">())</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">set_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_quadrature</span><span class="p">())</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">())</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_coefficients</span><span class="p">())</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">_cont_sqrt_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cont_sqrt_cache</span>
+
+        <span class="k">return</span> <span class="n">other</span>
+
+
+<div class="viewcode-block" id="HagedornWavepacket.get_parameters"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aslist</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</span>
+<span class="sd">        @keyword component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
+<span class="sd">        @keyword aslist: Return a list of $N$ parameter tuples. This is for API compatibility with</span>
+<span class="sd">        inhomogeneous packets.</span>
+<span class="sd">        @return: The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">aslist</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">*</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.set_parameters"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</span>
+<span class="sd">        @param parameters: The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this order.</span>
+<span class="sd">        @keyword component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">=</span> <span class="n">parameters</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.set_quadrature"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.set_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">set_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quadrature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the I{HomogeneousQuadrature} instance used for evaluating brakets.</span>
+<span class="sd">        @param quadrature: The new I{HomogeneousQuadrature} instance. May be I{None}</span>
+<span class="sd">        to use a dafault one with a quadrature rule of order $K+4$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># TODO: Put an &quot;extra accuracy&quot; parameter into global defaults with value of 4.</span>
+        <span class="c"># TODO: Improve on the max(basis_size) later</span>
+        <span class="c"># TODO: Rethink if wavepackets should contain a QR</span>
+        <span class="k">if</span> <span class="n">quadrature</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span> <span class="o">=</span> <span class="n">HomogeneousQuadrature</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span> <span class="o">=</span> <span class="n">quadrature</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.get_quadrature"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the I{HomogeneousQuadrature} instance used for evaluating brakets.</span>
+<span class="sd">        @return: The current instance I{HomogeneousQuadrature}.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.evaluate_basis_at"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.evaluate_basis_at">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_basis_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.</span>
+<span class="sd">        @param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.</span>
+<span class="sd">        @keyword component: Takes the basis size $K_i$ of this component $i$ as upper bound for $K$.</span>
+<span class="sd">        @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.</span>
+<span class="sd">        @return: Returns a twodimensional $K$ times #nodes array $H$ where the entry $H[k,i]$ is</span>
+<span class="sd">        the value of the $k$-th Hagedorn function evaluated at the node $i$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">basis_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">component</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Evaluate up to maximal $K_i$ and slice later if necessary</span>
+            <span class="n">basis_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">)</span>
+
+        <span class="n">H</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">basis_size</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span>
+
+        <span class="n">Qinv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">Qbar</span> <span class="o">=</span> <span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">nodes</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+        <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="mf">1.0j</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">*</span><span class="n">Qinv</span><span class="o">*</span><span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">*</span><span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)))</span>
+        <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Qinv</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">basis_size</span><span class="p">):</span>
+            <span class="n">H</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Qinv</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Qinv</span><span class="o">*</span><span class="n">Qbar</span><span class="o">*</span><span class="n">sqrt</span><span class="p">((</span><span class="n">k</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">prefactor</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">sqrtQ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cont_sqrt_cache</span> <span class="o">=</span> <span class="n">cont_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cont_sqrt_cache</span><span class="p">)</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">sqrtQ</span><span class="o">*</span><span class="n">H</span>
+
+        <span class="k">return</span> <span class="n">H</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.evaluate_at"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.evaluate_at">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluete the Hagedorn wavepacket $\Psi$ at the given nodes $\gamma$.</span>
+<span class="sd">        @param nodes: The nodes $\gamma$ at which the Hagedorn wavepacket gets evaluated.</span>
+<span class="sd">        @keyword component: The index $i$ of a single component $\Phi_i$ to evaluate.</span>
+<span class="sd">        (Defaults to &#39;None&#39; for evaluating all components.)</span>
+<span class="sd">        @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.</span>
+<span class="sd">        @return: A list of arrays or a single array containing the values of the $\Phi_i$ at the nodes $\gamma$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">nodes</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="n">basis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_basis_at</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="n">prefactor</span><span class="p">)</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">phase</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">]</span> <span class="o">*</span> <span class="n">basis</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Remember to slice the basis to the correct basis size for each component</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="n">phase</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">*</span> <span class="n">basis</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">],:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span> <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">values</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.get_norm"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_norm">[docs]</a>    <span class="k">def</span> <span class="nf">get_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the $L^2$ norm of the wavepacket $\Ket{\Psi}$.</span>
+<span class="sd">        @keyword component: The component $\Phi_i$ of which the norm is calculated.</span>
+<span class="sd">        @keyword summed: Whether to sum up the norms of the individual components $\Phi_i$.</span>
+<span class="sd">        @return: A list containing the norms of all components $\Phi_i$ or the overall norm of $\Psi$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="n">norm</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">summed</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">conj</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.potential_energy"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.potential_energy">[docs]</a>    <span class="k">def</span> <span class="nf">potential_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the potential energy $\Braket{\Psi|V|\Psi}$ of the wavepacket componentwise.</span>
+<span class="sd">        @param potential: The potential energy operator $V$ as function.</span>
+<span class="sd">        @keyword summed: Wheter to sum up the individual integrals $\Braket{\Phi_i|V_{i,j}|\Phi_j}$.</span>
+<span class="sd">        @return: The potential energy of the wavepacket&#39;s components $\Phi_i$ or the overall potential energy of $\Psi$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">as_matrix</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">Q</span> <span class="p">]</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span>
+        <span class="n">epot</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">sum</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">N</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">summed</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">epot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">epot</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">epot</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.kinetic_energy"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.kinetic_energy">[docs]</a>    <span class="k">def</span> <span class="nf">kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kinetic energy $\Braket{\Psi|T|\Psi}$ of the wavepacket componentwise.</span>
+<span class="sd">        @keyword summed: Wheter to sum up the individual integrals $\Braket{\Phi_i|T_{i,j}|\Phi_j}$.</span>
+<span class="sd">        @return: The kinetic energy of the wavepacket&#39;s components $\Phi_i$ or the overall kinetic energy of $\Psi$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">grady</span><span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span> <span class="p">]</span>
+        <span class="c"># TODO: Check 0.25 vs orig 0.5!</span>
+        <span class="n">ekin</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tmp</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">summed</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">ekin</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ekin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ekin</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.grady"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.grady">[docs]</a>    <span class="k">def</span> <span class="nf">grady</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the effect of the operator $-i \varepsilon^2 \frac{\partial}{\partial x}$ on the basis</span>
+<span class="sd">        functions of a component $\Phi_i$ of the Hagedorn wavepacket $\Psi$.</span>
+<span class="sd">        @keyword component: The index $i$ of the component $\Phi_i$ on which we apply the above operator.</span>
+<span class="sd">        @return: The modified coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sh</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">sh</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">component</span><span class="p">]):</span>
+            <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">)</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">c</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.project_to_canonical"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.project_to_canonical">[docs]</a>    <span class="k">def</span> <span class="nf">project_to_canonical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Project the Hagedorn wavepacket into the canonical basis.</span>
+<span class="sd">        @param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.</span>
+<span class="sd">        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
+<span class="sd">        @note: This function is expensive and destructive! It modifies the coefficients</span>
+<span class="sd">        of the I{self} instance if the I{assign} parameter is True (default).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># No projection for potentials with a single energy level.</span>
+        <span class="c"># The canonical and eigenbasis are identical here.</span>
+        <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">get_number_components</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">potential</span><span class="o">.</span><span class="n">calculate_eigenvectors</span><span class="p">()</span>
+
+        <span class="c"># Basically an ugly hack to overcome some shortcomings of the matrix function</span>
+        <span class="c"># and of the data layout.</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">get_qr</span><span class="p">()</span><span class="o">.</span><span class="n">get_number_nodes</span><span class="p">(),))</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">evaluate_eigenvectors_at</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">z</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="n">row</span><span class="p">,:]</span> <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">build_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_coefficient_vector</span><span class="p">()</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">assign</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_coefficient_vector</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.project_to_eigen"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.project_to_eigen">[docs]</a>    <span class="k">def</span> <span class="nf">project_to_eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.</span>
+<span class="sd">        @param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.</span>
+<span class="sd">        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
+<span class="sd">        @note: This function is expensive and destructive! It modifies the coefficients</span>
+<span class="sd">        of the I{self} instance if the I{assign} parameter is True (default).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># No projection for potentials with a single energy level.</span>
+        <span class="c"># The canonical and eigenbasis are identical here.</span>
+        <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">get_number_components</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">potential</span><span class="o">.</span><span class="n">calculate_eigenvectors</span><span class="p">()</span>
+
+        <span class="c"># Basically an ugly hack to overcome some shortcomings of the matrix function</span>
+        <span class="c"># and of the data layout.</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">get_qr</span><span class="p">()</span><span class="o">.</span><span class="n">get_number_nodes</span><span class="p">(),))</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">evaluate_eigenvectors_at</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">z</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="n">row</span><span class="p">,:]</span> <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">build_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_coefficient_vector</span><span class="p">()</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">assign</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_coefficient_vector</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.to_fourier_space"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.to_fourier_space">[docs]</a>    <span class="k">def</span> <span class="nf">to_fourier_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform the wavepacket to Fourier space.</span>
+<span class="sd">        @keyword assign: Whether to assign the transformation to</span>
+<span class="sd">        this packet or return a cloned packet.</span>
+<span class="sd">        @note: This is the inverse of the method I{to_real_space()}.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># The Fourier transformed parameters</span>
+        <span class="n">Pihat</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="c"># The Fourier transformed coefficients</span>
+        <span class="n">coeffshat</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c"># Compute phase arising from the transformation</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0j</span><span class="p">)</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="c"># Absorb phase into the coefficients</span>
+            <span class="n">coeffshat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_coefficients</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">assign</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">Pihat</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="n">coeffshat</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">FWP</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">FWP</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">Pihat</span><span class="p">)</span>
+            <span class="n">FWP</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="n">coeffshat</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">FWP</span>
+
+</div>
+<div class="viewcode-block" id="HagedornWavepacket.to_real_space"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.to_real_space">[docs]</a>    <span class="k">def</span> <span class="nf">to_real_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform the wavepacket to real space.</span>
+<span class="sd">        @keyword assign: Whether to assign the transformation to</span>
+<span class="sd">        this packet or return a cloned packet.</span>
+<span class="sd">        @note: This is the inverse of the method I{to_fourier_space()}.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># The inverse Fourier transformed parameters</span>
+        <span class="n">Pi</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="c"># The inverse Fourier transformed coefficients</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c"># Compute phase arising from the transformation</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0j</span><span class="p">)</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="c"># Absorb phase into the coefficients</span>
+            <span class="n">coeffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_coefficients</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">assign</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">Pi</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">RWP</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">RWP</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">Pi</span><span class="p">)</span>
+            <span class="n">RWP</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">RWP</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../WaveBlocks.html" >WaveBlocks</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

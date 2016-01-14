@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HomogeneousQuadrature &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="InhomogeneousQuadrature" href="InhomogeneousQuadrature.html" />
+    <link rel="prev" title="Quadrature" href="Quadrature.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="InhomogeneousQuadrature.html" title="InhomogeneousQuadrature"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Quadrature.html" title="Quadrature"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="homogeneousquadrature">
+<h1>HomogeneousQuadrature<a class="headerlink" href="#homogeneousquadrature" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-homogeneousquadrature-class"></span><h2>About the <tt class="docutils literal"><span class="pre">HomogeneousQuadrature</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-3cd78ae83df9c67b00acdcec129791603b0285b6.png" alt="Inheritance diagram of HomogeneousQuadrature" usemap="#inheritance2729940922" class="inheritance"/>
+<map id="inheritance2729940922" name="inheritance2729940922">
+<area shape="rect" id="node2" title="This class is an abstract interface to quadratures in general." alt="" coords="5,5,177,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaveBlocks.HomogeneousQuadrature">
+<em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">HomogeneousQuadrature</tt><big>(</big><em>QR=None</em>, <em>order=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.build_matrix">
+<tt class="descname">build_matrix</tt><big>(</big><em>packet</em>, <em>operator=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.build_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the matrix representation of $Braket{Psi|f|Psi}$.
+&#64;param packet: The wavepacket $|Psi&gt;$.
+&#64;param operator: A function with two arguments $f:(q, x) -&gt; mathbb{R}$.
+&#64;return: A square matrix of size $sum_i K_i    imes sum_j K_j$.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.build_qr">
+<tt class="descname">build_qr</tt><big>(</big><em>qorder</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.build_qr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quadrature rule of the given order.
+&#64;param qorder: The order of the quadrature rule.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.get_qr">
+<tt class="descname">get_qr</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.get_qr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the I{GaussHermiteQR} instance used for quadrature.
+&#64;return: The current instance of the quadrature rule.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.quadrature">
+<tt class="descname">quadrature</tt><big>(</big><em>packet</em>, <em>operator=None</em>, <em>summed=False</em>, <em>component=None</em>, <em>diag_component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.quadrature" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Performs the quadrature of $Braket{Psi|f|Psi}$ for a general $f$.</dt>
+<dd>&#64;param packet: The wavepacket $|Psi&gt;$.
+&#64;keyword operator: A real-valued function $f(x):R</dd>
+<dt>ightarrow R^{N  imes N}.$</dt>
+<dd>&#64;keyword summed: Whether to sum up the individual integrals $Braket{Phi_i|f_{i,j}|Phi_j}$.
+&#64;keyword component: Request only the i-th component of the result. Remember that $i in [0, N^2-1]$.
+&#64;keyword diag_component: Request only the i-th component from the diagonal entries, here $i in [0, N-1]$
+&#64;return: The value of $Braket{Psi|f|Psi}$. This is either a scalar value or a list of $N^2$ scalar elements.
+&#64;note: &#8216;component&#8217; takes precedence over &#8216;diag_component&#8217; if both are supplied. (Which is discouraged)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.set_qr">
+<tt class="descname">set_qr</tt><big>(</big><em>QR</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.set_qr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the I{GaussHermiteQR} instance used for quadrature.
+&#64;param QR: The new I{GaussHermiteQR} instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.HomogeneousQuadrature.transform_nodes">
+<tt class="descname">transform_nodes</tt><big>(</big><em>Pi</em>, <em>eps</em>, <em>QR=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.transform_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the quadrature nodes such that they fit the given wavepacket.
+&#64;param Pi: The parameter set of the wavepacket.
+&#64;param eps: The epsilon of the wavepacket.
+&#64;keyword QR: An optional quadrature rule providing the nodes.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">HomogeneousQuadrature</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">HomogeneousQuadrature</span></tt> class</a></li>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance diagram</a></li>
+<li><a class="reference internal" href="#class-documentation">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Quadrature.html"
+                        title="previous chapter">Quadrature</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="InhomogeneousQuadrature.html"
+                        title="next chapter">InhomogeneousQuadrature</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/HomogeneousQuadrature.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="InhomogeneousQuadrature.html" title="InhomogeneousQuadrature"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Quadrature.html" title="Quadrature"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Spawner &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="AdiabaticSpawner" href="AdiabaticSpawner.html" />
+    <link rel="prev" title="FileTools" href="FileTools.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="AdiabaticSpawner.html" title="AdiabaticSpawner"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FileTools.html" title="FileTools"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="spawner">
+<h1>Spawner<a class="headerlink" href="#spawner" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-spawner-class"></span><h2>About the <tt class="docutils literal"><span class="pre">Spawner</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-83ff55da908c8ef64ffc71deaa83886cc2b20711.png" alt="Inheritance diagram of Spawner" class="inheritance"/>
+</p>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaveBlocks.Spawner">
+<em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">Spawner</tt><a class="headerlink" href="#WaveBlocks.Spawner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="WaveBlocks.Spawner.estimate_parameters">
+<tt class="descname">estimate_parameters</tt><big>(</big><em>packet</em>, <em>mother_component</em><big>)</big><a class="headerlink" href="#WaveBlocks.Spawner.estimate_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the parameters for a new wavepacket.
+&#64;raise NotImplementedError: This is an abstract base class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.Spawner.project_coefficients">
+<tt class="descname">project_coefficients</tt><big>(</big><em>mother</em>, <em>child</em><big>)</big><a class="headerlink" href="#WaveBlocks.Spawner.project_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the superposition coefficients of mother and
+spawned wavepacket.
+&#64;raise NotImplementedError: This is an abstract base class.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Spawner</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">Spawner</span></tt> class</a></li>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance diagram</a></li>
+<li><a class="reference internal" href="#class-documentation">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="FileTools.html"
+                        title="previous chapter">FileTools</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="AdiabaticSpawner.html"
+                        title="next chapter">AdiabaticSpawner</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/Spawner.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="AdiabaticSpawner.html" title="AdiabaticSpawner"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FileTools.html" title="FileTools"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

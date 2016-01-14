@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PotentialFactory &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="Wavepacket" href="Wavepacket.html" />
+    <link rel="prev" title="PotentialLibrary" href="PotentialLibrary.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Wavepacket.html" title="Wavepacket"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="PotentialLibrary.html" title="PotentialLibrary"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="potentialfactory">
+<h1>PotentialFactory<a class="headerlink" href="#potentialfactory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-potentialfactory-class"></span><h2>About the <tt class="docutils literal"><span class="pre">PotentialFactory</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-750fb154ef0ef26b1befb278deccc6f471e4585d.png" alt="Inheritance diagram of PotentialFactory" usemap="#inheritance4e79f0e4b9" class="inheritance"/>
+<map id="inheritance4e79f0e4b9" name="inheritance4e79f0e4b9">
+<area shape="rect" id="node1" title="A factory for :py:class:`MatrixPotential` instances. We decide which subclass of the" alt="" coords="5,5,233,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaveBlocks.PotentialFactory">
+<em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">PotentialFactory</tt><a class="headerlink" href="#WaveBlocks.PotentialFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A factory for <a class="reference internal" href="MatrixPotential.html#WaveBlocks.MatrixPotential" title="WaveBlocks.MatrixPotential"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential</span></tt></a> instances. We decide which subclass of the
+abstract base class <a class="reference internal" href="MatrixPotential.html#WaveBlocks.MatrixPotential" title="WaveBlocks.MatrixPotential"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential</span></tt></a> to instantiate according to the size
+of the potential&#8217;s matrix. For a <img class="math" src="../_images/math/686fb872d04951d3092ddc01c16801fff64fe935.png" alt="1 \times 1"/> matrix we can use the class
+<a class="reference internal" href="MatrixPotential1S.html#WaveBlocks.MatrixPotential1S" title="WaveBlocks.MatrixPotential1S"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential1S</span></tt></a> which implements simplified scalar symbolic calculations.
+In the case of a <img class="math" src="../_images/math/38d9d474a6c520ac582a14f70b97e0c5a903a16d.png" alt="2 \times 2"/> matrix we use the class <a class="reference internal" href="MatrixPotential2S.html#WaveBlocks.MatrixPotential2S" title="WaveBlocks.MatrixPotential2S"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential2S</span></tt></a>
+that implements the full symbolic calculations for matrices. And for matrices of size
+bigger than <img class="math" src="../_images/math/38d9d474a6c520ac582a14f70b97e0c5a903a16d.png" alt="2 \times 2"/> symbolic calculations are unfeasible and we have to
+fall back to pure numerical methods implemented in <a class="reference internal" href="MatrixPotentialMS.html#WaveBlocks.MatrixPotentialMS" title="WaveBlocks.MatrixPotentialMS"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotentialMS</span></tt></a>.</p>
+<dl class="method">
+<dt id="WaveBlocks.PotentialFactory.create_potential">
+<tt class="descname">create_potential</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.PotentialFactory.create_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method that creates a <a class="reference internal" href="MatrixPotential.html#WaveBlocks.MatrixPotential" title="WaveBlocks.MatrixPotential"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential</span></tt></a> instance and decides
+which subclass to instantiate depending on the given potential expression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parameters</strong> &#8211; A <a class="reference internal" href="ParameterProvider.html#WaveBlocks.ParameterProvider" title="WaveBlocks.ParameterProvider"><tt class="xref py py-class docutils literal"><span class="pre">ParameterProvider</span></tt></a> instance with all necessary
+parameters (at least a <tt class="docutils literal"><span class="pre">potential</span></tt> entry).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An adequate <a class="reference internal" href="MatrixPotential.html#WaveBlocks.MatrixPotential" title="WaveBlocks.MatrixPotential"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential</span></tt></a> instance.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">ValueError</span></tt> In case of various input error, f.e. if the potential can
+not be found or if the potential matrix is not square etc.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">PotentialFactory</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">PotentialFactory</span></tt> class</a></li>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance diagram</a></li>
+<li><a class="reference internal" href="#class-documentation">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="PotentialLibrary.html"
+                        title="previous chapter">PotentialLibrary</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Wavepacket.html"
+                        title="next chapter">Wavepacket</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/PotentialFactory.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Wavepacket.html" title="Wavepacket"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="PotentialLibrary.html" title="PotentialLibrary"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

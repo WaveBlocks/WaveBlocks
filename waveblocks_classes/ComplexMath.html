@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ComplexMath &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="MatrixExponential" href="MatrixExponential.html" />
+    <link rel="prev" title="Welcome to WaveBlocks’s documentation!" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="MatrixExponential.html" title="MatrixExponential"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to WaveBlocks’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="complexmath">
+<h1>ComplexMath<a class="headerlink" href="#complexmath" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-complexmath-class"></span><h2>About the <tt class="docutils literal"><span class="pre">ComplexMath</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="module-ComplexMath">
+<span id="class-documentation"></span><h2>Class documentation<a class="headerlink" href="#module-ComplexMath" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>Some selected functions for complex math.</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2011 R. Bourquin
+&#64;license: Modified BSD License</p>
+<dl class="function">
+<dt id="ComplexMath.cont_angle">
+<tt class="descclassname">ComplexMath.</tt><tt class="descname">cont_angle</tt><big>(</big><em>data</em>, <em>reference=None</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#cont_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.cont_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the angle of a complex number <em>not</em> constrained to
+the principal value and avoiding discontinuities at the branch cut.
+&#64;param data: An array with the input data.
+&#64;keyword reference: This value allows the specify the starting point for
+continuation explicitely. It can be used together with I{data} beeing a single number.
+&#64;note: This function just applies &#8216;continuate(.)&#8217; to the complex phase.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ComplexMath.cont_sqrt">
+<tt class="descclassname">ComplexMath.</tt><tt class="descname">cont_sqrt</tt><big>(</big><em>data</em>, <em>reference=None</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#cont_sqrt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.cont_sqrt" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the complex square root (following the Riemann surface)</dt>
+<dd>yields a result <em>not</em> constrained to the principal value and avoiding
+discontinuities at the branch cut.
+&#64;param data: An array with the input data.
+&#64;keyword reference: This value allows the specify the starting point for
+continuation explicitely. It can be used together with I{data} beeing a single number.
+&#64;note: This function applies &#8216;continuate(.)&#8217; to the complex phase
+and computes the complex square root according to the formula
+$sqrt{z} = sqrt{r} cdot exp left( i cdot</dd>
+</dl>
+<p>rac{phi}{2} 
+ight)$</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ComplexMath.continuate">
+<tt class="descclassname">ComplexMath.</tt><tt class="descname">continuate</tt><big>(</big><em>data</em>, <em>jump=6.283185307179586</em>, <em>reference=0.0</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#continuate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.continuate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the given data continuous by removing all jumps of size k*jump
+but not touching jumps of any other size. This can be used to overcome
+issues with the branch cut along the negative axis.
+&#64;param data: An array with the input data.
+&#64;keyword jump: The basic size of jumps which will be removed. Default is 2*pi.
+&#64;keyword reference: This value allows the specify the starting point for
+continuation explicitely. It can be used together with I{data} beeing a single number.
+&#64;Note: There may be issues with jumps that are of size nearly k*jump.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ComplexMath</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">ComplexMath</span></tt> class</a></li>
+<li><a class="reference internal" href="#module-ComplexMath">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to WaveBlocks&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="MatrixExponential.html"
+                        title="next chapter">MatrixExponential</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/ComplexMath.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="MatrixExponential.html" title="MatrixExponential"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to WaveBlocks’s documentation!"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

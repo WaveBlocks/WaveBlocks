@@ -1,0 +1,4 @@
+<map id="inheritancea144ae3a4a" name="inheritancea144ae3a4a">
+<area shape="rect" id="node1" title="Propagators can numerically simulate the time evolution of quantum states" alt="" coords="5,5,172,31"/>
+<area shape="rect" id="node2" href="#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator" title="This class can numerically propagate given initial values :math:`\Psi` in" alt="" coords="220,5,641,31"/>
+</map>

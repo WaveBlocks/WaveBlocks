@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PotentialLibrary &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="PotentialFactory" href="PotentialFactory.html" />
+    <link rel="prev" title="MatrixPotentialMS" href="MatrixPotentialMS.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="PotentialFactory.html" title="PotentialFactory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="MatrixPotentialMS.html" title="MatrixPotentialMS"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="potentiallibrary">
+<h1>PotentialLibrary<a class="headerlink" href="#potentiallibrary" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-potentiallibrary-class"></span><h2>About the <tt class="docutils literal"><span class="pre">PotentialLibrary</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="module-PotentialLibrary">
+<span id="class-documentation"></span><h2>Class documentation<a class="headerlink" href="#module-PotentialLibrary" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>This file contains some ready made potentials with up to five
+separate energy levels. This is a pure data file without any
+code. To load the potentials, use the I{PotentialFactory}.</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011 R. Bourquin
+&#64;license: Modified BSD License</p>
+<dl class="data">
+<dt id="PotentialLibrary.cos_waves">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">cos_waves</tt><em class="property"> = {'potential': 'a * (1 - cos(b*x))', 'defaults': {'a': 0.07, 'b': 1.0}}</em><a class="headerlink" href="#PotentialLibrary.cos_waves" title="Permalink to this definition">¶</a></dt>
+<dd><p>A potential consisting of a cosine wave</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.delta_gap">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">delta_gap</tt><em class="property"> = {'potential': [['1/2 * tanh(x)', 'delta'], ['delta', '-1/2 * tanh(x)']]}</em><a class="headerlink" href="#PotentialLibrary.delta_gap" title="Permalink to this definition">¶</a></dt>
+<dd><p>A potential with a single avoided crossing</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.delta_gap_diag">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">delta_gap_diag</tt><em class="property"> = {'potential': [['sqrt(delta**2 + tanh(x)**2/4)', '0'], ['0', '-sqrt(delta**2 + tanh(x)**2/4)']]}</em><a class="headerlink" href="#PotentialLibrary.delta_gap_diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonalized single avoided crossing</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.double_well">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">double_well</tt><em class="property"> = {'potential': 'sigma * (x**2 - 1)**2', 'defaults': {'sigma': 1.0}}</em><a class="headerlink" href="#PotentialLibrary.double_well" title="Permalink to this definition">¶</a></dt>
+<dd><p>A double well potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.eckart">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">eckart</tt><em class="property"> = {'potential': 'sigma * cosh(x/a)**(-2)', 'defaults': {'a': 0.9448580823160362, 'sigma': 0.038088000000000004}}</em><a class="headerlink" href="#PotentialLibrary.eckart" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Eckart potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.five_quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">five_quadratic</tt><em class="property"> = {'potential': [['1/2 * sigma * x**2', '0', '0', '0', '0'], ['0', '1/2 * sigma * x**2', '0', '0', '0'], ['0', '0', '1/2 * sigma * x**2', '0', '0'], ['0', '0', '0', '1/2 * sigma * x**2', '0'], ['0', '0', '0', '0', '1/2 * sigma * x**2']], 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.five_quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decoupled harmonic potential for five components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.four_powers">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">four_powers</tt><em class="property"> = {'potential': [['1/2 * sigma * x**2', '0', '0', '0'], ['0', '1/4 * sigma * x**4', '0', '0'], ['0', '0', '1/6 * sigma * x**6', '0'], ['0', '0', '0', '1/8 * sigma * x**8']], 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.four_powers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Harmonic and higher order anharmonic potentials for four components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.four_quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">four_quadratic</tt><em class="property"> = {'potential': [['1/2 * sigma * x**2', '0', '0', '0'], ['0', '1/2 * sigma * x**2', '0', '0'], ['0', '0', '1/2 * sigma * x**2', '0'], ['0', '0', '0', '1/2 * sigma * x**2']], 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.four_quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decoupled harmonic potentials for four components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.free_particle">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">free_particle</tt><em class="property"> = {'potential': 'c', 'defaults': {'c': '0'}}</em><a class="headerlink" href="#PotentialLibrary.free_particle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free particle</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.morse">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">morse</tt><em class="property"> = {'potential': 'D * (1 - exp(-a*(x-x0)))**2', 'defaults': {'a': 0.3, 'x0': 0.0, 'D': 3.0}}</em><a class="headerlink" href="#PotentialLibrary.morse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Morse potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.pert_quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">pert_quadratic</tt><em class="property"> = {'potential': '1/2 * sigma * x**2 + 1/2 * delta**2 * x**2', 'defaults': {'sigma': 0.05, 'delta': 0.2}}</em><a class="headerlink" href="#PotentialLibrary.pert_quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perturbed harmonic potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">quadratic</tt><em class="property"> = {'potential': '1/2 * sigma * x**2', 'defaults': {'sigma': '1/2'}}</em><a class="headerlink" href="#PotentialLibrary.quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple harmonic potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.quartic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">quartic</tt><em class="property"> = {'potential': '1/4 * sigma * x**4', 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.quartic" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple fourth order anharmonic potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.three_levels">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">three_levels</tt><em class="property"> = {'potential': [['tanh(x+rho) + tanh(x-rho)', 'delta1', 'delta2'], ['delta1', '-tanh(x+rho)', '0'], ['delta2', '0', '1 - tanh(x-rho)']], 'defaults': {'rho': 3.0}}</em><a class="headerlink" href="#PotentialLibrary.three_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>A potential with three energy levels and multiple crossings</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.three_quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">three_quadratic</tt><em class="property"> = {'potential': [['1/2 * sigma * x**2', '0', '0'], ['0', '1/2 * sigma * x**2', '0'], ['0', '0', '1/2 * sigma * x**2']], 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.three_quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decoupled harmonic potentials for three components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.two_crossings">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">two_crossings</tt><em class="property"> = {'potential': [['tanh(x-rho)*tanh(x+rho)/2', 'delta/2'], ['delta/2', '-tanh(x-rho)*tanh(x+rho)/2']], 'defaults': {'rho': 3.0}}</em><a class="headerlink" href="#PotentialLibrary.two_crossings" title="Permalink to this definition">¶</a></dt>
+<dd><p>A potential with two avoided crossings in series</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.two_quadratic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">two_quadratic</tt><em class="property"> = {'potential': [['1/2*sigma*x**2', '0'], ['0', '1/2*sigma*x**2']], 'defaults': {'sigma': 0.05}}</em><a class="headerlink" href="#PotentialLibrary.two_quadratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Double harmonic potential for two components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.two_quartic">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">two_quartic</tt><em class="property"> = {'potential': [['1/4*sigma*x**4', '0'], ['0', '1/8*sigma*x**4']], 'defaults': {'sigma': 1.0}}</em><a class="headerlink" href="#PotentialLibrary.two_quartic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Double quartic anharmonic potential for two components</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.v_shape">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">v_shape</tt><em class="property"> = {'potential': '1/2 * sqrt(tanh(x)**2+4*delta**2)', 'defaults': {'delta': 0.2}}</em><a class="headerlink" href="#PotentialLibrary.v_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>A narrow &#8216;V&#8217;-like potential</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="PotentialLibrary.wall">
+<tt class="descclassname">PotentialLibrary.</tt><tt class="descname">wall</tt><em class="property"> = {'potential': 'atan(sigma*x) + pi/2', 'defaults': {'sigma': 10.0}}</em><a class="headerlink" href="#PotentialLibrary.wall" title="Permalink to this definition">¶</a></dt>
+<dd><p>A smooth unitstep like wall</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">PotentialLibrary</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">PotentialLibrary</span></tt> class</a></li>
+<li><a class="reference internal" href="#module-PotentialLibrary">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="MatrixPotentialMS.html"
+                        title="previous chapter">MatrixPotentialMS</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="PotentialFactory.html"
+                        title="next chapter">PotentialFactory</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/PotentialLibrary.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="PotentialFactory.html" title="PotentialFactory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="MatrixPotentialMS.html" title="MatrixPotentialMS"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

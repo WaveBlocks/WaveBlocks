@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SimulationLoopSpawnAdiabatic &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="SimulationLoopSpawnNonAdiabatic" href="SimulationLoopSpawnNonAdiabatic.html" />
+    <link rel="prev" title="SpawnNonAdiabaticPropagator" href="SpawnNonAdiabaticPropagator.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="SimulationLoopSpawnNonAdiabatic.html" title="SimulationLoopSpawnNonAdiabatic"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="SpawnNonAdiabaticPropagator.html" title="SpawnNonAdiabaticPropagator"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="simulationloopspawnadiabatic">
+<h1>SimulationLoopSpawnAdiabatic<a class="headerlink" href="#simulationloopspawnadiabatic" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-simulationloopspawnadiabatic-class"></span><h2>About the <tt class="docutils literal"><span class="pre">SimulationLoopSpawnAdiabatic</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-309915f3a49f163103291959bd308992710f6c06.png" alt="Inheritance diagram of SimulationLoopSpawnAdiabatic" usemap="#inheritance138952b7d5" class="inheritance"/>
+<map id="inheritance138952b7d5" name="inheritance138952b7d5">
+<area shape="rect" id="node1" title="This class acts as the main simulation loop. It owns a propagator that" alt="" coords="5,5,229,31"/>
+<area shape="rect" id="node2" title="This class acts as the main simulation loop. It owns a propagator that" alt="" coords="277,5,704,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic">
+<em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">SimulationLoopSpawnAdiabatic</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class acts as the main simulation loop. It owns a propagator that
+propagates a set of initial values during a time evolution. All values are
+read from the I{Parameters.py} file.</p>
+<dl class="method">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic.end_simulation">
+<tt class="descname">end_simulation</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic.end_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the necessary cleanup after a simulation. For example request the
+IOManager to write the data and close the output files.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic.iom">
+<tt class="descname">iom</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic.iom" title="Permalink to this definition">¶</a></dt>
+<dd><p>A I{IOManager} instance for saving simulation results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic.prepare_simulation">
+<tt class="descname">prepare_simulation</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic.prepare_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up a Spawning propagator for the simulation loop. Set the
+potential and initial values according to the configuration.
+&#64;raise ValueError: For invalid or missing input data.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic.propagator">
+<tt class="descname">propagator</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic.propagator" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time propagator instance driving the simulation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.SimulationLoopSpawnAdiabatic.run_simulation">
+<tt class="descname">run_simulation</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopSpawnAdiabatic.run_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the simulation loop for a number of time steps. The number of steps
+is calculated in the I{initialize} function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SimulationLoopSpawnAdiabatic</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">SimulationLoopSpawnAdiabatic</span></tt> class</a></li>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance diagram</a></li>
+<li><a class="reference internal" href="#class-documentation">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="SpawnNonAdiabaticPropagator.html"
+                        title="previous chapter">SpawnNonAdiabaticPropagator</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="SimulationLoopSpawnNonAdiabatic.html"
+                        title="next chapter">SimulationLoopSpawnNonAdiabatic</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/SimulationLoopSpawnAdiabatic.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="SimulationLoopSpawnNonAdiabatic.html" title="SimulationLoopSpawnNonAdiabatic"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="SpawnNonAdiabaticPropagator.html" title="SpawnNonAdiabaticPropagator"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

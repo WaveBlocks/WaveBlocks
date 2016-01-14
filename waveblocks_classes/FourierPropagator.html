@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FourierPropagator &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="next" title="HagedornPropagator" href="HagedornPropagator.html" />
+    <link rel="prev" title="Propagator" href="Propagator.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="HagedornPropagator.html" title="HagedornPropagator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Propagator.html" title="Propagator"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fourierpropagator">
+<h1>FourierPropagator<a class="headerlink" href="#fourierpropagator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-WaveBlocks">
+<span id="about-the-fourierpropagator-class"></span><h2>About the <tt class="docutils literal"><span class="pre">FourierPropagator</span></tt> class<a class="headerlink" href="#module-WaveBlocks" title="Permalink to this headline">¶</a></h2>
+<p>The WaveBlocks Project</p>
+<p>&#64;author: R. Bourquin
+&#64;copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin
+&#64;license: Modified BSD License</p>
+</div>
+<div class="section" id="inheritance-diagram">
+<h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-5c183bc7fda03b7a9f6261d991133f3ff760475e.png" alt="Inheritance diagram of FourierPropagator" usemap="#inheritance52a761d7bc" class="inheritance"/>
+<map id="inheritance52a761d7bc" name="inheritance52a761d7bc">
+<area shape="rect" id="node1" title="This class can numerically propagate given initial values $\Ket{\Psi}$ in" alt="" coords="220,5,475,31"/>
+<area shape="rect" id="node2" title="Propagators can numerically simulate the time evolution of quantum states" alt="" coords="5,5,172,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaveBlocks.FourierPropagator">
+<em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">FourierPropagator</tt><big>(</big><em>potential</em>, <em>initial_values</em>, <em>para</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class can numerically propagate given initial values $Ket{Psi}$ in
+a potential surface $Vofs{x}$. The propagation is done with a Strang splitting
+of the time propagation operator.</p>
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.Psi">
+<tt class="descname">Psi</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.Psi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The initial values of the components $psi_i$ sampled at the given nodes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.T">
+<tt class="descname">T</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>The kinetic operator $T$ defined in momentum space.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.TE">
+<tt class="descname">TE</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.TE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential $expofs{T}$ of $T$ used in the Strang splitting.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.V">
+<tt class="descname">V</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.V" title="Permalink to this definition">¶</a></dt>
+<dd><p>The potential operator $V$ defined in position space.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.VE">
+<tt class="descname">VE</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.VE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential $expofs{V}$ of $V$ used in the Strang splitting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.get_number_components">
+<tt class="descname">get_number_components</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.get_number_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;return: The number of components of $Ket{Psi}$.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.get_operators">
+<tt class="descname">get_operators</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.get_operators" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;return: Return the numerical expressions of the propagation
+operators $T$ and $V$.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.get_potential">
+<tt class="descname">get_potential</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.get_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;return: The I{MatrixPotential} instance used for time propagation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.get_wavefunction">
+<tt class="descname">get_wavefunction</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.get_wavefunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;return: The I{WaveFunction} instance that stores the current wavefunction data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.kinetic_energy">
+<tt class="descname">kinetic_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.kinetic_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method just delegates the calculation of kinetic energies to the
+embedded I{WaveFunction} object.
+&#64;keyword summed: Whether to sum up the kinetic energies of the individual components.
+&#64;return: The kinetic energies.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.nodes">
+<tt class="descname">nodes</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position space nodes $gamma$.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.omega">
+<tt class="descname">omega</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.omega" title="Permalink to this definition">¶</a></dt>
+<dd><p>The momentum space nodes $omega$.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WaveBlocks.FourierPropagator.potential">
+<tt class="descname">potential</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>The embedded I{MatrixPotential} instance representing the potential $V$.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.potential_energy">
+<tt class="descname">potential_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.potential_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method just delegates the calculation of potential energies to the
+embedded I{WaveFunction} object.
+&#64;keyword summed: Whether to sum up the potential energies of the individual components.
+&#64;return: The potential energies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WaveBlocks.FourierPropagator.propagate">
+<tt class="descname">propagate</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the wavefunction values $Psi$ at time $t$, calculate new
+values at time $t +     au$. We perform exactly one timestep $  au$ here.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FourierPropagator</a><ul>
+<li><a class="reference internal" href="#module-WaveBlocks">About the <tt class="docutils literal"><span class="pre">FourierPropagator</span></tt> class</a></li>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance diagram</a></li>
+<li><a class="reference internal" href="#class-documentation">Class documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Propagator.html"
+                        title="previous chapter">Propagator</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="HagedornPropagator.html"
+                        title="next chapter">HagedornPropagator</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waveblocks_classes/FourierPropagator.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="HagedornPropagator.html" title="HagedornPropagator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Propagator.html" title="Propagator"
+             >previous</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

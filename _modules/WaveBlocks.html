@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WaveBlocks &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for WaveBlocks</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;The WaveBlocks Project</span>
+
+<span class="sd">@author: R. Bourquin</span>
+<span class="sd">@copyright: Copyright (C) 2010, 2011, 2012 R. Bourquin</span>
+<span class="sd">@license: Modified BSD License</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">QuadratureRule</span> <span class="kn">import</span> <span class="n">QuadratureRule</span>
+<span class="kn">from</span> <span class="nn">GaussHermiteQR</span> <span class="kn">import</span> <span class="n">GaussHermiteQR</span>
+<span class="kn">from</span> <span class="nn">TrapezoidalQR</span> <span class="kn">import</span> <span class="n">TrapezoidalQR</span>
+
+<span class="kn">from</span> <span class="nn">MatrixExponentialFactory</span> <span class="kn">import</span> <span class="n">MatrixExponentialFactory</span>
+
+<span class="kn">from</span> <span class="nn">Quadrature</span> <span class="kn">import</span> <span class="n">Quadrature</span>
+<span class="kn">from</span> <span class="nn">HomogeneousQuadrature</span> <span class="kn">import</span> <span class="n">HomogeneousQuadrature</span>
+<span class="kn">from</span> <span class="nn">InhomogeneousQuadrature</span> <span class="kn">import</span> <span class="n">InhomogeneousQuadrature</span>
+
+<span class="kn">from</span> <span class="nn">HagedornWavepacket</span> <span class="kn">import</span> <span class="n">HagedornWavepacket</span>
+<span class="kn">from</span> <span class="nn">HagedornWavepacketInhomogeneous</span> <span class="kn">import</span> <span class="n">HagedornWavepacketInhomogeneous</span>
+
+<span class="kn">from</span> <span class="nn">WaveFunction</span> <span class="kn">import</span> <span class="n">WaveFunction</span>
+
+<span class="kn">from</span> <span class="nn">ParameterProvider</span> <span class="kn">import</span> <span class="n">ParameterProvider</span>
+<span class="kn">from</span> <span class="nn">ParameterLoader</span> <span class="kn">import</span> <span class="n">ParameterLoader</span>
+<span class="kn">from</span> <span class="nn">TimeManager</span> <span class="kn">import</span> <span class="n">TimeManager</span>
+<span class="kn">from</span> <span class="nn">IOManager</span> <span class="kn">import</span> <span class="n">IOManager</span>
+
+<span class="kn">from</span> <span class="nn">PotentialFactory</span> <span class="kn">import</span> <span class="n">PotentialFactory</span>
+<span class="kn">from</span> <span class="nn">MatrixPotential</span> <span class="kn">import</span> <span class="n">MatrixPotential</span>
+<span class="kn">from</span> <span class="nn">MatrixPotential1S</span> <span class="kn">import</span> <span class="n">MatrixPotential1S</span>
+<span class="kn">from</span> <span class="nn">MatrixPotential2S</span> <span class="kn">import</span> <span class="n">MatrixPotential2S</span>
+<span class="kn">from</span> <span class="nn">MatrixPotentialMS</span> <span class="kn">import</span> <span class="n">MatrixPotentialMS</span>
+
+<span class="kn">from</span> <span class="nn">Propagator</span> <span class="kn">import</span> <span class="n">Propagator</span>
+<span class="kn">from</span> <span class="nn">FourierPropagator</span> <span class="kn">import</span> <span class="n">FourierPropagator</span>
+<span class="kn">from</span> <span class="nn">HagedornPropagator</span> <span class="kn">import</span> <span class="n">HagedornPropagator</span>
+<span class="kn">from</span> <span class="nn">HagedornPropagatorInhomogeneous</span> <span class="kn">import</span> <span class="n">HagedornPropagatorInhomogeneous</span>
+
+<span class="kn">from</span> <span class="nn">SimulationLoop</span> <span class="kn">import</span> <span class="n">SimulationLoop</span>
+<span class="kn">from</span> <span class="nn">SimulationLoopFourier</span> <span class="kn">import</span> <span class="n">SimulationLoopFourier</span>
+<span class="kn">from</span> <span class="nn">SimulationLoopHagedorn</span> <span class="kn">import</span> <span class="n">SimulationLoopHagedorn</span>
+<span class="kn">from</span> <span class="nn">SimulationLoopHagedornInhomogeneous</span> <span class="kn">import</span> <span class="n">SimulationLoopHagedornInhomogeneous</span>
+
+<span class="kn">from</span> <span class="nn">Spawner</span> <span class="kn">import</span> <span class="n">Spawner</span>
+<span class="kn">from</span> <span class="nn">AdiabaticSpawner</span> <span class="kn">import</span> <span class="n">AdiabaticSpawner</span>
+<span class="kn">from</span> <span class="nn">NonAdiabaticSpawner</span> <span class="kn">import</span> <span class="n">NonAdiabaticSpawner</span>
+<span class="kn">from</span> <span class="nn">SpawnAdiabaticPropagator</span> <span class="kn">import</span> <span class="n">SpawnAdiabaticPropagator</span>
+<span class="kn">from</span> <span class="nn">SpawnNonAdiabaticPropagator</span> <span class="kn">import</span> <span class="n">SpawnNonAdiabaticPropagator</span>
+<span class="kn">from</span> <span class="nn">SimulationLoopSpawnAdiabatic</span> <span class="kn">import</span> <span class="n">SimulationLoopSpawnAdiabatic</span>
+<span class="kn">from</span> <span class="nn">SimulationLoopSpawnNonAdiabatic</span> <span class="kn">import</span> <span class="n">SimulationLoopSpawnNonAdiabatic</span>
+<span class="kn">from</span> <span class="nn">SpawnConditionFactory</span> <span class="kn">import</span> <span class="n">SpawnConditionFactory</span>
+
+<span class="c"># Just functions inside these modules.</span>
+<span class="c">#from GlobalDefaults import GlobalDefaults</span>
+<span class="c">#from FileTools import FileTools</span>
+
+<span class="c"># Enable dynamic plugin loading for IOManager</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_dir</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

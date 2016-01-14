@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IOM_plugin_wavepacket &mdash; WaveBlocks devel documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'devel',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WaveBlocks devel documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for IOM_plugin_wavepacket</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;The WaveBlocks Project</span>
+
+<span class="sd">IOM plugin providing functions for handling</span>
+<span class="sd">homogeneous Hagedorn wavepacket data.</span>
+
+<span class="sd">@author: R. Bourquin</span>
+<span class="sd">@copyright: Copyright (C) 2010, 2011 R. Bourquin</span>
+<span class="sd">@license: Modified BSD License</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="add_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.add_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">add_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">timeslots</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add storage for the homogeneous wavepackets.</span>
+<span class="sd">    @param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grp_wp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="s">&quot;wavepacket&quot;</span><span class="p">)</span>
+
+    <span class="c"># If we run with an adaptive basis size, then we must make the data tensor size maximal</span>
+    <span class="k">if</span> <span class="n">parameters</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;max_basis_size&quot;</span><span class="p">):</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;max_basis_size&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;basis_size&quot;</span><span class="p">])</span>
+
+    <span class="c"># Create the dataset with appropriate parameters</span>
+    <span class="k">if</span> <span class="n">timeslots</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c"># This case is event based storing</span>
+        <span class="n">daset_tg</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;timegrid&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,))</span>
+        <span class="n">daset_bs</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;basis_size&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">]))</span>
+        <span class="n">daset_pi</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;Pi&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="n">daset_c</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">],</span> <span class="n">bs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">maxshape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">],</span><span class="n">bs</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># User specified how much space is necessary.</span>
+        <span class="n">daset_tg</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;timegrid&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">timeslots</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+        <span class="n">daset_bs</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;basis_size&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">timeslots</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+        <span class="n">daset_pi</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;Pi&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">timeslots</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">)</span>
+        <span class="n">daset_c</span> <span class="o">=</span> <span class="n">grp_wp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">timeslots</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">],</span> <span class="n">bs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">)</span>
+
+    <span class="c"># Attach pointer to data instead timegrid</span>
+    <span class="c"># Reason is that we have have two save functions but one timegrid</span>
+    <span class="c">#daset_bs.attrs[&quot;pointer&quot;] = 0</span>
+    <span class="n">daset_pi</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">daset_c</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+</div>
+<div class="viewcode-block" id="delete_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.delete_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">delete_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove the stored wavepackets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="has_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.has_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">has_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ask if the specified data block has the desired data tensor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s">&quot;wavepacket&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="save_wavepacket_parameters"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.save_wavepacket_parameters">[docs]</a><span class="k">def</span> <span class="nf">save_wavepacket_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Save the parameters of the Hagedorn wavepacket to a file.</span>
+<span class="sd">    @param parameters: The parameters of the Hagedorn wavepacket.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/Pi&quot;</span>
+    <span class="n">timeslot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span>
+
+    <span class="c"># Write the data</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">must_resize</span><span class="p">(</span><span class="n">pathd</span><span class="p">,</span> <span class="n">timeslot</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="n">timeslot</span><span class="p">,</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
+
+    <span class="c"># Write the timestep to which the stored values belong into the timegrid</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">must_resize</span><span class="p">(</span><span class="n">pathtg</span><span class="p">,</span> <span class="n">timeslot</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathtg</span><span class="p">][</span><span class="n">timeslot</span><span class="p">]</span> <span class="o">=</span> <span class="n">timestep</span>
+
+    <span class="c"># Update the pointer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+</div>
+<div class="viewcode-block" id="save_wavepacket_coefficients"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.save_wavepacket_coefficients">[docs]</a><span class="k">def</span> <span class="nf">save_wavepacket_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Save the coefficients of the Hagedorn wavepacket to a file.</span>
+<span class="sd">    @param coefficients: The coefficients of the Hagedorn wavepacket.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="n">pathbs</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/basis_size&quot;</span>
+    <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/coefficients&quot;</span>
+    <span class="n">timeslot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span>
+
+    <span class="c"># Write the data</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">must_resize</span><span class="p">(</span><span class="n">pathd</span><span class="p">,</span> <span class="n">timeslot</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">must_resize</span><span class="p">(</span><span class="n">pathbs</span><span class="p">,</span> <span class="n">timeslot</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coefficients</span><span class="p">):</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathbs</span><span class="p">][</span><span class="n">timeslot</span><span class="p">,</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">bs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="n">timeslot</span><span class="p">,</span><span class="n">index</span><span class="p">,:</span><span class="n">bs</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="c"># Write the timestep to which the stored values belong into the timegrid</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">must_resize</span><span class="p">(</span><span class="n">pathtg</span><span class="p">,</span> <span class="n">timeslot</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathtg</span><span class="p">][</span><span class="n">timeslot</span><span class="p">]</span> <span class="o">=</span> <span class="n">timestep</span>
+
+    <span class="c"># Update the pointer</span>
+    <span class="c">#self._srf[pathbs].attrs[&quot;pointer&quot;] += 1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;pointer&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c"># The basis size already gets stored when saving the coefficients!</span>
+<span class="c"># def save_wavepacket_basissize(self, basissize, timestep=None, blockid=0):</span>
+<span class="c">#     &quot;&quot;&quot;Save the basis size of the Hagedorn wavepacket to a file.</span>
+<span class="c">#     @param basissize: The basis size of the Hagedorn wavepacket.</span>
+<span class="c">#     &quot;&quot;&quot;</span>
+<span class="c">#     pathtg = &quot;/&quot;+self._prefixb+str(blockid)+&quot;/wavepacket/timegrid&quot;</span>
+<span class="c">#     pathd = &quot;/&quot;+self._prefixb+str(blockid)+&quot;/wavepacket/basis_size&quot;</span>
+<span class="c">#     timeslot = self._srf[pathd].attrs[&quot;pointer&quot;]</span>
+<span class="c">#</span>
+<span class="c">#     # Write the data</span>
+<span class="c">#     self.must_resize(pathd, timeslot)</span>
+<span class="c">#     self._srf[pathd][timeslot,:] = np.squeeze(np.array(basissize))</span>
+<span class="c">#</span>
+<span class="c">#     # Write the timestep to which the stored values belong into the timegrid</span>
+<span class="c">#     self.must_resize(pathtg, timeslot)</span>
+<span class="c">#     self._srf[pathtg][timeslot] = timestep</span>
+<span class="c">#</span>
+<span class="c">#     # Update the pointer</span>
+<span class="c">#     self._srf[pathd].attrs[&quot;pointer&quot;] += 1</span>
+
+</div>
+<span class="k">def</span> <span class="nf">load_wavepacket_timegrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathtg</span><span class="p">][:]</span>
+
+
+<span class="k">def</span> <span class="nf">load_wavepacket_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/Pi&quot;</span>
+    <span class="k">if</span> <span class="n">timestep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_timestep_index</span><span class="p">(</span><span class="n">pathtg</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="n">index</span><span class="p">,</span><span class="mi">0</span><span class="p">,:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">,:]</span>
+
+    <span class="k">return</span> <span class="n">params</span>
+
+
+<span class="k">def</span> <span class="nf">load_wavepacket_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/coefficients&quot;</span>
+
+    <span class="k">if</span> <span class="n">timestep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_timestep_index</span><span class="p">(</span><span class="n">pathtg</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="n">index</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">load_wavepacket_basissize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
+    <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/basis_size&quot;</span>
+
+    <span class="k">if</span> <span class="n">timestep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_timestep_index</span><span class="p">(</span><span class="n">pathtg</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="n">index</span><span class="p">,:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathd</span><span class="p">][</span><span class="o">...</span><span class="p">,:]</span>
+
+    <span class="k">return</span> <span class="n">size</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WaveBlocks devel documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, R. Bourquin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
