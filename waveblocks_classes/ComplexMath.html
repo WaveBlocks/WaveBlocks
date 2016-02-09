@@ -73,7 +73,7 @@
 <tt class="descclassname">ComplexMath.</tt><tt class="descname">cont_angle</tt><big>(</big><em>data</em>, <em>reference=None</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#cont_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.cont_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the angle of a complex number <em>not</em> constrained to
 the principal value and avoiding discontinuities at the branch cut.
-&#64;param data: An array with the input data.
+:param data: An array with the input data.
 &#64;keyword reference: This value allows the specify the starting point for
 continuation explicitely. It can be used together with I{data} beeing a single number.
 &#64;note: This function just applies &#8216;continuate(.)&#8217; to the complex phase.</p>
@@ -86,7 +86,7 @@ continuation explicitely. It can be used together with I{data} beeing a single n
 <dt>Compute the complex square root (following the Riemann surface)</dt>
 <dd>yields a result <em>not</em> constrained to the principal value and avoiding
 discontinuities at the branch cut.
-&#64;param data: An array with the input data.
+:param data: An array with the input data.
 &#64;keyword reference: This value allows the specify the starting point for
 continuation explicitely. It can be used together with I{data} beeing a single number.
 &#64;note: This function applies &#8216;continuate(.)&#8217; to the complex phase
@@ -103,7 +103,7 @@ ight)$</p>
 <dd><p>Make the given data continuous by removing all jumps of size k*jump
 but not touching jumps of any other size. This can be used to overcome
 issues with the branch cut along the negative axis.
-&#64;param data: An array with the input data.
+:param data: An array with the input data.
 &#64;keyword jump: The basic size of jumps which will be removed. Default is 2*pi.
 &#64;keyword reference: This value allows the specify the starting point for
 continuation explicitely. It can be used together with I{data} beeing a single number.

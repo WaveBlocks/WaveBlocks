@@ -88,15 +88,31 @@
 <tt class="descname">evaluate_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>prefactor=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_at" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluete the Hagedorn wavepacket $Psi$ at the given nodes $gamma$.</dt>
-<dd>&#64;param nodes: The nodes $gamma$ at which the Hagedorn wavepacket gets evaluated.
-&#64;keyword component: The index $i$ of a single component $Phi_i$ to evaluate.
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The nodes $gamma$ at which the Hagedorn wavepacket gets evaluated.</td>
+</tr>
+</tbody>
+</table>
+<p class="last">&#64;keyword component: The index $i$ of a single component $Phi_i$ to evaluate.
 (Defaults to &#8216;None&#8217; for evaluating all components.)
-&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</dd>
+&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</p>
+</dd>
 </dl>
 <p>ight)^{-
 rac{1}{2}}$.</p>
 <blockquote>
-<div>&#64;return: A list of arrays or a single array containing the values of the $Phi_i$ at the nodes $gamma$.</div></blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A list of arrays or a single array containing the values of the $Phi_i$ at the nodes $gamma$.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -104,15 +120,33 @@ rac{1}{2}}$.</p>
 <tt class="descname">evaluate_basis_at</tt><big>(</big><em>nodes</em>, <em>component</em>, <em>prefactor=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_basis_at" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate the Hagedorn functions $phi_k$ recursively at the given nodes $gamma$.</dt>
-<dd>&#64;param nodes: The nodes $gamma$ at which the Hagedorn functions are evaluated.
-&#64;param component: The index $i$ of the component whose basis functions $phi^i_k$ we want to evaluate.
-&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</dd>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The nodes $gamma$ at which the Hagedorn functions are evaluated.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param component:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The index $i$ of the component whose basis functions $phi^i_k$ we want to evaluate.</td>
+</tr>
+</tbody>
+</table>
+<p class="last">&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</p>
+</dd>
 </dl>
 <p>ight)^{-
 rac{1}{2}}$.</p>
 <blockquote>
-<div>&#64;return: Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value
-of the $k$-th Hagedorn function evaluated at the node $i$.</div></blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value</td>
+</tr>
+</tbody>
+</table>
+<p>of the $k$-th Hagedorn function evaluated at the node $i$.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -124,13 +158,27 @@ of the $k$-th Hagedorn function evaluated at the node $i$.</div></blockquote>
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_basis_size">
 <tt class="descname">get_basis_size</tt><big>(</big><em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_basis_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;return: The size of the basis, i.e. the number $K$ of ${phi_k}_{k=1}^K$.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The size of the basis, i.e. the number $K$ of ${phi_k}_{k=1}^K$.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_coefficient_vector">
 <tt class="descname">get_coefficient_vector</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_coefficient_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;return: The coefficients $c^i$ of all components $Phi_i$ as a single long column vector.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The coefficients $c^i$ of all components $Phi_i$ as a single long column vector.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -138,7 +186,7 @@ of the $k$-th Hagedorn function evaluated at the node $i$.</div></blockquote>
 <tt class="descname">get_coefficients</tt><big>(</big><em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_coefficients" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coefficients $c^i$ for some components $Phi_i$ of $Ket{Psi}$.
 &#64;keyword component: The index $i$ of the coefficients $c^i$ we want to get.
-&#64;return: The coefficients $c^i$ either for all components $Phi_i$
+:return: The coefficients $c^i$ either for all components $Phi_i$
 or for a specified one.</p>
 </dd></dl>
 
@@ -155,13 +203,20 @@ The ID may be used for storing packets in associative lists.</p>
 <dd><p>Calculate the $L^2$ norm of the wavepacket $Ket{Psi}$.
 &#64;keyword component: The component $Phi_i$ of which the norm is calculated.
 &#64;keyword summed: Whether to sum up the norms of the individual components $Phi_i$.
-&#64;return: A list containing the norms of all components $Phi_i$ or the overall norm of $Psi$.</p>
+:return: A list containing the norms of all components $Phi_i$ or the overall norm of $Psi$.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_number_components">
 <tt class="descname">get_number_components</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_number_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;return: The number $N$ of components the wavepacket $Psi$ has.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number $N$ of components the wavepacket $Psi$ has.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -170,14 +225,14 @@ The ID may be used for storing packets in associative lists.</p>
 <dd><p>Get the Hagedorn parameters $Pi_i$ of each component $Phi_i$ of the wavepacket $Psi$.
 &#64;keyword component: The index $i$ of the component whose parameters $Pi_i$ we want to get.
 &#64;keyword aslist: Dummy parameter for API compatibility with the homogeneous packets.
-&#64;return: A list with all the sets $Pi_i$ or a single set.</p>
+:return: A list with all the sets $Pi_i$ or a single set.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_quadrature">
 <tt class="descname">get_quadrature</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-&#64;return: The current instance I{InhomogeneousQuadrature}.</p>
+:return: The current instance I{InhomogeneousQuadrature}.</p>
 </dd></dl>
 
 <dl class="method">
@@ -188,7 +243,7 @@ rac{partial}{partial x}$</p>
 <blockquote>
 <div>on a component $Phi_i$ of the Hagedorn wavepacket $Psi$.
 &#64;keyword component: The index $i$ of the component $Phi_i$ on which we apply the above operator.
-&#64;return: The modified coefficients.</div></blockquote>
+:return: The modified coefficients.</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -196,7 +251,7 @@ rac{partial}{partial x}$</p>
 <tt class="descname">kinetic_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.kinetic_energy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kinetic energy $Braket{Psi|T|Psi}$ of the wavepacket componentwise.
 &#64;keyword summed: Wheter to sum up the individual integrals $Braket{Phi_i|T_{i,j}|Phi_j}$.
-&#64;return: The kinetic energy of the wavepacket&#8217;s components $Phi_i$ or the overall kinetic energy of $Psi$.</p>
+:return: The kinetic energy of the wavepacket&#8217;s components $Phi_i$ or the overall kinetic energy of $Psi$.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -216,16 +271,16 @@ The parameter values are initialized to the Harmonic Oscillator Eigenfunctions</
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.potential_energy">
 <tt class="descname">potential_energy</tt><big>(</big><em>potential</em>, <em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.potential_energy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the potential energy $Braket{Psi|V|Psi}$ of the wavepacket componentwise.
-&#64;param potential: The potential energy operator $V$ as function.
+:param potential: The potential energy operator $V$ as function.
 &#64;keyword summed: Wheter to sum up the individual integrals $Braket{Phi_i|V_{i,j}|Phi_j}$.
-&#64;return: The potential energy of the wavepacket&#8217;s components $Phi_i$ or the overall potential energy of $Psi$.</p>
+:return: The potential energy of the wavepacket&#8217;s components $Phi_i$ or the overall potential energy of $Psi$.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.project_to_canonical">
 <tt class="descname">project_to_canonical</tt><big>(</big><em>potential</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.project_to_canonical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project the Hagedorn wavepacket into the canonical basis.
-&#64;param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
+:param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
 &#64;note: This function is expensive and destructive! It modifies the coefficients
 of the I{self} instance.</p>
 </dd></dl>
@@ -234,7 +289,7 @@ of the I{self} instance.</p>
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.project_to_eigen">
 <tt class="descname">project_to_eigen</tt><big>(</big><em>potential</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.project_to_eigen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.
-&#64;param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
+:param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
 &#64;note: This function is expensive and destructive! It modifies the coefficients
 of the I{self} instance.</p>
 </dd></dl>
@@ -249,7 +304,7 @@ of the I{self} instance.</p>
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_basis_size">
 <tt class="descname">set_basis_size</tt><big>(</big><em>basis_size</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_basis_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the size of the basis of a given component or all components.
-&#64;param basis_size: An single positive integer or a list of $N$ positive integers.
+:param basis_size: An single positive integer or a list of $N$ positive integers.
 &#64;keyword component: The component for which we want to set the basis size.
 Default is I{None} which means &#8216;all&#8217;.</p>
 </dd></dl>
@@ -258,9 +313,9 @@ Default is I{None} which means &#8216;all&#8217;.</p>
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient">
 <tt class="descname">set_coefficient</tt><big>(</big><em>component</em>, <em>index</em>, <em>value</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a single coefficient $c^i_k$ of the specified component $Phi_i$ of $Ket{Psi}$.
-&#64;param component: The index $i$ of the component $Phi_i$ we want to update.
-&#64;param index: The index $k$ of the coefficient $c^i_k$ we want to update.
-&#64;param value: The new value of the coefficient $c^i_k$.
+:param component: The index $i$ of the component $Phi_i$ we want to update.
+:param index: The index $k$ of the coefficient $c^i_k$ we want to update.
+:param value: The new value of the coefficient $c^i_k$.
 &#64;raise ValueError: For invalid indices $i$ or $k$.</p>
 </dd></dl>
 
@@ -268,7 +323,7 @@ Default is I{None} which means &#8216;all&#8217;.</p>
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient_vector">
 <tt class="descname">set_coefficient_vector</tt><big>(</big><em>vector</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the coefficients for all components $Phi_i$ simultaneously.
-&#64;param vector: The coefficients of all components as a single long column vector.
+:param vector: The coefficients of all components as a single long column vector.
 &#64;note: This function does <em>NOT</em> copy the input data! This is for efficiency as this
 routine is used in the innermost loops.</p>
 </dd></dl>
@@ -277,8 +332,8 @@ routine is used in the innermost loops.</p>
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficients">
 <tt class="descname">set_coefficients</tt><big>(</big><em>values</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficients" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the coefficients $c$ of $Psi$.
-&#64;param values: The new values of the coefficients $c^i$ of $Phi_i$.
-&#64;param component: The index $i$ of the component we want to update with new coefficients.
+:param values: The new values of the coefficients $c^i$ of $Phi_i$.
+:param component: The index $i$ of the component we want to update with new coefficients.
 &#64;note: This function can either set new coefficients for a single component
 $Phi_i$ only if the I{component} attribute is set or for all components
 simultaneously if I{values} is a list of arrays.
@@ -295,7 +350,7 @@ simultaneously if I{values} is a list of arrays.
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_parameters">
 <tt class="descname">set_parameters</tt><big>(</big><em>parameters</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the Hagedorn parameters $Pi_i$ of each component $Phi_i$ of the wavepacket $Psi$.
-&#64;param parameters: A list or a single set of Hagedorn parameters.
+:param parameters: A list or a single set of Hagedorn parameters.
 &#64;keyword component: The index $i$ of the component whose parameters $Pi_i$ we want to update.</p>
 </dd></dl>
 
@@ -303,7 +358,7 @@ simultaneously if I{values} is a list of arrays.
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_quadrature">
 <tt class="descname">set_quadrature</tt><big>(</big><em>quadrature</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-&#64;param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
+:param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
 to use a dafault one with a quadrature rule of order $K+4$.</p>
 </dd></dl>
 

@@ -132,7 +132,7 @@ and takes into account the leading component $chi$.
 If the parameter $chi$ is not given, calculate the local quadratic approximation
 matrix $U$ of all the potential&#8217;s eigenvalues in $Lambda$. This function is used
 for the inhomogeneous case.
-&#64;param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
+:param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
 that gets expanded into a Taylor series $u_i$.</p>
 </dd></dl>
 
@@ -143,27 +143,27 @@ that gets expanded into a Taylor series $u_i$.</p>
 approximation matrix $U$ of the potential&#8217;s eigenvalue matrix $Lambda$.
 This function is used for the homogeneous case and takes into account the
 leading component $chi$.
-&#64;param diagonal_component: Specifies the index $chi$ of the leading component $lambda_chi$.</p>
+:param diagonal_component: Specifies the index $chi$ of the leading component $lambda_chi$.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotentialMS.evaluate_at">
 <tt class="descname">evaluate_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>as_matrix=True</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.evaluate_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the potential matrix elementwise at some given grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
+:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
 &#64;keyword component: The component $V_{i,j}$ that gets evaluated or &#8216;None&#8217; to evaluate all.
 &#64;keyword as_matrix: Returns the whole matrix $Lambda$ instead of only a list with the eigenvalues $lambda_i$.
-&#64;return: A list with the $N^2$ entries evaluated at the nodes.</p>
+:return: A list with the $N^2$ entries evaluated at the nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotentialMS.evaluate_eigenvalues_at">
 <tt class="descname">evaluate_eigenvalues_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>as_matrix=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.evaluate_eigenvalues_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the eigenvalues $lambda_iofs{x}$ at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the eigenvalues at.
+:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvalues at.
 &#64;keyword component: The index $i$ of the eigenvalue $lambda_i$ that gets evaluated.
 &#64;keyword as_matrix: Returns the whole matrix $Lambda$ instead of only a list with the eigenvalues $lambda_i$.
-&#64;return: A sorted list with $N$ entries for all the eigenvalues evaluated at the nodes. Or a
+:return: A sorted list with $N$ entries for all the eigenvalues evaluated at the nodes. Or a
 single value if a component was specified.</p>
 </dd></dl>
 
@@ -171,8 +171,8 @@ single value if a component was specified.</p>
 <dt id="WaveBlocks.MatrixPotentialMS.evaluate_eigenvectors_at">
 <tt class="descname">evaluate_eigenvectors_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.evaluate_eigenvectors_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the eigenvectors $nu_iofs{x}$ at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the eigenvectors at.
-&#64;return: A list with the $N$ eigenvectors evaluated at the given nodes.</p>
+:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvectors at.
+:return: A list with the $N$ eigenvectors evaluated at the given nodes.</p>
 </dd></dl>
 
 <dl class="method">
@@ -180,8 +180,8 @@ single value if a component was specified.</p>
 <tt class="descname">evaluate_exponential_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.evaluate_exponential_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the exponential of the potential matrix $V$ at some grid nodes $gamma$.
 For matrices of size $&gt; 2$ we do completely numerical exponentation.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the exponential at.
-&#64;return: The numerical approximation of the matrix exponential at the given grid nodes.</p>
+:param nodes: The grid nodes $gamma$ we want to evaluate the exponential at.
+:return: The numerical approximation of the matrix exponential at the given grid nodes.</p>
 </dd></dl>
 
 <dl class="method">
@@ -190,11 +190,11 @@ For matrices of size $&gt; 2$ we do completely numerical exponentation.
 <dd><dl class="docutils">
 <dt>Evaluate the hessian at some grid nodes $gamma$ for each component</dt>
 <dd>$V_{i,j}$ of the potential.
-&#64;param nodes: The grid nodes $gamma$ the hessian gets evaluated at.
+:param nodes: The grid nodes $gamma$ the hessian gets evaluated at.
 &#64;keyword component: The index tuple $left(i,j</dd>
 <dt>ight)$ that specifies</dt>
 <dd>the potential&#8217;s entry of which the hessian is evaluated. (Or &#8216;None&#8217; to evaluate all)
-&#64;return: Either a list or a single value depending on the optional parameters.</dd>
+:return: Either a list or a single value depending on the optional parameters.</dd>
 </dl>
 </dd></dl>
 
@@ -204,11 +204,11 @@ For matrices of size $&gt; 2$ we do completely numerical exponentation.
 <dd><dl class="docutils">
 <dt>Evaluate the jacobian at some grid nodes $gamma$ for each component</dt>
 <dd>$V_{i,j}$ of the potential.
-&#64;param nodes: The grid nodes $gamma$ the jacobian gets evaluated at.
+:param nodes: The grid nodes $gamma$ the jacobian gets evaluated at.
 &#64;keyword component: The index tuple $left(i,j</dd>
 <dt>ight)$ that specifies</dt>
 <dd>the potential&#8217;s entry of which the jacobian is evaluated. (Defaults to &#8216;None&#8217; to evaluate all)
-&#64;return: Either a list or a single value depending on the optional parameters.</dd>
+:return: Either a list or a single value depending on the optional parameters.</dd>
 </dl>
 </dd></dl>
 
@@ -217,10 +217,10 @@ For matrices of size $&gt; 2$ we do completely numerical exponentation.
 <tt class="descname">evaluate_local_quadratic_at</tt><big>(</big><em>nodes</em>, <em>diagonal_component</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.evaluate_local_quadratic_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Numerically evaluate the local quadratic approximation matrix $U$ of
 the potential&#8217;s eigenvalues in $Lambda$ at the given grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the quadratic approximation at.
-&#64;param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
+:param nodes: The grid nodes $gamma$ we want to evaluate the quadratic approximation at.
+:param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
 that gets expanded into a Taylor series $u_i$.
-&#64;return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $gamma$.</p>
+:return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $gamma$.</p>
 </dd></dl>
 
 <dl class="method">
@@ -231,12 +231,12 @@ that gets expanded into a Taylor series $u_i$.
 <dd>approximation matrix $U$ of the potential&#8217;s eigenvalues in $Lambda$ at the
 given nodes $gamma$. This function is used for the homogeneous and the
 inhomogeneous case and just evaluates the remainder matrix $W$.
-&#64;param position: The point $q$ where the Taylor series is computed.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
+:param position: The point $q$ where the Taylor series is computed.
+:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
 &#64;keyword component: The component $left(i,j</dd>
 <dt>ight)$ of the remainder matrix $W$</dt>
 <dd>that is evaluated.
-&#64;return: A list with a single entry consisting of an array containing the
+:return: A list with a single entry consisting of an array containing the
 values of $W$ at the nodes $gamma$.</dd>
 </dl>
 </dd></dl>
@@ -244,8 +244,15 @@ values of $W$ at the nodes $gamma$.</dd>
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotentialMS.get_number_components">
 <tt class="descname">get_number_components</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.get_number_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;return: The number $N$ of components the potential supports. This is
-also the size of the matrix.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number $N$ of components the potential supports. This is</td>
+</tr>
+</tbody>
+</table>
+<p>also the size of the matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -259,11 +266,20 @@ also the size of the matrix.</p>
 <tt class="descname">project_to_canonical</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.project_to_canonical" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Project a given vector from the potential&#8217;s eigenbasis to the canonical basis.</dt>
-<dd>&#64;param nodes: The grid nodes $gamma$ for the pointwise transformation.
-&#64;param values: The list of vectors $</dd>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The grid nodes $gamma$ for the pointwise transformation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param values:</th><td class="field-body">The list of vectors $</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt>arphi_i$ containing the values we want to transform.</dt>
 <dd>&#64;keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-&#64;return: Returned is another list containing the projection of the values into the eigenbasis.</dd>
+:return: Returned is another list containing the projection of the values into the eigenbasis.</dd>
 </dl>
 </dd></dl>
 
@@ -271,10 +287,10 @@ also the size of the matrix.</p>
 <dt id="WaveBlocks.MatrixPotentialMS.project_to_eigen">
 <tt class="descname">project_to_eigen</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotentialMS.project_to_eigen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project a given vector from the canonical basis to the eigenbasis of the potential.
-&#64;param nodes: The grid nodes $gamma$ for the pointwise transformation.
-&#64;param values: The list of vectors $phi_i$ containing the values we want to transform.
+:param nodes: The grid nodes $gamma$ for the pointwise transformation.
+:param values: The list of vectors $phi_i$ containing the values we want to transform.
 &#64;keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-&#64;return: Returned is another list containing the projection of the values into the eigenbasis.</p>
+:return: Returned is another list containing the projection of the values into the eigenbasis.</p>
 </dd></dl>
 
 <dl class="attribute">

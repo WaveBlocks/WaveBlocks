@@ -80,11 +80,29 @@
 <tt class="descname">build_matrix</tt><big>(</big><em>pacbra</em>, <em>packet</em>, <em>operator=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.build_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Calculate the matrix representation of $Braket{Psi|f|Psi}$.</dt>
-<dd>&#64;param pacbra: The wavepacket $&lt;Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.
-&#64;param packet: The wavepacket $|Psi&gt;$ from the ket with $Nket$ components and basis size of $Kket$.
-&#64;param operator: A function with two arguments $f:(q, x)</dd>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param pacbra:</th><td class="field-body">The wavepacket $&lt;Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param packet:</th><td class="field-body">The wavepacket $|Psi&gt;$ from the ket with $Nket$ components and basis size of $Kket$.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param operator:</th><td class="field-body">A function with two arguments $f:(q, x)</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt>ightarrow R^{Nbra       imes Nket}$.</dt>
-<dd>&#64;return: A square matrix of size $sum_i Kbra_i         imes sum_j Kket_j$.</dd>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A square matrix of size $sum_i Kbra_i         imes sum_j Kket_j$.</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 </dd></dl>
 
@@ -92,14 +110,14 @@
 <dt id="WaveBlocks.InhomogeneousQuadrature.build_qr">
 <tt class="descname">build_qr</tt><big>(</big><em>qorder</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.build_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a quadrature rule of the given order.
-&#64;param qorder: The order of the quadrature rule.</p>
+:param qorder: The order of the quadrature rule.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.InhomogeneousQuadrature.get_qr">
 <tt class="descname">get_qr</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.get_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the I{GaussHermiteQR} instance used for quadrature.
-&#64;return: The current instance of the quadrature rule.</p>
+:return: The current instance of the quadrature rule.</p>
 </dd></dl>
 
 <dl class="method">
@@ -107,9 +125,9 @@
 <tt class="descname">mix_parameters</tt><big>(</big><em>Pibra</em>, <em>Piket</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.mix_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mix the two parameter sets $Pi_bra$ and $Pi_ket$ from the bra
 and the ket wavepacket.
-&#64;param Pibra: The parameter set $Pi$ from the bra.
-&#64;param Piket: The parameter set $Pi$ from the ket.
-&#64;return: The mixed parameters $q0$ and $QS$. (See the theory for details.)</p>
+:param Pibra: The parameter set $Pi$ from the bra.
+:param Piket: The parameter set $Pi$ from the ket.
+:return: The mixed parameters $q0$ and $QS$. (See the theory for details.)</p>
 </dd></dl>
 
 <dl class="method">
@@ -117,14 +135,23 @@ and the ket wavepacket.
 <tt class="descname">quadrature</tt><big>(</big><em>pacbra</em>, <em>packet</em>, <em>operator=None</em>, <em>summed=False</em>, <em>component=None</em>, <em>diag_component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.quadrature" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Performs the quadrature of $Braket{Psi|f|Psi}$ for a general $f$.</dt>
-<dd>&#64;param pacbra: The wavepacket $&lt;Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.
-&#64;param packet: The wavepacket $|Psi&gt;$ from the ket with $Nket$ components and basis size of $Kket$.
-&#64;keyword operator: A real-valued function $f(x):R</dd>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param pacbra:</th><td class="field-body">The wavepacket $&lt;Psi|$ from the bra with $Nbra$ components and basis size of $Kbra$.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param packet:</th><td class="field-body">The wavepacket $|Psi&gt;$ from the ket with $Nket$ components and basis size of $Kket$.</td>
+</tr>
+</tbody>
+</table>
+<p class="last">&#64;keyword operator: A real-valued function $f(x):R</p>
+</dd>
 <dt>ightarrow R^{Nbra       imes Nket}$.</dt>
 <dd>&#64;keyword summed: Whether to sum up the individual integrals $Braket{Phi_i|f_{i,j}|Phi_j}$.
 &#64;keyword component: Request only the i-th component of the result. Remember that $i in [0, Nbra*Nket-1]$.
 &#64;keyword diag_component: Request only the i-th component from the diagonal entries, here $i in [0, Nket-1]$
-&#64;return: The value of $Braket{Psi|f|Psi}$. This is either a scalar value or a list of $Nbra*Nket$ scalar elements.
+:return: The value of $Braket{Psi|f|Psi}$. This is either a scalar value or a list of $Nbra*Nket$ scalar elements.
 &#64;note: &#8216;component&#8217; takes precedence over &#8216;diag_component&#8217; if both are supplied. (Which is discouraged)</dd>
 </dl>
 </dd></dl>
@@ -133,16 +160,16 @@ and the ket wavepacket.
 <dt id="WaveBlocks.InhomogeneousQuadrature.set_qr">
 <tt class="descname">set_qr</tt><big>(</big><em>QR</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.set_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the I{GaussHermiteQR} instance used for quadrature.
-&#64;param QR: The new I{GaussHermiteQR} instance.</p>
+:param QR: The new I{GaussHermiteQR} instance.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.InhomogeneousQuadrature.transform_nodes">
 <tt class="descname">transform_nodes</tt><big>(</big><em>Pibra</em>, <em>Piket</em>, <em>eps</em>, <em>QR=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.InhomogeneousQuadrature.transform_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform the quadrature nodes such that they fit the given wavepacket.
-&#64;param Pibra: The parameter set $Pi$ from the bra.
-&#64;param Piket: The parameter set $Pi$ from the ket.
-&#64;param eps: The epsilon of the wavepacket.
+:param Pibra: The parameter set $Pi$ from the bra.
+:param Piket: The parameter set $Pi$ from the ket.
+:param eps: The epsilon of the wavepacket.
 &#64;keyword QR: An optional quadrature rule providing the nodes.</p>
 </dd></dl>
 

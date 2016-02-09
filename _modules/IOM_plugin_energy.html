@@ -109,7 +109,7 @@
 </div>
 <div class="viewcode-block" id="save_energy"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_energy.html#IOM_plugin_energy.save_energy">[docs]</a><span class="k">def</span> <span class="nf">save_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save the kinetic and potential energies to a file.</span>
-<span class="sd">    @param energies: A tuple \texttt{(ekin, epot)} containing the energies.</span>
+<span class="sd">    :param energies: A tuple \texttt{(ekin, epot)} containing the energies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/energies/timegrid&quot;</span>
     <span class="n">pathd1</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/energies/kinetic&quot;</span>
@@ -136,7 +136,7 @@
 </div>
 <div class="viewcode-block" id="save_energy_total"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_energy.html#IOM_plugin_energy.save_energy_total">[docs]</a><span class="k">def</span> <span class="nf">save_energy_total</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_energy</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save the total to a file.</span>
-<span class="sd">    @param total_energy: An array containing a time series of the total energy.</span>
+<span class="sd">    :param total_energy: An array containing a time series of the total energy.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/energies/total&quot;</span>
 

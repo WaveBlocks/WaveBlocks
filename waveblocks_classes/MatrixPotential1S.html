@@ -138,7 +138,7 @@ eigenvalue $lambda$.
 approximation $U$ of the potential&#8217;s eigenvalue $lambda$.
 This function is used for the homogeneous case and takes into account
 the leading component $chi$.
-&#64;param diagonal_component: Dummy parameter that has no effect here.
+:param diagonal_component: Dummy parameter that has no effect here.
 &#64;note: This function is idempotent.</p>
 </dd></dl>
 
@@ -146,54 +146,54 @@ the leading component $chi$.
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_at">
 <tt class="descname">evaluate_at</tt><big>(</big><em>nodes</em>, <em>component=0</em>, <em>as_matrix=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the potential matrix elementwise at some given grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
+:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
 &#64;keyword component: The component $V_{i,j}$ that gets evaluated or &#8216;None&#8217; to evaluate all.
 &#64;keyword as_matrix: Dummy parameter which has no effect here.
-&#64;return: A list with the single entry evaluated at the nodes.</p>
+:return: A list with the single entry evaluated at the nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_eigenvalues_at">
 <tt class="descname">evaluate_eigenvalues_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>as_matrix=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_eigenvalues_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the eigenvalue $lambda_0ofs{x}$ at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the eigenvalue at.
+:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvalue at.
 &#64;keyword diagonal_component: Dummy parameter that has no effect here.
 &#64;keyword as_matrix: Dummy parameter which has no effect here.
-&#64;return: A list with the single eigenvalue evaluated at the nodes.</p>
+:return: A list with the single eigenvalue evaluated at the nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_eigenvectors_at">
 <tt class="descname">evaluate_eigenvectors_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_eigenvectors_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the eigenvector $nu_0ofs{x}$ at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the eigenvector at.
-&#64;return: A list with the eigenvector evaluated at the given nodes.</p>
+:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvector at.
+:return: A list with the eigenvector evaluated at the given nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_exponential_at">
 <tt class="descname">evaluate_exponential_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_exponential_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the exponential of the potential matrix $V$ at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the exponential at.
-&#64;return: The numerical approximation of the matrix exponential at the given grid nodes.</p>
+:param nodes: The grid nodes $gamma$ we want to evaluate the exponential at.
+:return: The numerical approximation of the matrix exponential at the given grid nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_hessian_at">
 <tt class="descname">evaluate_hessian_at</tt><big>(</big><em>nodes</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_hessian_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the potential&#8217;s hessian at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ the hessian gets evaluated at.
+:param nodes: The grid nodes $gamma$ the hessian gets evaluated at.
 &#64;keyword component: Dummy parameter that has no effect here.
-&#64;return: The value of the potential&#8217;s hessian at the given nodes.</p>
+:return: The value of the potential&#8217;s hessian at the given nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.evaluate_jacobian_at">
 <tt class="descname">evaluate_jacobian_at</tt><big>(</big><em>nodes</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.evaluate_jacobian_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the potential&#8217;s jacobian at some grid nodes $gamma$.
-&#64;param nodes: The grid nodes $gamma$ the jacobian gets evaluated at.
+:param nodes: The grid nodes $gamma$ the jacobian gets evaluated at.
 &#64;keyword component: Dummy parameter that has no effect here.
-&#64;return: The value of the potential&#8217;s jacobian at the given nodes.</p>
+:return: The value of the potential&#8217;s jacobian at the given nodes.</p>
 </dd></dl>
 
 <dl class="method">
@@ -202,8 +202,8 @@ the leading component $chi$.
 <dd><p>Numerically evaluate the local quadratic approximation $U$ of
 the potential&#8217;s eigenvalue $lambda$ at the given grid nodes $gamma$.
 This function is used for the homogeneous case.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the quadratic approximation at.
-&#64;return: An array containing the values of $U$ at the nodes $gamma$.</p>
+:param nodes: The grid nodes $gamma$ we want to evaluate the quadratic approximation at.
+:return: An array containing the values of $U$ at the nodes $gamma$.</p>
 </dd></dl>
 
 <dl class="method">
@@ -213,18 +213,25 @@ This function is used for the homogeneous case.
 approximation $U$ of the potential&#8217;s eigenvalue $lambda$ at the given nodes $gamma$.
 This function is used for the homogeneous and the inhomogeneous case and
 just evaluates the remainder $W$.
-&#64;param position: The point $q$ where the Taylor series is computed.
-&#64;param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
+:param position: The point $q$ where the Taylor series is computed.
+:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
 &#64;keyword component: Dummy parameter that has no effect here.
-&#64;return: A list with a single entry consisting of an array containing the
+:return: A list with a single entry consisting of an array containing the
 values of $W$ at the nodes $gamma$.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential1S.get_number_components">
 <tt class="descname">get_number_components</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.get_number_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;return: The number $N$ of components the potential supports. In the
-one dimensional case, it&#8217;s just 1.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number $N$ of components the potential supports. In the</td>
+</tr>
+</tbody>
+</table>
+<p>one dimensional case, it&#8217;s just 1.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -238,11 +245,20 @@ one dimensional case, it&#8217;s just 1.</p>
 <tt class="descname">project_to_canonical</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.project_to_canonical" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Project a given vector from the potential&#8217;s eigenbasis to the canonical basis.</dt>
-<dd>&#64;param nodes: The grid nodes $gamma$ for the pointwise transformation.
-&#64;param values: The list of vectors $</dd>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The grid nodes $gamma$ for the pointwise transformation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param values:</th><td class="field-body">The list of vectors $</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt>arphi_i$ containing the values we want to transform.</dt>
 <dd>&#64;keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-&#64;return: This method does nothing and returns the values.</dd>
+:return: This method does nothing and returns the values.</dd>
 </dl>
 </dd></dl>
 
@@ -251,11 +267,20 @@ one dimensional case, it&#8217;s just 1.</p>
 <tt class="descname">project_to_eigen</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential1S.project_to_eigen" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Project a given vector from the canonical basis to the eigenbasis of the potential.</dt>
-<dd>&#64;param nodes: The grid nodes $gamma$ for the pointwise transformation.
-&#64;param values: The list of vectors $</dd>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The grid nodes $gamma$ for the pointwise transformation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param values:</th><td class="field-body">The list of vectors $</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt>arphi_i$ containing the values we want to transform.</dt>
 <dd>&#64;keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-&#64;return: This method does nothing and returns the values.</dd>
+:return: This method does nothing and returns the values.</dd>
 </dl>
 </dd></dl>
 

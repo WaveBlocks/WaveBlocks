@@ -83,16 +83,16 @@ files. The output files can be processed further for producing e.g. plots.</p>
 <dd><p>Create a data block with the specified block ID. Each data block can
 store several chunks of information, and there can be an arbitrary number
 of data blocks per file.
-&#64;param blockid: The ID for the new data block. If not given the blockid
+:param blockid: The ID for the new data block. If not given the blockid
 will be choosen automatically. The block ID has to be unique.
-&#64;return: The block ID of the created block.</p>
+:return: The block ID of the created block.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.IOManager.create_file">
 <tt class="descname">create_file</tt><big>(</big><em>parameters</em>, <em>filename='simulation_results.hdf5'</em><big>)</big><a class="headerlink" href="#WaveBlocks.IOManager.create_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up a new I{IOManager} instance. The output files are created and opened.
-&#64;param parameters: A I{ParameterProvider} instance containing the current simulation
+:param parameters: A I{ParameterProvider} instance containing the current simulation
 parameters. This is only used for determining the size of new data sets.
 &#64;keyword filename: The filename (optionally with filepath) of the file we try
 to create. If not given the default value from I{GlobalDefaults} is used.</p>
@@ -104,9 +104,9 @@ to create. If not given the default value from I{GlobalDefaults} is used.</p>
 <dd><p>Create a data group with the specified group ID. Each data group can
 contain an arbitrary number of data blocks, and there can be an arbitrary
 number of data groups per file.
-&#64;param groupid: The ID for the new data group. If not given the group ID
+:param groupid: The ID for the new data group. If not given the group ID
 will be choosen automatically. The group ID has to be unique.
-&#64;return: The group ID of the created group.</p>
+:return: The group ID of the created group.</p>
 </dd></dl>
 
 <dl class="method">
@@ -137,7 +137,7 @@ into lists. This option is only relevant in case the I{groupid} is not given.</p
 <dt id="WaveBlocks.IOManager.get_group_ids">
 <tt class="descname">get_group_ids</tt><big>(</big><em>exclude=[]</em><big>)</big><a class="headerlink" href="#WaveBlocks.IOManager.get_group_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list containing the IDs for all groups in the current file structure.
-&#64;param exclude: A list of group IDs to exclude. Per default no group is excluded.</p>
+:param exclude: A list of group IDs to exclude. Per default no group is excluded.</p>
 </dd></dl>
 
 <dl class="method">
@@ -145,7 +145,7 @@ into lists. This option is only relevant in case the I{groupid} is not given.</p
 <tt class="descname">get_group_of_block</tt><big>(</big><em>blockid</em><big>)</big><a class="headerlink" href="#WaveBlocks.IOManager.get_group_of_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the ID of the group a given block belongs to or I{None}
 if there is no such data block.
-&#64;param blockid: The ID of the given block.</p>
+:param blockid: The ID of the given block.</p>
 </dd></dl>
 
 <dl class="method">
@@ -180,9 +180,9 @@ to load. If not given the default value from I{GlobalDefaults} is used.</p>
 <dt id="WaveBlocks.IOManager.split_data">
 <tt class="descname">split_data</tt><big>(</big><em>data</em>, <em>axis</em><big>)</big><a class="headerlink" href="#WaveBlocks.IOManager.split_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split a multi-dimensional data block into slabs along a given axis.
-&#64;param data: The data tensor given.
-&#64;param axis: The axis along which to split the data.
-&#64;return: A list of slices.</p>
+:param data: The data tensor given.
+:param axis: The axis along which to split the data.
+:return: A list of slices.</p>
 </dd></dl>
 
 </dd></dl>

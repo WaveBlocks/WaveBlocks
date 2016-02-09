@@ -79,23 +79,23 @@
 <dt id="WaveBlocks.HomogeneousQuadrature.build_matrix">
 <tt class="descname">build_matrix</tt><big>(</big><em>packet</em>, <em>operator=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.build_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the matrix representation of $Braket{Psi|f|Psi}$.
-&#64;param packet: The wavepacket $|Psi&gt;$.
-&#64;param operator: A function with two arguments $f:(q, x) -&gt; mathbb{R}$.
-&#64;return: A square matrix of size $sum_i K_i    imes sum_j K_j$.</p>
+:param packet: The wavepacket $|Psi&gt;$.
+:param operator: A function with two arguments $f:(q, x) -&gt; mathbb{R}$.
+:return: A square matrix of size $sum_i K_i    imes sum_j K_j$.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HomogeneousQuadrature.build_qr">
 <tt class="descname">build_qr</tt><big>(</big><em>qorder</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.build_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a quadrature rule of the given order.
-&#64;param qorder: The order of the quadrature rule.</p>
+:param qorder: The order of the quadrature rule.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HomogeneousQuadrature.get_qr">
 <tt class="descname">get_qr</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.get_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the I{GaussHermiteQR} instance used for quadrature.
-&#64;return: The current instance of the quadrature rule.</p>
+:return: The current instance of the quadrature rule.</p>
 </dd></dl>
 
 <dl class="method">
@@ -103,13 +103,21 @@
 <tt class="descname">quadrature</tt><big>(</big><em>packet</em>, <em>operator=None</em>, <em>summed=False</em>, <em>component=None</em>, <em>diag_component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.quadrature" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Performs the quadrature of $Braket{Psi|f|Psi}$ for a general $f$.</dt>
-<dd>&#64;param packet: The wavepacket $|Psi&gt;$.
-&#64;keyword operator: A real-valued function $f(x):R</dd>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param packet:</th><td class="field-body">The wavepacket $|Psi&gt;$.</td>
+</tr>
+</tbody>
+</table>
+<p class="last">&#64;keyword operator: A real-valued function $f(x):R</p>
+</dd>
 <dt>ightarrow R^{N  imes N}.$</dt>
 <dd>&#64;keyword summed: Whether to sum up the individual integrals $Braket{Phi_i|f_{i,j}|Phi_j}$.
 &#64;keyword component: Request only the i-th component of the result. Remember that $i in [0, N^2-1]$.
 &#64;keyword diag_component: Request only the i-th component from the diagonal entries, here $i in [0, N-1]$
-&#64;return: The value of $Braket{Psi|f|Psi}$. This is either a scalar value or a list of $N^2$ scalar elements.
+:return: The value of $Braket{Psi|f|Psi}$. This is either a scalar value or a list of $N^2$ scalar elements.
 &#64;note: &#8216;component&#8217; takes precedence over &#8216;diag_component&#8217; if both are supplied. (Which is discouraged)</dd>
 </dl>
 </dd></dl>
@@ -118,15 +126,15 @@
 <dt id="WaveBlocks.HomogeneousQuadrature.set_qr">
 <tt class="descname">set_qr</tt><big>(</big><em>QR</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.set_qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the I{GaussHermiteQR} instance used for quadrature.
-&#64;param QR: The new I{GaussHermiteQR} instance.</p>
+:param QR: The new I{GaussHermiteQR} instance.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HomogeneousQuadrature.transform_nodes">
 <tt class="descname">transform_nodes</tt><big>(</big><em>Pi</em>, <em>eps</em>, <em>QR=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HomogeneousQuadrature.transform_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform the quadrature nodes such that they fit the given wavepacket.
-&#64;param Pi: The parameter set of the wavepacket.
-&#64;param eps: The epsilon of the wavepacket.
+:param Pi: The parameter set of the wavepacket.
+:param eps: The epsilon of the wavepacket.
 &#64;keyword QR: An optional quadrature rule providing the nodes.</p>
 </dd></dl>
 

@@ -63,7 +63,7 @@
     <span class="sd">&quot;&quot;&quot;Make the given data continuous by removing all jumps of size k*jump</span>
 <span class="sd">    but not touching jumps of any other size. This can be used to overcome</span>
 <span class="sd">    issues with the branch cut along the negative axis.</span>
-<span class="sd">    @param data: An array with the input data.</span>
+<span class="sd">    :param data: An array with the input data.</span>
 <span class="sd">    @keyword jump: The basic size of jumps which will be removed. Default is 2*pi.</span>
 <span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
 <span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
@@ -76,7 +76,7 @@
 <div class="viewcode-block" id="cont_angle"><a class="viewcode-back" href="../waveblocks_classes/ComplexMath.html#ComplexMath.cont_angle">[docs]</a><span class="k">def</span> <span class="nf">cont_angle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the angle of a complex number *not* constrained to</span>
 <span class="sd">    the principal value and avoiding discontinuities at the branch cut.</span>
-<span class="sd">    @param data: An array with the input data.</span>
+<span class="sd">    :param data: An array with the input data.</span>
 <span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
 <span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
 <span class="sd">    @note: This function just applies &#39;continuate(.)&#39; to the complex phase.</span>
@@ -93,7 +93,7 @@
     <span class="sd">&quot;&quot;&quot;Compute the complex square root (following the Riemann surface)</span>
 <span class="sd">    yields a result *not* constrained to the principal value and avoiding</span>
 <span class="sd">    discontinuities at the branch cut.</span>
-<span class="sd">    @param data: An array with the input data.</span>
+<span class="sd">    :param data: An array with the input data.</span>
 <span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
 <span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
 <span class="sd">    @note: This function applies &#39;continuate(.)&#39; to the complex phase</span>
