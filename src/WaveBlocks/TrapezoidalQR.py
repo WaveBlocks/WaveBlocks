@@ -18,10 +18,10 @@ class TrapezoidalQR(QuadratureRule):
 
     def __init__(self, left, right, order):
         """Initialize a new quadrature rule.
-        :param order: The order $R$ of the trapezoidal quadrature rule.
+        :param order: The order :math:`R` of the trapezoidal quadrature rule.
         @raise ValueError: If the order is less then 2.
         """
-        #: The order $R$ of the trapezoidal quadrature rule.
+        #: The order :math:`R` of the trapezoidal quadrature rule.
         self.order = order
 
         # The minimal order of 2 has no mathematical reasons but is rather of
@@ -51,7 +51,7 @@ class TrapezoidalQR(QuadratureRule):
 
 
     def get_order(self):
-        """:return: The order $R$ of the quadrature.
+        """:return: The order :math:`R` of the quadrature.
         """
         return self.order
 
@@ -63,12 +63,12 @@ class TrapezoidalQR(QuadratureRule):
 
 
     def get_nodes(self):
-        """:return: An array containing the quadrature nodes $\gamma_i$.
+        """:return: An array containing the quadrature nodes :math:`\gamma_i`.
         """
         return self.nodes.copy()
 
 
     def get_weights(self):
-        """:return: An array containing the quadrature weights $\omega_i$.
+        """:return: An array containing the quadrature weights :math:`\omega_i`.
         """
         return self.weights.copy()

@@ -19,9 +19,10 @@ def plotcm(matrix, phase=None, modulus=None, darken=True, axes=None, **kwargs):
     :param matrix: The matrix data.
     :param phase: The phase of the entries, if not given they are computed.
     :param modulus: The modulus of the entries, if not given they are computed.
-    @keyword darken: Whether to take into account the modulus of the data to darken colors.
-    @keyword axes: The axes instance used for plotting.
-    @note: Additional keyword arguments are passe to the plot function.
+    :param darken: Whether to take into account the modulus of the data to darken colors.
+    :param axes: The axes instance used for plotting.
+
+    .. note:: Additional keyword arguments are passe to the plot function.
     """
     nr, nc = matrix.shape
     extent = [-0.5, nc-0.5, nr-0.5, -0.5]

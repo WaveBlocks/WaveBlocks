@@ -27,7 +27,7 @@ from NonAdiabaticSpawnerKF import NonAdiabaticSpawnerKF
 def aposteriori_spawning(fin, fout, pin, pout, save_canonical=False):
     """
     :param f: An I{IOManager} instance providing the simulation data.
-    @keyword datablock: The data block where the results are.
+    :param datablock: The data block where the results are.
     """
     # Number of time steps we saved
     timesteps = fin.load_wavepacket_timegrid()

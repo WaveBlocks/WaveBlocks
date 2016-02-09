@@ -125,8 +125,8 @@ def generate_configurations(gp, lp, cfname="Parameters", cfpath=GlobalDefaults.p
     cartesian product of the sets of all local parameter.
     :param gp: A dict of global parameters.
     :param lp: A dict of local parameter lists.
-    @keyword cfname: The common filename prefix. Default is I{Parameters}
-    @keyword cfpath: The path where the new configuration files will be placed.
+    :param cfname: The common filename prefix. Default is I{Parameters}
+    :param cfpath: The path where the new configuration files will be placed.
     It is interpreted relative to ".".
     """
     # Check if the destination for the new configuration files is prepared

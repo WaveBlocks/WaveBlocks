@@ -17,7 +17,7 @@ class Wavepacket:
     """
 
     def __init__(self, parameters):
-        """Initialize the I{HagedornWavepacket} object that represents $\Ket{\Psi}$.
+        """Initialize the I{HagedornWavepacket} object that represents :math:`\Ket{\Psi}`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
@@ -76,13 +76,13 @@ class Wavepacket:
 
 
     def get_number_components(self):
-        """:return: The number $N$ of components the wavepacket $\Psi$ has.
+        """:return: The number :math:`N` of components the wavepacket :math:`\Psi` has.
         """
         return self.number_components
 
 
     def get_basis_size(self, component=None):
-        """:return: The size of the basis, i.e. the number $K$ of ${\phi_k}_{k=1}^K$.
+        """:return: The size of the basis, i.e. the number :math:`K` of :math:`{\phi_k}_{k=1}^K`.
         """
         if component is not None:
             return self.basis_size[component]
@@ -92,8 +92,8 @@ class Wavepacket:
 
     def set_basis_size(self, basis_size, component=None):
         """Set the size of the basis of a given component or all components.
-        :param basis_size: An single positive integer or a list of $N$ positive integers.
-        @keyword component: The component for which we want to set the basis size.
+        :param basis_size: An single positive integer or a list of :math:`N` positive integers.
+        :param component: The component for which we want to set the basis size.
         Default is I{None} which means 'all'.
         """
         if component is not None:
@@ -125,13 +125,13 @@ class Wavepacket:
 
 
     def set_coefficients(self, values, component=None):
-        """Update the coefficients $c$ of $\Psi$.
-        :param values: The new values of the coefficients $c^i$ of $\Phi_i$.
-        :param component: The index $i$ of the component we want to update with new coefficients.
+        """Update the coefficients :math:`c` of :math:`\Psi`.
+        :param values: The new values of the coefficients :math:`c^i` of :math:`\Phi_i`.
+        :param component: The index :math:`i` of the component we want to update with new coefficients.
         @note: This function can either set new coefficients for a single component
-        $\Phi_i$ only if the I{component} attribute is set or for all components
+        :math:`\Phi_i` only if the I{component} attribute is set or for all components
         simultaneously if I{values} is a list of arrays.
-        @raise ValueError: For invalid indices $i$.
+        @raise ValueError: For invalid indices :math:`i`.
         """
         if component is None:
             for index, value in enumerate(values):
@@ -147,11 +147,11 @@ class Wavepacket:
 
 
     def set_coefficient(self, component, index, value):
-        """Set a single coefficient $c^i_k$ of the specified component $\Phi_i$ of $\Ket{\Psi}$.
-        :param component: The index $i$ of the component $\Phi_i$ we want to update.
-        :param index: The index $k$ of the coefficient $c^i_k$ we want to update.
-        :param value: The new value of the coefficient $c^i_k$.
-        @raise ValueError: For invalid indices $i$ or $k$.
+        """Set a single coefficient :math:`c^i_k` of the specified component :math:`\Phi_i` of :math:`\Ket{\Psi}`.
+        :param component: The index :math:`i` of the component :math:`\Phi_i` we want to update.
+        :param index: The index :math:`k` of the coefficient :math:`c^i_k` we want to update.
+        :param value: The new value of the coefficient :math:`c^i_k`.
+        @raise ValueError: For invalid indices :math:`i` or :math:`k`.
         """
         if component > self.number_components-1:
             raise ValueError("There is no component with index "+str(component)+".")
@@ -162,9 +162,9 @@ class Wavepacket:
 
 
     def get_coefficients(self, component=None):
-        """Returns the coefficients $c^i$ for some components $\Phi_i$ of $\Ket{\Psi}$.
-        @keyword component: The index $i$ of the coefficients $c^i$ we want to get.
-        :return: The coefficients $c^i$ either for all components $\Phi_i$
+        """Returns the coefficients :math:`c^i` for some components :math:`\Phi_i` of :math:`\Ket{\Psi}`.
+        :param component: The index :math:`i` of the coefficients :math:`c^i` we want to get.
+        :return: The coefficients :math:`c^i` either for all components :math:`\Phi_i`
         or for a specified one.
         """
         if component is None:
@@ -174,13 +174,13 @@ class Wavepacket:
 
 
     def get_coefficient_vector(self):
-        """:return: The coefficients $c^i$ of all components $\Phi_i$ as a single long column vector.
+        """:return: The coefficients :math:`c^i` of all components :math:`\Phi_i` as a single long column vector.
         """
         return vstack(self.coefficients)
 
 
     def set_coefficient_vector(self, vector):
-        """Set the coefficients for all components $\Phi_i$ simultaneously.
+        """Set the coefficients for all components :math:`\Phi_i` simultaneously.
         :param vector: The coefficients of all components as a single long column vector.
         @note: This function does *NOT* copy the input data! This is for efficiency as this
         routine is used in the innermost loops.
@@ -193,49 +193,49 @@ class Wavepacket:
 
 
     def get_parameters(self, component=None, aslist=False):
-        """Get the Hagedorn parameters ${\Pi}$ of the wavepacket $\Psi$.
+        """Get the Hagedorn parameters :math:`{\Pi}` of the wavepacket :math:`\Psi`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def set_parameters(self, parameters, component=None):
-        """Set the Hagedorn parameters ${\Pi}$ of the wavepacket $\Psi$.
+        """Set the Hagedorn parameters :math:`{\Pi}` of the wavepacket :math:`\Psi`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def evaluate_basis_at(self, nodes, component, prefactor=False):
-        """Evaluate the basis functions $\phi_k$ recursively at the given nodes $\gamma$.
+        """Evaluate the basis functions :math:`\phi_k` recursively at the given nodes :math:`\gamma`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def evaluate_at(self, nodes, component=None, prefactor=False):
-        """Evaluete the wavepacket $\Psi$ at the given nodes $\gamma$.
+        """Evaluete the wavepacket :math:`\Psi` at the given nodes :math:`\gamma`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def get_norm(self, component=None, summed=False):
-        """Calculate the $L^2$ norm of the wavepacket $\Ket{\Psi}$.
+        """Calculate the :math:`L^2` norm of the wavepacket :math:`\Ket{\Psi}`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def potential_energy(self, potential, summed=False):
-        """Calculate the potential energy $\Braket{\Psi|V|\Psi}$ of the wavepacket componentwise.
+        """Calculate the potential energy :math:`\Braket{\Psi|V|\Psi}` of the wavepacket componentwise.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
 
 
     def kinetic_energy(self, summed=False):
-        """Calculate the kinetic energy $\Braket{\Psi|T|\Psi}$ of the wavepacket componentwise.
+        """Calculate the kinetic energy :math:`\Braket{\Psi|T|\Psi}` of the wavepacket componentwise.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")
@@ -249,7 +249,7 @@ class Wavepacket:
 
 
     def project_to_eigen(self, potential):
-        """Project the wavepacket to the eigenbasis of a given potential $V$.
+        """Project the wavepacket to the eigenbasis of a given potential :math:`V`.
         @raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Wavepacket' is an abstract interface.")

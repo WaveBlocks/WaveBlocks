@@ -22,7 +22,7 @@ import GraphicsDefaults as GD
 def plot_frames(iom, blockid=0, view=None, imgsize=(12,9)):
     """Plot the phase of a wavefunction for a series of timesteps.
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword view: The aspect ratio.
+    :param view: The aspect ratio.
     """
     parameters = iom.load_parameters()
 

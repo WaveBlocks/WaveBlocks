@@ -26,7 +26,7 @@ class GaussHermiteQR(QuadratureRule):
 
         :raise: :py:class:`ValueError` if the ``order`` is not 1 or above.
         """
-        #: The order $R$ of the Gauss-Hermite quadrature.
+        #: The order :math:`R` of the Gauss-Hermite quadrature.
         self.order = order
 
         # Qudrature has to have at least a single (node,weight) pair.
@@ -40,9 +40,9 @@ class GaussHermiteQR(QuadratureRule):
         h = self._hermite_recursion(nodes)
         weights = 1.0/((h**2) * self.order)
 
-        #: The quadrature nodes $\gamma_i$.
+        #: The quadrature nodes :math:`\gamma_i`.
         self.nodes = nodes.reshape((1,self.number_nodes))
-        #: The quadrature weights $\omega_i$.
+        #: The quadrature weights :math:`\omega_i`.
         self.weights = weights[-1,:]
         self.weights = self.weights.reshape((1,self.number_nodes))
 

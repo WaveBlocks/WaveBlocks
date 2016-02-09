@@ -14,45 +14,45 @@ from Propagator import Propagator
 
 
 class FourierPropagator(Propagator):
-    """This class can numerically propagate given initial values $\Ket{\Psi}$ in
-    a potential surface $V\ofs{x}$. The propagation is done with a Strang splitting
+    """This class can numerically propagate given initial values :math:`\Ket{\Psi}` in
+    a potential surface :math:`V\ofs{x}`. The propagation is done with a Strang splitting
     of the time propagation operator."""
 
     def __init__(self, potential, initial_values, para):
         """Initialize a new I{FourierPropagator} instance. Precalculate also the
         grid and the propagation operators.
-        :param potential: The potential the state $\Ket{\Psi}$ feels during the time propagation.
-        :param initial_values: The initial values $\Ket{\Psi\ofs{t=0}}$ given in the canonical basis.
-        @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
-        match the number of energy levels $\lambda_i$ of the potential.
+        :param potential: The potential the state :math:`\Ket{\Psi}` feels during the time propagation.
+        :param initial_values: The initial values :math:`\Ket{\Psi\ofs{t=0}}` given in the canonical basis.
+        @raise ValueError: If the number of components of :math:`\Ket{\Psi}` does not
+        match the number of energy levels :math:`\lambda_i` of the potential.
         """
-        #: The embedded I{MatrixPotential} instance representing the potential $V$.
+        #: The embedded I{MatrixPotential} instance representing the potential :math:`V`.
         self.potential = potential
 
-        #: The initial values of the components $\psi_i$ sampled at the given nodes.
+        #: The initial values of the components :math:`\psi_i` sampled at the given nodes.
         self.Psi = initial_values
 
         if self.potential.get_number_components() != self.Psi.get_number_components():
             raise ValueError("Potential dimension and number of states do not match")
 
-        #: The position space nodes $\gamma$.
+        #: The position space nodes :math:`\gamma`.
         self.nodes = initial_values.get_nodes()
 
-        #: The potential operator $V$ defined in position space.
+        #: The potential operator :math:`V` defined in position space.
         self.V = self.potential.evaluate_at(self.nodes)
 
-        #: The momentum space nodes $\omega$.
+        #: The momentum space nodes :math:`\omega`.
         self.omega = arange(0, para["ngn"]/2.0)
         self.omega = append(self.omega, arange(para["ngn"]/2.0, 0, -1))
 
-        #: The kinetic operator $T$ defined in momentum space.
+        #: The kinetic operator :math:`T` defined in momentum space.
         self.T = 0.5 * para["eps"]**4 * self.omega**2 / para["f"]**2
 
-        #: Exponential $\exp\ofs{T}$ of $T$ used in the Strang splitting.
+        #: Exponential :math:`\exp\ofs{T}` of :math:`T` used in the Strang splitting.
         self.TE = exp(-0.5j * para["dt"] * para["eps"]**2 * self.omega**2 / para["f"]**2)
 
         self.potential.calculate_exponential(-0.5j * para["dt"] / para["eps"]**2)
-        #: Exponential $\exp\ofs{V}$ of $V$ used in the Strang splitting.
+        #: Exponential :math:`\exp\ofs{V}` of :math:`V` used in the Strang splitting.
         self.VE = self.potential.evaluate_exponential_at(self.nodes)
 
 
@@ -62,7 +62,7 @@ class FourierPropagator(Propagator):
 
 
     def get_number_components(self):
-        """:return: The number of components of $\Ket{\Psi}$."""
+        """:return: The number of components of :math:`\Ket{\Psi}`."""
         return self.potential.get_number_components()
 
 
@@ -78,14 +78,14 @@ class FourierPropagator(Propagator):
 
     def get_operators(self):
         """:return: Return the numerical expressions of the propagation
-        operators $T$ and $V$.
+        operators :math:`T` and :math:`V`.
         """
         return (self.T, self.V)
 
 
     def propagate(self):
-        """Given the wavefunction values $\Psi$ at time $t$, calculate new
-        values at time $t + \tau$. We perform exactly one timestep $\tau$ here.
+        """Given the wavefunction values :math:`\Psi` at time :math:`t`, calculate new
+        values at time :math:`t + \tau`. We perform exactly one timestep :math:`\tau` here.
         """
         # How many states we have
         nst = self.Psi.get_number_components()
@@ -117,7 +117,7 @@ class FourierPropagator(Propagator):
     def kinetic_energy(self, summed=False):
         """This method just delegates the calculation of kinetic energies to the
         embedded I{WaveFunction} object.
-        @keyword summed: Whether to sum up the kinetic energies of the individual components.
+        :param summed: Whether to sum up the kinetic energies of the individual components.
         :return: The kinetic energies.
         """
         return self.Psi.kinetic_energy(self.T, summed=summed)
@@ -126,7 +126,7 @@ class FourierPropagator(Propagator):
     def potential_energy(self, summed=False):
         """This method just delegates the calculation of potential energies to the
         embedded I{WaveFunction} object.
-        @keyword summed: Whether to sum up the potential energies of the individual components.
+        :param summed: Whether to sum up the potential energies of the individual components.
         :return: The potential energies.
         """
         return self.Psi.potential_energy(self.V, summed=summed)

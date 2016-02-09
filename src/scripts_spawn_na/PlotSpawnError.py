@@ -21,8 +21,8 @@ def plot_frames(iom_o, iom_s, gid, bid_ref=0, view=None):
     """Plot the wave function for a series of timesteps.
     :param iom_o: An I{IOManager} instance providing the reference simulation data.
     :param iom_s: An I{IOManager} instance providing the spawning simulation data.
-    @keyword bid_ref: The block ID of the reference data. Default is data block '0'.
-    @keyword view: The aspect ratio.
+    :param bid_ref: The block ID of the reference data. Default is data block '0'.
+    :param view: The aspect ratio.
     """
     parameters_o = iom_o.load_parameters()
     parameters_s = iom_s.load_parameters()

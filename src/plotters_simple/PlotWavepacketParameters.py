@@ -36,7 +36,7 @@ def read_all_datablocks(iom):
 def read_data_homogeneous(iom, blockid=0):
     """
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword blockid: The data block from which the values are read.
+    :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
@@ -56,7 +56,7 @@ def read_data_homogeneous(iom, blockid=0):
 def read_data_inhomogeneous(iom, blockid=0):
     """
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword blockid: The data block from which the values are read.
+    :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)

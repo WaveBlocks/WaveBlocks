@@ -44,7 +44,7 @@ def read_data(iom, gid):
 def plot_coefficients(gid, parameters, data, amount=5, imgsize=(14,14)):
     """
     :param amount: The number of coefficients we want to plot.
-    @keyword imgsize: The size of the plot. For a large number of
+    :param imgsize: The size of the plot. For a large number of
     plotted coefficients, we might have to increase this value.
     """
     # First ones

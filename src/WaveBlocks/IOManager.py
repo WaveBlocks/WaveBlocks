@@ -85,7 +85,7 @@ class IOManager:
         """Set up a new I{IOManager} instance. The output files are created and opened.
         :param parameters: A I{ParameterProvider} instance containing the current simulation
         parameters. This is only used for determining the size of new data sets.
-        @keyword filename: The filename (optionally with filepath) of the file we try
+        :param filename: The filename (optionally with filepath) of the file we try
         to create. If not given the default value from I{GlobalDefaults} is used.
         """
         # Create the file if it does not yet exist.
@@ -116,7 +116,7 @@ class IOManager:
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
         """Load a given file that contains the results from a former simulation.
-        @keyword filename: The filename (optionally with filepath) of the file we try
+        :param filename: The filename (optionally with filepath) of the file we try
         to load. If not given the default value from I{GlobalDefaults} is used.
         """
         # Try to open the file or raise an exception if it does not exist.
@@ -164,7 +164,7 @@ class IOManager:
 
     def get_number_blocks(self, groupid=None):
         """Return the number of data blocks in the current file structure.
-        @keyword groupid: An optional group ID, if given we count only data blocks
+        :param groupid: An optional group ID, if given we count only data blocks
         which are a member of this group. If it is I{None} we count all data blocks.
         """
         if groupid is None:
@@ -181,10 +181,10 @@ class IOManager:
 
     def get_block_ids(self, groupid=None, grouped=False):
         """Return a list containing the IDs for all blocks in the current file structure.
-        @keyword groupid: An optional group ID, if given we return only block IDs
+        :param groupid: An optional group ID, if given we return only block IDs
         for blocks which are a member of this group. If it is I{None} we return
         all block IDs.
-        @keyword grouped: If I{True} we group the block IDs by their group
+        :param grouped: If I{True} we group the block IDs by their group
         into lists. This option is only relevant in case the I{groupid} is not given.
         """
         if groupid is not None:

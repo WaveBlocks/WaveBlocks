@@ -33,7 +33,7 @@ def read_all_datablocks(iom):
 def read_data(iom, blockid=0):
     """
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword blockid: The data block from which the values are read.
+    :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
     # The real space grid

@@ -37,7 +37,7 @@ def read_all_datablocks(iom):
 def read_data_homogeneous(iom, blockid=0):
     """
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword blockid: The data block from which the values are read.
+    :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
@@ -55,7 +55,7 @@ def read_data_homogeneous(iom, blockid=0):
 def read_data_inhomogeneous(iom, blockid=0):
     """
     :param iom: An I{IOManager} instance providing the simulation data.
-    @keyword blockid: The data block from which the values are read.
+    :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)
@@ -76,7 +76,7 @@ def plot_coefficients(parameters, data, amount=5, index=0, imgsize=(14,14)):
     :param timegrid: The timegrid that belongs to the coefficient values.
     :param: coeffs: The coefficient values.
     :param amount: The number of coefficients we want to plot.
-    @keyword imgsize: The size of the plot. For a large number of
+    :param imgsize: The size of the plot. For a large number of
     plotted coefficients, we might have to increase this value.
     """
     print("Plotting the coefficients of data block '"+str(index)+"'")

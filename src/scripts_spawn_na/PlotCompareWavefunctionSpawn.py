@@ -24,10 +24,10 @@ def plot_frames(iom_s, iom_o, gid, bid_ref=0, view=None, plotphase=False, plotco
     """Plot the wave function for a series of timesteps.
     :param iom_s: An I{IOManager} instance providing the spawning simulation data.
     :param iom_o: An I{IOManager} instance providing the reference simulation data.
-    @keyword view: The aspect ratio.
-    @keyword plotphase: Whether to plot the complex phase. (slow)
-    @keyword plotcomponents: Whether to plot the real/imaginary parts..
-    @keyword plotabssqr: Whether to plot the absolute value squared.
+    :param view: The aspect ratio.
+    :param plotphase: Whether to plot the complex phase. (slow)
+    :param plotcomponents: Whether to plot the real/imaginary parts..
+    :param plotabssqr: Whether to plot the absolute value squared.
     """
     parameters_o = iom_o.load_parameters()
     parameters_s = iom_s.load_parameters()

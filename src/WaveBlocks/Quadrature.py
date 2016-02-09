@@ -59,7 +59,7 @@ class Quadrature:
 
 
     def quadrature(self):
-        """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
+        """Performs the quadrature of :math:`\Braket{\Psi|f|\Psi}` for a general :math:`f`.
         @note: Arguments may vary through subclasses!
         @raise NotImplementedError: Abstract interface.
         """
@@ -67,7 +67,7 @@ class Quadrature:
 
 
     def build_matrix(self):
-        """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
+        """Calculate the matrix representation of :math:`\Braket{\Psi|f|\Psi}`.
         @note: Arguments may vary through subclasses!
         @raise NotImplementedError: Abstract interface.
         """

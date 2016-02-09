@@ -46,7 +46,7 @@ def has_wavefunction(self, blockid=0):
 def save_wavefunction(self, wavefunctionvalues, blockid=0, timestep=None):
     """Save a I{WaveFunction} instance. The output is suitable for the plotting routines.
     :param wavefunctionvalues: The I{WaveFunction} instance to save.
-    @keyword blockid: The data block where to store the wavefunction.
+    :param blockid: The data block where to store the wavefunction.
     """
     #@refactor: take wavefunction or wavefunction.get_values() as input?
     pathtg = "/"+self._prefixb+str(blockid)+"/wavefunction/timegrid"

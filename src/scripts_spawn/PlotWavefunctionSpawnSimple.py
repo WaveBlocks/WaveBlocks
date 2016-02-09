@@ -25,10 +25,10 @@ def plot_frames(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plo
     """Plot the wave function for a series of timesteps.
     :param iom: An I{IOManager} instance providing the simulation data.
     :param gid: The group ID of the group where the two packets are stored.
-    @keyword view: The aspect ratio.
-    @keyword plotphase: Whether to plot the complex phase. (slow)
-    @keyword plotcomponents: Whether to plot the real/imaginary parts..
-    @keyword plotabssqr: Whether to plot the absolute value squared.
+    :param view: The aspect ratio.
+    :param plotphase: Whether to plot the complex phase. (slow)
+    :param plotcomponents: Whether to plot the real/imaginary parts..
+    :param plotabssqr: Whether to plot the absolute value squared.
     """
     parameters = iom.load_parameters()
 
@@ -114,10 +114,10 @@ def plot_frames_split(iom, gid=0, view=None, plotphase=True, plotcomponents=Fals
     """Plot the wave function for a series of timesteps.
     :param iom: An I{IOManager} instance providing the simulation data.
     :param gid: The group ID of the group where the two packets are stored.
-    @keyword view: The aspect ratio.
-    @keyword plotphase: Whether to plot the complex phase. (slow)
-    @keyword plotcomponents: Whether to plot the real/imaginary parts..
-    @keyword plotabssqr: Whether to plot the absolute value squared.
+    :param view: The aspect ratio.
+    :param plotphase: Whether to plot the complex phase. (slow)
+    :param plotcomponents: Whether to plot the real/imaginary parts..
+    :param plotabssqr: Whether to plot the absolute value squared.
     """
     parameters = iom.load_parameters()
     n = parameters["ncomponents"]

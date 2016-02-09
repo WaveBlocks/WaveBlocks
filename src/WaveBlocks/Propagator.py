@@ -29,7 +29,7 @@ class Propagator:
 
 
     def get_number_components(self):
-        """:return: The number of components of $\Ket{\Psi}$.
+        """:return: The number of components of :math:`\Ket{\Psi}`.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_number_components(...)")
@@ -43,8 +43,8 @@ class Propagator:
 
 
     def propagate(self):
-        """Given the wavefunction $\Psi$ at time $t$, calculate the new $\Psi$
-        at time $t + \tau$. We do exactly one timestep $\tau$ here.
+        """Given the wavefunction :math:`\Psi` at time :math:`t`, calculate the new :math:`\Psi`
+        at time :math:`t + \tau`. We do exactly one timestep :math:`\tau` here.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("propagate(...)")

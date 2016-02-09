@@ -35,10 +35,10 @@ class SpawnAdiabaticPropagator(Propagator):
         if packet.get_number_components() != potential.get_number_components():
             raise ValueError("Wave packet does not match to the given potential!")
 
-        #: The potential $V\ofs{x}$ the packet feels.
+        #: The potential :math:`V\ofs{x}` the packet feels.
         self.potential = potential
 
-        #: Number $N$ of components the wavepacket $\Ket{\Psi}$ has got.
+        #: Number :math:`N` of components the wavepacket :math:`\Ket{\Psi}` has got.
         self.number_components = self.potential.get_number_components()
 
         #: The Hagedorn wavepackets.

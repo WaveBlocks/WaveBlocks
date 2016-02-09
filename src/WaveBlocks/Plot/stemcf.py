@@ -17,17 +17,18 @@ from color_map import color_map
 
 
 def stemcf(grid, phase, modulus, darken=False, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
-    """Stemplot the modulus of a complex valued function $f:I -> C$ together with its phase in a color coded fashion.
+    """Stemplot the modulus of a complex valued function :math:`f:I -> C` together with its phase in a color coded fashion.
     :param grid: The grid nodes of the real domain R
     :param phase: The phase of the complex domain result f(grid)
     :param modulus: The modulus of the complex domain result f(grid)
-    @keyword darken: Whether to take into account the modulus of the data to darken colors.
-    @keyword axes: The axes instance used for plotting.
-    @keyword linestylep: The line style of the phase curve.
-    @keyword linewidthp: The line width of the phase curve.
-    @keyword color: The color of the stemmed markers.
-    @keyword markerp: The shape of the stemmed markers.
-    @note: Additional keyword arguments are passe to the plot function.
+    :param darken: Whether to take into account the modulus of the data to darken colors.
+    :param axes: The axes instance used for plotting.
+    :param linestylep: The line style of the phase curve.
+    :param linewidthp: The line width of the phase curve.
+    :param color: The color of the stemmed markers.
+    :param markerp: The shape of the stemmed markers.
+
+    .. note:: Additional keyword arguments are passe to the plot function.
     """
     # Color mapping
     rgb_colors = color_map(grid, phase=phase, modulus=modulus, darken=darken)

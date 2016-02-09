@@ -124,7 +124,7 @@ class NonAdiabaticSpawner(Spawner):
 
         # Spawned packet
         c_new_s = np.zeros((child.get_basis_size(component=component),1), dtype=np.complexfloating)
-        # Pure $\phi_order$ function
+        # Pure :math:`\phi_order` function
         c_new_s[order,0] = 1.0
         # But normalized
         c_new_s = w * c_new_s

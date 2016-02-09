@@ -98,10 +98,10 @@ def compare_by(namea, nameb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=G
     :param namea: The first name in the comparison
     :param nameb: The second name in the comparison
     :param pattern: The pattern whose (numerical) value is used for sorting
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats
     :return: A boolean answer if the IDs are the same w.r.t the pattern.
     """
     part1 = namea.partition(ldel + pattern + mdel)
@@ -122,10 +122,10 @@ def group_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kv
     """Groups simulation IDs with respect to a pattern.
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern used for grouping
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats. Not used here.
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats. Not used here.
     :return: A list of groups of simulation IDs.
     """
     tmp = [ s.partition(ldel + pattern + mdel) for s in stringlist ]
@@ -152,10 +152,10 @@ def intersect_by(lista, listb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel
     :param lista: A first list with the simulation IDs
     :param listb: A second list with the simulation IDs
     :param pattern: The pattern whose numerical value is used for sorting
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats
     :return: A sorted list of simulation IDs.
     """
     result = []
@@ -175,10 +175,10 @@ def sort_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp
     """Sorts simulation IDs with respect to a (numerical) value in the ID.
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats
     :return: A sorted list of simulation IDs.
     """
     tmp = [ s.partition(ldel + pattern + mdel) for s in stringlist ]
@@ -214,10 +214,10 @@ def get_max_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.
     """Get the maximum of a list with simulation IDs with respect to a (numerical) value in the ID.
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats
     :return: A sorted list of simulation IDs.
     @note: This is just a simple convenience function so that the user needs not to remember if the
     sort order is ascending or descending which plays no role for iteration.
@@ -230,10 +230,10 @@ def get_min_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.
     """Get the minimum of a list with simulation IDs with respect to a (numerical) value in the ID.
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
-    @keyword ldel: Left delimiter of the pattern
-    @keyword mdel: Middle delimiter of the pattern
-    @keyword rdel: Right delimiter of the pattern
-    @keyword as_string: Determines if the values for I{pattern} get converted to floats
+    :param ldel: Left delimiter of the pattern
+    :param mdel: Middle delimiter of the pattern
+    :param rdel: Right delimiter of the pattern
+    :param as_string: Determines if the values for I{pattern} get converted to floats
     :return: A sorted list of simulation IDs.
     @note: This is just a simple convenience function so that the user needs not to remember if the
     sort order is ascending or descending which plays no role for iteration.
