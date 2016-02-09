@@ -31,7 +31,9 @@ class InhomogeneousQuadrature(Quadrature):
 
 
     def transform_nodes(self, Pibra, Piket, eps, QR=None):
-        """Transform the quadrature nodes such that they fit the given wavepacket.
+        r"""
+        Transform the quadrature nodes such that they fit the given wavepacket.
+
         :param Pibra: The parameter set :math:`Pi` from the bra.
         :param Piket: The parameter set :math:`Pi` from the ket.
         :param eps: The epsilon of the wavepacket.
@@ -48,8 +50,9 @@ class InhomogeneousQuadrature(Quadrature):
 
 
     def mix_parameters(self, Pibra, Piket):
-        """Mix the two parameter sets :math:`Pi_bra` and :math:`Pi_ket` from the bra
-        and the ket wavepacket.
+        r"""
+        Mix the two parameter sets :math:`Pi_bra` and :math:`Pi_ket` from the bra and the ket wavepacket.
+
         :param Pibra: The parameter set :math:`Pi` from the bra.
         :param Piket: The parameter set :math:`Pi` from the ket.
         :return: The mixed parameters :math:`q0` and :math:`QS`. (See the theory for details.)
@@ -73,15 +76,18 @@ class InhomogeneousQuadrature(Quadrature):
 
 
     def quadrature(self, pacbra, packet, operator=None, summed=False, component=None, diag_component=None):
-        """Performs the quadrature of :math:`\Braket{\Psi|f|\Psi}` for a general :math:`f`.
+        r"""
+        Performs the quadrature of :math:`\langle\Psi|f|\Psi\rangle` for a general :math:`f`.
+
         :param pacbra: The wavepacket :math:`<\Psi|` from the bra with :math:`Nbra` components and basis size of :math:`Kbra`.
         :param packet: The wavepacket :math:`|\Psi>` from the ket with :math:`Nket` components and basis size of :math:`Kket`.
         :param operator: A real-valued function :math:`f(x):R \rightarrow R^{Nbra \times Nket}`.
-        :param summed: Whether to sum up the individual integrals :math:`\Braket{\Phi_i|f_{i,j}|\Phi_j}`.
+        :param summed: Whether to sum up the individual integrals :math:`\langle\Phi_i|f_{i,j}|\Phi_j\rangle`.
         :param component: Request only the i-th component of the result. Remember that :math:`i \in [0, Nbra*Nket-1]`.
         :param diag_component: Request only the i-th component from the diagonal entries, here :math:`i \in [0, Nket-1]`
-        :return: The value of :math:`\Braket{\Psi|f|\Psi}`. This is either a scalar value or a list of :math:`Nbra*Nket` scalar elements.
-        @note: 'component' takes precedence over 'diag_component' if both are supplied. (Which is discouraged)
+        :return: The value of :math:`\langle\Psi|f|\Psi\rangle`. This is either a scalar value or a list of :math:`Nbra*Nket` scalar elements.
+
+        .. note:: 'component' takes precedence over 'diag_component' if both are supplied. (Which is discouraged)
         """
         # Should raise Exceptions if pacbra and packet are incompatible wrt N, K etc
         weights = self.QR.get_weights()
@@ -150,7 +156,9 @@ class InhomogeneousQuadrature(Quadrature):
 
 
     def build_matrix(self, pacbra, packet, operator=None):
-        """Calculate the matrix representation of :math:`\Braket{\Psi|f|\Psi}`.
+        r"""
+        Calculate the matrix representation of :math:`\langle\Psi|f|\Psi\rangle`.
+
         :param pacbra: The wavepacket :math:`<\Psi|` from the bra with :math:`Nbra` components and basis size of :math:`Kbra`.
         :param packet: The wavepacket :math:`|\Psi>` from the ket with :math:`Nket` components and basis size of :math:`Kket`.
         :param operator: A function with two arguments :math:`f:(q, x) \rightarrow R^{Nbra \times Nket}`.

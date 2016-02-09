@@ -140,11 +140,11 @@ def plot_data(groupdata, axisdata, normdata, which_norm="L2"):
 
         for cur_axisd, cur_norm in zip(axisd, normd):
 
-            # One single component in |Psi>
+            # One single component in |\Psi>
             if cur_norm.shape[1] == 1:
                 ax.plot(cur_axisd[1]*cur_axisd[0].dt, cur_norm, label=r"$\varepsilon = $" + str(cur_axisd[0].eps))
 
-            # More than one component in |Psi>
+            # More than one component in |\Psi>
             else:
                 # Plot all the error norms for all components individually
                 for i in xrange(cur_norm.shape[1]-1):

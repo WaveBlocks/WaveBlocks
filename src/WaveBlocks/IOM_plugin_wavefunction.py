@@ -11,7 +11,8 @@ import numpy as np
 
 
 def add_wavefunction(self, parameters, timeslots=None, blockid=0):
-    """Add storage for the sampled wavefunction.
+    r"""
+    Add storage for the sampled wavefunction.
     """
     grp_wf = self._srf[self._prefixb+str(blockid)].require_group("wavefunction")
 
@@ -29,7 +30,8 @@ def add_wavefunction(self, parameters, timeslots=None, blockid=0):
 
 
 def delete_wavefunction(self, blockid=0):
-    """Remove the stored wavefunction.
+    r"""
+    Remove the stored wavefunction.
     """
     try:
         del self._srf[self._prefixb+str(blockid)+"/wavefunction"]
@@ -38,14 +40,17 @@ def delete_wavefunction(self, blockid=0):
 
 
 def has_wavefunction(self, blockid=0):
-    """Ask if the specified data block has the desired data tensor.
+    r"""
+    Ask if the specified data block has the desired data tensor.
     """
     return "wavefunction" in self._srf[self._prefixb+str(blockid)].keys()
 
 
 def save_wavefunction(self, wavefunctionvalues, blockid=0, timestep=None):
-    """Save a I{WaveFunction} instance. The output is suitable for the plotting routines.
-    :param wavefunctionvalues: The I{WaveFunction} instance to save.
+    r"""
+    Save a ``WaveFunction`` instance. The output is suitable for the plotting routines.
+
+    :param wavefunctionvalues: The ``WaveFunction`` instance to save.
     :param blockid: The data block where to store the wavefunction.
     """
     #@refactor: take wavefunction or wavefunction.get_values() as input?

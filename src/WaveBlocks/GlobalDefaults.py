@@ -1,7 +1,7 @@
 """The WaveBlocks Project
 
 This file contains some global defaults, for example file names for output files.
-If a I{ParameterProvider} instance is asked about a key which it does not know about
+If a :py:class:`ParameterProvider` instance is asked about a key which it does not know about
 it tries to look it up here to see if a default value is available.
 
 @author: R. Bourquin

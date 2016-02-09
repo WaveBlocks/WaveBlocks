@@ -40,7 +40,8 @@ def add_energy(self, parameters, timeslots=None, blockid=0, total=False):
 
 
 def delete_energy(self, blockid=0):
-    """Remove the stored energies
+    r"""
+    Remove the stored energies
     """
     try:
         del self._srf[self._prefixb+str(blockid)+"/observables/energies"]
@@ -52,15 +53,18 @@ def delete_energy(self, blockid=0):
 
 
 def has_energy(self, blockid=0):
-    """Ask if the specified data block has the desired data tensor.
+    r"""
+    Ask if the specified data block has the desired data tensor.
     """
     return ("observables" in self._srf[self._prefixb+str(blockid)].keys() and
             "energies" in self._srf[self._prefixb+str(blockid)]["observables"].keys())
 
 
 def save_energy(self, energies, timestep=None, blockid=0):
-    """Save the kinetic and potential energies to a file.
-    :param energies: A tuple \texttt{(ekin, epot)} containing the energies.
+    r"""
+    Save the kinetic and potential energies to a file.
+
+    :param energies: A tuple ``(ekin, epot)`` containing the energies.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/observables/energies/timegrid"
     pathd1 = "/"+self._prefixb+str(blockid)+"/observables/energies/kinetic"
@@ -86,7 +90,9 @@ def save_energy(self, energies, timestep=None, blockid=0):
 
 
 def save_energy_total(self, total_energy, timestep=None, blockid=0):
-    """Save the total to a file.
+    r"""
+    Save the total to a file.
+
     :param total_energy: An array containing a time series of the total energy.
     """
     pathd = "/"+self._prefixb+str(blockid)+"/observables/energies/total"

@@ -24,7 +24,7 @@ from WaveBlocks import AdiabaticSpawner
 
 def aposteriori_spawning(fin, fout, pin, pout, bid1, bid2):
     """
-    :param f: An I{IOManager} instance providing the simulation data.
+    :param f: An ``IOManager`` instance providing the simulation data.
     :param datablock: The data block where the results are.
     """
     # Number of time steps we saved

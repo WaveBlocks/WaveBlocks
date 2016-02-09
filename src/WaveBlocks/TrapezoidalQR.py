@@ -13,13 +13,16 @@ from QuadratureRule import QuadratureRule
 
 
 class TrapezoidalQR(QuadratureRule):
-    """This class implements a Trapezoidal quadrature rule.
+    r"""
+    This class implements a Trapezoidal quadrature rule.
     """
 
     def __init__(self, left, right, order):
-        """Initialize a new quadrature rule.
+        r"""
+        Initialize a new quadrature rule.
+
         :param order: The order :math:`R` of the trapezoidal quadrature rule.
-        @raise ValueError: If the order is less then 2.
+        :raise ValueError: If the order is less then 2.
         """
         #: The order :math:`R` of the trapezoidal quadrature rule.
         self.order = order
@@ -51,24 +54,28 @@ class TrapezoidalQR(QuadratureRule):
 
 
     def get_order(self):
-        """:return: The order :math:`R` of the quadrature.
+        r"""
+        :return: The order :math:`R` of the quadrature.
         """
         return self.order
 
 
     def get_number_nodes(self):
-        """:return: The number of quadrature nodes.
+        r"""
+        :return: The number of quadrature nodes.
         """
         return self.number_nodes
 
 
     def get_nodes(self):
-        """:return: An array containing the quadrature nodes :math:`\gamma_i`.
+        r"""
+        :return: An array containing the quadrature nodes :math:`\gamma_i`.
         """
         return self.nodes.copy()
 
 
     def get_weights(self):
-        """:return: An array containing the quadrature weights :math:`\omega_i`.
+        r"""
+        :return: An array containing the quadrature weights :math:`\omega_i`.
         """
         return self.weights.copy()

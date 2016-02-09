@@ -16,7 +16,9 @@ import GlobalDefaults as GD
 
 
 def get_result_dirs(path):
-    """Lists all simulations (IDs) that can be found under the given path.
+    r"""
+    Lists all simulations (IDs) that can be found under the given path.
+
     :param path: The filesystem path under which we search for simulations.
     :return: A list of simulation IDs.
     """
@@ -25,10 +27,13 @@ def get_result_dirs(path):
 
 
 def get_parameters_file(path):
-    """Search for a configuration file containing the simulation parameters under a given path.
+    r"""
+    Search for a configuration file containing the simulation parameters under a given path.
+
     :param path: The path under which we search for a configuration file.
     :return: The path (filename) of the configuration file.
-    @note: In case there are more than one .py file under the given path we just return the first one found!
+
+    .. note:: In case there are more than one .py file under the given path we just return the first one found!
     """
     parameters_file = None
 
@@ -45,10 +50,13 @@ def get_parameters_file(path):
 
 
 def get_results_file(path):
-    """Search for a file containing the simulation results under a given path.
+    r"""
+    Search for a file containing the simulation results under a given path.
+
     :param path: The path under which we search for a output file.
     :return: The path (filename) of the output file.
-    @note: In case there are more than one .hdf5 file under the given path we just return the first one found!
+
+    .. note:: In case there are more than one .hdf5 file under the given path we just return the first one found!
     """
     results_file = None
 
@@ -66,7 +74,9 @@ def get_results_file(path):
 
 
 def get_number_simulations(path):
-    """Get the number of simulations at hand below the given path.
+    r"""
+    Get the number of simulations at hand below the given path.
+
     :param path: The path under which we search for a output file.
     :return: The number of simulations result directories.
     """
@@ -75,7 +85,9 @@ def get_number_simulations(path):
 
 
 def name_contains(name, pattern):
-    """Checks if a simulation ID contains a given pattern.
+    r"""
+    Checks if a simulation ID contains a given pattern.
+
     :param name: The full simulation ID.
     :param pattern: The pattern in question.
     :return: A boolean answer.
@@ -84,7 +96,9 @@ def name_contains(name, pattern):
 
 
 def gather_all(stringlist, pattern):
-    """Collects all simulation IDs which contain a specific pattern from a given list.
+    r"""
+    Collects all simulation IDs which contain a specific pattern from a given list.
+
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern
     :return: A list of simulation IDs that contain the given pattern.
@@ -94,14 +108,16 @@ def gather_all(stringlist, pattern):
 
 
 def compare_by(namea, nameb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
-    """Compare two simulation IDs with respect to a (numerical) value in the ID.
+    r"""
+    Compare two simulation IDs with respect to a (numerical) value in the ID.
+
     :param namea: The first name in the comparison
     :param nameb: The second name in the comparison
     :param pattern: The pattern whose (numerical) value is used for sorting
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats
+    :param as_string: Determines if the values for ``pattern`` get converted to floats
     :return: A boolean answer if the IDs are the same w.r.t the pattern.
     """
     part1 = namea.partition(ldel + pattern + mdel)
@@ -119,13 +135,15 @@ def compare_by(namea, nameb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=G
 
 
 def group_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
-    """Groups simulation IDs with respect to a pattern.
+    r"""
+    Groups simulation IDs with respect to a pattern.
+
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern used for grouping
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats. Not used here.
+    :param as_string: Determines if the values for ``pattern`` get converted to floats. Not used here.
     :return: A list of groups of simulation IDs.
     """
     tmp = [ s.partition(ldel + pattern + mdel) for s in stringlist ]
@@ -148,14 +166,16 @@ def group_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kv
 
 
 def intersect_by(lista, listb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=True):
-    """Find the intersection of two lists containing simulation IDs.
+    r"""
+    Find the intersection of two lists containing simulation IDs.
+
     :param lista: A first list with the simulation IDs
     :param listb: A second list with the simulation IDs
     :param pattern: The pattern whose numerical value is used for sorting
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats
+    :param as_string: Determines if the values for ``pattern`` get converted to floats
     :return: A sorted list of simulation IDs.
     """
     result = []
@@ -172,13 +192,15 @@ def intersect_by(lista, listb, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel
 
 
 def sort_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
-    """Sorts simulation IDs with respect to a (numerical) value in the ID.
+    r"""
+    Sorts simulation IDs with respect to a (numerical) value in the ID.
+
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats
+    :param as_string: Determines if the values for ``pattern`` get converted to floats
     :return: A sorted list of simulation IDs.
     """
     tmp = [ s.partition(ldel + pattern + mdel) for s in stringlist ]
@@ -211,32 +233,38 @@ def sort_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp
 
 
 def get_max_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
-    """Get the maximum of a list with simulation IDs with respect to a (numerical) value in the ID.
+    r"""
+    Get the maximum of a list with simulation IDs with respect to a (numerical) value in the ID.
+
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats
+    :param as_string: Determines if the values for ``pattern`` get converted to floats
     :return: A sorted list of simulation IDs.
-    @note: This is just a simple convenience function so that the user needs not to remember if the
-    sort order is ascending or descending which plays no role for iteration.
+
+    .. note:: This is just a simple convenience function so that the user needs not to remember if the
+              sort order is ascending or descending which plays no role for iteration.
     """
     sortedlist = sort_by(stringlist, pattern, ldel=ldel, mdel=mdel, rdel=rdel, as_string=as_string)
     return sortedlist[-1]
 
 
 def get_min_by(stringlist, pattern, ldel=GD.kvp_ldel, mdel=GD.kvp_mdel, rdel=GD.kvp_rdel, as_string=False):
-    """Get the minimum of a list with simulation IDs with respect to a (numerical) value in the ID.
+    r"""
+    Get the minimum of a list with simulation IDs with respect to a (numerical) value in the ID.
+
     :param stringlist: A list with the simulation IDs
     :param pattern: The pattern whose (numerical) value is used for sorting
     :param ldel: Left delimiter of the pattern
     :param mdel: Middle delimiter of the pattern
     :param rdel: Right delimiter of the pattern
-    :param as_string: Determines if the values for I{pattern} get converted to floats
+    :param as_string: Determines if the values for ``pattern`` get converted to floats
     :return: A sorted list of simulation IDs.
-    @note: This is just a simple convenience function so that the user needs not to remember if the
-    sort order is ascending or descending which plays no role for iteration.
+
+    .. note:: This is just a simple convenience function so that the user needs not to remember if the
+              sort order is ascending or descending which plays no role for iteration.
     """
     sortedlist = sort_by(stringlist, pattern, ldel=ldel, mdel=mdel, rdel=rdel, as_string=as_string)
     return sortedlist[0]

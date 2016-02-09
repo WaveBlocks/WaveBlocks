@@ -19,15 +19,18 @@ import GlobalDefaults as GD
 
 
 class HagedornWavepacketInhomogeneous(Wavepacket):
-    """This class represents inhomogeneous vector valued wavepackets :math:`\Ket{\Psi}`.
+    r"""
+    This class represents inhomogeneous vector valued wavepackets :math:`|\Psi\rangle`.
     """
 
     def __init__(self, parameters):
-        """Initialize the I{HagedornWavepacketInhomogeneous} object that represents :math:`\Ket{\Psi}`.
-        :param parameters: A I{ParameterProvider} instance or a dict containing simulation parameters.
-        @raise ValueError: For :math:`N < 1` or :math:`K < 2`.
+        r"""
+        Initialize the ``HagedornWavepacketInhomogeneous`` object that represents :math:`|\Psi\rangle`.
+
+        :param parameters: A :py:class:`ParameterProvider` instance or a dict containing simulation parameters.
+        :raise ValueError: For :math:`N < 1` or :math:`K < 2`.
         """
-        #: Number of components :math:`\Phi_i` the wavepacket :math:`\Ket{\Psi}` has got.
+        #: Number of components :math:`\Phi_i` the wavepacket :math:`|\Psi\rangle` has got.
         self.number_components = parameters["ncomponents"]
 
         if self.number_components < 1:
@@ -69,7 +72,8 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def __str__(self):
-        """:return: A string describing the Hagedorn wavepacket.
+        r"""
+        :return: A string describing the Hagedorn wavepacket.
         """
         s =  "Inhomogeneous Hagedorn wavepacket with "+str(self.number_components)+" components\n"
         return s
@@ -96,7 +100,9 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def get_parameters(self, component=None, aslist=False):
-        """Get the Hagedorn parameters :math:`\Pi_i` of each component :math:`\Phi_i` of the wavepacket :math:`\Psi`.
+        r"""
+        Get the Hagedorn parameters :math:`\Pi_i` of each component :math:`\Phi_i` of the wavepacket :math:`\Psi`.
+
         :param component: The index :math:`i` of the component whose parameters :math:`\Pi_i` we want to get.
         :param aslist: Dummy parameter for API compatibility with the homogeneous packets.
         :return: A list with all the sets :math:`\Pi_i` or a single set.
@@ -109,7 +115,9 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def set_parameters(self, parameters, component=None):
-        """Set the Hagedorn parameters :math:`\Pi_i` of each component :math:`\Phi_i` of the wavepacket :math:`\Psi`.
+        r"""
+        Set the Hagedorn parameters :math:`\Pi_i` of each component :math:`\Phi_i` of the wavepacket :math:`\Psi`.
+
         :param parameters: A list or a single set of Hagedorn parameters.
         :param component: The index :math:`i` of the component whose parameters :math:`\Pi_i` we want to update.
         """
@@ -121,9 +129,11 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def set_quadrature(self, quadrature):
-        """Set the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-        :param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
-        to use a dafault one with a quadrature rule of order :math:`K+4`.
+        r"""
+        Set the ``InhomogeneousQuadrature`` instance used for evaluating brakets.
+
+        :param quadrature: The new ``InhomogeneousQuadrature`` instance. May be ``None``
+                           to use a dafault one with a quadrature rule of order :math:`K+4`.
         """
         # TODO: Put an "extra accuracy" parameter into global defaults with value of 4.
         # TODO: Improve on the max(basis_size) later
@@ -135,19 +145,23 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def get_quadrature(self):
-        """Return the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-        :return: The current instance I{InhomogeneousQuadrature}.
+        r"""
+        Return the ``InhomogeneousQuadrature`` instance used for evaluating brakets.
+
+        :return: The current instance ``InhomogeneousQuadrature``.
         """
         return self.quadrature
 
 
     def evaluate_basis_at(self, nodes, component, prefactor=False):
-        """Evaluate the Hagedorn functions :math:`\phi_k` recursively at the given nodes :math:`\gamma`.
+        r"""
+        Evaluate the Hagedorn functions :math:`\phi_k` recursively at the given nodes :math:`\gamma`.
+
         :param nodes: The nodes :math:`\gamma` at which the Hagedorn functions are evaluated.
         :param component: The index :math:`i` of the component whose basis functions :math:`\phi^i_k` we want to evaluate.
-        :param prefactor: Whether to include a factor of :math:`\left(\det\ofs{Q_i}\right)^{-\frac{1}{2}}`.
+        :param prefactor: Whether to include a factor of :math:`\left(\det\left(Q_i\right)\right)^{-\frac{1}{2}}`.
         :return: Returns a twodimensional array :math:`H` where the entry :math:`H[k,i]` is the value
-        of the :math:`k`-th Hagedorn function evaluated at the node :math:`i`.
+                 of the :math:`k`-th Hagedorn function evaluated at the node :math:`i`.
         """
         H = zeros((self.basis_size[component], nodes.size), dtype=complexfloating)
 
@@ -170,11 +184,12 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def evaluate_at(self, nodes, component=None, prefactor=False):
-        """Evaluete the Hagedorn wavepacket :math:`\Psi` at the given nodes :math:`\gamma`.
+        r"""
+        Evaluete the Hagedorn wavepacket :math:`\Psi` at the given nodes :math:`\gamma`.
+
         :param nodes: The nodes :math:`\gamma` at which the Hagedorn wavepacket gets evaluated.
-        :param component: The index :math:`i` of a single component :math:`\Phi_i` to evaluate.
-        (Defaults to 'None' for evaluating all components.)
-        :param prefactor: Whether to include a factor of :math:`\left(\det\ofs{Q_i}\right)^{-\frac{1}{2}}`.
+        :param component: The index :math:`i` of a single component :math:`\Phi_i` to evaluate. (Defaults to 'None' for evaluating all components.)
+        :param prefactor: Whether to include a factor of :math:`\left(\det\left(Q_i\right)\right)^{-\frac{1}{2}}`.
         :return: A list of arrays or a single array containing the values of the :math:`\Phi_i` at the nodes :math:`\gamma`.
         """
         nodes = nodes.reshape((1,nodes.size))
@@ -200,7 +215,9 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def get_norm(self, component=None, summed=False):
-        """Calculate the :math:`L^2` norm of the wavepacket :math:`\Ket{\Psi}`.
+        r"""
+        Calculate the :math:`L^2` norm of the wavepacket :math:`|\Psi\rangle`.
+
         :param component: The component :math:`\Phi_i` of which the norm is calculated.
         :param summed: Whether to sum up the norms of the individual components :math:`\Phi_i`.
         :return: A list containing the norms of all components :math:`\Phi_i` or the overall norm of :math:`\Psi`.
@@ -218,9 +235,11 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def potential_energy(self, potential, summed=False):
-        """Calculate the potential energy :math:`\Braket{\Psi|V|\Psi}` of the wavepacket componentwise.
+        r"""
+        Calculate the potential energy :math:`\langle\Psi|V|\Psi\rangle` of the wavepacket componentwise.
+
         :param potential: The potential energy operator :math:`V` as function.
-        :param summed: Wheter to sum up the individual integrals :math:`\Braket{\Phi_i|V_{i,j}|\Phi_j}`.
+        :param summed: Wheter to sum up the individual integrals :math:`\langle\Phi_i|V_{i,j}|\Phi_j\rangle`.
         :return: The potential energy of the wavepacket's components :math:`\Phi_i` or the overall potential energy of :math:`\Psi`.
         """
         f = partial(potential, as_matrix=True)
@@ -235,8 +254,10 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def kinetic_energy(self, summed=False):
-        """Calculate the kinetic energy :math:`\Braket{\Psi|T|\Psi}` of the wavepacket componentwise.
-        :param summed: Wheter to sum up the individual integrals :math:`\Braket{\Phi_i|T_{i,j}|\Phi_j}`.
+        r"""
+        Calculate the kinetic energy :math:`\langle\Psi|T|\Psi\rangle` of the wavepacket componentwise.
+
+        :param summed: Wheter to sum up the individual integrals :math:`\langle\Phi_i|T_{i,j}|\Phi_j\rangle`.
         :return: The kinetic energy of the wavepacket's components :math:`\Phi_i` or the overall kinetic energy of :math:`\Psi`.
         """
         tmp = [ self.grady(component) for component in xrange(self.number_components) ]
@@ -250,8 +271,9 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def grady(self, component):
-        """Calculate the effect of :math:`-i \epsilon^2 \frac{\partial}{\partial x}`
-        on a component :math:`\Phi_i` of the Hagedorn wavepacket :math:`\Psi`.
+        r"""
+        Calculate the effect of :math:`-i \epsilon^2 \frac{\partial}{\partial x}` on a component :math:`\Phi_i` of the Hagedorn wavepacket :math:`\Psi`.
+
         :param component: The index :math:`i` of the component :math:`\Phi_i` on which we apply the above operator.
         :return: The modified coefficients.
         """
@@ -272,10 +294,12 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def project_to_canonical(self, potential):
-        """Project the Hagedorn wavepacket into the canonical basis.
+        r"""
+        Project the Hagedorn wavepacket into the canonical basis.
+
         :param potential: The potential :math:`V` whose eigenvectors :math:`nu_l` are used for the transformation.
-        @note: This function is expensive and destructive! It modifies the coefficients
-        of the I{self} instance.
+
+        .. note:: This function is expensive and destructive! It modifies the coefficients of the ``self`` instance.
         """
         # No projection for potentials with a single energy level.
         # The canonical and eigenbasis are identical here.
@@ -299,10 +323,12 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def project_to_eigen(self, potential):
-        """Project the Hagedorn wavepacket into the eigenbasis of a given potential :math:`V`.
+        r"""
+        Project the Hagedorn wavepacket into the eigenbasis of a given potential :math:`V`.
+
         :param potential: The potential :math:`V` whose eigenvectors :math:`nu_l` are used for the transformation.
-        @note: This function is expensive and destructive! It modifies the coefficients
-        of the I{self} instance.
+
+        .. note:: This function is expensive and destructive! It modifies the coefficients of the ``self`` instance.
         """
         # No projection for potentials with a single energy level.
         # The canonical and eigenbasis are identical here.
@@ -326,10 +352,12 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def to_fourier_space(self, assign=True):
-        """Transform the wavepacket to Fourier space.
-        :param assign: Whether to assign the transformation to
-        this packet or return a cloned packet.
-        @note: This is the inverse of the method I{to_real_space()}.
+        r"""
+        Transform the wavepacket to Fourier space.
+
+        :param assign: Whether to assign the transformation to this packet or return a cloned packet.
+
+        .. note:: This is the inverse of the method ``to_real_space()``.
         """
         # The Fourier transformed parameters
         Pihats = [ (1.0j*Q, -1.0j*P, S, -q, p) for P,Q,S,p,q in self.parameters ]
@@ -354,10 +382,12 @@ class HagedornWavepacketInhomogeneous(Wavepacket):
 
 
     def to_real_space(self, assign=True):
-        """Transform the wavepacket to real space.
-        :param assign: Whether to assign the transformation to
-        this packet or return a cloned packet.
-        @note: This is the inverse of the method I{to_fourier_space()}.
+        r"""
+        Transform the wavepacket to real space.
+
+        :param assign: Whether to assign the transformation to this packet or return a cloned packet.
+
+        .. note:: This is the inverse of the method ``to_fourier_space()``.
         """
         # The inverse Fourier transformed parameters
         Pi = [ (1.0j*Q, -1.0j*P, S, q, -p) for P,Q,S,p,q in self.parameters ]

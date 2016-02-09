@@ -13,7 +13,7 @@ from WaveBlocks import HagedornWavepacketInhomogeneous
 
 def compute_energy(iom, blockid=0):
     """
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()

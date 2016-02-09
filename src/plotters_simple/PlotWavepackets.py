@@ -23,7 +23,7 @@ import GraphicsDefaults as GD
 
 def plot_frames_homogeneous(iom, blockid=0, view=None):
     """
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 
@@ -68,7 +68,7 @@ def plot_frames_homogeneous(iom, blockid=0, view=None):
 
 def plot_frames_inhomogeneous(iom, blockid=0, view=None):
     """
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 

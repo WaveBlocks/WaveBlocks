@@ -16,8 +16,8 @@ from color_map import color_map
 
 
 def plotcf(grid, phase, modulus, darken=None, axes=None, linestylep="solid", linewidthp=1, color="k", **kwargs):
-    """Plot the modulus of a complex valued function
-    :math:`f:\mathbb{R} \rightarrow \mathbb{C}`
+    r"""
+    Plot the modulus of a complex valued function :math:`f:\mathbb{R} \rightarrow \mathbb{C}`
     together with its phase in a color coded fashion.
 
     :param grid: The grid nodes of the real domain R

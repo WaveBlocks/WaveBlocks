@@ -12,12 +12,15 @@ like inner products (brakets) etc.
 """
 
 class QuadratureRule:
-    """This class is an abstract interface to quadrature rules in general.
+    r"""
+    This class is an abstract interface to quadrature rules in general.
     """
 
     def __init__(self):
-        """General interface for quadrature rules.
-        @raise NotImplementedError: Abstract interface.
+        r"""
+        General interface for quadrature rules.
+
+        :raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
@@ -27,24 +30,28 @@ class QuadratureRule:
 
 
     def get_order(self):
-        """:return: The order :math:`R` of the quadrature.
+        r"""
+        :return: The order :math:`R` of the quadrature.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_number_nodes(self):
-        """:return: The number of quadrature nodes.
+        r"""
+        :return: The number of quadrature nodes.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_nodes(self):
-        """:return: An array containing the quadrature nodes :math:`\gamma_i`.
+        r"""
+        :return: An array containing the quadrature nodes :math:`\gamma_i`.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_weights(self):
-        """:return: An array containing the quadrature weights :math:`\omega_i`.
+        r"""
+        :return: An array containing the quadrature weights :math:`\omega_i`.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")

@@ -19,19 +19,23 @@ from IOManager import IOManager
 
 
 class SimulationLoopHagedornInhomogeneous(SimulationLoop):
-    """This class acts as the main simulation loop. It owns a propagator that
+    r"""
+    This class acts as the main simulation loop. It owns a propagator that
     propagates a set of initial values during a time evolution. All values are
-    read from the I{Parameters.py} file."""
+    read from the ``Parameters.py`` file.
+    """
 
     def __init__(self, parameters):
-        """Create a new simulation loop instance."""
+        r"""
+        Create a new simulation loop instance.
+        """
         # Keep a reference to the simulation parameters
         self.parameters = parameters
 
         #: The time propagator instance driving the simulation.
         self.propagator = None
 
-        #: A I{IOManager} instance for saving simulation results.
+        #: A ``IOManager`` instance for saving simulation results.
         self.IOManager = None
 
         #: The number of time steps we will perform.
@@ -44,9 +48,11 @@ class SimulationLoopHagedornInhomogeneous(SimulationLoop):
 
 
     def prepare_simulation(self):
-        """Set up a multi Hagedorn propagator for the simulation loop. Set the
+        r"""
+        Set up a multi Hagedorn propagator for the simulation loop. Set the
         potential and initial values according to the configuration.
-        @raise ValueError: For invalid or missing input data.
+
+        :raise ValueError: For invalid or missing input data.
         """
         potential = PF().create_potential(self.parameters)
         N = potential.get_number_components()
@@ -93,8 +99,9 @@ class SimulationLoopHagedornInhomogeneous(SimulationLoop):
 
 
     def run_simulation(self):
-        """Run the simulation loop for a number of time steps. The number of steps
-        is calculated in the I{initialize} function."""
+        r"""
+        Run the simulation loop for a number of time steps. The number of steps is calculated in the ``initialize`` function.
+        """
         tm = self.parameters.get_timemanager()
 
         # Run the simulation for a given number of timesteps
@@ -110,7 +117,8 @@ class SimulationLoopHagedornInhomogeneous(SimulationLoop):
 
 
     def end_simulation(self):
-        """Do the necessary cleanup after a simulation. For example request the
+        r"""
+        Do the necessary cleanup after a simulation. For example request the
         IOManager to write the data and close the output files.
         """
         self.IOManager.finalize()

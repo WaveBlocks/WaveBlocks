@@ -12,13 +12,14 @@ import sympy
 
 
 class PotentialFactory:
-    """A factory for :py:class:`MatrixPotential` instances. We decide which subclass of the
+    r"""
+    A factory for :py:class:`MatrixPotential` instances. We decide which subclass of the
     abstract base class :py:class:`MatrixPotential` to instantiate according to the size
-    of the potential's matrix. For a :math:`1 \\times 1` matrix we can use the class
+    of the potential's matrix. For a :math:`1 \times 1` matrix we can use the class
     :py:class:`MatrixPotential1S` which implements simplified scalar symbolic calculations.
-    In the case of a :math:`2 \\times 2` matrix we use the class :py:class:`MatrixPotential2S`
+    In the case of a :math:`2 \times 2` matrix we use the class :py:class:`MatrixPotential2S`
     that implements the full symbolic calculations for matrices. And for matrices of size
-    bigger than :math:`2 \\times 2` symbolic calculations are unfeasible and we have to
+    bigger than :math:`2 \times 2` symbolic calculations are unfeasible and we have to
     fall back to pure numerical methods implemented in :py:class:`MatrixPotentialMS`.
     """
 
@@ -27,12 +28,12 @@ class PotentialFactory:
 
 
     def create_potential(self, parameters):
-        """The method that creates a :py:class:`MatrixPotential` instance and decides
+        r"""
+        The method that creates a :py:class:`MatrixPotential` instance and decides
         which subclass to instantiate depending on the given potential expression.
 
         :param parameters: A :py:class:`ParameterProvider` instance with all necessary
                            parameters (at least a ``potential`` entry).
-
         :return: An adequate :py:class:`MatrixPotential` instance.
 
         :raises: :py:class:`ValueError` In case of various input error, f.e. if the potential can

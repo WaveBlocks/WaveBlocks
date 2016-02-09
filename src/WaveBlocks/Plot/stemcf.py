@@ -17,7 +17,9 @@ from color_map import color_map
 
 
 def stemcf(grid, phase, modulus, darken=False, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
-    """Stemplot the modulus of a complex valued function :math:`f:I -> C` together with its phase in a color coded fashion.
+    r"""
+    Stemplot the modulus of a complex valued function :math:`f:I \rightarrow C` together with its phase in a color coded fashion.
+
     :param grid: The grid nodes of the real domain R
     :param phase: The phase of the complex domain result f(grid)
     :param modulus: The modulus of the complex domain result f(grid)

@@ -2,7 +2,7 @@
 
 This file contains some ready made potentials with up to five
 separate energy levels. This is a pure data file without any
-code. To load the potentials, use the I{PotentialFactory}.
+code. To load the potentials, use the ``PotentialFactory``.
 
 @author: R. Bourquin
 @copyright: Copyright (C) 2010, 2011 R. Bourquin

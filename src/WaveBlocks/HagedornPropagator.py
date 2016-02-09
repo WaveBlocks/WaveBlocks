@@ -9,18 +9,20 @@ This file contains the Hagedorn propagator class for homogeneous wavepackets.
 
 from functools import partial
 
-from WaveFunction import WaveFunction
 from Propagator import Propagator
 from MatrixExponentialFactory import MatrixExponentialFactory
 
 
 class HagedornPropagator(Propagator):
-    """This class can numerically propagate given initial values :math:`\Psi` in
+    r"""
+    This class can numerically propagate given initial values :math:`\Psi` in
     a potential :math:`V(x)`. The propagation is done for a given set of homogeneous
-    Hagedorn wavepackets neglecting interaction."""
+    Hagedorn wavepackets neglecting interaction.
+    """
 
     def __init__(self, potential, packet, leading_component, parameters):
-        """Initialize a new :py:class:`HagedornPropagator` instance.
+        r"""
+        Initialize a new :py:class:`HagedornPropagator` instance.
 
         :param potential: The potential :math:`V(x)` the wavepacket :math:`\Psi` feels during the time propagation.
         :param packet: The initial homogeneous Hagedorn wavepacket :math:`\Psi` we propagate in time.
@@ -58,18 +60,22 @@ class HagedornPropagator(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the :py:class:`HagedornPropagator` instance."""
+        r"""
+        Prepare a printable string representing the :py:class:`HagedornPropagator` instance.
+        """
         return "Hagedorn propagator for " + str(self.number_components) + " components.\n Leading component is " + str(self.leading) + "."
 
 
     def get_number_components(self):
-        """:return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`.
+        r"""
+        :return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`.
         """
         return self.number_components
 
 
     def get_potential(self):
-        """Returns the potential used for time propagation.
+        r"""
+        Returns the potential used for time propagation.
 
         :return: A :py:class:`MatrixPotential` instance.
         """
@@ -77,7 +83,8 @@ class HagedornPropagator(Propagator):
 
 
     def get_wavepackets(self, packet=0):
-        """Return the wavepackets taking part in the simulation.
+        r"""
+        Return the wavepackets taking part in the simulation.
 
         :param packet: The number of a single packet that is to be returned.
         :type packet: Integer
@@ -91,7 +98,8 @@ class HagedornPropagator(Propagator):
 
 
     def set_wavepackets(self, packetlist):
-        """Set the wavepackets that the propagator will propagate.
+        r"""
+        Set the wavepackets that the propagator will propagate.
 
         :param packetlist: A list of new wavepackets to propagate.
         """
@@ -99,8 +107,9 @@ class HagedornPropagator(Propagator):
 
 
     def propagate(self):
-        """Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
-        wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau` here.
+        r"""
+        Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
+        wavepacket at time :math:`t + \tau`. We perform exactly one timestep :math:`\tau` here.
         """
         # Cache some parameter values for efficiency
         dt = self.parameters["dt"]

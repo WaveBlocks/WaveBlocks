@@ -16,7 +16,8 @@ from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
 class NonAdiabaticSpawner(Spawner):
-    """This class implements parameter estimation and basis
+    r"""
+    This class implements parameter estimation and basis
     projection for spawning of Hagedorn wavepackets in the
     non-adiabatic case.
     """
@@ -42,7 +43,8 @@ class NonAdiabaticSpawner(Spawner):
 
 
     def estimate_parameters(self, packet, component=0, order=None):
-        """Compute the parameters for a new wavepacket.
+        r"""
+        Compute the parameters for a new wavepacket.
         """
         if order is None:
             order = self.order
@@ -96,7 +98,8 @@ class NonAdiabaticSpawner(Spawner):
 
 
     def project_coefficients(self, mother, child, component=0, order=None):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
@@ -109,9 +112,10 @@ class NonAdiabaticSpawner(Spawner):
 
 
     def spawn_lumping(self, mother, child, component, order=None):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
-        takes the full norm <w|w> of w.
+        takes the full norm :math:`\langle w | w \rangle` of :math:`w`.
         """
         if order is None:
             order = self.order
@@ -136,7 +140,8 @@ class NonAdiabaticSpawner(Spawner):
 
 
     def spawn_basis_projection(self, mother, child, component, order=None):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
         """

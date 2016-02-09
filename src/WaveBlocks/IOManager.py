@@ -17,7 +17,8 @@ import ParameterProvider as ParameterProvider
 
 
 class IOManager:
-    """An IOManager class that can save various simulation results into data
+    r"""
+    An IOManager class that can save various simulation results into data
     files. The output files can be processed further for producing e.g. plots.
     """
 
@@ -51,7 +52,8 @@ class IOManager:
 
 
     def __getattr__(self, key):
-        """Try to load a plugin if a member function is not available.
+        r"""
+        Try to load a plugin if a member function is not available.
         """
         parts = key.split("_")
 
@@ -82,11 +84,11 @@ class IOManager:
 
 
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
-        """Set up a new I{IOManager} instance. The output files are created and opened.
-        :param parameters: A I{ParameterProvider} instance containing the current simulation
-        parameters. This is only used for determining the size of new data sets.
-        :param filename: The filename (optionally with filepath) of the file we try
-        to create. If not given the default value from I{GlobalDefaults} is used.
+        r"""
+        Set up a new ``IOManager`` instance. The output files are created and opened.
+
+        :param parameters: A :py:class:`ParameterProvider` instance containing the current simulation parameters. This is only used for determining the size of new data sets.
+        :param filename: The filename (optionally with filepath) of the file we try to create. If not given the default value from ``GlobalDefaults`` is used.
         """
         # Create the file if it does not yet exist.
         # Otherwise raise an exception to avoid overwriting data.
@@ -115,9 +117,10 @@ class IOManager:
 
 
     def open_file(self, filename=GlobalDefaults.file_resultdatafile):
-        """Load a given file that contains the results from a former simulation.
-        :param filename: The filename (optionally with filepath) of the file we try
-        to load. If not given the default value from I{GlobalDefaults} is used.
+        r"""
+        Load a given file that contains the results from a former simulation.
+
+        :param filename: The filename (optionally with filepath) of the file we try to load. If not given the default value from ``GlobalDefaults`` is used.
         """
         # Try to open the file or raise an exception if it does not exist.
         if os.path.lexists(filename):
@@ -147,7 +150,9 @@ class IOManager:
 
 
     def finalize(self):
-        """Close the open output file and reset the internal information."""
+        r"""
+        Close the open output file and reset the internal information.
+        """
         if self._srf is None:
             return
 
@@ -163,9 +168,10 @@ class IOManager:
 
 
     def get_number_blocks(self, groupid=None):
-        """Return the number of data blocks in the current file structure.
-        :param groupid: An optional group ID, if given we count only data blocks
-        which are a member of this group. If it is I{None} we count all data blocks.
+        r"""
+        Return the number of data blocks in the current file structure.
+
+        :param groupid: An optional group ID, if given we count only data blocks which are a member of this group. If it is ``None`` we count all data blocks.
         """
         if groupid is None:
             return self._block_count
@@ -174,18 +180,18 @@ class IOManager:
 
 
     def get_number_groups(self):
-        """Return the number of block groups in the current file structure.
+        r"""
+        Return the number of block groups in the current file structure.
         """
         return self._group_count
 
 
     def get_block_ids(self, groupid=None, grouped=False):
-        """Return a list containing the IDs for all blocks in the current file structure.
-        :param groupid: An optional group ID, if given we return only block IDs
-        for blocks which are a member of this group. If it is I{None} we return
-        all block IDs.
-        :param grouped: If I{True} we group the block IDs by their group
-        into lists. This option is only relevant in case the I{groupid} is not given.
+        r"""
+        Return a list containing the IDs for all blocks in the current file structure.
+
+        :param groupid: An optional group ID, if given we return only block IDs for blocks which are a member of this group. If it is ``None`` we return all block IDs.
+        :param grouped: If ``True`` we group the block IDs by their group into lists. This option is only relevant in case the ``groupid`` is not given.
         """
         if groupid is not None:
             if str(groupid) in self._group_ids:
@@ -200,15 +206,18 @@ class IOManager:
 
 
     def get_group_ids(self, exclude=[]):
-        """Return a list containing the IDs for all groups in the current file structure.
+        r"""
+        Return a list containing the IDs for all groups in the current file structure.
+
         :param exclude: A list of group IDs to exclude. Per default no group is excluded.
         """
         return [ gid for gid in self._group_ids if gid not in exclude ]
 
 
     def get_group_of_block(self, blockid):
-        """Return the ID of the group a given block belongs to or I{None}
-        if there is no such data block.
+        r"""
+        Return the ID of the group a given block belongs to or ``None`` if there is no such data block.
+
         :param blockid: The ID of the given block.
         """
         if str(blockid) in self._block_ids:
@@ -218,11 +227,11 @@ class IOManager:
 
 
     def create_block(self, blockid=None, groupid="global"):
-        """Create a data block with the specified block ID. Each data block can
-        store several chunks of information, and there can be an arbitrary number
-        of data blocks per file.
-        :param blockid: The ID for the new data block. If not given the blockid
-        will be choosen automatically. The block ID has to be unique.
+        r"""
+        Create a data block with the specified block ID. Each data block can
+        store several chunks of information, and there can be an arbitrary number of data blocks per file.
+
+        :param blockid: The ID for the new data block. If not given the blockid will be choosen automatically. The block ID has to be unique.
         :return: The block ID of the created block.
         """
         if self._srf is None:
@@ -259,11 +268,11 @@ class IOManager:
 
 
     def create_group(self, groupid=None):
-        """Create a data group with the specified group ID. Each data group can
-        contain an arbitrary number of data blocks, and there can be an arbitrary
-        number of data groups per file.
-        :param groupid: The ID for the new data group. If not given the group ID
-        will be choosen automatically. The group ID has to be unique.
+        r"""
+        Create a data group with the specified group ID. Each data group can
+        contain an arbitrary number of data blocks, and there can be an arbitrary number of data groups per file.
+
+        :param groupid: The ID for the new data group. If not given the group ID will be choosen automatically. The group ID has to be unique.
         :return: The group ID of the created group.
         """
         if self._srf is None:
@@ -291,7 +300,8 @@ class IOManager:
 
 
     def must_resize(self, path, slot, axis=0):
-        """Check if we must resize a given dataset and if yes, resize it.
+        r"""
+        Check if we must resize a given dataset and if yes, resize it.
         """
         # Ok, it's inefficient but sufficient for now.
         # todo: Consider resizing in bigger chunks and shrinking at the end if necessary.
@@ -306,8 +316,10 @@ class IOManager:
 
 
     def find_timestep_index(self, timegridpath, timestep):
-        """Lookup the index for a given timestep.
-        @note: Assumes the timegrid array is strictly monotone.
+        r"""
+        Lookup the index for a given timestep.
+
+        .. note:: Assumes the timegrid array is strictly monotone.
         """
         # todo: Make this more efficient
         # todo: allow for slicing etc
@@ -321,7 +333,9 @@ class IOManager:
 
 
     def split_data(self, data, axis):
-        """Split a multi-dimensional data block into slabs along a given axis.
+        r"""
+        Split a multi-dimensional data block into slabs along a given axis.
+
         :param data: The data tensor given.
         :param axis: The axis along which to split the data.
         :return: A list of slices.

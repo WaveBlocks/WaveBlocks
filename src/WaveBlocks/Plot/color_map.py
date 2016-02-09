@@ -13,15 +13,15 @@ from matplotlib.colors import hsv_to_rgb
 
 
 def color_map(data, phase=None, modulus=None, darken=1.0):
-    """Color mapping according to the QM standard map.
+    r"""
+    Color mapping according to the QM standard map.
 
     :param data: The complex numbers.
     :param phase: The phase of the complex numbers, computed if not given.
     :param modulus: The modulus of the complex numbers, computed if not given.
     :param darken: How strong to take into account the modulus of the data to darken colors.
                    Values with :math:`|z| = R` will get fully saturated colors
-                   while :math:`|z| = 0` is black and :math:`|z| \rightarrow \infty`
-                   get whiter and whiter.
+                   while :math:`|z| = 0` is black and :math:`|z| \rightarrow \infty` get whiter and whiter.
     :type darken: Float or ``None`` to disable darkening of colors. Default is :math:`R = 1.0`.
     :param axes: The axes instance used for plotting.
     """

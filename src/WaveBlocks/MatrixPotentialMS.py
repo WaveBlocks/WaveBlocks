@@ -17,7 +17,8 @@ from MatrixPotential import MatrixPotential
 
 
 class MatrixPotentialMS(MatrixPotential):
-    """This class represents a matrix potential :math:`V\ofs{x}`. The potential is given as an analytical
+    r"""
+    This class represents a matrix potential :math:`V\left(x\right)`. The potential is given as an analytical
     expression with a matrix of size bigger than :math:`2 \times 2`. Some calculations
     with the potential are supported. For example calculation of eigenvalues and
     exponentials and numerical evaluation. Further, there are methods for
@@ -27,12 +28,14 @@ class MatrixPotentialMS(MatrixPotential):
     """
 
     def __init__(self, expression, variables):
-        """Create a new I{MatrixPotentialMS} instance for a given potential matrix :math:`V\ofs{x}`.
+        r"""
+        Create a new :py:class:`MatrixPotentialMS` instance for a given potential matrix :math:`V\left(x\right)`.
+
         :param expression: An expression representing the potential.
         """
         #: The variable :math:`x` that represents position space.
         self.x = variables[0]
-        #: The matrix of the potential :math:`V\ofs{x}`.
+        #: The matrix of the potential :math:`V\left(x\right)`.
         self.potential = expression
 
         self.number_components = self.potential.shape[0]
@@ -53,20 +56,23 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def __str__(self):
-        """Put the number of components and the analytical expression (the matrix) into a printable string.
+        r"""
+        Put the number of components and the analytical expression (the matrix) into a printable string.
         """
         return """Matrix potential with """ + str(self.number_components) + """ states given by matrix: V(x) = \n""" + str(self.potential)
 
 
     def get_number_components(self):
-        """:return: The number :math:`N` of components the potential supports. This is
-        also the size of the matrix.
+        r"""
+        :return: The number :math:`N` of components the potential supports. This is also the size of the matrix.
         """
         return self.number_components
 
 
     def evaluate_at(self, nodes, component=None, as_matrix=True):
-        """Evaluate the potential matrix elementwise at some given grid nodes :math:`\gamma`.
+        r"""
+        Evaluate the potential matrix elementwise at some given grid nodes :math:`\gamma`.
+
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the potential at.
         :param component: The component :math:`V_{i,j}` that gets evaluated or 'None' to evaluate all.
         :param as_matrix: Returns the whole matrix :math:`\Lambda` instead of only a list with the eigenvalues :math:`\lambda_i`.
@@ -81,10 +87,11 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_eigenvalues(self):
-        """Calculate the eigenvalues :math:`\lambda_i\ofs{x}` of the potential :math:`V\ofs{x}`.
-        We do the calculations with numerical tools. The multiplicities are taken
-        into account.
-        @note: Note: the eigenvalues are memoized for later reuse.
+        r"""
+        Calculate the eigenvalues :math:`\lambda_i\left(x\right)` of the potential :math:`V\left(x\right)`.
+        We do the calculations with numerical tools. The multiplicities are taken into account.
+
+        .. note:: Note: the eigenvalues are memoized for later reuse.
         """
         # We have to use numercial techniques here, the eigenvalues are
         # calculated while evaluating them in 'evaluate_eigenvalues_at'.
@@ -92,12 +99,13 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
-        """Evaluate the eigenvalues :math:`\lambda_i\ofs{x}` at some grid nodes :math:`\gamma`.
+        r"""
+        Evaluate the eigenvalues :math:`\lambda_i\left(x\right)` at some grid nodes :math:`\gamma`.
+
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the eigenvalues at.
         :param component: The index :math:`i` of the eigenvalue :math:`\lambda_i` that gets evaluated.
         :param as_matrix: Returns the whole matrix :math:`\Lambda` instead of only a list with the eigenvalues :math:`\lambda_i`.
-        :return: A sorted list with :math:`N` entries for all the eigenvalues evaluated at the nodes. Or a
-        single value if a component was specified.
+        :return: A sorted list with :math:`N` entries for all the eigenvalues evaluated at the nodes. Or a single value if a component was specified.
         """
         result = []
 
@@ -153,9 +161,11 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_eigenvectors(self):
-        """Calculate the two eigenvectors :math:`nu_i\ofs{x}` of the potential :math:`V\ofs{x}`.
+        r"""
+        Calculate the two eigenvectors :math:`nu_i\left(x\right)` of the potential :math:`V\left(x\right)`.
         We do the calculations with numerical tools.
-        @note: The eigenvectors are memoized for later reuse.
+
+        .. note:: The eigenvectors are memoized for later reuse.
         """
         # We have to use numercial techniques here, the eigenvectors are
         # calculated while evaluating them in 'evaluate_eigenvects_at'.
@@ -163,7 +173,9 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_eigenvectors_at(self, nodes):
-        """Evaluate the eigenvectors :math:`nu_i\ofs{x}` at some grid nodes :math:`\gamma`.
+        r"""
+        Evaluate the eigenvectors :math:`nu_i\left(x\right)` at some grid nodes :math:`\gamma`.
+
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the eigenvectors at.
         :return: A list with the :math:`N` eigenvectors evaluated at the given nodes.
         """
@@ -201,7 +213,9 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def project_to_eigen(self, nodes, values, basis=None):
-        """Project a given vector from the canonical basis to the eigenbasis of the potential.
+        r"""
+        Project a given vector from the canonical basis to the eigenbasis of the potential.
+
         :param nodes: The grid nodes :math:`\gamma` for the pointwise transformation.
         :param values: The list of vectors :math:`\phi_i` containing the values we want to transform.
         :param basis: A list of basisvectors :math:`nu_i`. Allows to use this function for external data, similar to a static function.
@@ -224,7 +238,9 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def project_to_canonical(self, nodes, values, basis=None):
-        """Project a given vector from the potential's eigenbasis to the canonical basis.
+        r"""
+        Project a given vector from the potential's eigenbasis to the canonical basis.
+
         :param nodes: The grid nodes :math:`\gamma` for the pointwise transformation.
         :param values: The list of vectors :math:`\varphi_i` containing the values we want to transform.
         :param basis: A list of basis vectors :math:`nu_i`. Allows to use this function for external data, similar to a static function.
@@ -247,9 +263,11 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_exponential(self, factor=1):
-        """Calculate the matrix exponential :math:`E = \exp\ofs{\alpha M}`. In the case where
+        r"""
+        Calculate the matrix exponential :math:`E = \exp\left(\alpha M\right)`. In the case where
         the matrix is of size bigger than :math:`2 \times 2` symbolical calculations become
         unfeasible. We use numerical approximations to determine the matrix exponential.
+
         :param factor: A prefactor :math:`\alpha` in the exponential.
         """
         # Store the factor for later numerical computations.
@@ -257,8 +275,10 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_exponential_at(self, nodes):
-        """Evaluate the exponential of the potential matrix :math:`V` at some grid nodes :math:`\gamma`.
+        r"""
+        Evaluate the exponential of the potential matrix :math:`V` at some grid nodes :math:`\gamma`.
         For matrices of size :math:`> 2` we do completely numerical exponentation.
+
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the exponential at.
         :return: The numerical approximation of the matrix exponential at the given grid nodes.
         """
@@ -282,7 +302,8 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_jacobian(self):
-        """Calculate the jacobian matrix for each component :math:`V_{i,j}` of the potential.
+        r"""
+        Calculate the jacobian matrix for each component :math:`V_{i,j}` of the potential.
         For potentials which depend only one variable :math:`x`, this equals the first derivative.
         """
         self.jacobian_s = tuple([ sympy.diff(item, self.x) for item in self.potential ])
@@ -290,11 +311,11 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_jacobian_at(self, nodes, component=None):
-        """Evaluate the jacobian at some grid nodes :math:`\gamma` for each component
-        :math:`V_{i,j}` of the potential.
+        r"""
+        Evaluate the jacobian at some grid nodes :math:`\gamma` for each component :math:`V_{i,j}` of the potential.
+
         :param nodes: The grid nodes :math:`\gamma` the jacobian gets evaluated at.
-        :param component: The index tuple :math:`\left(i,j\right)` that specifies
-        the potential's entry of which the jacobian is evaluated. (Defaults to 'None' to evaluate all)
+        :param component: The index tuple :math:`\left(i,j\right)` that specifies the potential's entry of which the jacobian is evaluated. (Defaults to 'None' to evaluate all)
         :return: Either a list or a single value depending on the optional parameters.
         """
         if not component is None:
@@ -306,7 +327,8 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_hessian(self):
-        """Calculate the hessian matrix for each component :math:`V_{i,j}` of the potential.
+        r"""
+        Calculate the hessian matrix for each component :math:`V_{i,j}` of the potential.
         For potentials which depend only one variable :math:`x`, this equals the second derivative.
         """
         self.hessian_s = tuple([ sympy.diff(item, self.x, 2) for item in self.potential ])
@@ -314,11 +336,11 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_hessian_at(self, nodes, component=None):
-        """Evaluate the hessian at some grid nodes :math:`\gamma` for each component
-        :math:`V_{i,j}` of the potential.
+        r"""
+        Evaluate the hessian at some grid nodes :math:`\gamma` for each component :math:`V_{i,j}` of the potential.
+
         :param nodes: The grid nodes :math:`\gamma` the hessian gets evaluated at.
-        :param component: The index tuple :math:`\left(i,j\right)` that specifies
-        the potential's entry of which the hessian is evaluated. (Or 'None' to evaluate all)
+        :param component: The index tuple :math:`\left(i,j\right)` that specifies the potential's entry of which the hessian is evaluated. (Or 'None' to evaluate all)
         :return: Either a list or a single value depending on the optional parameters.
         """
         if not component is None:
@@ -330,13 +352,12 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def _calculate_local_quadratic_component(self, diagonal_component):
-        """Calculate the local quadratic approximation matrix :math:`U` of the potential's
+        r"""
+        Calculate the local quadratic approximation matrix :math:`U` of the potential's
         eigenvalues in :math:`\Lambda`. This function is used for the homogeneous case and
         takes into account the leading component :math:`\chi`.
-        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i`
-        that gets expanded into a Taylor series :math:`u_i`.
-        Calculate the local quadratic approximation matrix :math:`U` of all the
-        potential's eigenvalues in :math:`\Lambda`. This function is used for the inhomogeneous case.
+
+        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i` that gets expanded into a Taylor series :math:`u_i`.
         """
         if self.taylor_eigen_n.has_key(diagonal_component):
             # Calculation already done at some earlier time
@@ -357,14 +378,15 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_local_quadratic(self, diagonal_component=None):
-        """Calculate the local quadratic approximation matrix :math:`U` of the potential's
+        r"""
+        Calculate the local quadratic approximation matrix :math:`U` of the potential's
         eigenvalues in :math:`\Lambda`. This function can be used for the homogeneous case
         and takes into account the leading component :math:`\chi`.
         If the parameter :math:`\chi` is not given, calculate the local quadratic approximation
         matrix :math:`U` of all the potential's eigenvalues in :math:`\Lambda`. This function is used
         for the inhomogeneous case.
-        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i`
-        that gets expanded into a Taylor series :math:`u_i`.
+
+        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i` that gets expanded into a Taylor series :math:`u_i`.
         """
         if diagonal_component is not None:
             self._calculate_local_quadratic_component(diagonal_component)
@@ -374,11 +396,12 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_local_quadratic_at(self, nodes, diagonal_component):
-        """Numerically evaluate the local quadratic approximation matrix :math:`U` of
+        r"""
+        Numerically evaluate the local quadratic approximation matrix :math:`U` of
         the potential's eigenvalues in :math:`\Lambda` at the given grid nodes :math:`\gamma`.
+
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the quadratic approximation at.
-        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i`
-        that gets expanded into a Taylor series :math:`u_i`.
+        :param diagonal_component: Specifies the index :math:`i` of the eigenvalue :math:`\lambda_i` that gets expanded into a Taylor series :math:`u_i`.
         :return: A list of arrays or a single array containing the values of :math:`U_{i,j}` at the nodes :math:`\gamma`.
         """
         if diagonal_component is not None:
@@ -436,15 +459,12 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def calculate_local_remainder(self, diagonal_component=None):
-        """Calculate the non-quadratic remainder matrix :math:`W` of the quadratic
+        r"""
+        Calculate the non-quadratic remainder matrix :math:`W` of the quadratic
         approximation matrix :math:`U` of the potential's eigenvalue matrix :math:`\Lambda`.
-        This function is used for the homogeneous case and takes into account the
-        leading component :math:`\chi`.
+        This function is used for the homogeneous case and takes into account the leading component :math:`\chi`.
+
         :param diagonal_component: Specifies the index :math:`\chi` of the leading component :math:`\lambda_\chi`.
-        """
-        """Calculate the non-quadratic remainder matrix :math:`W` of the quadratic
-        approximation matrix :math:`U` of the potential's eigenvalue matrix :math:`\Lambda`.
-        This function is used for the inhomogeneous case.
         """
         if diagonal_component is not None:
             self._calculate_local_remainder_component(diagonal_component)
@@ -453,16 +473,16 @@ class MatrixPotentialMS(MatrixPotential):
 
 
     def evaluate_local_remainder_at(self, position, nodes, diagonal_component=None, component=None):
-        """Numerically evaluate the non-quadratic remainder matrix :math:`W` of the quadratic
+        r"""
+        Numerically evaluate the non-quadratic remainder matrix :math:`W` of the quadratic
         approximation matrix :math:`U` of the potential's eigenvalues in :math:`\Lambda` at the
         given nodes :math:`\gamma`. This function is used for the homogeneous and the
         inhomogeneous case and just evaluates the remainder matrix :math:`W`.
+
         :param position: The point :math:`q` where the Taylor series is computed.
         :param nodes: The grid nodes :math:`\gamma` we want to evaluate the potential at.
-        :param component: The component :math:`\left(i,j\right)` of the remainder matrix :math:`W`
-        that is evaluated.
-        :return: A list with a single entry consisting of an array containing the
-        values of :math:`W` at the nodes :math:`\gamma`.
+        :param component: The component :math:`\left(i,j\right)` of the remainder matrix :math:`W` that is evaluated.
+        :return: A list with a single entry consisting of an array containing the values of :math:`W` at the nodes :math:`\gamma`.
         """
         if diagonal_component is not None:
             data = self.remainder_eigen_n[diagonal_component]

@@ -15,7 +15,9 @@ from color_map import color_map
 
 
 def plotcm(matrix, phase=None, modulus=None, darken=True, axes=None, **kwargs):
-    """Plot complex matrices with the phase of the entries encoded into the usual color code.
+    r"""
+    Plot complex matrices with the phase of the entries encoded into the usual color code.
+
     :param matrix: The matrix data.
     :param phase: The phase of the entries, if not given they are computed.
     :param modulus: The modulus of the entries, if not given they are computed.

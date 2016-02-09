@@ -15,12 +15,15 @@ from GaussHermiteQR import GaussHermiteQR
 
 
 class Quadrature:
-    """This class is an abstract interface to quadratures in general.
+    r"""
+    This class is an abstract interface to quadratures in general.
     """
 
     def __init__(self):
-        """General interface for quadratures.
-        @raise NotImplementedError: Abstract interface.
+        r"""
+        General interface for quadratures.
+
+        :raise NotImplementedError: Abstract interface.
         """
         raise NotImplementedError("'Quadrature' is an abstract interface.")
 
@@ -30,45 +33,60 @@ class Quadrature:
 
 
     def set_qr(self, QR):
-        """Set the I{GaussHermiteQR} instance used for quadrature.
-        :param QR: The new I{GaussHermiteQR} instance.
+        r"""
+        Set the ``GaussHermiteQR`` instance used for quadrature.
+
+        :param QR: The new ``GaussHermiteQR`` instance.
         """
         self.QR = QR
 
 
     def get_qr(self):
-        """Return the I{GaussHermiteQR} instance used for quadrature.
+        r"""
+        Return the ``GaussHermiteQR`` instance used for quadrature.
+
         :return: The current instance of the quadrature rule.
         """
         return self.QR
 
 
     def build_qr(self, qorder):
-        """Create a quadrature rule of the given order.
+        r"""
+        Create a quadrature rule of the given order.
+
         :param qorder: The order of the quadrature rule.
         """
         self.QR = GaussHermiteQR(qorder)
 
 
     def transform_nodes(self):
-        """Transform the quadrature nodes such that they fit the given wavepacket.
-        @note: Arguments may vary through subclasses!
-        @raise NotImplementedError: Abstract interface.
+        r"""
+        Transform the quadrature nodes such that they fit the given wavepacket.
+
+        :raise NotImplementedError: Abstract interface.
+
+        .. note:: Arguments may vary through subclasses!
         """
         raise NotImplementedError("'Quadrature' is an abstract interface.")
 
 
     def quadrature(self):
-        """Performs the quadrature of :math:`\Braket{\Psi|f|\Psi}` for a general :math:`f`.
-        @note: Arguments may vary through subclasses!
-        @raise NotImplementedError: Abstract interface.
+        r"""
+        Performs the quadrature of :math:`\langle\Psi|f|\Psi\rangle` for a general :math:`f`.
+
+        :raise NotImplementedError: Abstract interface.
+
+        .. note:: Arguments may vary through subclasses!
         """
         raise NotImplementedError("'Quadrature' is an abstract interface.")
 
 
     def build_matrix(self):
-        """Calculate the matrix representation of :math:`\Braket{\Psi|f|\Psi}`.
-        @note: Arguments may vary through subclasses!
-        @raise NotImplementedError: Abstract interface.
+        r"""
+        Calculate the matrix representation of :math:`\langle\Psi|f|\Psi\rangle`.
+
+        :raise NotImplementedError: Abstract interface.
+
+        .. note:: Arguments may vary through subclasses!
         """
         raise NotImplementedError("'Quadrature' is an abstract interface.")

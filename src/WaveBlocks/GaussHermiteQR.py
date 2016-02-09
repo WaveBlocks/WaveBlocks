@@ -15,12 +15,14 @@ from QuadratureRule import QuadratureRule
 
 
 class GaussHermiteQR(QuadratureRule):
-    """This class implements a Gauss-Hermite quadrature rule
+    r"""
+    This class implements a Gauss-Hermite quadrature rule
     tailored at the needs of Hagedorn wavepackets.
     """
 
     def __init__(self, order):
-        """Initialize a new quadrature rule.
+        r"""
+        Initialize a new quadrature rule.
 
         :param order: The order :math:`R` of the Gauss-Hermite quadrature.
 
@@ -52,31 +54,36 @@ class GaussHermiteQR(QuadratureRule):
 
 
     def get_order(self):
-        """:return: The order :math:`R` of the quadrature.
+        r"""
+        :return: The order :math:`R` of the quadrature.
         """
         return self.order
 
 
     def get_number_nodes(self):
-        """:return: The number of quadrature nodes.
+        r"""
+        :return: The number of quadrature nodes.
         """
         return self.number_nodes
 
 
     def get_nodes(self):
-        """:return: An array containing the quadrature nodes :math:`\gamma_i`.
+        r"""
+        :return: An array containing the quadrature nodes :math:`\gamma_i`.
         """
         return self.nodes.copy()
 
 
     def get_weights(self):
-        """:return: An array containing the quadrature weights :math:`\omega_i`.
+        r"""
+        :return: An array containing the quadrature weights :math:`\omega_i`.
         """
         return self.weights.copy()
 
 
     def _hermite_recursion(self, nodes):
-        """Evaluate the Hermite functions recursively up to the order :math:`R` on the given nodes.
+        r"""
+        Evaluate the Hermite functions recursively up to the order :math:`R` on the given nodes.
 
         :param nodes: The points at which the Hermite functions are evaluated.
         :return: Returns a twodimensional array :math:`H` where the entry :math:`H[k,i]` is the value

@@ -23,7 +23,7 @@ import GraphicsDefaults as GD
 
 def plot_frames(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     :param gid: The group ID of the group where the two packets are stored.
     :param view: The aspect ratio.
     :param plotphase: Whether to plot the complex phase. (slow)
@@ -112,7 +112,7 @@ def plot_frames(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plo
 
 def plot_frames_split(iom, gid=0, view=None, plotphase=True, plotcomponents=False, plotabssqr=False, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     :param gid: The group ID of the group where the two packets are stored.
     :param view: The aspect ratio.
     :param plotphase: Whether to plot the complex phase. (slow)

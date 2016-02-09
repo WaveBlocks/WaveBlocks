@@ -21,7 +21,9 @@ class ParameterLoader:
 
 
     def _get_configuration_variables(self, _scriptcode):
-        """Clean environment for reading in local parameters.
+        r"""
+        Clean environment for reading in local parameters.
+
         :param _scriptcode: String with the configuration code to execute.
         """
         # Execute the configuration file, they are plain python files
@@ -39,7 +41,8 @@ class ParameterLoader:
 
 
     def load_from_file(self, filepath):
-        """Read the parameters from a configuration file.
+        r"""
+        Read the parameters from a configuration file.
 
         :param filepath: Path to the configuration file.
         :return: A :py:class:`ParameterProvider` instance.
@@ -56,8 +59,8 @@ class ParameterLoader:
 
 
     def load_from_dict(self, adict):
-        """Construct a :py:class:`ParameterProvider` instance from a
-        common python key-value dict.
+        r"""
+        Construct a :py:class:`ParameterProvider` instance from a common python key-value dict.
 
         :param adict: A plain python `dict` with key-value pairs.
         :return: A :py:class:`ParameterProvider` instance.

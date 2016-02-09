@@ -11,7 +11,8 @@ import numpy as np
 
 
 def add_norm(self, parameters, timeslots=None, blockid=0):
-    """Add storage for the norms.
+    r"""
+    Add storage for the norms.
     """
     grp_ob = self._srf[self._prefixb+str(blockid)].require_group("observables")
 
@@ -31,7 +32,8 @@ def add_norm(self, parameters, timeslots=None, blockid=0):
 
 
 def delete_norm(self, blockid=0):
-    """Remove the stored norms.
+    r"""
+    Remove the stored norms.
     """
     try:
         del self._srf[self._prefixb+str(blockid)+"/observables/norm"]
@@ -43,14 +45,16 @@ def delete_norm(self, blockid=0):
 
 
 def has_norm(self, blockid=0):
-    """Ask if the specified data block has the desired data tensor.
+    r"""
+    Ask if the specified data block has the desired data tensor.
     """
     return ("observables" in self._srf[self._prefixb+str(blockid)].keys() and
             "norm" in self._srf[self._prefixb+str(blockid)]["observables"].keys())
 
 
 def save_norm(self, norm, timestep=None, blockid=0):
-    """Save the norm of wavefunctions or wavepackets.
+    r"""
+    Save the norm of wavefunctions or wavepackets.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
     pathd = "/"+self._prefixb+str(blockid)+"/observables/norm/norm"
@@ -72,14 +76,16 @@ def save_norm(self, norm, timestep=None, blockid=0):
 
 
 def load_norm_timegrid(self, blockid=0):
-    """Load the timegrid corresponding to the norm data.
+    r"""
+    Load the timegrid corresponding to the norm data.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
     return self._srf[pathtg][:]
 
 
 def load_norm(self, timestep=None, split=False, blockid=0):
-    """Load the norm data.
+    r"""
+    Load the norm data.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/observables/norm/timegrid"
     pathd = "/"+self._prefixb+str(blockid)+"/observables/norm/norm"

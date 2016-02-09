@@ -16,12 +16,15 @@ from SpawnConditionFactory import SpawnConditionFactory as SCF
 
 
 class SpawnAdiabaticPropagator(Propagator):
-    """This class can numerically propagate given initial values :math:`\Psi` in
+    r"""
+    This class can numerically propagate given initial values :math:`\Psi` in
     a potential :math:`V(x)`. The propagation is done for several given homogeneous
-    Hagedorn wavepackets neglecting interaction."""
+    Hagedorn wavepackets neglecting interaction.
+    """
 
     def __init__(self, propagator, potential, packet, leading_component, parameters):
-        """Initialize a new :py:class:SpawnAdiabaticPropagator instance.
+        r"""
+        Initialize a new :py:class:SpawnAdiabaticPropagator instance.
 
         :param propagator: The propagator used for time propagation.
         :param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.
@@ -35,10 +38,10 @@ class SpawnAdiabaticPropagator(Propagator):
         if packet.get_number_components() != potential.get_number_components():
             raise ValueError("Wave packet does not match to the given potential!")
 
-        #: The potential :math:`V\ofs{x}` the packet feels.
+        #: The potential :math:`V\left(x\right)` the packet feels.
         self.potential = potential
 
-        #: Number :math:`N` of components the wavepacket :math:`\Ket{\Psi}` has got.
+        #: Number :math:`N` of components the wavepacket :math:`|\Psi\rangle` has got.
         self.number_components = self.potential.get_number_components()
 
         #: The Hagedorn wavepackets.
@@ -64,29 +67,38 @@ class SpawnAdiabaticPropagator(Propagator):
 
 
     def __str__(self):
-        """Prepare a printable string representing the :py:class:`SpawnAdiabaticPropagator` instance."""
+        r"""
+        Prepare a printable string representing the :py:class:`SpawnAdiabaticPropagator` instance.
+        """
         return "Prapagation and spawning in the adabatic case."
 
 
     def get_number_components(self):
-        """:return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`."""
+        r"""
+        :return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`.
+        """
         return self.number_components
 
 
     def get_potential(self):
-        """:return: The :py:class:`MatrixPotential` instance used for time propagation."""
+        r"""
+        :return: The :py:class:`MatrixPotential` instance used for time propagation.
+        """
         return self.potential
 
 
     def get_number_packets(self):
-        """Get the number of packets :math:`\Psi_n` taking part in the simulation.
+        r"""
+        Get the number of packets :math:`\Psi_n` taking part in the simulation.
 
-        :return: The number of packets currently taking part in the simulation."""
+        :return: The number of packets currently taking part in the simulation.
+        """
         return len(self.packets)
 
 
     def get_wavepackets(self, packet=None):
-        """Retrieve the wavepackets taking part in the simulation.
+        r"""
+        Retrieve the wavepackets taking part in the simulation.
 
         :param packet: The number of a single packet that is to be returned.
         :type packet: Integer
@@ -100,8 +112,9 @@ class SpawnAdiabaticPropagator(Propagator):
 
 
     def propagate(self, time):
-        """Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
-        wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau`
+        r"""
+        Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated
+        wavepacket at time :math:`t + \tau`. We perform exactly one timestep :math:`\tau`
         here. At every timestep we check the spawning condition.
         """
         # Make time accessible for spawn condition testers
@@ -118,7 +131,8 @@ class SpawnAdiabaticPropagator(Propagator):
 
 
     def should_spwan(self):
-        """Check if there is a reason to spawn a new wavepacket.
+        r"""
+        Check if there is a reason to spawn a new wavepacket.
         """
         spawn_todo = []
 
@@ -138,7 +152,8 @@ class SpawnAdiabaticPropagator(Propagator):
 
 
     def spawn(self, info):
-        """Really spawn the new wavepackets :math:`\\tilde{\Psi}`. This method
+        r"""
+        Really spawn the new wavepackets :math:`\tilde{\Psi}`. This method
         appends the new :py:class:`HagedornWavepacket` instances to the list
         :py:attr:`packets` of packets.
         """

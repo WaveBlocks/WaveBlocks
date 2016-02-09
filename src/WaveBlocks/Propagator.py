@@ -10,41 +10,50 @@ time propagation algorithm.
 """
 
 class Propagator:
-    """Propagators can numerically simulate the time evolution of quantum states
+    r"""
+    Propagators can numerically simulate the time evolution of quantum states
     as described by the time-dependent Schroedinger equation.
     """
 
     def __init__(self):
-        """Initialize a new I{Propagator} instance.
-        @raise NotImplementedError: This is an abstract base class.
+        r"""
+        Initialize a new :py:class:`Propagator` instance.
+
+        :raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("'Propagator' is an abstract base class.")
 
 
     def __str__(self):
-        """Prepare a printable string representing the I{Propagator} instance.
-        @raise NotImplementedError: This is an abstract base class.
+        r"""
+        Prepare a printable string representing the ``Propagator`` instance.
+
+        :raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("'Propagator' is an abstract base class.")
 
 
     def get_number_components(self):
-        """:return: The number of components of :math:`\Ket{\Psi}`.
-        @raise NotImplementedError: This is an abstract base class.
+        r"""
+        :return: The number of components of :math:`|\Psi\rangle`.
+        :raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_number_components(...)")
 
 
     def get_potential(self):
-        """:return: The embedded I{MatrixPotential} instance.
-        @raise NotImplementedError: This is an abstract base class.
+        r"""
+        :return: The embedded ``MatrixPotential`` instance.
+        :raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_potential(...)")
 
 
     def propagate(self):
-        """Given the wavefunction :math:`\Psi` at time :math:`t`, calculate the new :math:`\Psi`
+        r"""
+        Given the wavefunction :math:`\Psi` at time :math:`t`, calculate the new :math:`\Psi`
         at time :math:`t + \tau`. We do exactly one timestep :math:`\tau` here.
-        @raise NotImplementedError: This is an abstract base class.
+
+        :raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("propagate(...)")

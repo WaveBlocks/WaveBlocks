@@ -7,9 +7,6 @@ This file contains the main loop for simple adiabatic spawning simulations.
 @license: Modified BSD License
 """
 
-import numpy as np
-import scipy as sp
-
 from TimeManager import TimeManager
 from SimulationLoop import SimulationLoop
 from PotentialFactory import PotentialFactory
@@ -20,12 +17,16 @@ from IOManager import IOManager
 
 
 class SimulationLoopSpawnAdiabatic(SimulationLoop):
-    """This class acts as the main simulation loop. It owns a propagator that
+    r"""
+    This class acts as the main simulation loop. It owns a propagator that
     propagates a set of initial values during a time evolution. All values are
-    read from the I{Parameters.py} file."""
+    read from the ``Parameters.py`` file.
+    """
 
     def __init__(self, parameters):
-        """Create a new simulation loop instance."""
+        r"""
+        Create a new simulation loop instance.
+        """
         # Keep a reference to the simulation parameters
         self.parameters = parameters
 
@@ -34,16 +35,18 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
         #: The time propagator instance driving the simulation.
         self.propagator = None
 
-        #: A I{IOManager} instance for saving simulation results.
+        #: A ``IOManager`` instance for saving simulation results.
         self.iom = IOManager()
         self.iom.create_file(parameters)
         self.gid = self.iom.create_group()
 
 
     def prepare_simulation(self):
-        """Set up a Spawning propagator for the simulation loop. Set the
+        r"""
+        Set up a Spawning propagator for the simulation loop. Set the
         potential and initial values according to the configuration.
-        @raise ValueError: For invalid or missing input data.
+
+        :raise ValueError: For invalid or missing input data.
         """
         potential = PotentialFactory().create_potential(self.parameters)
         N = potential.get_number_components()
@@ -85,8 +88,9 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
 
 
     def run_simulation(self):
-        """Run the simulation loop for a number of time steps. The number of steps
-        is calculated in the I{initialize} function."""
+        r"""
+        Run the simulation loop for a number of time steps. The number of steps is calculated in the ``initialize`` function.
+        """
         tm = self.tm
 
         # Run the simulation for a given number of timesteps
@@ -108,7 +112,8 @@ class SimulationLoopSpawnAdiabatic(SimulationLoop):
 
 
     def end_simulation(self):
-        """Do the necessary cleanup after a simulation. For example request the
+        r"""
+        Do the necessary cleanup after a simulation. For example request the
         IOManager to write the data and close the output files.
         """
         self.iom.finalize()

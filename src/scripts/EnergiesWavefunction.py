@@ -15,7 +15,7 @@ from WaveBlocks import WaveFunction
 
 def compute_energy(iom, blockid=0):
     """
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     :param blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
@@ -56,7 +56,7 @@ def compute_energy(iom, blockid=0):
         ekinlist = []
         epotlist = []
 
-        # For each component of |Psi>
+        # For each component of |\Psi>
         values = WF.get_values()
         for index, item in enumerate(values):
             # tmp is the Vector (0, 0, 0, \psi_i, 0, 0, ...)

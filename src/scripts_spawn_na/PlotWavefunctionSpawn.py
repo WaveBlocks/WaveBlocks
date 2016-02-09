@@ -22,7 +22,7 @@ import GraphicsDefaults as GD
 
 def plot_frames(iom, gid, view=None, plotphase=False, plotcomponents=False, plotabssqr=True, imgsize=(12,9)):
     """Plot the wave function for a series of timesteps.
-    :param iom: An I{IOManager} instance providing the spawning simulation data.
+    :param iom: An ``IOManager`` instance providing the spawning simulation data.
     :param gid: The group ID of the data group we plot the frames.
     :param view: The aspect ratio.
     :param plotphase: Whether to plot the complex phase. (slow)

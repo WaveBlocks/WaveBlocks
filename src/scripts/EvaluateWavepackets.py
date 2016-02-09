@@ -15,7 +15,7 @@ from WaveBlocks import WaveFunction
 
 def compute_evaluate_wavepackets(iom, basis="eigen", blockid=0):
     """Evaluate a homogeneous Hagdorn wavepacket on a given grid for each timestep.
-    :param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An ``IOManager`` instance providing the simulation data.
     :param basis: The basis where the evaluation is done. Can be 'eigen' or 'canonical'.
     :param blockid: The data block from which the values are read.
     """

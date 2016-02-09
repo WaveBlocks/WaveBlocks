@@ -12,7 +12,8 @@ from functools import partial
 
 
 class MatrixExponentialFactory:
-    """A factory for matrix exponential routines.
+    r"""
+    A factory for matrix exponential routines.
     """
 
     def __init__(self):
@@ -20,7 +21,8 @@ class MatrixExponentialFactory:
 
 
     def get_matrixexponential(self, parameters):
-        """Returns the requested matrix exponential routine.
+        r"""
+        Returns the requested matrix exponential routine.
 
         :param parameters: A :py:class:`ParameterProvider` instance containing at least the
                            key ``matrix_exponential`` and depending on its values more keys.

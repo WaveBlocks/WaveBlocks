@@ -30,11 +30,13 @@ import numpy.linalg as la
 
 
 class SpawnCondition:
-    """This class in the base class for all spawn conditions.
+    r"""
+    This class in the base class for all spawn conditions.
     """
 
     def __init__(self, parameters, env):
-        """Initialize the new spawn condition. Most subclasses
+        r"""
+        Initialize the new spawn condition. Most subclasses
         do not have to change this method. But some may need
         to set up persistent data structures e.g. for keeping
         histories of some values. This should be done here.
@@ -47,7 +49,8 @@ class SpawnCondition:
         self._parameters = parameters
 
     def check_condition(self, packet, component, env):
-        """The condition to check. Subclasses have to
+        r"""
+        The condition to check. Subclasses have to
         implement the condition in this method.
 
         :param packet: The wavepacket containing the data.

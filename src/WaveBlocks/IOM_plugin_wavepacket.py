@@ -12,8 +12,10 @@ import numpy as np
 
 
 def add_wavepacket(self, parameters, timeslots=None, blockid=0):
-    """Add storage for the homogeneous wavepackets.
-    :param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
+    r"""
+    Add storage for the homogeneous wavepackets.
+
+    :param parameters: An ``ParameterProvider`` instance with at least the keys ``basis_size`` and ``ncomponents``.
     """
     grp_wp = self._srf[self._prefixb+str(blockid)].require_group("wavepacket")
 
@@ -45,7 +47,8 @@ def add_wavepacket(self, parameters, timeslots=None, blockid=0):
 
 
 def delete_wavepacket(self, blockid=0):
-    """Remove the stored wavepackets.
+    r"""
+    Remove the stored wavepackets.
     """
     try:
         del self._srf[self._prefixb+str(blockid)+"/wavepacket"]
@@ -54,13 +57,16 @@ def delete_wavepacket(self, blockid=0):
 
 
 def has_wavepacket(self, blockid=0):
-    """Ask if the specified data block has the desired data tensor.
+    r"""
+    Ask if the specified data block has the desired data tensor.
     """
     return "wavepacket" in self._srf[self._prefixb+str(blockid)].keys()
 
 
 def save_wavepacket_parameters(self, parameters, timestep=None, blockid=0):
-    """Save the parameters of the Hagedorn wavepacket to a file.
+    r"""
+    Save the parameters of the Hagedorn wavepacket to a file.
+
     :param parameters: The parameters of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
@@ -80,7 +86,9 @@ def save_wavepacket_parameters(self, parameters, timestep=None, blockid=0):
 
 
 def save_wavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
-    """Save the coefficients of the Hagedorn wavepacket to a file.
+    r"""
+    Save the coefficients of the Hagedorn wavepacket to a file.
+
     :param coefficients: The coefficients of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
@@ -107,7 +115,9 @@ def save_wavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
 
 # The basis size already gets stored when saving the coefficients!
 # def save_wavepacket_basissize(self, basissize, timestep=None, blockid=0):
-#     """Save the basis size of the Hagedorn wavepacket to a file.
+#     r"""
+#     Save the basis size of the Hagedorn wavepacket to a file.
+#
 #     :param basissize: The basis size of the Hagedorn wavepacket.
 #     """
 #     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"

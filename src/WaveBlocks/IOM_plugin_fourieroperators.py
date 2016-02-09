@@ -13,7 +13,8 @@ import numpy as np
 
 
 def add_fourieroperators(self, parameters, blockid=0):
-    """Add storage for the Fourier propagation operators.
+    r"""
+    Add storage for the Fourier propagation operators.
     """
     grp_pr = self._srf[self._prefixb+str(blockid)].create_group("propagation")
     grp_op = grp_pr.create_group("operators")
@@ -22,7 +23,8 @@ def add_fourieroperators(self, parameters, blockid=0):
 
 
 def delete_fourieroperators(self, blockid=0):
-    """Remove the stored Fourier operators.
+    r"""
+    Remove the stored Fourier operators.
     """
     try:
         del self._srf[self._prefixb+str(blockid)+"/propagation/operators"]
@@ -34,14 +36,17 @@ def delete_fourieroperators(self, blockid=0):
 
 
 def has_fourieroperators(self, blockid=0):
-    """Ask if the specified data block has the desired data tensor.
+    r"""
+    Ask if the specified data block has the desired data tensor.
     """
     return ("propagation" in self._srf[self._prefixb+str(blockid)].keys() and
             "operators" in self._srf[self._prefixb+str(blockid)]["propagation"].keys())
 
 
 def save_fourieroperators(self, operators, blockid=0):
-    """Save the kinetic and potential operator to a file.
+    r"""
+    Save the kinetic and potential operator to a file.
+
     :param operators: The operators to save, given as (T, V).
     """
     # Save the kinetic propagation operator

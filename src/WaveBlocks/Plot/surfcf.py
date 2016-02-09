@@ -15,7 +15,8 @@ from mayavi import mlab
 
 
 def compute_color_map():
-    """Compute a default QM colormap which can be used as mayavi/vtk lookup table.
+    r"""
+    Compute a default QM colormap which can be used as mayavi/vtk lookup table.
     """
     k = linspace(-pi, pi, 256, endpoint=True)
     hsv_colors = ones((1, k.shape[0], 3))
@@ -24,9 +25,11 @@ def compute_color_map():
 
 
 def surfcf(gridx, gridy, phase, modulus, colormap=None):
-    """Plot the modulus of a complex valued function :math:`f:R^2 -> C` together with its phase in a color coded fashion.
-    :param gridx: The grid nodes along the x axis of the real domain R^2
-    :param gridy: The grid nodes along the y axis of the real domain R^2
+    r"""
+    Plot the modulus of a complex valued function :math:`f:R^2 \rightarrow C` together with its phase in a color coded fashion.
+
+    :param gridx: The grid nodes along the x axis of the real domain :math:`R^2`
+    :param gridy: The grid nodes along the y axis of the real domain :math:`R^2`
     :param phase: The phase of the complex domain result f(grid)
     :param modulus: The modulus of the complex domain result f(grid)
     :param colormap: The colormap to use, if none is given, compute the 'default' QM colormap.

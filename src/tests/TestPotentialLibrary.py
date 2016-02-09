@@ -64,7 +64,7 @@ for pot in pots:
 \\begin{minipage}{0.5\\linewidth}
   Name:    \\texttt{""" + potname + """}
   \\begin{equation*}
-    V\\ofs{x} = """ + potformula + """
+    V\\left(x\right) = """ + potformula + """
   \\end{equation*}"""
 
     if len(potdefaults) > 0:

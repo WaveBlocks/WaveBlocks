@@ -16,7 +16,8 @@ from InhomogeneousQuadrature import InhomogeneousQuadrature
 
 
 class AdiabaticSpawner(Spawner):
-    """This class implements parameter estimation and basis
+    r"""
+    This class implements parameter estimation and basis
     projection for spawning of Hagedorn wavepackets.
     """
 
@@ -37,7 +38,8 @@ class AdiabaticSpawner(Spawner):
 
 
     def estimate_parameters(self, packet, component):
-        """Compute the parameters for a new wavepacket.
+        r"""
+        Compute the parameters for a new wavepacket.
         """
         P, Q, S, p, q = packet.get_parameters()
         c = packet.get_coefficients(component=component)
@@ -84,7 +86,8 @@ class AdiabaticSpawner(Spawner):
 
 
     def project_coefficients(self, mother, child, component=0):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. Here we decide which method to use
         and call the corresponding method.
         """
@@ -97,9 +100,10 @@ class AdiabaticSpawner(Spawner):
 
 
     def spawn_lumping(self, mother, child, component):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. We produce just a gaussian which
-        takes the full norm <w|w> of w.
+        takes the full norm :math:`\langle w | w \rangle` of :math:`w`.
         """
         c_old = mother.get_coefficients(component=component)
         w = spla.norm(np.squeeze(c_old[self.K:,:]))
@@ -122,7 +126,8 @@ class AdiabaticSpawner(Spawner):
 
 
     def spawn_basis_projection(self, mother, child, component):
-        """Update the superposition coefficients of mother and
+        r"""
+        Update the superposition coefficients of mother and
         spawned wavepacket. We do a full basis projection to the
         basis of the spawned wavepacket here.
         """

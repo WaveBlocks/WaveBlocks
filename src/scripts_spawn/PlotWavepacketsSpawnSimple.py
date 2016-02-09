@@ -23,7 +23,7 @@ import GraphicsDefaults as GD
 
 def plot_frames_homogeneous(iom, gid=0, plotphase=False, plotcomponents=False, plotabssqr=True, view=None, imgsize=(12,9)):
     """
-    :param f: An I{IOManager} instance providing the simulation data.
+    :param f: An ``IOManager`` instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 
