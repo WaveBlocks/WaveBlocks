@@ -29,14 +29,14 @@ class Propagator:
 
 
     def get_number_components(self):
-        """@return: The number of components of $\Ket{\Psi}$.
+        """:return: The number of components of $\Ket{\Psi}$.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_number_components(...)")
 
 
     def get_potential(self):
-        """@return: The embedded I{MatrixPotential} instance.
+        """:return: The embedded I{MatrixPotential} instance.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_potential(...)")

@@ -24,7 +24,7 @@ class MatrixPotential2S(MatrixPotential):
 
     def __init__(self, expression, variables):
         """Create a new I{MatrixPotential2S} instance for a given potential matrix $V\ofs{x}$.
-        @param expression: An expression representing the potential.
+        :param expression: An expression representing the potential.
         """
         #: The variable $x$ that represents position space.
         self.x = variables[0]
@@ -62,7 +62,7 @@ class MatrixPotential2S(MatrixPotential):
 
 
     def get_number_components(self):
-        """@return: The number $N$ of components the potential supports. This is also the size
+        """:return: The number $N$ of components the potential supports. This is also the size
         of the matrix. In the current case it's 2.
         """
         return 2
@@ -70,10 +70,10 @@ class MatrixPotential2S(MatrixPotential):
 
     def evaluate_at(self, nodes, component=None, as_matrix=True):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets evaluated or 'None' to evaluate all.
         @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
-        @return: A list with the $4$ entries evaluated at the nodes.
+        :return: A list with the $4$ entries evaluated at the nodes.
         """
         if component is not None:
             (row, col) = component
@@ -106,10 +106,10 @@ class MatrixPotential2S(MatrixPotential):
 
     def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
         """Evaluate the eigenvalues $\lambda_i\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
         @keyword component: The index $i$ of the eigenvalue $\lambda_i$ that gets evaluated.
         @keyword as_matrix: Returns the whole matrix $\Lambda$ instead of only a list with the eigenvalues $\lambda_i$.
-        @return: A sorted list with $2$ entries for the two eigenvalues evaluated at the nodes. Or a
+        :return: A sorted list with $2$ entries for the two eigenvalues evaluated at the nodes. Or a
         single value if a component was specified.
         """
         self.calculate_eigenvalues()
@@ -168,8 +168,8 @@ class MatrixPotential2S(MatrixPotential):
 
     def evaluate_eigenvectors_at(self, nodes):
         """Evaluate the eigenvectors $nu_i\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvectors at.
-        @return: A list with the two eigenvectors evaluated at the given nodes.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvectors at.
+        :return: A list with the two eigenvectors evaluated at the given nodes.
         """
         self.calculate_eigenvectors()
 
@@ -187,10 +187,10 @@ class MatrixPotential2S(MatrixPotential):
 
     def project_to_eigen(self, nodes, values, basis=None):
         """Project a given vector from the canonical basis to the eigenbasis of the potential.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: Returned is another list containing the projection of the values into the eigenbasis.
+        :return: Returned is another list containing the projection of the values into the eigenbasis.
         """
         if basis is None:
             self.calculate_eigenvectors()
@@ -210,10 +210,10 @@ class MatrixPotential2S(MatrixPotential):
 
     def project_to_canonical(self, nodes, values, basis=None):
         """Project a given vector from the potential's eigenbasis to the canonical basis.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: Returned is another list containing the projection of the values into the eigenbasis.
+        :return: Returned is another list containing the projection of the values into the eigenbasis.
         """
         if basis is None:
             self.calculate_eigenvectors()
@@ -266,8 +266,8 @@ class MatrixPotential2S(MatrixPotential):
 
     def evaluate_exponential_at(self, nodes):
         """Evaluate the exponential of the potential matrix $V$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
-        @return: The numerical approximation of the matrix exponential at the given grid nodes.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
+        :return: The numerical approximation of the matrix exponential at the given grid nodes.
         """
         # Hack for older sympy versions, see recent issue:
         # http://www.mail-archive.com/sympy@googlegroups.com/msg05137.html
@@ -290,10 +290,10 @@ class MatrixPotential2S(MatrixPotential):
     def evaluate_jacobian_at(self, nodes, component=None):
         """Evaluate the jacobian at some grid nodes $\gamma$ for each component
         $V_{i,j}$ of the potential.
-        @param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
         @keyword component: The index tuple $\left(i,j\right)$ that specifies
         the potential's entry of which the jacobian is evaluated. (Defaults to 'None' to evaluate all)
-        @return: Either a list or a single value depending on the optional parameters.
+        :return: Either a list or a single value depending on the optional parameters.
         """
         if not component is None:
             values = self.jacobian_n[component * self.number_components + component](nodes)
@@ -314,10 +314,10 @@ class MatrixPotential2S(MatrixPotential):
     def evaluate_hessian_at(self, nodes, component=None):
         """Evaluate the hessian at some grid nodes $\gamma$ for each component
         $V_{i,j}$ of the potential.
-        @param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
         @keyword component: The index tuple $\left(i,j\right)$ that specifies
         the potential's entry of which the hessian is evaluated. (Or 'None' to evaluate all)
-        @return: Either a list or a single value depending on the optional parameters.
+        :return: Either a list or a single value depending on the optional parameters.
         """
         if not component is None:
             values = self.hessian_n[component * self.number_components + component](nodes)
@@ -331,7 +331,7 @@ class MatrixPotential2S(MatrixPotential):
         """Calculate the local quadratic approximation matrix $U$ of the potential's
         eigenvalues in $\Lambda$. This function is used for the homogeneous case and
         takes into account the leading component $\chi$.
-        @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
+        :param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
         that gets expanded into a Taylor series $u_i$.
         """
         if self.taylor_eigen_s.has_key(diagonal_component):
@@ -365,7 +365,7 @@ class MatrixPotential2S(MatrixPotential):
         If the parameter $\chi$ is not given, calculate the local quadratic approximation
         matrix $U$ of all the potential's eigenvalues in $\Lambda$. This function is used
         for the inhomogeneous case.
-        @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
+        :param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
         that gets expanded into a Taylor series $u_i$.
         """
         self.calculate_eigenvalues()
@@ -380,10 +380,10 @@ class MatrixPotential2S(MatrixPotential):
     def evaluate_local_quadratic_at(self, nodes, diagonal_component):
         """Numerically evaluate the local quadratic approximation matrix $U$ of
         the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-        @param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
+        :param diagonal_component: Specifies the index $i$ of the eigenvalue $\lambda_i$
         that gets expanded into a Taylor series $u_i$.
-        @return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $\gamma$.
+        :return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $\gamma$.
         """
         if diagonal_component is not None:
             return tuple([
@@ -402,7 +402,7 @@ class MatrixPotential2S(MatrixPotential):
         approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
         This function is used for the homogeneous case and takes into account the
         leading component $\chi$.
-        @param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.
+        :param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.
         """
         if self.remainder_eigen_s.has_key(diagonal_component):
             # Calculation already done at some earlier time
@@ -497,11 +497,11 @@ class MatrixPotential2S(MatrixPotential):
         approximation matrix $U$ of the potential's eigenvalues in $\Lambda$ at the
         given nodes $\gamma$. This function is used for the homogeneous and the
         inhomogeneous case and just evaluates the remainder matrix $W$.
-        @param position: The point $q$ where the Taylor series is computed.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param position: The point $q$ where the Taylor series is computed.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $\left(i,j\right)$ of the remainder matrix $W$
         that is evaluated.
-        @return: A list with a single entry consisting of an array containing the
+        :return: A list with a single entry consisting of an array containing the
         values of $W$ at the nodes $\gamma$.
         """
         if diagonal_component is not None:

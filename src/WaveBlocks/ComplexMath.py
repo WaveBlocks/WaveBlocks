@@ -14,7 +14,7 @@ def continuate(data, jump=2.0*pi, reference=0.0):
     """Make the given data continuous by removing all jumps of size k*jump
     but not touching jumps of any other size. This can be used to overcome
     issues with the branch cut along the negative axis.
-    @param data: An array with the input data.
+    :param data: An array with the input data.
     @keyword jump: The basic size of jumps which will be removed. Default is 2*pi.
     @keyword reference: This value allows the specify the starting point for
     continuation explicitely. It can be used together with I{data} beeing a single number.
@@ -27,7 +27,7 @@ def continuate(data, jump=2.0*pi, reference=0.0):
 def cont_angle(data, reference=None):
     """Compute the angle of a complex number *not* constrained to
     the principal value and avoiding discontinuities at the branch cut.
-    @param data: An array with the input data.
+    :param data: An array with the input data.
     @keyword reference: This value allows the specify the starting point for
     continuation explicitely. It can be used together with I{data} beeing a single number.
     @note: This function just applies 'continuate(.)' to the complex phase.
@@ -44,7 +44,7 @@ def cont_sqrt(data, reference=None):
     """Compute the complex square root (following the Riemann surface)
     yields a result *not* constrained to the principal value and avoiding
     discontinuities at the branch cut.
-    @param data: An array with the input data.
+    :param data: An array with the input data.
     @keyword reference: This value allows the specify the starting point for
     continuation explicitely. It can be used together with I{data} beeing a single number.
     @note: This function applies 'continuate(.)' to the complex phase

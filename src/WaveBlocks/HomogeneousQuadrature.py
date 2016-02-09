@@ -31,8 +31,8 @@ class HomogeneousQuadrature(Quadrature):
 
     def transform_nodes(self, Pi, eps, QR=None):
         """Transform the quadrature nodes such that they fit the given wavepacket.
-        @param Pi: The parameter set of the wavepacket.
-        @param eps: The epsilon of the wavepacket.
+        :param Pi: The parameter set of the wavepacket.
+        :param eps: The epsilon of the wavepacket.
         @keyword QR: An optional quadrature rule providing the nodes.
         """
         if QR is None:
@@ -46,12 +46,12 @@ class HomogeneousQuadrature(Quadrature):
 
     def quadrature(self, packet, operator=None, summed=False, component=None, diag_component=None):
         """Performs the quadrature of $\Braket{\Psi|f|\Psi}$ for a general $f$.
-        @param packet: The wavepacket $|\Psi>$.
+        :param packet: The wavepacket $|\Psi>$.
         @keyword operator: A real-valued function $f(x):R \rightarrow R^{N \times N}.$
         @keyword summed: Whether to sum up the individual integrals $\Braket{\Phi_i|f_{i,j}|\Phi_j}$.
         @keyword component: Request only the i-th component of the result. Remember that $i \in [0, N^2-1]$.
         @keyword diag_component: Request only the i-th component from the diagonal entries, here $i \in [0, N-1]$
-        @return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar value or a list of $N^2$ scalar elements.
+        :return: The value of $\Braket{\Psi|f|\Psi}$. This is either a scalar value or a list of $N^2$ scalar elements.
         @note: 'component' takes precedence over 'diag_component' if both are supplied. (Which is discouraged)
         """
         nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
@@ -107,9 +107,9 @@ class HomogeneousQuadrature(Quadrature):
 
     def build_matrix(self, packet, operator=None):
         """Calculate the matrix representation of $\Braket{\Psi|f|\Psi}$.
-        @param packet: The wavepacket $|\Psi>$.
-        @param operator: A function with two arguments $f:(q, x) -> \mathbb{R}$.
-        @return: A square matrix of size $\sum_i K_i \times \sum_j K_j$.
+        :param packet: The wavepacket $|\Psi>$.
+        :param operator: A function with two arguments $f:(q, x) -> \mathbb{R}$.
+        :return: A square matrix of size $\sum_i K_i \times \sum_j K_j$.
         """
         nodes = self.transform_nodes(packet.get_parameters(), packet.eps)
         weights = self.QR.get_weights()

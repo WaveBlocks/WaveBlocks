@@ -65,28 +65,28 @@ class TimeManager:
 
     def set_T(self, T):
         """Set the simulation endtime T.
-        @param T: The simulation end time.
+        :param T: The simulation end time.
         """
         self.T = T
 
 
     def set_dt(self, dt):
         """Set the simulation timestep size dt.
-        @param dt: The simulation timestep size.
+        :param dt: The simulation timestep size.
         """
         self.dt = dt
 
 
     def set_nsteps(self, nsteps):
         """Set the number of timesteps the simulation runs.
-        @param nsteps: The number timesteps we do.
+        :param nsteps: The number timesteps we do.
         """
         self.nsteps = nsteps
 
 
     def set_interval(self, interval):
         """Set the inteval for saving results.
-        @param interval: The interval at which we save simulation results.
+        :param interval: The interval at which we save simulation results.
         @note: A value of 0 means we never save data at any regular interval.
         """
         self.interval = interval
@@ -110,7 +110,7 @@ class TimeManager:
 
     def compute_timestep(self, t):
         """Compute the timestep n from a time t such that t = n * dt holds.
-        @param t: The time t of which we want to find the timestep number.
+        :param t: The time t of which we want to find the timestep number.
         @note: The user has to ensure that time is an integral multiple of dt.
         """
         stepo = t / self.dt
@@ -124,7 +124,7 @@ class TimeManager:
 
     def compute_time(self, n):
         """Compute the time t from a timestep n such that t = n * dt holds.
-        @param n: The timestep n of which we want to find the corresponding time.
+        :param n: The timestep n of which we want to find the corresponding time.
         """
         return 1.0 * n * self.dt
 
@@ -132,7 +132,7 @@ class TimeManager:
     def add_to_savelist(self, alist):
         """Add a list of times and/or timesteps to the list of times
         which determine when to save data.
-        @param alist: A list with integers (interpreted as timesteps) and/or floats (interpreted as times)
+        :param alist: A list with integers (interpreted as timesteps) and/or floats (interpreted as times)
         @note: The times and timesteps can be mixed and needn't to be given in monotone order.
         """
         timesteps = []
@@ -193,7 +193,7 @@ class TimeManager:
 
     def must_save(self, n):
         """Determine if we have to save right now.
-        @param n: The current timestep in question.
+        :param n: The current timestep in question.
         """
         if self.interval == 1:
             # Save every timestep

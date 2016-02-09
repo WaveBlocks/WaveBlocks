@@ -42,7 +42,7 @@ def has_fourieroperators(self, blockid=0):
 
 def save_fourieroperators(self, operators, blockid=0):
     """Save the kinetic and potential operator to a file.
-    @param operators: The operators to save, given as (T, V).
+    :param operators: The operators to save, given as (T, V).
     """
     # Save the kinetic propagation operator
     path = "/"+self._prefixb+str(blockid)+"/propagation/operators/opkinetic"

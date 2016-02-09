@@ -22,8 +22,8 @@ import GraphicsDefaults as GD
 
 def read_data(iom_o, iom_s, gid, bid_ref=0):
     """
-    @param iom_s: An I{IOManager} instance providing the spawning simulation data.
-    @param iom_o: An I{IOManager} instance providing the reference simulation data.
+    :param iom_s: An I{IOManager} instance providing the spawning simulation data.
+    :param iom_o: An I{IOManager} instance providing the reference simulation data.
     """
     parameters_o = iom_o.load_parameters()
     parameters_s = iom_s.load_parameters()

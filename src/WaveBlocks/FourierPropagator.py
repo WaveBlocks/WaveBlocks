@@ -21,8 +21,8 @@ class FourierPropagator(Propagator):
     def __init__(self, potential, initial_values, para):
         """Initialize a new I{FourierPropagator} instance. Precalculate also the
         grid and the propagation operators.
-        @param potential: The potential the state $\Ket{\Psi}$ feels during the time propagation.
-        @param initial_values: The initial values $\Ket{\Psi\ofs{t=0}}$ given in the canonical basis.
+        :param potential: The potential the state $\Ket{\Psi}$ feels during the time propagation.
+        :param initial_values: The initial values $\Ket{\Psi\ofs{t=0}}$ given in the canonical basis.
         @raise ValueError: If the number of components of $\Ket{\Psi}$ does not
         match the number of energy levels $\lambda_i$ of the potential.
         """
@@ -62,22 +62,22 @@ class FourierPropagator(Propagator):
 
 
     def get_number_components(self):
-        """@return: The number of components of $\Ket{\Psi}$."""
+        """:return: The number of components of $\Ket{\Psi}$."""
         return self.potential.get_number_components()
 
 
     def get_potential(self):
-        """@return: The I{MatrixPotential} instance used for time propagation."""
+        """:return: The I{MatrixPotential} instance used for time propagation."""
         return self.potential
 
 
     def get_wavefunction(self):
-        """@return: The I{WaveFunction} instance that stores the current wavefunction data."""
+        """:return: The I{WaveFunction} instance that stores the current wavefunction data."""
         return self.Psi
 
 
     def get_operators(self):
-        """@return: Return the numerical expressions of the propagation
+        """:return: Return the numerical expressions of the propagation
         operators $T$ and $V$.
         """
         return (self.T, self.V)
@@ -118,7 +118,7 @@ class FourierPropagator(Propagator):
         """This method just delegates the calculation of kinetic energies to the
         embedded I{WaveFunction} object.
         @keyword summed: Whether to sum up the kinetic energies of the individual components.
-        @return: The kinetic energies.
+        :return: The kinetic energies.
         """
         return self.Psi.kinetic_energy(self.T, summed=summed)
 
@@ -127,6 +127,6 @@ class FourierPropagator(Propagator):
         """This method just delegates the calculation of potential energies to the
         embedded I{WaveFunction} object.
         @keyword summed: Whether to sum up the potential energies of the individual components.
-        @return: The potential energies.
+        :return: The potential energies.
         """
         return self.Psi.potential_energy(self.V, summed=summed)

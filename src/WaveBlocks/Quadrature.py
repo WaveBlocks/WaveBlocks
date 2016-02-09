@@ -31,21 +31,21 @@ class Quadrature:
 
     def set_qr(self, QR):
         """Set the I{GaussHermiteQR} instance used for quadrature.
-        @param QR: The new I{GaussHermiteQR} instance.
+        :param QR: The new I{GaussHermiteQR} instance.
         """
         self.QR = QR
 
 
     def get_qr(self):
         """Return the I{GaussHermiteQR} instance used for quadrature.
-        @return: The current instance of the quadrature rule.
+        :return: The current instance of the quadrature rule.
         """
         return self.QR
 
 
     def build_qr(self, qorder):
         """Create a quadrature rule of the given order.
-        @param qorder: The order of the quadrature rule.
+        :param qorder: The order of the quadrature rule.
         """
         self.QR = GaussHermiteQR(qorder)
 

@@ -18,9 +18,9 @@ from color_map import color_map
 
 def stemcf(grid, phase, modulus, darken=False, axes=None, linestylep="solid", linewidthp=2, color=None, markerp="o", **kwargs):
     """Stemplot the modulus of a complex valued function $f:I -> C$ together with its phase in a color coded fashion.
-    @param grid: The grid nodes of the real domain R
-    @param phase: The phase of the complex domain result f(grid)
-    @param modulus: The modulus of the complex domain result f(grid)
+    :param grid: The grid nodes of the real domain R
+    :param phase: The phase of the complex domain result f(grid)
+    :param modulus: The modulus of the complex domain result f(grid)
     @keyword darken: Whether to take into account the modulus of the data to darken colors.
     @keyword axes: The axes instance used for plotting.
     @keyword linestylep: The line style of the phase curve.

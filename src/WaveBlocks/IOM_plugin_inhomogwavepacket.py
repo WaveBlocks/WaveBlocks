@@ -13,7 +13,7 @@ import numpy as np
 
 def add_inhomogwavepacket(self, parameters, timeslots=None, blockid=0):
     """Add storage for the inhomogeneous wavepackets.
-    @param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
+    :param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
     """
     grp_wp = self._srf[self._prefixb+str(blockid)].require_group("wavepacket_inhomog")
 
@@ -61,7 +61,7 @@ def has_inhomogwavepacket(self, blockid=0):
 
 def save_inhomogwavepacket_parameters(self, parameters, timestep=None, blockid=0):
     """Save the parameters of the Hagedorn wavepacket to a file.
-    @param parameters: The parameters of the Hagedorn wavepacket.
+    :param parameters: The parameters of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/Pi"
@@ -82,7 +82,7 @@ def save_inhomogwavepacket_parameters(self, parameters, timestep=None, blockid=0
 
 def save_inhomogwavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
     """Save the coefficients of the Hagedorn wavepacket to a file.
-    @param coefficients: The coefficients of the Hagedorn wavepacket.
+    :param coefficients: The coefficients of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
     pathbs = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/basis_size"
@@ -109,7 +109,7 @@ def save_inhomogwavepacket_coefficients(self, coefficients, timestep=None, block
 # The basis size already gets stored when saving the coefficients!
 # def save_inhomogwavepacket_basissize(self, basissize, timestep=None, blockid=0):
 #     """Save the basis size of the Hagedorn wavepacket to a file.
-#     @param basissize: The basis size of the Hagedorn wavepacket.
+#     :param basissize: The basis size of the Hagedorn wavepacket.
 #     """
 #     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/timegrid"
 #     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket_inhomog/basis_size"

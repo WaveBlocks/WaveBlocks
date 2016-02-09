@@ -87,7 +87,7 @@ class ParameterProvider:
     def set_parameters(self, params):
         """Overwrite the dict containing all parameters with a
         newly provided dict with (possibly) changed parameters.
-        @param params: A I{ParameterProvider} instance or a dict
+        :param params: A I{ParameterProvider} instance or a dict
         with new parameters. The values will be deep-copied. No
         old values will remain.
         """
@@ -107,7 +107,7 @@ class ParameterProvider:
     def update_parameters(self, params):
         """Overwrite the dict containing all parameters with a
         newly provided dict with (possibly) changed parameters.
-        @param params: A I{ParameterProvider} instance or a dict
+        :param params: A I{ParameterProvider} instance or a dict
         with new parameters. The values will be deep-copied. Old
         values are only overwritten if we have got new values.
         """
@@ -134,7 +134,7 @@ class ParameterProvider:
 
     def get_parameters(self):
         """Return a copy of the dict containing all parameters.
-        @return: A copy of the dict containing all parameters. The dict will be copied.
+        :return: A copy of the dict containing all parameters. The dict will be copied.
         """
         return deepcopy(self.params)
 

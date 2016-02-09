@@ -20,7 +20,7 @@ import GraphicsDefaults as GD
 
 def read_data_homogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_wavepacket_timegrid(blockid=blockid)
@@ -36,7 +36,7 @@ def read_data_homogeneous(iom, blockid=0):
 
 def read_data_inhomogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
     timegrid = iom.load_inhomogwavepacket_timegrid(blockid=blockid)

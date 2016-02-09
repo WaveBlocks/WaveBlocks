@@ -25,8 +25,8 @@ def execute_for_all(resultspath, scriptcode):
     """Call a given python script with the simulation results data file as first
     command line argument. The script and the data file are specified by (relative)
     file system paths.
-    @param resultspath: The path where to look for simulation data.
-    @param scriptcode: The python script that gets called for all simulations.
+    :param resultspath: The path where to look for simulation data.
+    :param scriptcode: The python script that gets called for all simulations.
     """
     for simulationpath in get_result_dirs(resultspath):
         print(" Executing code for datafile in " + simulationpath)

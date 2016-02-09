@@ -25,7 +25,7 @@ class MatrixPotential1S(MatrixPotential):
 
     def __init__(self, expression, variables):
         """Create a new I{MatrixPotential1S} instance for a given potential matrix $V\ofs{x}$.
-        @param expression: An expression representing the potential.
+        :param expression: An expression representing the potential.
         """
         #: The variable $x$ that represents position space.
         self.x = variables[0]
@@ -60,7 +60,7 @@ class MatrixPotential1S(MatrixPotential):
 
 
     def get_number_components(self):
-        """@return: The number $N$ of components the potential supports. In the
+        """:return: The number $N$ of components the potential supports. In the
         one dimensional case, it's just 1.
         """
         return 1
@@ -68,10 +68,10 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_at(self, nodes, component=0, as_matrix=False):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets evaluated or 'None' to evaluate all.
         @keyword as_matrix: Dummy parameter which has no effect here.
-        @return: A list with the single entry evaluated at the nodes.
+        :return: A list with the single entry evaluated at the nodes.
         """
         return tuple([ numpy.array(self.potential_n(nodes), dtype=numpy.floating) ])
 
@@ -88,10 +88,10 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_eigenvalues_at(self, nodes, component=None, as_matrix=False):
         """Evaluate the eigenvalue $\lambda_0\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalue at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalue at.
         @keyword diagonal_component: Dummy parameter that has no effect here.
         @keyword as_matrix: Dummy parameter which has no effect here.
-        @return: A list with the single eigenvalue evaluated at the nodes.
+        :return: A list with the single eigenvalue evaluated at the nodes.
         """
         self.calculate_eigenvalues()
 
@@ -110,8 +110,8 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_eigenvectors_at(self, nodes):
         """Evaluate the eigenvector $nu_0\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvector at.
-        @return: A list with the eigenvector evaluated at the given nodes.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvector at.
+        :return: A list with the eigenvector evaluated at the given nodes.
         """
         self.calculate_eigenvectors()
 
@@ -120,20 +120,20 @@ class MatrixPotential1S(MatrixPotential):
 
     def project_to_eigen(self, nodes, values, basis=None):
         """Project a given vector from the canonical basis to the eigenbasis of the potential.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: This method does nothing and returns the values.
+        :return: This method does nothing and returns the values.
         """
         return [ values[0].copy() ]
 
 
     def project_to_canonical(self, nodes, values, basis=None):
         """Project a given vector from the potential's eigenbasis to the canonical basis.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-        @return: This method does nothing and returns the values.
+        :return: This method does nothing and returns the values.
         """
         return [ values[0].copy() ]
 
@@ -151,8 +151,8 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_exponential_at(self, nodes):
         """Evaluate the exponential of the potential matrix $V$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
-        @return: The numerical approximation of the matrix exponential at the given grid nodes.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
+        :return: The numerical approximation of the matrix exponential at the given grid nodes.
         """
         # Hack for older sympy versions, see recent issue:
         # http://www.mail-archive.com/sympy@googlegroups.com/msg05137.html
@@ -174,9 +174,9 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_jacobian_at(self, nodes, component=None):
         """Evaluate the potential's jacobian at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
         @keyword component: Dummy parameter that has no effect here.
-        @return: The value of the potential's jacobian at the given nodes.
+        :return: The value of the potential's jacobian at the given nodes.
         """
         return tuple([ self.jacobian_n(nodes) ])
 
@@ -191,9 +191,9 @@ class MatrixPotential1S(MatrixPotential):
 
     def evaluate_hessian_at(self, nodes, component=None):
         """Evaluate the potential's hessian at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
         @keyword component: Dummy parameter that has no effect here.
-        @return: The value of the potential's hessian at the given nodes.
+        :return: The value of the potential's hessian at the given nodes.
         """
         return tuple([ self.hessian_n(nodes) ])
 
@@ -227,8 +227,8 @@ class MatrixPotential1S(MatrixPotential):
         """Numerically evaluate the local quadratic approximation $U$ of
         the potential's eigenvalue $\lambda$ at the given grid nodes $\gamma$.
         This function is used for the homogeneous case.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
-        @return: An array containing the values of $U$ at the nodes $\gamma$.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
+        :return: An array containing the values of $U$ at the nodes $\gamma$.
         """
         return tuple([ numpy.array(f(nodes), dtype=numpy.floating) for order, f in self.taylor_eigen_n ])
 
@@ -238,7 +238,7 @@ class MatrixPotential1S(MatrixPotential):
         approximation $U$ of the potential's eigenvalue $\lambda$.
         This function is used for the homogeneous case and takes into account
         the leading component $\chi$.
-        @param diagonal_component: Dummy parameter that has no effect here.
+        :param diagonal_component: Dummy parameter that has no effect here.
         @note: This function is idempotent.
         """
         # Calculation already done at some earlier time?
@@ -274,10 +274,10 @@ class MatrixPotential1S(MatrixPotential):
         approximation $U$ of the potential's eigenvalue $\lambda$ at the given nodes $\gamma$.
         This function is used for the homogeneous and the inhomogeneous case and
         just evaluates the remainder $W$.
-        @param position: The point $q$ where the Taylor series is computed.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param position: The point $q$ where the Taylor series is computed.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: Dummy parameter that has no effect here.
-        @return: A list with a single entry consisting of an array containing the
+        :return: A list with a single entry consisting of an array containing the
         values of $W$ at the nodes $\gamma$.
         """
         return tuple([ numpy.array(self.remainder_eigen_n(position, nodes), dtype=numpy.floating) ])

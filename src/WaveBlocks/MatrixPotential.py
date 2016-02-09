@@ -33,7 +33,7 @@ class MatrixPotential:
 
 
     def get_number_components(self):
-        """@return: The number $N$ of components the potential supports.
+        """:return: The number $N$ of components the potential supports.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("get_number_components(...)")
@@ -41,7 +41,7 @@ class MatrixPotential:
 
     def evaluate_at(self, nodes, component=None):
         """Evaluate the potential matrix elementwise at some given grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $V_{i,j}$ that gets
         evaluated or 'None' to evaluate all.
         @raise NotImplementedError: This is an abstract base class.
@@ -58,7 +58,7 @@ class MatrixPotential:
 
     def evaluate_eigenvalues_at(self, nodes, diagonal_component=None):
         """Evaluate the eigenvalues $\lambda_i\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvalues at.
         @keyword diagonal_component: The index $i$ of the eigenvalue $\lambda_i$
         that gets evaluated or 'None' to evaluate all.
         @raise NotImplementedError: This is an abstract base class.
@@ -75,7 +75,7 @@ class MatrixPotential:
 
     def evaluate_eigenvectors_at(self, nodes):
         """Evaluate the eigenvectors $\nu_i\ofs{x}$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvectors at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the eigenvectors at.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("evaluate_eigenvectors_at(...)")
@@ -83,8 +83,8 @@ class MatrixPotential:
 
     def project_to_eigen(self, nodes, values, basis=None):
         """Project a given vector from the canonical basis to the eigenbasis of the potential.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
         @raise NotImplementedError: This is an abstract base class.
         """
@@ -93,8 +93,8 @@ class MatrixPotential:
 
     def project_to_canonical(self, nodes, values, basis=None):
         """Project a given vector from the potential's eigenbasis to the canonical basis.
-        @param nodes: The grid nodes $\gamma$ for the pointwise transformation.
-        @param values: The list of vectors $\varphi_i$ containing the values we want to transform.
+        :param nodes: The grid nodes $\gamma$ for the pointwise transformation.
+        :param values: The list of vectors $\varphi_i$ containing the values we want to transform.
         @keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
         @raise NotImplementedError: This is an abstract base class.
         """
@@ -111,7 +111,7 @@ class MatrixPotential:
 
     def evaluate_exponential_at(self, nodes):
         """Evaluate the exponential of the potential matrix $V$ at some grid nodes $\gamma$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the exponential at.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("evaluate_exponential_at(...)")
@@ -128,7 +128,7 @@ class MatrixPotential:
     def evaluate_jacobian_at(self, nodes, component=None):
         """Evaluate the jacobian at some grid nodes $\gamma$ for each component
         $V_{i,j}$ of the potential.
-        @param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the jacobian gets evaluated at.
         @keyword component: The index tuple $\left(i,j\right)$ that specifies
         the potential's entry of which the jacobian is evaluated. (Defaults to 'None' to evaluate all)
         @raise NotImplementedError: This is an abstract base class.
@@ -147,7 +147,7 @@ class MatrixPotential:
     def evaluate_hessian_at(self, nodes, component=None):
         """Evaluate the hessian at some grid nodes $\gamma$ for each component
         $V_{i,j}$ of the potential.
-        @param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
+        :param nodes: The grid nodes $\gamma$ the hessian gets evaluated at.
         @keyword component: The index tuple $\left(i,j\right)$ that specifies
         the potential's entry of which the hessian is evaluated. (Or 'None' to evaluate all)
         @raise NotImplementedError: This is an abstract base class.
@@ -171,7 +171,7 @@ class MatrixPotential:
         the potential's eigenvalues in $\Lambda$ at the given grid nodes $\gamma$.
         This function is used for the homogeneous case and takes into account the
         leading component $\chi$.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the quadratic approximation at.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("evaluate_local_quadratic_at(...)")
@@ -182,7 +182,7 @@ class MatrixPotential:
         approximation matrix $U$ of the potential's eigenvalue matrix $\Lambda$.
         This function is used for the homogeneous case and takes into account the
         leading component $\chi$.
-        @param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.
+        :param diagonal_component: Specifies the index $\chi$ of the leading component $\lambda_\chi$.
         @raise NotImplementedError: This is an abstract base class.
         """
         raise NotImplementedError("calculate_local_remainder(...)")
@@ -193,8 +193,8 @@ class MatrixPotential:
         approximation matrix $U$ of the potential's eigenvalues in $\Lambda$ at the
         given nodes $\gamma$. This function is used for the homogeneous and the
         inhomogeneous case and just evaluates the remainder matrix $W$.
-        @param position: The point $q$ where the Taylor series is computed.
-        @param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
+        :param position: The point $q$ where the Taylor series is computed.
+        :param nodes: The grid nodes $\gamma$ we want to evaluate the potential at.
         @keyword component: The component $\left(i,j\right)$ of the remainder matrix $W$
         that is evaluated.
         @raise NotImplementedError: This is an abstract base class.

@@ -25,10 +25,10 @@ def compute_color_map():
 
 def surfcf(gridx, gridy, phase, modulus, colormap=None):
     """Plot the modulus of a complex valued function $f:R^2 -> C$ together with its phase in a color coded fashion.
-    @param gridx: The grid nodes along the x axis of the real domain R^2
-    @param gridy: The grid nodes along the y axis of the real domain R^2
-    @param phase: The phase of the complex domain result f(grid)
-    @param modulus: The modulus of the complex domain result f(grid)
+    :param gridx: The grid nodes along the x axis of the real domain R^2
+    :param gridy: The grid nodes along the y axis of the real domain R^2
+    :param phase: The phase of the complex domain result f(grid)
+    :param modulus: The modulus of the complex domain result f(grid)
     @keyword colormap: The colormap to use, if none is given, compute the 'default' QM colormap.
     """
     if colormap is None:

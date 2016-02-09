@@ -13,7 +13,7 @@ import numpy as np
 
 def add_wavepacket(self, parameters, timeslots=None, blockid=0):
     """Add storage for the homogeneous wavepackets.
-    @param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
+    :param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.
     """
     grp_wp = self._srf[self._prefixb+str(blockid)].require_group("wavepacket")
 
@@ -61,7 +61,7 @@ def has_wavepacket(self, blockid=0):
 
 def save_wavepacket_parameters(self, parameters, timestep=None, blockid=0):
     """Save the parameters of the Hagedorn wavepacket to a file.
-    @param parameters: The parameters of the Hagedorn wavepacket.
+    :param parameters: The parameters of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket/Pi"
@@ -81,7 +81,7 @@ def save_wavepacket_parameters(self, parameters, timestep=None, blockid=0):
 
 def save_wavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
     """Save the coefficients of the Hagedorn wavepacket to a file.
-    @param coefficients: The coefficients of the Hagedorn wavepacket.
+    :param coefficients: The coefficients of the Hagedorn wavepacket.
     """
     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
     pathbs = "/"+self._prefixb+str(blockid)+"/wavepacket/basis_size"
@@ -108,7 +108,7 @@ def save_wavepacket_coefficients(self, coefficients, timestep=None, blockid=0):
 # The basis size already gets stored when saving the coefficients!
 # def save_wavepacket_basissize(self, basissize, timestep=None, blockid=0):
 #     """Save the basis size of the Hagedorn wavepacket to a file.
-#     @param basissize: The basis size of the Hagedorn wavepacket.
+#     :param basissize: The basis size of the Hagedorn wavepacket.
 #     """
 #     pathtg = "/"+self._prefixb+str(blockid)+"/wavepacket/timegrid"
 #     pathd = "/"+self._prefixb+str(blockid)+"/wavepacket/basis_size"

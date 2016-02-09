@@ -20,8 +20,8 @@ import GraphicsDefaults as GD
 
 def read_data(iom_o, iom_s, gid, bid_ref=0):
     """Plot the wave function for a series of timesteps.
-    @param iom_s: An I{IOManager} instance providing the spawning simulation data.
-    @param iom_o: An I{IOManager} instance providing the reference simulation data.
+    :param iom_s: An I{IOManager} instance providing the spawning simulation data.
+    :param iom_o: An I{IOManager} instance providing the reference simulation data.
     @keyword bid_ref: The block ID of the reference data. Default is data block '0'.
     """
     parameters_o = iom_o.load_parameters()

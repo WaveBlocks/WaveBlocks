@@ -83,7 +83,7 @@ class IOManager:
 
     def create_file(self, parameters, filename=GlobalDefaults.file_resultdatafile):
         """Set up a new I{IOManager} instance. The output files are created and opened.
-        @param parameters: A I{ParameterProvider} instance containing the current simulation
+        :param parameters: A I{ParameterProvider} instance containing the current simulation
         parameters. This is only used for determining the size of new data sets.
         @keyword filename: The filename (optionally with filepath) of the file we try
         to create. If not given the default value from I{GlobalDefaults} is used.
@@ -201,7 +201,7 @@ class IOManager:
 
     def get_group_ids(self, exclude=[]):
         """Return a list containing the IDs for all groups in the current file structure.
-        @param exclude: A list of group IDs to exclude. Per default no group is excluded.
+        :param exclude: A list of group IDs to exclude. Per default no group is excluded.
         """
         return [ gid for gid in self._group_ids if gid not in exclude ]
 
@@ -209,7 +209,7 @@ class IOManager:
     def get_group_of_block(self, blockid):
         """Return the ID of the group a given block belongs to or I{None}
         if there is no such data block.
-        @param blockid: The ID of the given block.
+        :param blockid: The ID of the given block.
         """
         if str(blockid) in self._block_ids:
             return self._srf["/"+self._prefixb+str(blockid)].attrs["group"]
@@ -221,9 +221,9 @@ class IOManager:
         """Create a data block with the specified block ID. Each data block can
         store several chunks of information, and there can be an arbitrary number
         of data blocks per file.
-        @param blockid: The ID for the new data block. If not given the blockid
+        :param blockid: The ID for the new data block. If not given the blockid
         will be choosen automatically. The block ID has to be unique.
-        @return: The block ID of the created block.
+        :return: The block ID of the created block.
         """
         if self._srf is None:
             return
@@ -262,9 +262,9 @@ class IOManager:
         """Create a data group with the specified group ID. Each data group can
         contain an arbitrary number of data blocks, and there can be an arbitrary
         number of data groups per file.
-        @param groupid: The ID for the new data group. If not given the group ID
+        :param groupid: The ID for the new data group. If not given the group ID
         will be choosen automatically. The group ID has to be unique.
-        @return: The group ID of the created group.
+        :return: The group ID of the created group.
         """
         if self._srf is None:
             return
@@ -322,9 +322,9 @@ class IOManager:
 
     def split_data(self, data, axis):
         """Split a multi-dimensional data block into slabs along a given axis.
-        @param data: The data tensor given.
-        @param axis: The axis along which to split the data.
-        @return: A list of slices.
+        :param data: The data tensor given.
+        :param axis: The axis along which to split the data.
+        :return: A list of slices.
         """
         parts = data.shape[axis]
         return np.split(data, parts, axis=axis)

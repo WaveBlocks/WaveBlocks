@@ -24,7 +24,7 @@ class WaveFunction:
     
     def __init__(self, parameters):
         """Initialize the I{WaveFunction} object that represents the vector of states $\Ket{\Psi}$.
-        @param parameters: A I{ParameterProvider} instance with at least the items 'ncomponents', 'f' and 'ngn'.
+        :param parameters: A I{ParameterProvider} instance with at least the items 'ncomponents', 'f' and 'ngn'.
         """
         self.number_components = parameters["ncomponents"]
         self.support = None
@@ -37,28 +37,28 @@ class WaveFunction:
 
     def __str__(self):
         """
-        @return: A string that describes the wavefunction $\Ket{\Psi}$.
+        :return: A string that describes the wavefunction $\Ket{\Psi}$.
         """
         return "Wavefunction vector for " + str(self.number_components) + " states."
 
 
     def get_number_components(self):
         """
-        @return: The number of components $\psi_i$ the vector $\Ket{\Psi}$ consists of.
+        :return: The number of components $\psi_i$ the vector $\Ket{\Psi}$ consists of.
         """
         return self.number_components
 
 
     def get_nodes(self):
         """
-        @return: The grid nodes $\gamma$ the wave function values belong to.
+        :return: The grid nodes $\gamma$ the wave function values belong to.
         """
         return self.support
 
 
     def get_values(self):
         """Return the wave function values for each component of $\Ket{\Psi}$.
-        @return: A list with the values of all components $\psi_i$ evaluated on
+        :return: A list with the values of all components $\psi_i$ evaluated on
         the grid nodes $\gamma$.
         """
         return self.values[:]
@@ -67,14 +67,14 @@ class WaveFunction:
     def set_grid(self, grid):
         """Assign a new grid to the wavefunction. All values are regarded to belong
         to these grid nodes.
-        @param grid: The grid values as an numeric array.
+        :param grid: The grid values as an numeric array.
         """
         self.support = grid[:]  
 
 
     def set_values(self, values, component=None):
         """Assign new function values for each component of $\Ket{\Psi}$.
-        @param values: A list with the new values of all the $\psi_i$.
+        :param values: A list with the new values of all the $\psi_i$.
         @raise ValueError: If the list I{values} has the wrong number of entries.
         """
         if component is not None:
@@ -98,7 +98,7 @@ class WaveFunction:
         @keyword values: Allows to use this function for external data, similar to a static function.
         @keyword summed: Whether to sum up the norms of the individual components.
         @keyword component: The component $\psi_i$ of which the norm is calculated.
-        @return: The $L^2$ norm of $\Ket{\Psi}$ or a list of the $L^2$ norms of
+        :return: The $L^2$ norm of $\Ket{\Psi}$ or a list of the $L^2$ norms of
         all components $\psi_i$. (Depending on the optional arguments.)
         """
         if values is None:
@@ -118,9 +118,9 @@ class WaveFunction:
     def kinetic_energy(self, kinetic, summed=False):
         """Calculate the kinetic energy $E_{\text{kin}} \assign \Braket{\Psi|T|\Psi}$
         of the different components.
-        @param kinetic: The kinetic energy operator $T$.
+        :param kinetic: The kinetic energy operator $T$.
         @keyword summed: Whether to sum up the kinetic energies of the individual components.
-        @return: A list with the kinetic energies of the individual components
+        :return: A list with the kinetic energies of the individual components
         or the overall kinetic energy of the wavefunction. (Depending on the optional arguments.)
         """
         ekin = tuple([ (2.0*pi*self.f) * dot(conj(item),(kinetic*item)) / self.ngn**2  for item in [ fft(component) for component in self.values ] ])
@@ -134,9 +134,9 @@ class WaveFunction:
     def potential_energy(self, potential, summed=False):
         """Calculate the potential energy $E_{\text{pot}} \assign \Braket{\Psi|V|\Psi}$
         of the different components.
-        @param potential: The potential energy operator $V$.
+        :param potential: The potential energy operator $V$.
         @keyword summed: Whether to sum up the potential energies of the individual components.
-        @return: A list with the potential energies of the individual components
+        :return: A list with the potential energies of the individual components
         or the overall potential energy of the wavefunction. (Depending on the optional arguments.)
         """
         fvalues = [ fft(item) for item in self.values ]

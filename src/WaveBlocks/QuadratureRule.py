@@ -27,24 +27,24 @@ class QuadratureRule:
 
 
     def get_order(self):
-        """@return: The order $R$ of the quadrature.
+        """:return: The order $R$ of the quadrature.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_number_nodes(self):
-        """@return: The number of quadrature nodes.
+        """:return: The number of quadrature nodes.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_nodes(self):
-        """@return: An array containing the quadrature nodes $\gamma_i$.
+        """:return: An array containing the quadrature nodes $\gamma_i$.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")
 
 
     def get_weights(self):
-        """@return: An array containing the quadrature weights $\omega_i$.
+        """:return: An array containing the quadrature weights $\omega_i$.
         """
         raise NotImplementedError("'QuadratureRule' is an abstract interface.")

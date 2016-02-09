@@ -16,19 +16,19 @@ from scipy.linalg import norm, expm
 
 def matrix_exp_pade(A, coefficients, factor):
     """Compute the solution of v' = A v with a full matrix exponential via Pade approximation.
-    @param A: The matrix.
-    @param coefficients: The vector with the coefficients.
-    @param factor: An additional factor, usually contains at least the timestep.
+    :param A: The matrix.
+    :param coefficients: The vector with the coefficients.
+    :param factor: An additional factor, usually contains at least the timestep.
     """
     return dot(expm(-1.0j*A*factor), coefficients)
 
 
 def arnoldi(A, v0, k):
     """Arnoldi algorithm (Krylov approximation of a matrix)
-    @param A: The matrix to approximate.
-    @param v0: The initial vector (should be in matrix form)
-    @param k: The number of Krylov steps.
-    @return: A tupel (V, H) where V is the matrix (large, N*k) containing the orthogonal vectors and
+    :param A: The matrix to approximate.
+    :param v0: The initial vector (should be in matrix form)
+    :param k: The number of Krylov steps.
+    :return: A tupel (V, H) where V is the matrix (large, N*k) containing the orthogonal vectors and
     H is the matrix (small, k*k) containing the Krylov approximation of A.
     """
     V = mat(v0.copy() / norm(v0))
@@ -45,10 +45,10 @@ def arnoldi(A, v0, k):
 
 def matrix_exp_arnoldi(A, v, factor, k):
     """Compute the solution of v' = A v via k steps of a the Arnoldi krylov method.
-    @param A: The matrix.
-    @param v: The vector.
-    @param factor: An additional factor, usually contains at least the timestep.
-    @param k: The number of Krylov steps.
+    :param A: The matrix.
+    :param v: The vector.
+    :param factor: An additional factor, usually contains at least the timestep.
+    :param k: The number of Krylov steps.
     """
     V, H = arnoldi(A, v, min(min(A.shape), k))
     eH = mat(expm(-1.0j*factor*H[:-1,:]))

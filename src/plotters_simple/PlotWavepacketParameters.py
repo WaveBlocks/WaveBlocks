@@ -21,7 +21,7 @@ import GraphicsDefaults as GD
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     """
     # Iterate over all blocks and plot their data
     for blockid in iom.get_block_ids():
@@ -35,7 +35,7 @@ def read_all_datablocks(iom):
 
 def read_data_homogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
@@ -55,7 +55,7 @@ def read_data_homogeneous(iom, blockid=0):
 
 def read_data_inhomogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()

@@ -20,7 +20,7 @@ import GraphicsDefaults as GD
 
 def read_all_datablocks(iom):
     """Read the data from all blocks that contains any usable data.
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     """
     parameters = iom.load_parameters()
 
@@ -36,7 +36,7 @@ def read_all_datablocks(iom):
 
 def read_data_homogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
@@ -54,7 +54,7 @@ def read_data_homogeneous(iom, blockid=0):
 
 def read_data_inhomogeneous(iom, blockid=0):
     """
-    @param iom: An I{IOManager} instance providing the simulation data.
+    :param iom: An I{IOManager} instance providing the simulation data.
     @keyword blockid: The data block from which the values are read.
     """
     parameters = iom.load_parameters()
@@ -72,10 +72,10 @@ def read_data_inhomogeneous(iom, blockid=0):
 
 def plot_coefficients(parameters, data, amount=5, index=0, imgsize=(14,14)):
     """
-    @param parameters: A I{ParameterProvider} instance.
-    @param timegrid: The timegrid that belongs to the coefficient values.
-    @param: coeffs: The coefficient values.
-    @param amount: The number of coefficients we want to plot.
+    :param parameters: A I{ParameterProvider} instance.
+    :param timegrid: The timegrid that belongs to the coefficient values.
+    :param: coeffs: The coefficient values.
+    :param amount: The number of coefficients we want to plot.
     @keyword imgsize: The size of the plot. For a large number of
     plotted coefficients, we might have to increase this value.
     """
