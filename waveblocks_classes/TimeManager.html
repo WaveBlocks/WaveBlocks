@@ -75,25 +75,34 @@
 <dl class="class">
 <dt id="WaveBlocks.TimeManager">
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">TimeManager</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class performs several computation with time, timesteps and so for.
-The important quantities here are:
+<dd><p>This class performs several computation with time, timesteps and so for.</p>
+<p>The important quantities here are:
 T  : the fixed simulation end time
 dt : the size of the timestep
 N  : the overall number of timesteps.
 t  : an unspecified time in the interval [0, T]
 n  : an unspecified timestep in the interval [0, N]
 The importtant relations that hold are:
-T = N * dt  and in analogy  t = n * dt
-There are also conversion routines for t and n.
+T = N * dt  and in analogy  t = n * dt</p>
+<p>There are also conversion routines for t and n.
 Additionally the class contains some routines for determining
 if and when to save data. But we do not touch any data in here.</p>
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.add_to_savelist">
 <tt class="descname">add_to_savelist</tt><big>(</big><em>alist</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.add_to_savelist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a list of times and/or timesteps to the list of times
-which determine when to save data.
-:param alist: A list with integers (interpreted as timesteps) and/or floats (interpreted as times)
-&#64;note: The times and timesteps can be mixed and needn&#8217;t to be given in monotone order.</p>
+<dd><p>Add a list of times and/or timesteps to the list of times which determine when to save data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alist</strong> &#8211; A list with integers (interpreted as timesteps) and/or floats (interpreted as times)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The times and timesteps can be mixed and needn&#8217;t to be given in monotone order.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -112,52 +121,107 @@ can be used to determine how much space to allocate in the output files.</p>
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.compute_time">
 <tt class="descname">compute_time</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.compute_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the time t from a timestep n such that t = n * dt holds.
-:param n: The timestep n of which we want to find the corresponding time.</p>
+<dd><p>Compute the time t from a timestep n such that t = n * dt holds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> &#8211; The timestep n of which we want to find the corresponding time.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.compute_timestep">
 <tt class="descname">compute_timestep</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.compute_timestep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the timestep n from a time t such that t = n * dt holds.
-:param t: The time t of which we want to find the timestep number.
-&#64;note: The user has to ensure that time is an integral multiple of dt.</p>
+<dd><p>Compute the timestep n from a time t such that t = n * dt holds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> &#8211; The time t of which we want to find the timestep number.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The user has to ensure that time is an integral multiple of dt.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.must_save">
 <tt class="descname">must_save</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.must_save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine if we have to save right now.
-:param n: The current timestep in question.</p>
+<dd><p>Determine if we have to save right now.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> &#8211; The current timestep in question.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.set_T">
 <tt class="descname">set_T</tt><big>(</big><em>T</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.set_T" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the simulation endtime T.
-:param T: The simulation end time.</p>
+<dd><p>Set the simulation endtime T.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>T</strong> &#8211; The simulation end time.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.set_dt">
 <tt class="descname">set_dt</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.set_dt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the simulation timestep size dt.
-:param dt: The simulation timestep size.</p>
+<dd><p>Set the simulation timestep size dt.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dt</strong> &#8211; The simulation timestep size.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.set_interval">
 <tt class="descname">set_interval</tt><big>(</big><em>interval</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.set_interval" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the inteval for saving results.
-:param interval: The interval at which we save simulation results.
-&#64;note: A value of 0 means we never save data at any regular interval.</p>
+<dd><p>Set the inteval for saving results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>interval</strong> &#8211; The interval at which we save simulation results.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A value of 0 means we never save data at any regular interval.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.TimeManager.set_nsteps">
 <tt class="descname">set_nsteps</tt><big>(</big><em>nsteps</em><big>)</big><a class="headerlink" href="#WaveBlocks.TimeManager.set_nsteps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the number of timesteps the simulation runs.
-:param nsteps: The number timesteps we do.</p>
+<dd><p>Set the number of timesteps the simulation runs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nsteps</strong> &#8211; The number timesteps we do.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

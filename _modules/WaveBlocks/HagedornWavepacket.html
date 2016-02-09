@@ -69,15 +69,18 @@
 
 
 <div class="viewcode-block" id="HagedornWavepacket"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket">[docs]</a><span class="k">class</span> <span class="nc">HagedornWavepacket</span><span class="p">(</span><span class="n">Wavepacket</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This class represents homogeneous vector valued wavepackets $\Ket{\Psi}$.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    This class represents homogeneous vector valued wavepackets :math:`|\Psi\rangle`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the I{HagedornWavepacket} object that represents $\Ket{\Psi}$.</span>
-<span class="sd">        :param parameters: A I{ParameterProvider} instance or a dict containing simulation parameters.</span>
-<span class="sd">        @raise ValueError: For $N &lt; 1$ or $K &lt; 2$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the ``HagedornWavepacket`` object that represents :math:`|\Psi\rangle`.</span>
+
+<span class="sd">        :param parameters: A ``ParameterProvider`` instance or a dict containing simulation parameters.</span>
+<span class="sd">        :raise ValueError: For :math:`N &lt; 1` or :math:`K &lt; 2`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c">#: Number of components $\Phi_i$ the wavepacket $\Ket{\Psi}$ has got.</span>
+        <span class="c">#: Number of components :math:`\Phi_i` the wavepacket :math:`|\Psi\rangle` has got.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ncomponents&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -100,7 +103,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">*</span> <span class="p">[</span> <span class="n">GD</span><span class="o">.</span><span class="n">default_basis_size</span> <span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">bs</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">bs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of basis fucntions for Hagedorn wavepacket has to be &gt;= 2.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of basis functions for Hagedorn wavepacket has to be &gt;= 2.&quot;</span><span class="p">)</span>
 
         <span class="c"># Cache the parameter values epsilon we will use over and over again.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;eps&quot;</span><span class="p">]</span>
@@ -108,7 +111,7 @@
         <span class="c">#: The parameter set Pi initialized to the Harmonic Oscillator Eigenfunctions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">GD</span><span class="o">.</span><span class="n">default_Pi</span>
 
-        <span class="c">#: The coefficients $c^i$ of the linear combination for each component $\Phi_k$.</span>
+        <span class="c">#: The coefficients :math:`c^i` of the linear combination for each component :math:`\Phi_k`.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span> <span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span> <span class="p">]</span>
 
         <span class="c">#: An object that can compute brakets via quadrature.</span>
@@ -118,7 +121,8 @@
 
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:return: A string describing the Hagedorn wavepacket.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        :return: A string describing the Hagedorn wavepacket.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">s</span> <span class="o">=</span>  <span class="s">&quot;Homogeneous Hagedorn wavepacket with &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; components</span><span class="se">\n</span><span class="s">&quot;</span>
         <span class="k">return</span> <span class="n">s</span>
@@ -145,11 +149,12 @@
 
 
 <div class="viewcode-block" id="HagedornWavepacket.get_parameters"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aslist</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</span>
-<span class="sd">        @keyword component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
-<span class="sd">        @keyword aslist: Return a list of $N$ parameter tuples. This is for API compatibility with</span>
-<span class="sd">        inhomogeneous packets.</span>
-<span class="sd">        :return: The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this order.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Get the Hagedorn parameters :math:`\Pi` of the wavepacket :math:`\Psi`.</span>
+
+<span class="sd">        :param component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
+<span class="sd">        :param aslist: Return a list of :math:`N` parameter tuples. This is for API compatibility with inhomogeneous packets.</span>
+<span class="sd">        :return: The Hagedorn parameters :math:`P`, :math:`Q`, :math:`S`, :math:`p`, :math:`q` of :math:`\Psi` in this order.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">aslist</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span> <span class="o">*</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)]</span>
@@ -157,17 +162,21 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.set_parameters"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the Hagedorn parameters $\Pi$ of the wavepacket $\Psi$.</span>
-<span class="sd">        :param parameters: The Hagedorn parameters $P$, $Q$, $S$, $p$, $q$ of $\Psi$ in this order.</span>
-<span class="sd">        @keyword component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Set the Hagedorn parameters :math:`\Pi` of the wavepacket :math:`\Psi`.</span>
+
+<span class="sd">        :param parameters: The Hagedorn parameters :math:`P`, :math:`Q`, :math:`S`, :math:`p`, :math:`q` of :math:`\Psi` in this order.</span>
+<span class="sd">        :param component: Dummy parameter for API compatibility with the inhomogeneous packets.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="o">=</span> <span class="n">parameters</span>
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.set_quadrature"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.set_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">set_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quadrature</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the I{HomogeneousQuadrature} instance used for evaluating brakets.</span>
-<span class="sd">        :param quadrature: The new I{HomogeneousQuadrature} instance. May be I{None}</span>
-<span class="sd">        to use a dafault one with a quadrature rule of order $K+4$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Set the ``HomogeneousQuadrature`` instance used for evaluating brakets.</span>
+
+<span class="sd">        :param quadrature: The new ``HomogeneousQuadrature`` instance. May be ``None``</span>
+<span class="sd">                           to use a dafault one with a quadrature rule of order :math:`K+4`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># TODO: Put an &quot;extra accuracy&quot; parameter into global defaults with value of 4.</span>
         <span class="c"># TODO: Improve on the max(basis_size) later</span>
@@ -179,24 +188,28 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.get_quadrature"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the I{HomogeneousQuadrature} instance used for evaluating brakets.</span>
-<span class="sd">        :return: The current instance I{HomogeneousQuadrature}.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Return the ``HomogeneousQuadrature`` instance used for evaluating brakets.</span>
+
+<span class="sd">        :return: The current instance ``HomogeneousQuadrature``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span>
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.evaluate_basis_at"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.evaluate_basis_at">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_basis_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluate the Hagedorn functions $\phi_k$ recursively at the given nodes $\gamma$.</span>
-<span class="sd">        :param nodes: The nodes $\gamma$ at which the Hagedorn functions are evaluated.</span>
-<span class="sd">        @keyword component: Takes the basis size $K_i$ of this component $i$ as upper bound for $K$.</span>
-<span class="sd">        @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.</span>
-<span class="sd">        :return: Returns a twodimensional $K$ times #nodes array $H$ where the entry $H[k,i]$ is</span>
-<span class="sd">        the value of the $k$-th Hagedorn function evaluated at the node $i$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the Hagedorn functions :math:`\phi_k` recursively at the given nodes :math:`\gamma`.</span>
+
+<span class="sd">        :param nodes: The nodes :math:`\gamma` at which the Hagedorn functions are evaluated.</span>
+<span class="sd">        :param component: Takes the basis size :math:`K_i` of this component :math:`i` as upper bound for :math:`K`.</span>
+<span class="sd">        :param prefactor: Whether to include a factor of :math:`\left(\det\left(Q\right)\right)^{-\frac{1}{2}}`.</span>
+<span class="sd">        :return: Returns a twodimensional :math:`K` times #nodes array :math:`H` where the entry :math:`H[k,i]` is</span>
+<span class="sd">                 the value of the :math:`k`-th Hagedorn function evaluated at the node :math:`i`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">basis_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">[</span><span class="n">component</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c"># Evaluate up to maximal $K_i$ and slice later if necessary</span>
+            <span class="c"># Evaluate up to maximal :math:`K_i` and slice later if necessary</span>
             <span class="n">basis_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_size</span><span class="p">)</span>
 
         <span class="n">H</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">basis_size</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span>
@@ -219,12 +232,13 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.evaluate_at"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.evaluate_at">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluete the Hagedorn wavepacket $\Psi$ at the given nodes $\gamma$.</span>
-<span class="sd">        :param nodes: The nodes $\gamma$ at which the Hagedorn wavepacket gets evaluated.</span>
-<span class="sd">        @keyword component: The index $i$ of a single component $\Phi_i$ to evaluate.</span>
-<span class="sd">        (Defaults to &#39;None&#39; for evaluating all components.)</span>
-<span class="sd">        @keyword prefactor: Whether to include a factor of $\left(\det\ofs{Q}\right)^{-\frac{1}{2}}$.</span>
-<span class="sd">        :return: A list of arrays or a single array containing the values of the $\Phi_i$ at the nodes $\gamma$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Evaluete the Hagedorn wavepacket :math:`\Psi` at the given nodes :math:`\gamma`.</span>
+
+<span class="sd">        :param nodes: The nodes :math:`\gamma` at which the Hagedorn wavepacket gets evaluated.</span>
+<span class="sd">        :param component: The index :math:`i` of a single component :math:`\Phi_i` to evaluate. (Defaults to &#39;None&#39; for evaluating all components.)</span>
+<span class="sd">        :param prefactor: Whether to include a factor of :math:`\left(\det\left(Q\right)\right)^{-\frac{1}{2}}`.</span>
+<span class="sd">        :return: A list of arrays or a single array containing the values of the :math:`\Phi_i` at the nodes :math:`\gamma`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">nodes</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
         <span class="n">basis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_basis_at</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">,</span> <span class="n">prefactor</span><span class="o">=</span><span class="n">prefactor</span><span class="p">)</span>
@@ -240,10 +254,12 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.get_norm"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.get_norm">[docs]</a>    <span class="k">def</span> <span class="nf">get_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the $L^2$ norm of the wavepacket $\Ket{\Psi}$.</span>
-<span class="sd">        @keyword component: The component $\Phi_i$ of which the norm is calculated.</span>
-<span class="sd">        @keyword summed: Whether to sum up the norms of the individual components $\Phi_i$.</span>
-<span class="sd">        :return: A list containing the norms of all components $\Phi_i$ or the overall norm of $\Psi$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the :math:`L^2` norm of the wavepacket :math:`|\Psi\rangle`.</span>
+
+<span class="sd">        :param component: The component :math:`\Phi_i` of which the norm is calculated.</span>
+<span class="sd">        :param summed: Whether to sum up the norms of the individual components :math:`\Phi_i`.</span>
+<span class="sd">        :return: A list containing the norms of all components :math:`\Phi_i` or the overall norm of :math:`\Psi`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">])</span>
@@ -258,10 +274,12 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.potential_energy"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.potential_energy">[docs]</a>    <span class="k">def</span> <span class="nf">potential_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the potential energy $\Braket{\Psi|V|\Psi}$ of the wavepacket componentwise.</span>
-<span class="sd">        :param potential: The potential energy operator $V$ as function.</span>
-<span class="sd">        @keyword summed: Wheter to sum up the individual integrals $\Braket{\Phi_i|V_{i,j}|\Phi_j}$.</span>
-<span class="sd">        :return: The potential energy of the wavepacket&#39;s components $\Phi_i$ or the overall potential energy of $\Psi$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the potential energy :math:`\langle\Psi|V|\Psi\rangle` of the wavepacket componentwise.</span>
+
+<span class="sd">        :param potential: The potential energy operator :math:`V` as function.</span>
+<span class="sd">        :param summed: Wheter to sum up the individual integrals :math:`\langle\Phi_i|V_{i,j}|\Phi_j\rangle`.</span>
+<span class="sd">        :return: The potential energy of the wavepacket&#39;s components :math:`\Phi_i` or the overall potential energy of :math:`\Psi`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">as_matrix</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quadrature</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -277,9 +295,11 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.kinetic_energy"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.kinetic_energy">[docs]</a>    <span class="k">def</span> <span class="nf">kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the kinetic energy $\Braket{\Psi|T|\Psi}$ of the wavepacket componentwise.</span>
-<span class="sd">        @keyword summed: Wheter to sum up the individual integrals $\Braket{\Phi_i|T_{i,j}|\Phi_j}$.</span>
-<span class="sd">        :return: The kinetic energy of the wavepacket&#39;s components $\Phi_i$ or the overall kinetic energy of $\Psi$.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the kinetic energy :math:`\langle\Psi|T|\Psi\rangle` of the wavepacket componentwise.</span>
+
+<span class="sd">        :param summed: Wheter to sum up the individual integrals :math:`\langle\Phi_i|T_{i,j}|\Phi_j\rangle`.</span>
+<span class="sd">        :return: The kinetic energy of the wavepacket&#39;s components :math:`\Phi_i` or the overall kinetic energy of :math:`\Psi`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">grady</span><span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span> <span class="p">]</span>
         <span class="c"># TODO: Check 0.25 vs orig 0.5!</span>
@@ -292,9 +312,11 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.grady"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.grady">[docs]</a>    <span class="k">def</span> <span class="nf">grady</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the effect of the operator $-i \varepsilon^2 \frac{\partial}{\partial x}$ on the basis</span>
-<span class="sd">        functions of a component $\Phi_i$ of the Hagedorn wavepacket $\Psi$.</span>
-<span class="sd">        @keyword component: The index $i$ of the component $\Phi_i$ on which we apply the above operator.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Compute the effect of the operator :math:`-i \varepsilon^2 \frac{\partial}{\partial x}` on the basis</span>
+<span class="sd">        functions of a component :math:`\Phi_i` of the Hagedorn wavepacket :math:`\Psi`.</span>
+
+<span class="sd">        :param component: The index :math:`i` of the component :math:`\Phi_i` on which we apply the above operator.</span>
 <span class="sd">        :return: The modified coefficients.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sh</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="n">component</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -312,11 +334,14 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.project_to_canonical"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.project_to_canonical">[docs]</a>    <span class="k">def</span> <span class="nf">project_to_canonical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Project the Hagedorn wavepacket into the canonical basis.</span>
-<span class="sd">        :param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.</span>
-<span class="sd">        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
-<span class="sd">        @note: This function is expensive and destructive! It modifies the coefficients</span>
-<span class="sd">        of the I{self} instance if the I{assign} parameter is True (default).</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Project the Hagedorn wavepacket into the canonical basis.</span>
+
+<span class="sd">        :param potential: The potential :math:`V` whose eigenvectors :math:`nu_l` are used for the transformation.</span>
+<span class="sd">        :param assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
+
+<span class="sd">        .. note:: This function is expensive and destructive! It modifies the coefficients</span>
+<span class="sd">                  of the ``self`` instance if the ``assign`` parameter is True (default).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># No projection for potentials with a single energy level.</span>
         <span class="c"># The canonical and eigenbasis are identical here.</span>
@@ -349,11 +374,14 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.project_to_eigen"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.project_to_eigen">[docs]</a>    <span class="k">def</span> <span class="nf">project_to_eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.</span>
-<span class="sd">        :param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.</span>
-<span class="sd">        @keyword assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
-<span class="sd">        @note: This function is expensive and destructive! It modifies the coefficients</span>
-<span class="sd">        of the I{self} instance if the I{assign} parameter is True (default).</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Project the Hagedorn wavepacket into the eigenbasis of a given potential :math:`V`.</span>
+
+<span class="sd">        :param potential: The potential :math:`V` whose eigenvectors :math:`nu_l` are used for the transformation.</span>
+<span class="sd">        :param assign: Whether to assign the new coefficient values to the wavepacket. Default true.</span>
+
+<span class="sd">        .. note:: This function is expensive and destructive! It modifies the coefficients</span>
+<span class="sd">                  of the ``self`` instance if the ``assign`` parameter is True (default).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># No projection for potentials with a single energy level.</span>
         <span class="c"># The canonical and eigenbasis are identical here.</span>
@@ -386,10 +414,12 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.to_fourier_space"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.to_fourier_space">[docs]</a>    <span class="k">def</span> <span class="nf">to_fourier_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Transform the wavepacket to Fourier space.</span>
-<span class="sd">        @keyword assign: Whether to assign the transformation to</span>
-<span class="sd">        this packet or return a cloned packet.</span>
-<span class="sd">        @note: This is the inverse of the method I{to_real_space()}.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Transform the wavepacket to Fourier space.</span>
+
+<span class="sd">        :param assign: Whether to assign the transformation to this packet or return a cloned packet.</span>
+
+<span class="sd">        .. note:: This is the inverse of the method ``to_real_space()``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># The Fourier transformed parameters</span>
         <span class="n">Pihat</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
@@ -414,10 +444,12 @@
 
 </div>
 <div class="viewcode-block" id="HagedornWavepacket.to_real_space"><a class="viewcode-back" href="../../waveblocks_classes/HagedornWavepacket.html#WaveBlocks.HagedornWavepacket.HagedornWavepacket.to_real_space">[docs]</a>    <span class="k">def</span> <span class="nf">to_real_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assign</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Transform the wavepacket to real space.</span>
-<span class="sd">        @keyword assign: Whether to assign the transformation to</span>
-<span class="sd">        this packet or return a cloned packet.</span>
-<span class="sd">        @note: This is the inverse of the method I{to_fourier_space()}.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Transform the wavepacket to real space.</span>
+
+<span class="sd">        :param assign: Whether to assign the transformation to this packet or return a cloned packet.</span>
+
+<span class="sd">        .. note:: This is the inverse of the method ``to_fourier_space()``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># The inverse Fourier transformed parameters</span>
         <span class="n">Pi</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>

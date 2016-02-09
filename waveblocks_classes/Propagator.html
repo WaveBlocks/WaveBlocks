@@ -84,11 +84,13 @@ as described by the time-dependent Schroedinger equation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components of $Ket{Psi}$.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises NotImplementedError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">This is an abstract base class.</td>
 </tr>
 </tbody>
 </table>
-<p>&#64;raise NotImplementedError: This is an abstract base class.</p>
 </dd></dl>
 
 <dl class="method">
@@ -98,19 +100,29 @@ as described by the time-dependent Schroedinger equation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The embedded I{MatrixPotential} instance.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The embedded <tt class="docutils literal"><span class="pre">MatrixPotential</span></tt> instance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises NotImplementedError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">This is an abstract base class.</td>
 </tr>
 </tbody>
 </table>
-<p>&#64;raise NotImplementedError: This is an abstract base class.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.Propagator.propagate">
 <tt class="descname">propagate</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.Propagator.propagate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the wavefunction $Psi$ at time $t$, calculate the new $Psi$
-at time $t +    au$. We do exactly one timestep $       au$ here.
-&#64;raise NotImplementedError: This is an abstract base class.</p>
+<dd><p>Given the wavefunction <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/> at time <img class="math" src="../_images/math/ef9270877405055756d345facd044e4ab297f858.png" alt="t"/>, calculate the new <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>
+at time <img class="math" src="../_images/math/248f20efaf95b4d4c73e23e7cb9ece1b73e10098.png" alt="t + \tau"/>. We do exactly one timestep <img class="math" src="../_images/math/d9e99c35d3632bb156b7aca0e93cd78a148a10e8.png" alt="\tau"/> here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises NotImplementedError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">This is an abstract base class.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

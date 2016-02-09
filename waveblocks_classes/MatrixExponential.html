@@ -74,31 +74,63 @@ Pade approximations and an Arnoldi iteration method.</p>
 <dl class="function">
 <dt id="MatrixExponential.arnoldi">
 <tt class="descclassname">MatrixExponential.</tt><tt class="descname">arnoldi</tt><big>(</big><em>A</em>, <em>v0</em>, <em>k</em><big>)</big><a class="reference internal" href="../_modules/MatrixExponential.html#arnoldi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#MatrixExponential.arnoldi" title="Permalink to this definition">¶</a></dt>
-<dd><p>Arnoldi algorithm (Krylov approximation of a matrix)
-:param A: The matrix to approximate.
-:param v0: The initial vector (should be in matrix form)
-:param k: The number of Krylov steps.
-:return: A tupel (V, H) where V is the matrix (large, N*k) containing the orthogonal vectors and
-H is the matrix (small, k*k) containing the Krylov approximation of A.</p>
+<dd><p>Arnoldi algorithm (Krylov approximation of a matrix)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>A</strong> &#8211; The matrix to approximate.</li>
+<li><strong>v0</strong> &#8211; The initial vector (should be in matrix form)</li>
+<li><strong>k</strong> &#8211; The number of Krylov steps.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A tupel (V, H) where V is the matrix (large, <img class="math" src="../_images/math/3a1e892f1d12af23af7f462d4773fd5621988a41.png" alt="N \times k"/>) containing the orthogonal vectors and
+H is the matrix (small, <img class="math" src="../_images/math/3908ba50237c94909083edd0295cd1c9345b0a8c.png" alt="k \times k"/>) containing the Krylov approximation of A.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="MatrixExponential.matrix_exp_arnoldi">
 <tt class="descclassname">MatrixExponential.</tt><tt class="descname">matrix_exp_arnoldi</tt><big>(</big><em>A</em>, <em>v</em>, <em>factor</em>, <em>k</em><big>)</big><a class="reference internal" href="../_modules/MatrixExponential.html#matrix_exp_arnoldi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#MatrixExponential.matrix_exp_arnoldi" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the solution of v&#8217; = A v via k steps of a the Arnoldi krylov method.
-:param A: The matrix.
-:param v: The vector.
-:param factor: An additional factor, usually contains at least the timestep.
-:param k: The number of Krylov steps.</p>
+<dd><p>Compute the solution of <img class="math" src="../_images/math/7b699334a7af1b9daf14c4603cc8bcf377a64827.png" alt="v' = A v"/> via k steps of a the Arnoldi krylov method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>A</strong> &#8211; The matrix.</li>
+<li><strong>v</strong> &#8211; The vector.</li>
+<li><strong>factor</strong> &#8211; An additional factor, usually contains at least the timestep.</li>
+<li><strong>k</strong> &#8211; The number of Krylov steps.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="MatrixExponential.matrix_exp_pade">
 <tt class="descclassname">MatrixExponential.</tt><tt class="descname">matrix_exp_pade</tt><big>(</big><em>A</em>, <em>coefficients</em>, <em>factor</em><big>)</big><a class="reference internal" href="../_modules/MatrixExponential.html#matrix_exp_pade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#MatrixExponential.matrix_exp_pade" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the solution of v&#8217; = A v with a full matrix exponential via Pade approximation.
-:param A: The matrix.
-:param coefficients: The vector with the coefficients.
-:param factor: An additional factor, usually contains at least the timestep.</p>
+<dd><p>Compute the solution of <img class="math" src="../_images/math/7b699334a7af1b9daf14c4603cc8bcf377a64827.png" alt="v' = A v"/> with a full matrix exponential via Pade approximation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>A</strong> &#8211; The matrix.</li>
+<li><strong>coefficients</strong> &#8211; The vector with the coefficients.</li>
+<li><strong>factor</strong> &#8211; An additional factor, usually contains at least the timestep.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

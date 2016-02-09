@@ -64,9 +64,9 @@
 <div class="section" id="inheritance-diagram">
 <h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
 <p class="graphviz">
-<img src="../_images/inheritance-21a61350dcecc0707c41c10b51f5f2e9217c300a.png" alt="Inheritance diagram of HagedornWavepacketInhomogeneous" usemap="#inheritancefb1b717a41" class="inheritance"/>
+<img src="../_images/inheritance-342e40488de74c84fa84cd36e41a46f12f18de00.png" alt="Inheritance diagram of HagedornWavepacketInhomogeneous" usemap="#inheritancefb1b717a41" class="inheritance"/>
 <map id="inheritancefb1b717a41" name="inheritancefb1b717a41">
-<area shape="rect" id="node1" title="This class represents inhomogeneous vector valued wavepackets $\Ket{\Psi}$." alt="" coords="232,5,743,31"/>
+<area shape="rect" id="node1" title="This class represents inhomogeneous vector valued wavepackets :math:`|\Psi\rangle`." alt="" coords="232,5,743,31"/>
 <area shape="rect" id="node2" title="This class is primarily an abstract interface to wavepackets in general." alt="" coords="5,5,184,31"/>
 </map>
 </p>
@@ -76,77 +76,56 @@
 <dl class="class">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous">
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">HagedornWavepacketInhomogeneous</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class represents inhomogeneous vector valued wavepackets $Ket{Psi}$.</p>
+<dd><p>This class represents inhomogeneous vector valued wavepackets <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
 <dl class="attribute">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.coefficients">
 <tt class="descname">coefficients</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.coefficients" title="Permalink to this definition">¶</a></dt>
-<dd><p>The coefficients $c^i$ of the linear combination for each component $Phi_i$.</p>
+<dd><p>The coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> of the linear combination for each component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_at">
 <tt class="descname">evaluate_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>prefactor=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_at" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Evaluete the Hagedorn wavepacket $Psi$ at the given nodes $gamma$.</dt>
-<dd><table class="first docutils field-list" frame="void" rules="none">
+<dd><p>Evaluete the Hagedorn wavepacket <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/> at the given nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The nodes $gamma$ at which the Hagedorn wavepacket gets evaluated.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> at which the Hagedorn wavepacket gets evaluated.</li>
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of a single component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> to evaluate. (Defaults to &#8216;None&#8217; for evaluating all components.)</li>
+<li><strong>prefactor</strong> &#8211; Whether to include a factor of <img class="math" src="../_images/math/6b4b99bc9f0b356ef0d81e5d8fca2cbfd9d3c1a9.png" alt="\left(\det\left(Q_i\right)\right)^{-\frac{1}{2}}"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of arrays or a single array containing the values of the <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> at the nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+</td>
 </tr>
 </tbody>
 </table>
-<p class="last">&#64;keyword component: The index $i$ of a single component $Phi_i$ to evaluate.
-(Defaults to &#8216;None&#8217; for evaluating all components.)
-&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</p>
-</dd>
-</dl>
-<p>ight)^{-
-rac{1}{2}}$.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A list of arrays or a single array containing the values of the $Phi_i$ at the nodes $gamma$.</td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_basis_at">
 <tt class="descname">evaluate_basis_at</tt><big>(</big><em>nodes</em>, <em>component</em>, <em>prefactor=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.evaluate_basis_at" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Evaluate the Hagedorn functions $phi_k$ recursively at the given nodes $gamma$.</dt>
-<dd><table class="first docutils field-list" frame="void" rules="none">
+<dd><p>Evaluate the Hagedorn functions <img class="math" src="../_images/math/34ea3b8fe46ef695984759103d7bcdecd553f321.png" alt="\phi_k"/> recursively at the given nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The nodes $gamma$ at which the Hagedorn functions are evaluated.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> at which the Hagedorn functions are evaluated.</li>
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component whose basis functions <img class="math" src="../_images/math/82e20b9a37106a7e18ca8ff3e82d3720452b9098.png" alt="\phi^i_k"/> we want to evaluate.</li>
+<li><strong>prefactor</strong> &#8211; Whether to include a factor of <img class="math" src="../_images/math/6b4b99bc9f0b356ef0d81e5d8fca2cbfd9d3c1a9.png" alt="\left(\det\left(Q_i\right)\right)^{-\frac{1}{2}}"/>.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param component:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The index $i$ of the component whose basis functions $phi^i_k$ we want to evaluate.</td>
-</tr>
-</tbody>
-</table>
-<p class="last">&#64;keyword prefactor: Whether to include a factor of $left(detofs{Q_i}</p>
-</dd>
-</dl>
-<p>ight)^{-
-rac{1}{2}}$.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">Returns a twodimensional array $H$ where the entry $H[k,i]$ is the value</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns a twodimensional array <img class="math" src="../_images/math/48f75e0b463f2fdb7fca9566cffdc439cae6967f.png" alt="H"/> where the entry <img class="math" src="../_images/math/2eb27e834bccaad6aec445baac3fe2eed82df78e.png" alt="H[k,i]"/> is the value
+of the <img class="math" src="../_images/math/e9203da50e1059455123460d4e716c9c7f440cc3.png" alt="k"/>-th Hagedorn function evaluated at the node <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/>.</p>
+</td>
 </tr>
 </tbody>
 </table>
-<p>of the $k$-th Hagedorn function evaluated at the node $i$.</p>
-</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -162,7 +141,7 @@ rac{1}{2}}$.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The size of the basis, i.e. the number $K$ of ${phi_k}_{k=1}^K$.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The size of the basis, i.e. the number <img class="math" src="../_images/math/28e003020d0ae96250b302d7d779c791f183f707.png" alt="K"/> of <img class="math" src="../_images/math/40471fdc828af7eceacd7b600586891ede929f1a.png" alt="{\phi_k}_{k=1}^K"/>.</td>
 </tr>
 </tbody>
 </table>
@@ -175,7 +154,7 @@ rac{1}{2}}$.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The coefficients $c^i$ of all components $Phi_i$ as a single long column vector.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> of all components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> as a single long column vector.</td>
 </tr>
 </tbody>
 </table>
@@ -184,26 +163,45 @@ rac{1}{2}}$.</p>
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_coefficients">
 <tt class="descname">get_coefficients</tt><big>(</big><em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_coefficients" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the coefficients $c^i$ for some components $Phi_i$ of $Ket{Psi}$.
-&#64;keyword component: The index $i$ of the coefficients $c^i$ we want to get.
-:return: The coefficients $c^i$ either for all components $Phi_i$
-or for a specified one.</p>
+<dd><p>Returns the coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> for some components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> we want to get.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> either for all components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>
+or for a specified one.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_id">
 <tt class="descname">get_id</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the packet ID of this wavepacket instance.
-The ID may be used for storing packets in associative lists.</p>
+<dd><p>Return the packet ID of this wavepacket instance. The ID may be used for storing packets in associative lists.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_norm">
 <tt class="descname">get_norm</tt><big>(</big><em>component=None</em>, <em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_norm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the $L^2$ norm of the wavepacket $Ket{Psi}$.
-&#64;keyword component: The component $Phi_i$ of which the norm is calculated.
-&#64;keyword summed: Whether to sum up the norms of the individual components $Phi_i$.
-:return: A list containing the norms of all components $Phi_i$ or the overall norm of $Psi$.</p>
+<dd><p>Calculate the <img class="math" src="../_images/math/8e53b35e6dba31d49686a9f1ea7ef219da16e494.png" alt="L^2"/> norm of the wavepacket <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>component</strong> &#8211; The component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of which the norm is calculated.</li>
+<li><strong>summed</strong> &#8211; Whether to sum up the norms of the individual components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list containing the norms of all components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> or the overall norm of <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -213,7 +211,7 @@ The ID may be used for storing packets in associative lists.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number $N$ of components the wavepacket $Psi$ has.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number <img class="math" src="../_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> of components the wavepacket <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/> has.</td>
 </tr>
 </tbody>
 </table>
@@ -222,76 +220,138 @@ The ID may be used for storing packets in associative lists.</p>
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_parameters">
 <tt class="descname">get_parameters</tt><big>(</big><em>component=None</em>, <em>aslist=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the Hagedorn parameters $Pi_i$ of each component $Phi_i$ of the wavepacket $Psi$.
-&#64;keyword component: The index $i$ of the component whose parameters $Pi_i$ we want to get.
-&#64;keyword aslist: Dummy parameter for API compatibility with the homogeneous packets.
-:return: A list with all the sets $Pi_i$ or a single set.</p>
+<dd><p>Get the Hagedorn parameters <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> of each component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of the wavepacket <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component whose parameters <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> we want to get.</li>
+<li><strong>aslist</strong> &#8211; Dummy parameter for API compatibility with the homogeneous packets.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with all the sets <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> or a single set.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.get_quadrature">
 <tt class="descname">get_quadrature</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.get_quadrature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-:return: The current instance I{InhomogeneousQuadrature}.</p>
+<dd><p>Return the <tt class="docutils literal"><span class="pre">InhomogeneousQuadrature</span></tt> instance used for evaluating brakets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current instance <tt class="docutils literal"><span class="pre">InhomogeneousQuadrature</span></tt>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.grady">
 <tt class="descname">grady</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.grady" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the effect of $-i epsilon^2 
-rac{partial}{partial x}$</p>
-<blockquote>
-<div>on a component $Phi_i$ of the Hagedorn wavepacket $Psi$.
-&#64;keyword component: The index $i$ of the component $Phi_i$ on which we apply the above operator.
-:return: The modified coefficients.</div></blockquote>
+<dd><p>Calculate the effect of <img class="math" src="../_images/math/f3afbbeca5aeed4cdfcc4305b8ffda64730912e3.png" alt="-i \epsilon^2 \frac{\partial}{\partial x}"/> on a component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of the Hagedorn wavepacket <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> on which we apply the above operator.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The modified coefficients.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.kinetic_energy">
 <tt class="descname">kinetic_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.kinetic_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kinetic energy $Braket{Psi|T|Psi}$ of the wavepacket componentwise.
-&#64;keyword summed: Wheter to sum up the individual integrals $Braket{Phi_i|T_{i,j}|Phi_j}$.
-:return: The kinetic energy of the wavepacket&#8217;s components $Phi_i$ or the overall kinetic energy of $Psi$.</p>
+<dd><p>Calculate the kinetic energy <img class="math" src="../_images/math/cf903b55acb306155f7b2dcba0051a2ba439e5d4.png" alt="\langle\Psi|T|\Psi\rangle"/> of the wavepacket componentwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summed</strong> &#8211; Wheter to sum up the individual integrals <img class="math" src="../_images/math/bdf3dc9f72f6e241fc41dc25191cd3611f4bd1ee.png" alt="\langle\Phi_i|T_{i,j}|\Phi_j\rangle"/>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The kinetic energy of the wavepacket&#8217;s components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> or the overall kinetic energy of <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.number_components">
 <tt class="descname">number_components</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.number_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of components $Phi_i$ the wavepacket $Ket{Psi}$ has got.</p>
+<dd><p>Number of components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> the wavepacket <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> has got.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.parameters">
 <tt class="descname">parameters</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data structure that contains the Hagedorn parameter sets $Pi_i$ of each component $Phi_i$.
+<dd><p>Data structure that contains the Hagedorn parameter sets <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> of each component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>.
 The parameter values are initialized to the Harmonic Oscillator Eigenfunctions</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.potential_energy">
 <tt class="descname">potential_energy</tt><big>(</big><em>potential</em>, <em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.potential_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the potential energy $Braket{Psi|V|Psi}$ of the wavepacket componentwise.
-:param potential: The potential energy operator $V$ as function.
-&#64;keyword summed: Wheter to sum up the individual integrals $Braket{Phi_i|V_{i,j}|Phi_j}$.
-:return: The potential energy of the wavepacket&#8217;s components $Phi_i$ or the overall potential energy of $Psi$.</p>
+<dd><p>Calculate the potential energy <img class="math" src="../_images/math/58f51a8b1d612845ea93e564f5ce2d595bdb103a.png" alt="\langle\Psi|V|\Psi\rangle"/> of the wavepacket componentwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>potential</strong> &#8211; The potential energy operator <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> as function.</li>
+<li><strong>summed</strong> &#8211; Wheter to sum up the individual integrals <img class="math" src="../_images/math/318d6903f321052f245d8839c72f4da193612fe4.png" alt="\langle\Phi_i|V_{i,j}|\Phi_j\rangle"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The potential energy of the wavepacket&#8217;s components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> or the overall potential energy of <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.project_to_canonical">
 <tt class="descname">project_to_canonical</tt><big>(</big><em>potential</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.project_to_canonical" title="Permalink to this definition">¶</a></dt>
-<dd><p>Project the Hagedorn wavepacket into the canonical basis.
-:param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
-&#64;note: This function is expensive and destructive! It modifies the coefficients
-of the I{self} instance.</p>
+<dd><p>Project the Hagedorn wavepacket into the canonical basis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>potential</strong> &#8211; The potential <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> whose eigenvectors <img class="math" src="../_images/math/8a2d3c6b77f64b4f0c60e99ac11c6abbf9a07e6c.png" alt="nu_l"/> are used for the transformation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is expensive and destructive! It modifies the coefficients of the <tt class="docutils literal"><span class="pre">self</span></tt> instance.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.project_to_eigen">
 <tt class="descname">project_to_eigen</tt><big>(</big><em>potential</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.project_to_eigen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Project the Hagedorn wavepacket into the eigenbasis of a given potential $V$.
-:param potential: The potential $V$ whose eigenvectors $nu_l$ are used for the transformation.
-&#64;note: This function is expensive and destructive! It modifies the coefficients
-of the I{self} instance.</p>
+<dd><p>Project the Hagedorn wavepacket into the eigenbasis of a given potential <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>potential</strong> &#8211; The potential <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> whose eigenvectors <img class="math" src="../_images/math/8a2d3c6b77f64b4f0c60e99ac11c6abbf9a07e6c.png" alt="nu_l"/> are used for the transformation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is expensive and destructive! It modifies the coefficients of the <tt class="docutils literal"><span class="pre">self</span></tt> instance.</p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -303,41 +363,90 @@ of the I{self} instance.</p>
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_basis_size">
 <tt class="descname">set_basis_size</tt><big>(</big><em>basis_size</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_basis_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the size of the basis of a given component or all components.
-:param basis_size: An single positive integer or a list of $N$ positive integers.
-&#64;keyword component: The component for which we want to set the basis size.
-Default is I{None} which means &#8216;all&#8217;.</p>
+<dd><p>Set the size of the basis of a given component or all components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>basis_size</strong> &#8211; An single positive integer or a list of <img class="math" src="../_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> positive integers.</li>
+<li><strong>component</strong> &#8211; The component for which we want to set the basis size.
+Default is <tt class="docutils literal"><span class="pre">None</span></tt> which means &#8216;all&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient">
 <tt class="descname">set_coefficient</tt><big>(</big><em>component</em>, <em>index</em>, <em>value</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set a single coefficient $c^i_k$ of the specified component $Phi_i$ of $Ket{Psi}$.
-:param component: The index $i$ of the component $Phi_i$ we want to update.
-:param index: The index $k$ of the coefficient $c^i_k$ we want to update.
-:param value: The new value of the coefficient $c^i_k$.
-&#64;raise ValueError: For invalid indices $i$ or $k$.</p>
+<dd><p>Set a single coefficient <img class="math" src="../_images/math/1bcd8a3e375587fd315176fb13d6c0964e8b661e.png" alt="c^i_k"/> of the specified component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> we want to update.</li>
+<li><strong>index</strong> &#8211; The index <img class="math" src="../_images/math/e9203da50e1059455123460d4e716c9c7f440cc3.png" alt="k"/> of the coefficient <img class="math" src="../_images/math/1bcd8a3e375587fd315176fb13d6c0964e8b661e.png" alt="c^i_k"/> we want to update.</li>
+<li><strong>value</strong> &#8211; The new value of the coefficient <img class="math" src="../_images/math/1bcd8a3e375587fd315176fb13d6c0964e8b661e.png" alt="c^i_k"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">For invalid indices <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> or <img class="math" src="../_images/math/e9203da50e1059455123460d4e716c9c7f440cc3.png" alt="k"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient_vector">
 <tt class="descname">set_coefficient_vector</tt><big>(</big><em>vector</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficient_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the coefficients for all components $Phi_i$ simultaneously.
-:param vector: The coefficients of all components as a single long column vector.
-&#64;note: This function does <em>NOT</em> copy the input data! This is for efficiency as this
+<dd><p>Set the coefficients for all components <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> simultaneously.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vector</strong> &#8211; The coefficients of all components as a single long column vector.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function does <em>NOT</em> copy the input data! This is for efficiency as this
 routine is used in the innermost loops.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficients">
 <tt class="descname">set_coefficients</tt><big>(</big><em>values</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_coefficients" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the coefficients $c$ of $Psi$.
-:param values: The new values of the coefficients $c^i$ of $Phi_i$.
-:param component: The index $i$ of the component we want to update with new coefficients.
-&#64;note: This function can either set new coefficients for a single component
-$Phi_i$ only if the I{component} attribute is set or for all components
-simultaneously if I{values} is a list of arrays.
-&#64;raise ValueError: For invalid indices $i$.</p>
+<dd><p>Update the coefficients <img class="math" src="../_images/math/65868d23a5bfe5b3b2d819386b19c14fa36af134.png" alt="c"/> of <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> &#8211; The new values of the coefficients <img class="math" src="../_images/math/2f51a7a77ca12ac9b26ded3fefca5d8521bbb706.png" alt="c^i"/> of <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>.</li>
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component we want to update with new coefficients.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">For invalid indices <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function can either set new coefficients for a single component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/>
+only if the <tt class="docutils literal"><span class="pre">component</span></tt> attribute is set or for all components simultaneously if
+<tt class="docutils literal"><span class="pre">values</span></tt> is a list of arrays.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -349,35 +458,70 @@ simultaneously if I{values} is a list of arrays.
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_parameters">
 <tt class="descname">set_parameters</tt><big>(</big><em>parameters</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the Hagedorn parameters $Pi_i$ of each component $Phi_i$ of the wavepacket $Psi$.
-:param parameters: A list or a single set of Hagedorn parameters.
-&#64;keyword component: The index $i$ of the component whose parameters $Pi_i$ we want to update.</p>
+<dd><p>Set the Hagedorn parameters <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> of each component <img class="math" src="../_images/math/7e85868a38cec20390ec1816976ad68089bb2a48.png" alt="\Phi_i"/> of the wavepacket <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; A list or a single set of Hagedorn parameters.</li>
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the component whose parameters <img class="math" src="../_images/math/7dec972d634439bf5a19ed81c57d4acbdcab587c.png" alt="\Pi_i"/> we want to update.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.set_quadrature">
 <tt class="descname">set_quadrature</tt><big>(</big><em>quadrature</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.set_quadrature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the I{InhomogeneousQuadrature} instance used for evaluating brakets.
-:param quadrature: The new I{InhomogeneousQuadrature} instance. May be I{None}
-to use a dafault one with a quadrature rule of order $K+4$.</p>
+<dd><p>Set the <tt class="docutils literal"><span class="pre">InhomogeneousQuadrature</span></tt> instance used for evaluating brakets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quadrature</strong> &#8211; The new <tt class="docutils literal"><span class="pre">InhomogeneousQuadrature</span></tt> instance. May be <tt class="docutils literal"><span class="pre">None</span></tt>
+to use a dafault one with a quadrature rule of order <img class="math" src="../_images/math/5ab291412b03ad6fab664d38f8e3dd9e6366003f.png" alt="K+4"/>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.to_fourier_space">
 <tt class="descname">to_fourier_space</tt><big>(</big><em>assign=True</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.to_fourier_space" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform the wavepacket to Fourier space.
-&#64;keyword assign: Whether to assign the transformation to
-this packet or return a cloned packet.
-&#64;note: This is the inverse of the method I{to_real_space()}.</p>
+<dd><p>Transform the wavepacket to Fourier space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assign</strong> &#8211; Whether to assign the transformation to this packet or return a cloned packet.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is the inverse of the method <tt class="docutils literal"><span class="pre">to_real_space()</span></tt>.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.HagedornWavepacketInhomogeneous.to_real_space">
 <tt class="descname">to_real_space</tt><big>(</big><em>assign=True</em><big>)</big><a class="headerlink" href="#WaveBlocks.HagedornWavepacketInhomogeneous.to_real_space" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform the wavepacket to real space.
-&#64;keyword assign: Whether to assign the transformation to
-this packet or return a cloned packet.
-&#64;note: This is the inverse of the method I{to_fourier_space()}.</p>
+<dd><p>Transform the wavepacket to real space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assign</strong> &#8211; Whether to assign the transformation to this packet or return a cloned packet.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is the inverse of the method <tt class="docutils literal"><span class="pre">to_fourier_space()</span></tt>.</p>
+</div>
 </dd></dl>
 
 </dd></dl>

@@ -61,13 +61,15 @@
 
 
 <div class="viewcode-block" id="add_grid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_grid.html#IOM_plugin_grid.add_grid">[docs]</a><span class="k">def</span> <span class="nf">add_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add storage for a grid.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Add storage for a grid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;grid&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;dimension&quot;</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ngn&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="delete_grid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_grid.html#IOM_plugin_grid.delete_grid">[docs]</a><span class="k">def</span> <span class="nf">delete_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove the stored grid.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Remove the stored grid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/grid&quot;</span><span class="p">]</span>
@@ -76,20 +78,23 @@
 
 </div>
 <div class="viewcode-block" id="has_grid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_grid.html#IOM_plugin_grid.has_grid">[docs]</a><span class="k">def</span> <span class="nf">has_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ask if the specified data block has the desired data tensor.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Ask if the specified data block has the desired data tensor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s">&quot;grid&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="save_grid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_grid.html#IOM_plugin_grid.save_grid">[docs]</a><span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save the grid nodes.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Save the grid nodes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/grid&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">path</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="load_grid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_grid.html#IOM_plugin_grid.load_grid">[docs]</a><span class="k">def</span> <span class="nf">load_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load the grid nodes.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Load the grid nodes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/grid&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">path</span><span class="p">])</span></div>

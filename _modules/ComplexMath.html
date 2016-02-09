@@ -60,26 +60,32 @@
 
 
 <div class="viewcode-block" id="continuate"><a class="viewcode-back" href="../waveblocks_classes/ComplexMath.html#ComplexMath.continuate">[docs]</a><span class="k">def</span> <span class="nf">continuate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">jump</span><span class="o">=</span><span class="mf">2.0</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make the given data continuous by removing all jumps of size k*jump</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Make the given data continuous by removing all jumps of size k*jump</span>
 <span class="sd">    but not touching jumps of any other size. This can be used to overcome</span>
 <span class="sd">    issues with the branch cut along the negative axis.</span>
+
 <span class="sd">    :param data: An array with the input data.</span>
-<span class="sd">    @keyword jump: The basic size of jumps which will be removed. Default is 2*pi.</span>
-<span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
-<span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
-<span class="sd">    @Note: There may be issues with jumps that are of size nearly k*jump.</span>
+<span class="sd">    :param jump: The basic size of jumps which will be removed. Default is 2*pi.</span>
+<span class="sd">    :param reference: This value allows the specify the starting point for continuation explicitely.</span>
+<span class="sd">                      It can be used together with ``data`` beeing a single number.</span>
+
+<span class="sd">    .. Note:: There may be issues with jumps that are of size nearly k*jump.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">([</span><span class="n">array</span><span class="p">(</span><span class="n">reference</span><span class="p">),</span> <span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)])</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">jump</span><span class="o">*</span><span class="n">hstack</span><span class="p">([</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">around</span><span class="p">(</span> <span class="n">diff</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">/</span><span class="n">jump</span> <span class="p">))</span> <span class="p">]))[</span><span class="mi">1</span><span class="p">:]</span>
 
 </div>
 <div class="viewcode-block" id="cont_angle"><a class="viewcode-back" href="../waveblocks_classes/ComplexMath.html#ComplexMath.cont_angle">[docs]</a><span class="k">def</span> <span class="nf">cont_angle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the angle of a complex number *not* constrained to</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Compute the angle of a complex number *not* constrained to</span>
 <span class="sd">    the principal value and avoiding discontinuities at the branch cut.</span>
+
 <span class="sd">    :param data: An array with the input data.</span>
-<span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
-<span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
-<span class="sd">    @note: This function just applies &#39;continuate(.)&#39; to the complex phase.</span>
+<span class="sd">    :param reference: This value allows the specify the starting point for continuation explicitely.</span>
+<span class="sd">                      It can be used together with ``data`` beeing a single number.</span>
+
+<span class="sd">    .. note:: This function just applies &#39;continuate(.)&#39; to the complex phase.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">reference</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c"># Return just cont_f(x)</span>
@@ -90,15 +96,17 @@
 
 </div>
 <div class="viewcode-block" id="cont_sqrt"><a class="viewcode-back" href="../waveblocks_classes/ComplexMath.html#ComplexMath.cont_sqrt">[docs]</a><span class="k">def</span> <span class="nf">cont_sqrt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the complex square root (following the Riemann surface)</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Compute the complex square root (following the Riemann surface)</span>
 <span class="sd">    yields a result *not* constrained to the principal value and avoiding</span>
 <span class="sd">    discontinuities at the branch cut.</span>
+
 <span class="sd">    :param data: An array with the input data.</span>
-<span class="sd">    @keyword reference: This value allows the specify the starting point for</span>
-<span class="sd">    continuation explicitely. It can be used together with I{data} beeing a single number.</span>
-<span class="sd">    @note: This function applies &#39;continuate(.)&#39; to the complex phase</span>
-<span class="sd">    and computes the complex square root according to the formula</span>
-<span class="sd">    $\sqrt{z} = \sqrt{r} \cdot \exp \left( i \cdot \frac{\phi}{2} \right)$</span>
+<span class="sd">    :param reference: This value allows the specify the starting point for continuation explicitely.</span>
+<span class="sd">                      It can be used together with ``data`` beeing a single number.</span>
+
+<span class="sd">    .. note:: This function applies &#39;continuate(.)&#39; to the complex phase and computes the complex square root according</span>
+<span class="sd">              to the formula :math:`\sqrt{z} = \sqrt{r} \cdot \exp \left( i \cdot \frac{\phi}{2} \right)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">reference</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c"># Return just cont_f(x)</span>

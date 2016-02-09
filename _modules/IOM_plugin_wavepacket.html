@@ -61,8 +61,10 @@
 
 
 <div class="viewcode-block" id="add_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.add_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">add_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">timeslots</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add storage for the homogeneous wavepackets.</span>
-<span class="sd">    :param parameters: An I{ParameterProvider} instance with at least the keys I{basis_size} and I{ncomponents}.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Add storage for the homogeneous wavepackets.</span>
+
+<span class="sd">    :param parameters: An ``ParameterProvider`` instance with at least the keys ``basis_size`` and ``ncomponents``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">grp_wp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="s">&quot;wavepacket&quot;</span><span class="p">)</span>
 
@@ -94,7 +96,8 @@
 
 </div>
 <div class="viewcode-block" id="delete_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.delete_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">delete_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove the stored wavepackets.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Remove the stored wavepackets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket&quot;</span><span class="p">]</span>
@@ -103,13 +106,16 @@
 
 </div>
 <div class="viewcode-block" id="has_wavepacket"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.has_wavepacket">[docs]</a><span class="k">def</span> <span class="nf">has_wavepacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ask if the specified data block has the desired data tensor.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Ask if the specified data block has the desired data tensor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s">&quot;wavepacket&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="save_wavepacket_parameters"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.save_wavepacket_parameters">[docs]</a><span class="k">def</span> <span class="nf">save_wavepacket_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save the parameters of the Hagedorn wavepacket to a file.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Save the parameters of the Hagedorn wavepacket to a file.</span>
+
 <span class="sd">    :param parameters: The parameters of the Hagedorn wavepacket.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
@@ -129,7 +135,9 @@
 
 </div>
 <div class="viewcode-block" id="save_wavepacket_coefficients"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_wavepacket.html#IOM_plugin_wavepacket.save_wavepacket_coefficients">[docs]</a><span class="k">def</span> <span class="nf">save_wavepacket_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save the coefficients of the Hagedorn wavepacket to a file.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Save the coefficients of the Hagedorn wavepacket to a file.</span>
+
 <span class="sd">    :param coefficients: The coefficients of the Hagedorn wavepacket.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/wavepacket/timegrid&quot;</span>
@@ -156,7 +164,9 @@
 
 <span class="c"># The basis size already gets stored when saving the coefficients!</span>
 <span class="c"># def save_wavepacket_basissize(self, basissize, timestep=None, blockid=0):</span>
-<span class="c">#     &quot;&quot;&quot;Save the basis size of the Hagedorn wavepacket to a file.</span>
+<span class="c">#     r&quot;&quot;&quot;</span>
+<span class="c">#     Save the basis size of the Hagedorn wavepacket to a file.</span>
+<span class="c">#</span>
 <span class="c">#     :param basissize: The basis size of the Hagedorn wavepacket.</span>
 <span class="c">#     &quot;&quot;&quot;</span>
 <span class="c">#     pathtg = &quot;/&quot;+self._prefixb+str(blockid)+&quot;/wavepacket/timegrid&quot;</span>

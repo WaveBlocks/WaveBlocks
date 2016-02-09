@@ -60,7 +60,8 @@
 
 
 <div class="viewcode-block" id="add_norm"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.add_norm">[docs]</a><span class="k">def</span> <span class="nf">add_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">timeslots</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add storage for the norms.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Add storage for the norms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">grp_ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="s">&quot;observables&quot;</span><span class="p">)</span>
 
@@ -80,7 +81,8 @@
 
 </div>
 <div class="viewcode-block" id="delete_norm"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.delete_norm">[docs]</a><span class="k">def</span> <span class="nf">delete_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove the stored norms.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Remove the stored norms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm&quot;</span><span class="p">]</span>
@@ -92,14 +94,16 @@
 
 </div>
 <div class="viewcode-block" id="has_norm"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.has_norm">[docs]</a><span class="k">def</span> <span class="nf">has_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ask if the specified data block has the desired data tensor.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Ask if the specified data block has the desired data tensor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="s">&quot;observables&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span>
             <span class="s">&quot;norm&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)][</span><span class="s">&quot;observables&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 </div>
 <div class="viewcode-block" id="save_norm"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.save_norm">[docs]</a><span class="k">def</span> <span class="nf">save_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save the norm of wavefunctions or wavepackets.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Save the norm of wavefunctions or wavepackets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm/timegrid&quot;</span>
     <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm/norm&quot;</span>
@@ -121,14 +125,16 @@
 
 </div>
 <div class="viewcode-block" id="load_norm_timegrid"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.load_norm_timegrid">[docs]</a><span class="k">def</span> <span class="nf">load_norm_timegrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load the timegrid corresponding to the norm data.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Load the timegrid corresponding to the norm data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm/timegrid&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="n">pathtg</span><span class="p">][:]</span>
 
 </div>
 <div class="viewcode-block" id="load_norm"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_norm.html#IOM_plugin_norm.load_norm">[docs]</a><span class="k">def</span> <span class="nf">load_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load the norm data.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Load the norm data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pathtg</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm/timegrid&quot;</span>
     <span class="n">pathd</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/observables/norm/norm&quot;</span>

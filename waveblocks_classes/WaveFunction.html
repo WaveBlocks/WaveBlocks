@@ -64,9 +64,9 @@
 <div class="section" id="inheritance-diagram">
 <h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
 <p class="graphviz">
-<img src="../_images/inheritance-36db2c0021de2b1f9674606bf2452d6157dfb79c.png" alt="Inheritance diagram of WaveFunction" usemap="#inheritance44fca6e6ef" class="inheritance"/>
+<img src="../_images/inheritance-2ebb411641d0844396a4365aa57ef999887752bb.png" alt="Inheritance diagram of WaveFunction" usemap="#inheritance44fca6e6ef" class="inheritance"/>
 <map id="inheritance44fca6e6ef" name="inheritance44fca6e6ef">
-<area shape="rect" id="node1" title="This class represents a vector valued quantum state $\Ket{\Psi}$ as used" alt="" coords="5,5,204,31"/>
+<area shape="rect" id="node1" title="This class represents a vector valued quantum state :math:`|\Psi\rangle` as used in the vector valued" alt="" coords="5,5,204,31"/>
 </map>
 </p>
 </div>
@@ -75,10 +75,9 @@
 <dl class="class">
 <dt id="WaveBlocks.WaveFunction">
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">WaveFunction</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class represents a vector valued quantum state $Ket{Psi}$ as used
-in the vector valued time-dependent Schroedinger equation. The state
-$Ket{Psi}$ is composed of $psi_0, ldots, psi_{N-1}$ where $psi_i$ is
-a single wavefunction component.</p>
+<dd><p>This class represents a vector valued quantum state <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> as used in the vector valued
+time-dependent Schroedinger equation. The state <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> is composed of <img class="math" src="../_images/math/636690452f119f1e44936dbe40b839d4572f4af6.png" alt="\psi_0, \ldots, \psi_{N-1}"/>
+where <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/> is a single wavefunction component.</p>
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.get_nodes">
 <tt class="descname">get_nodes</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.get_nodes" title="Permalink to this definition">¶</a></dt>
@@ -86,7 +85,7 @@ a single wavefunction component.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The grid nodes $gamma$ the wave function values belong to.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> the wave function values belong to.</td>
 </tr>
 </tbody>
 </table>
@@ -95,13 +94,25 @@ a single wavefunction component.</p>
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.get_norm">
 <tt class="descname">get_norm</tt><big>(</big><em>values=None</em>, <em>summed=False</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.get_norm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the $L^2$ norm of the whole vector $Ket{Psi}$ or some
-individual components $psi_i$. The calculation is done in momentum space.
-&#64;keyword values: Allows to use this function for external data, similar to a static function.
-&#64;keyword summed: Whether to sum up the norms of the individual components.
-&#64;keyword component: The component $psi_i$ of which the norm is calculated.
-:return: The $L^2$ norm of $Ket{Psi}$ or a list of the $L^2$ norms of
-all components $psi_i$. (Depending on the optional arguments.)</p>
+<dd><p>Calculate the <img class="math" src="../_images/math/8e53b35e6dba31d49686a9f1ea7ef219da16e494.png" alt="L^2"/> norm of the whole vector <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> or some
+individual components <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/>. The calculation is done in momentum space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> &#8211; Allows to use this function for external data, similar to a static function.</li>
+<li><strong>summed</strong> &#8211; Whether to sum up the norms of the individual components.</li>
+<li><strong>component</strong> &#8211; The component <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/> of which the norm is calculated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The <img class="math" src="../_images/math/8e53b35e6dba31d49686a9f1ea7ef219da16e494.png" alt="L^2"/> norm of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> or a list of the <img class="math" src="../_images/math/8e53b35e6dba31d49686a9f1ea7ef219da16e494.png" alt="L^2"/> norms of
+all components <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/>. (Depending on the optional arguments.)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -111,7 +122,7 @@ all components $psi_i$. (Depending on the optional arguments.)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components $psi_i$ the vector $Ket{Psi}$ consists of.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/> the vector <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> consists of.</td>
 </tr>
 </tbody>
 </table>
@@ -120,47 +131,90 @@ all components $psi_i$. (Depending on the optional arguments.)</p>
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.get_values">
 <tt class="descname">get_values</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.get_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the wave function values for each component of $Ket{Psi}$.
-:return: A list with the values of all components $psi_i$ evaluated on
-the grid nodes $gamma$.</p>
+<dd><p>Return the wave function values for each component of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list with the values of all components <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/> evaluated on the grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.kinetic_energy">
 <tt class="descname">kinetic_energy</tt><big>(</big><em>kinetic</em>, <em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.kinetic_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kinetic energy $E_{       ext{kin}} ssign Braket{Psi|T|Psi}$
-of the different components.
-:param kinetic: The kinetic energy operator $T$.
-&#64;keyword summed: Whether to sum up the kinetic energies of the individual components.
-:return: A list with the kinetic energies of the individual components
+<dd><p>Calculate the kinetic energy <img class="math" src="../_images/math/f640a15403d8e06e8ccf9e24b1303191448e032d.png" alt="E_{\text{kin}} := \langle\Psi|T|\Psi\rangle"/> of the different components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>kinetic</strong> &#8211; The kinetic energy operator <img class="math" src="../_images/math/6d42c88506b8da39a2a23653aecbfb7c29728063.png" alt="T"/>.</li>
+<li><strong>summed</strong> &#8211; Whether to sum up the kinetic energies of the individual components.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with the kinetic energies of the individual components
 or the overall kinetic energy of the wavefunction. (Depending on the optional arguments.)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.potential_energy">
 <tt class="descname">potential_energy</tt><big>(</big><em>potential</em>, <em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.potential_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the potential energy $E_{     ext{pot}} ssign Braket{Psi|V|Psi}$
-of the different components.
-:param potential: The potential energy operator $V$.
-&#64;keyword summed: Whether to sum up the potential energies of the individual components.
-:return: A list with the potential energies of the individual components
+<dd><p>Calculate the potential energy <img class="math" src="../_images/math/2267481f9aa1eb09d9f6bb5f3bce5d3b30c22da7.png" alt="E_{\text{pot}} := \langle\Psi|V|\Psi\rangle"/> of the different components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>potential</strong> &#8211; The potential energy operator <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/>.</li>
+<li><strong>summed</strong> &#8211; Whether to sum up the potential energies of the individual components.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with the potential energies of the individual components
 or the overall potential energy of the wavefunction. (Depending on the optional arguments.)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.set_grid">
 <tt class="descname">set_grid</tt><big>(</big><em>grid</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.set_grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign a new grid to the wavefunction. All values are regarded to belong
-to these grid nodes.
-:param grid: The grid values as an numeric array.</p>
+<dd><p>Assign a new grid to the wavefunction. All values are regarded to belong to these grid nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> &#8211; The grid values as an numeric array.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.WaveFunction.set_values">
 <tt class="descname">set_values</tt><big>(</big><em>values</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.WaveFunction.set_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign new function values for each component of $Ket{Psi}$.
-:param values: A list with the new values of all the $psi_i$.
-&#64;raise ValueError: If the list I{values} has the wrong number of entries.</p>
+<dd><p>Assign new function values for each component of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> &#8211; A list with the new values of all the <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">If the list <tt class="docutils literal"><span class="pre">values</span></tt> has the wrong number of entries.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

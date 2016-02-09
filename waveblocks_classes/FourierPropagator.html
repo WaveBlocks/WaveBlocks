@@ -64,9 +64,9 @@
 <div class="section" id="inheritance-diagram">
 <h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
 <p class="graphviz">
-<img src="../_images/inheritance-5c183bc7fda03b7a9f6261d991133f3ff760475e.png" alt="Inheritance diagram of FourierPropagator" usemap="#inheritance52a761d7bc" class="inheritance"/>
+<img src="../_images/inheritance-57fd9f9b990d32f0f9fba4382a1c0113def487f7.png" alt="Inheritance diagram of FourierPropagator" usemap="#inheritance52a761d7bc" class="inheritance"/>
 <map id="inheritance52a761d7bc" name="inheritance52a761d7bc">
-<area shape="rect" id="node1" title="This class can numerically propagate given initial values $\Ket{\Psi}$ in" alt="" coords="220,5,475,31"/>
+<area shape="rect" id="node1" title="This class can numerically propagate given initial values :math:`|\Psi\rangle` in" alt="" coords="220,5,475,31"/>
 <area shape="rect" id="node2" title="Propagators can numerically simulate the time evolution of quantum states" alt="" coords="5,5,172,31"/>
 </map>
 </p>
@@ -76,37 +76,37 @@
 <dl class="class">
 <dt id="WaveBlocks.FourierPropagator">
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">FourierPropagator</tt><big>(</big><em>potential</em>, <em>initial_values</em>, <em>para</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class can numerically propagate given initial values $Ket{Psi}$ in
-a potential surface $Vofs{x}$. The propagation is done with a Strang splitting
+<dd><p>This class can numerically propagate given initial values <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/> in
+a potential surface <img class="math" src="../_images/math/dc1d7be477fe74243aa6f1ba7c750af9f791496a.png" alt="V\left(x\right)"/>. The propagation is done with a Strang splitting
 of the time propagation operator.</p>
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.Psi">
 <tt class="descname">Psi</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.Psi" title="Permalink to this definition">¶</a></dt>
-<dd><p>The initial values of the components $psi_i$ sampled at the given nodes.</p>
+<dd><p>The initial values of the components <img class="math" src="../_images/math/8d2d995a74b06539d80f577bbed5b4ee1525e33f.png" alt="\psi_i"/> sampled at the given nodes.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.T">
 <tt class="descname">T</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.T" title="Permalink to this definition">¶</a></dt>
-<dd><p>The kinetic operator $T$ defined in momentum space.</p>
+<dd><p>The kinetic operator <img class="math" src="../_images/math/6d42c88506b8da39a2a23653aecbfb7c29728063.png" alt="T"/> defined in momentum space.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.TE">
 <tt class="descname">TE</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.TE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exponential $expofs{T}$ of $T$ used in the Strang splitting.</p>
+<dd><p>Exponential <img class="math" src="../_images/math/96c20aeb526bd07cf1e7414a9e3c31c466b19902.png" alt="\exp\left(T\right)"/> of <img class="math" src="../_images/math/6d42c88506b8da39a2a23653aecbfb7c29728063.png" alt="T"/> used in the Strang splitting.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.V">
 <tt class="descname">V</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.V" title="Permalink to this definition">¶</a></dt>
-<dd><p>The potential operator $V$ defined in position space.</p>
+<dd><p>The potential operator <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> defined in position space.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.VE">
 <tt class="descname">VE</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.VE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exponential $expofs{V}$ of $V$ used in the Strang splitting.</p>
+<dd><p>Exponential <img class="math" src="../_images/math/61a82a889ffe1690d112d9faf4a905fe788e6673.png" alt="\exp\left(V\right)"/> of <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> used in the Strang splitting.</p>
 </dd></dl>
 
 <dl class="method">
@@ -116,7 +116,7 @@ of the time propagation operator.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components of $Ket{Psi}$.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of components of <img class="math" src="../_images/math/c711bd84d9f67035e275ad70be65f6fe0840fb5f.png" alt="|\Psi\rangle"/>.</td>
 </tr>
 </tbody>
 </table>
@@ -129,11 +129,10 @@ of the time propagation operator.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Return the numerical expressions of the propagation</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Return the numerical expressions of the propagation operators <img class="math" src="../_images/math/6d42c88506b8da39a2a23653aecbfb7c29728063.png" alt="T"/> and <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/>.</td>
 </tr>
 </tbody>
 </table>
-<p>operators $T$ and $V$.</p>
 </dd></dl>
 
 <dl class="method">
@@ -143,7 +142,7 @@ of the time propagation operator.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The I{MatrixPotential} instance used for time propagation.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="MatrixPotential.html#WaveBlocks.MatrixPotential" title="WaveBlocks.MatrixPotential"><tt class="xref py py-class docutils literal"><span class="pre">MatrixPotential</span></tt></a> instance used for time propagation.</td>
 </tr>
 </tbody>
 </table>
@@ -156,7 +155,7 @@ of the time propagation operator.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The I{WaveFunction} instance that stores the current wavefunction data.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="WaveFunction.html#WaveBlocks.WaveFunction" title="WaveBlocks.WaveFunction"><tt class="xref py py-class docutils literal"><span class="pre">WaveFunction</span></tt></a> instance that stores the current wavefunction data.</td>
 </tr>
 </tbody>
 </table>
@@ -165,44 +164,58 @@ of the time propagation operator.</p>
 <dl class="method">
 <dt id="WaveBlocks.FourierPropagator.kinetic_energy">
 <tt class="descname">kinetic_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.kinetic_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method just delegates the calculation of kinetic energies to the
-embedded I{WaveFunction} object.
-&#64;keyword summed: Whether to sum up the kinetic energies of the individual components.
-:return: The kinetic energies.</p>
+<dd><p>This method just delegates the calculation of kinetic energies to the embedded <tt class="docutils literal"><span class="pre">WaveFunction</span></tt> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summed</strong> &#8211; Whether to sum up the kinetic energies of the individual components.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The kinetic energies.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.nodes">
 <tt class="descname">nodes</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.nodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>The position space nodes $gamma$.</p>
+<dd><p>The position space nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.omega">
 <tt class="descname">omega</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.omega" title="Permalink to this definition">¶</a></dt>
-<dd><p>The momentum space nodes $omega$.</p>
+<dd><p>The momentum space nodes <img class="math" src="../_images/math/c7415c6919c2eb17b1ea36f0243079b59825ee89.png" alt="\omega"/>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.FourierPropagator.potential">
 <tt class="descname">potential</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.FourierPropagator.potential" title="Permalink to this definition">¶</a></dt>
-<dd><p>The embedded I{MatrixPotential} instance representing the potential $V$.</p>
+<dd><p>The embedded MatrixPotential instance representing the potential <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.FourierPropagator.potential_energy">
 <tt class="descname">potential_energy</tt><big>(</big><em>summed=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.potential_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method just delegates the calculation of potential energies to the
-embedded I{WaveFunction} object.
-&#64;keyword summed: Whether to sum up the potential energies of the individual components.
-:return: The potential energies.</p>
+<dd><p>This method just delegates the calculation of potential energies to the embedded <tt class="docutils literal"><span class="pre">WaveFunction</span></tt> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summed</strong> &#8211; Whether to sum up the potential energies of the individual components.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The potential energies.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.FourierPropagator.propagate">
 <tt class="descname">propagate</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.FourierPropagator.propagate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the wavefunction values $Psi$ at time $t$, calculate new
-values at time $t +     au$. We perform exactly one timestep $  au$ here.</p>
+<dd><p>Given the wavefunction values <img class="math" src="../_images/math/de6f6ec55da5bff04bdf591d5bb35136eb51b579.png" alt="\Psi"/> at time <img class="math" src="../_images/math/ef9270877405055756d345facd044e4ab297f858.png" alt="t"/>, calculate new
+values at time <img class="math" src="../_images/math/248f20efaf95b4d4c73e23e7cb9ece1b73e10098.png" alt="t + \tau"/>. We perform exactly one timestep <img class="math" src="../_images/math/d9e99c35d3632bb156b7aca0e93cd78a148a10e8.png" alt="\tau"/> here.</p>
 </dd></dl>
 
 </dd></dl>

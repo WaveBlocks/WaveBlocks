@@ -64,7 +64,9 @@
 
 
 <div class="viewcode-block" id="matrix_exp_pade"><a class="viewcode-back" href="../waveblocks_classes/MatrixExponential.html#MatrixExponential.matrix_exp_pade">[docs]</a><span class="k">def</span> <span class="nf">matrix_exp_pade</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the solution of v&#39; = A v with a full matrix exponential via Pade approximation.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Compute the solution of :math:`v&#39; = A v` with a full matrix exponential via Pade approximation.</span>
+
 <span class="sd">    :param A: The matrix.</span>
 <span class="sd">    :param coefficients: The vector with the coefficients.</span>
 <span class="sd">    :param factor: An additional factor, usually contains at least the timestep.</span>
@@ -73,12 +75,14 @@
 
 </div>
 <div class="viewcode-block" id="arnoldi"><a class="viewcode-back" href="../waveblocks_classes/MatrixExponential.html#MatrixExponential.arnoldi">[docs]</a><span class="k">def</span> <span class="nf">arnoldi</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Arnoldi algorithm (Krylov approximation of a matrix)</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Arnoldi algorithm (Krylov approximation of a matrix)</span>
+
 <span class="sd">    :param A: The matrix to approximate.</span>
 <span class="sd">    :param v0: The initial vector (should be in matrix form)</span>
 <span class="sd">    :param k: The number of Krylov steps.</span>
-<span class="sd">    :return: A tupel (V, H) where V is the matrix (large, N*k) containing the orthogonal vectors and</span>
-<span class="sd">    H is the matrix (small, k*k) containing the Krylov approximation of A.</span>
+<span class="sd">    :return: A tupel (V, H) where V is the matrix (large, :math:`N \times k`) containing the orthogonal vectors and</span>
+<span class="sd">             H is the matrix (small, :math:`k \times k`) containing the Krylov approximation of A.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">V</span> <span class="o">=</span> <span class="n">mat</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">v0</span><span class="p">))</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">mat</span><span class="p">(</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">complexfloating</span><span class="p">)</span>
@@ -93,7 +97,9 @@
 
 </div>
 <div class="viewcode-block" id="matrix_exp_arnoldi"><a class="viewcode-back" href="../waveblocks_classes/MatrixExponential.html#MatrixExponential.matrix_exp_arnoldi">[docs]</a><span class="k">def</span> <span class="nf">matrix_exp_arnoldi</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the solution of v&#39; = A v via k steps of a the Arnoldi krylov method.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Compute the solution of :math:`v&#39; = A v` via k steps of a the Arnoldi krylov method.</span>
+
 <span class="sd">    :param A: The matrix.</span>
 <span class="sd">    :param v: The vector.</span>
 <span class="sd">    :param factor: An additional factor, usually contains at least the timestep.</span>

@@ -78,11 +78,11 @@
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">SimulationLoopHagedorn</tt><big>(</big><em>parameters</em><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopHagedorn" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class acts as the main simulation loop. It owns a propagator that
 propagates a set of initial values during a time evolution. All values are
-read from the I{Parameters.py} file.</p>
+read from the <tt class="docutils literal"><span class="pre">Parameters.py</span></tt> file.</p>
 <dl class="attribute">
 <dt id="WaveBlocks.SimulationLoopHagedorn.IOManager">
 <tt class="descname">IOManager</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.SimulationLoopHagedorn.IOManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>A I{IOManager} instance for saving simulation results.</p>
+<dd><p>A <tt class="docutils literal"><span class="pre">IOManager</span></tt> instance for saving simulation results.</p>
 </dd></dl>
 
 <dl class="method">
@@ -102,8 +102,16 @@ IOManager to write the data and close the output files.</p>
 <dt id="WaveBlocks.SimulationLoopHagedorn.prepare_simulation">
 <tt class="descname">prepare_simulation</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopHagedorn.prepare_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up a Hagedorn propagator for the simulation loop. Set the
-potential and initial values according to the configuration.
-&#64;raise ValueError: For invalid or missing input data.</p>
+potential and initial values according to the configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">For invalid or missing input data.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -115,8 +123,7 @@ potential and initial values according to the configuration.
 <dl class="method">
 <dt id="WaveBlocks.SimulationLoopHagedorn.run_simulation">
 <tt class="descname">run_simulation</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.SimulationLoopHagedorn.run_simulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the simulation loop for a number of time steps. The number of steps
-is calculated in the I{initialize} function.</p>
+<dd><p>Run the simulation loop for a number of time steps. The number of steps is calculated in the <tt class="docutils literal"><span class="pre">initialize</span></tt> function.</p>
 </dd></dl>
 
 </dd></dl>

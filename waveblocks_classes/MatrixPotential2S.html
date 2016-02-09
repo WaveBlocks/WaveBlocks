@@ -64,10 +64,10 @@
 <div class="section" id="inheritance-diagram">
 <h2>Inheritance diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
 <p class="graphviz">
-<img src="../_images/inheritance-ce0584388089acd467473ee497bc9e8c673677a6.png" alt="Inheritance diagram of MatrixPotential2S" usemap="#inheritance66e0fb8d86" class="inheritance"/>
+<img src="../_images/inheritance-2ebb62b348dee4e3a80546ca4a382bb25cbdc15d.png" alt="Inheritance diagram of MatrixPotential2S" usemap="#inheritance66e0fb8d86" class="inheritance"/>
 <map id="inheritance66e0fb8d86" name="inheritance66e0fb8d86">
-<area shape="rect" id="node1" title="This class represents a potential $V\ofs{x}$. The potential is given as an analytic" alt="" coords="5,5,221,31"/>
-<area shape="rect" id="node2" title="This class represents a matrix potential $V\ofs{x}$. The potential is given as an" alt="" coords="269,5,520,31"/>
+<area shape="rect" id="node1" title="This class represents a potential :math:`V\left(x\right)`. The potential is given as an analytic" alt="" coords="5,5,221,31"/>
+<area shape="rect" id="node2" title="This class represents a matrix potential :math:`V\left(x\right)`. The potential is given as an" alt="" coords="269,5,520,31"/>
 </map>
 </p>
 </div>
@@ -76,8 +76,8 @@
 <dl class="class">
 <dt id="WaveBlocks.MatrixPotential2S">
 <em class="property">class </em><tt class="descclassname">WaveBlocks.</tt><tt class="descname">MatrixPotential2S</tt><big>(</big><em>expression</em>, <em>variables</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class represents a matrix potential $Vofs{x}$. The potential is given as an
-analytical $2       imes 2$ matrix expression. Some symbolic calculations with
+<dd><p>This class represents a matrix potential <img class="math" src="../_images/math/dc1d7be477fe74243aa6f1ba7c750af9f791496a.png" alt="V\left(x\right)"/>. The potential is given as an
+analytical <img class="math" src="../_images/math/38d9d474a6c520ac582a14f70b97e0c5a903a16d.png" alt="2 \times 2"/> matrix expression. Some symbolic calculations with
 the potential are supported. For example calculation of eigenvalues and
 exponentials and numerical evaluation. Further, there are methods for
 splitting the potential into a Taylor expansion and for basis transformations
@@ -85,147 +85,236 @@ between canonical and eigenbasis.</p>
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_eigenvalues">
 <tt class="descname">calculate_eigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_eigenvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the two eigenvalues $lambda_iofs{x}$ of the potential $Vofs{x}$.
-We can do this by symbolical calculations. The multiplicities are taken into account.
-&#64;note: Note: the eigenvalues are memoized for later reuse.</p>
+<dd><p>Calculate the two eigenvalues <img class="math" src="../_images/math/f04ad48e0a1f3f3a1ac0ca91078eeb4f2dac6c13.png" alt="\lambda_i\left(x\right)"/> of the potential <img class="math" src="../_images/math/dc1d7be477fe74243aa6f1ba7c750af9f791496a.png" alt="V\left(x\right)"/>.
+We can do this by symbolical calculations. The multiplicities are taken into account.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note: the eigenvalues are memoized for later reuse.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_eigenvectors">
 <tt class="descname">calculate_eigenvectors</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_eigenvectors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the two eigenvectors $nu_iofs{x}$ of the potential $Vofs{x}$.
-We can do this by symbolical calculations.
-&#64;note: The eigenvectors are memoized for later reuse.</p>
+<dd><p>Calculate the two eigenvectors <img class="math" src="../_images/math/6ac4e0812052406f244b4f4af512110e1dc7c10f.png" alt="nu_i\left(x\right)"/> of the potential <img class="math" src="../_images/math/dc1d7be477fe74243aa6f1ba7c750af9f791496a.png" alt="V\left(x\right)"/>.
+We can do this by symbolical calculations.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The eigenvectors are memoized for later reuse.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_exponential">
 <tt class="descname">calculate_exponential</tt><big>(</big><em>factor=1</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_exponential" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the matrix exponential $E = expofs{lpha M}$. In this case
-the matrix is of size $2        imes 2$ thus the general exponential can be
-calculated analytically.
-&#64;keyword factor: A prefactor $lpha$ in the exponential.</p>
+<dd><p>Calculate the matrix exponential <img class="math" src="../_images/math/dbe8e9e715e06ac4edc462c996536f2cea7e6a27.png" alt="E = \exp\left(\alpha M\right)"/>. In this case
+the matrix is of size <img class="math" src="../_images/math/38d9d474a6c520ac582a14f70b97e0c5a903a16d.png" alt="2 \times 2"/> thus the general exponential can be calculated analytically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor</strong> &#8211; A prefactor <img class="math" src="../_images/math/ad59b6e24a4a00ac621801f8d7513d68be654ab5.png" alt="\alpha"/> in the exponential.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_hessian">
 <tt class="descname">calculate_hessian</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_hessian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the hessian matrix for each component $V_{i,j}$ of the potential.
-For potentials which depend only one variable $x$, this equals the second derivative.</p>
+<dd><p>Calculate the hessian matrix for each component <img class="math" src="../_images/math/063f01a1c71854a84794178b80c3c6eb2ffaf808.png" alt="V_{i,j}"/> of the potential.
+For potentials which depend only one variable <img class="math" src="../_images/math/188c175aac0a8a9c22499336711b5d7256407254.png" alt="x"/>, this equals the second derivative.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_jacobian">
 <tt class="descname">calculate_jacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_jacobian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the jacobian matrix for each component $V_{i,j}$ of the potential.
-For potentials which depend only one variable $x$, this equals the first derivative.</p>
+<dd><p>Calculate the jacobian matrix for each component <img class="math" src="../_images/math/063f01a1c71854a84794178b80c3c6eb2ffaf808.png" alt="V_{i,j}"/> of the potential.
+For potentials which depend only one variable <img class="math" src="../_images/math/188c175aac0a8a9c22499336711b5d7256407254.png" alt="x"/>, this equals the first derivative.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.calculate_local_quadratic">
 <tt class="descname">calculate_local_quadratic</tt><big>(</big><em>diagonal_component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.calculate_local_quadratic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the local quadratic approximation matrix $U$ of the potential&#8217;s
-eigenvalues in $Lambda$. This function can be used for the homogeneous case
-and takes into account the leading component $chi$.
-If the parameter $chi$ is not given, calculate the local quadratic approximation
-matrix $U$ of all the potential&#8217;s eigenvalues in $Lambda$. This function is used
-for the inhomogeneous case.
-:param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
-that gets expanded into a Taylor series $u_i$.</p>
+<dd><p>Calculate the local quadratic approximation matrix <img class="math" src="../_images/math/73f5e249c88b2b3068263480f576b051cb5c4f6e.png" alt="U"/> of the potential&#8217;s
+eigenvalues in <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/>. This function can be used for the homogeneous case
+and takes into account the leading component <img class="math" src="../_images/math/f632c791f693410fc1bf07ad7cb02c6fcfef9aed.png" alt="\chi"/>.
+If the parameter <img class="math" src="../_images/math/f632c791f693410fc1bf07ad7cb02c6fcfef9aed.png" alt="\chi"/> is not given, calculate the local quadratic approximation
+matrix <img class="math" src="../_images/math/73f5e249c88b2b3068263480f576b051cb5c4f6e.png" alt="U"/> of all the potential&#8217;s eigenvalues in <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/>. This function is used
+for the inhomogeneous case.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>diagonal_component</strong> &#8211; Specifies the index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the eigenvalue <img class="math" src="../_images/math/3b765ea6939f1eba2541e91f870cb3c078aa29be.png" alt="\lambda_i"/> that gets expanded into a Taylor series <img class="math" src="../_images/math/4301e96aa92ce06a03e5d43e1cc0f6b52555b706.png" alt="u_i"/>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_at">
 <tt class="descname">evaluate_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>as_matrix=True</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the potential matrix elementwise at some given grid nodes $gamma$.
-:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
-&#64;keyword component: The component $V_{i,j}$ that gets evaluated or &#8216;None&#8217; to evaluate all.
-&#64;keyword as_matrix: Returns the whole matrix $Lambda$ instead of only a list with the eigenvalues $lambda_i$.
-:return: A list with the $4$ entries evaluated at the nodes.</p>
+<dd><p>Evaluate the potential matrix elementwise at some given grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the potential at.</li>
+<li><strong>component</strong> &#8211; The component <img class="math" src="../_images/math/063f01a1c71854a84794178b80c3c6eb2ffaf808.png" alt="V_{i,j}"/> that gets evaluated or &#8216;None&#8217; to evaluate all.</li>
+<li><strong>as_matrix</strong> &#8211; Returns the whole matrix <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/> instead of only a list with the eigenvalues <img class="math" src="../_images/math/3b765ea6939f1eba2541e91f870cb3c078aa29be.png" alt="\lambda_i"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with the <img class="math" src="../_images/math/51a8d7e791ab9e463af82a4075edb04ef8028dcf.png" alt="4"/> entries evaluated at the nodes.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_eigenvalues_at">
 <tt class="descname">evaluate_eigenvalues_at</tt><big>(</big><em>nodes</em>, <em>component=None</em>, <em>as_matrix=False</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_eigenvalues_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the eigenvalues $lambda_iofs{x}$ at some grid nodes $gamma$.
-:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvalues at.
-&#64;keyword component: The index $i$ of the eigenvalue $lambda_i$ that gets evaluated.
-&#64;keyword as_matrix: Returns the whole matrix $Lambda$ instead of only a list with the eigenvalues $lambda_i$.
-:return: A sorted list with $2$ entries for the two eigenvalues evaluated at the nodes. Or a
-single value if a component was specified.</p>
+<dd><p>Evaluate the eigenvalues <img class="math" src="../_images/math/f04ad48e0a1f3f3a1ac0ca91078eeb4f2dac6c13.png" alt="\lambda_i\left(x\right)"/> at some grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the eigenvalues at.</li>
+<li><strong>component</strong> &#8211; The index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the eigenvalue <img class="math" src="../_images/math/3b765ea6939f1eba2541e91f870cb3c078aa29be.png" alt="\lambda_i"/> that gets evaluated.</li>
+<li><strong>as_matrix</strong> &#8211; Returns the whole matrix <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/> instead of only a list with the eigenvalues <img class="math" src="../_images/math/3b765ea6939f1eba2541e91f870cb3c078aa29be.png" alt="\lambda_i"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A sorted list with <img class="math" src="../_images/math/15c663954a3e059d1f876bc8a4621de376038c96.png" alt="2"/> entries for the two eigenvalues evaluated at the nodes. Or a single value if a component was specified.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_eigenvectors_at">
 <tt class="descname">evaluate_eigenvectors_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_eigenvectors_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the eigenvectors $nu_iofs{x}$ at some grid nodes $gamma$.
-:param nodes: The grid nodes $gamma$ we want to evaluate the eigenvectors at.
-:return: A list with the two eigenvectors evaluated at the given nodes.</p>
+<dd><p>Evaluate the eigenvectors <img class="math" src="../_images/math/6ac4e0812052406f244b4f4af512110e1dc7c10f.png" alt="nu_i\left(x\right)"/> at some grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the eigenvectors at.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list with the two eigenvectors evaluated at the given nodes.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_exponential_at">
 <tt class="descname">evaluate_exponential_at</tt><big>(</big><em>nodes</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_exponential_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the exponential of the potential matrix $V$ at some grid nodes $gamma$.
-:param nodes: The grid nodes $gamma$ we want to evaluate the exponential at.
-:return: The numerical approximation of the matrix exponential at the given grid nodes.</p>
+<dd><p>Evaluate the exponential of the potential matrix <img class="math" src="../_images/math/c99df7a209495334da442b1ec998abaabfa320d8.png" alt="V"/> at some grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the exponential at.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The numerical approximation of the matrix exponential at the given grid nodes.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_hessian_at">
 <tt class="descname">evaluate_hessian_at</tt><big>(</big><em>nodes</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_hessian_at" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Evaluate the hessian at some grid nodes $gamma$ for each component</dt>
-<dd>$V_{i,j}$ of the potential.
-:param nodes: The grid nodes $gamma$ the hessian gets evaluated at.
-&#64;keyword component: The index tuple $left(i,j</dd>
-<dt>ight)$ that specifies</dt>
-<dd>the potential&#8217;s entry of which the hessian is evaluated. (Or &#8216;None&#8217; to evaluate all)
-:return: Either a list or a single value depending on the optional parameters.</dd>
-</dl>
+<dd><p>Evaluate the hessian at some grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> for each component <img class="math" src="../_images/math/063f01a1c71854a84794178b80c3c6eb2ffaf808.png" alt="V_{i,j}"/> of the potential.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> the hessian gets evaluated at.</li>
+<li><strong>component</strong> &#8211; The index tuple <img class="math" src="../_images/math/8d0a83f7e53f2057dee65c238e64db73c7601832.png" alt="\left(i,j\right)"/> that specifies the potential&#8217;s entry of which the hessian is evaluated. (Or &#8216;None&#8217; to evaluate all)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Either a list or a single value depending on the optional parameters.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_jacobian_at">
 <tt class="descname">evaluate_jacobian_at</tt><big>(</big><em>nodes</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_jacobian_at" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Evaluate the jacobian at some grid nodes $gamma$ for each component</dt>
-<dd>$V_{i,j}$ of the potential.
-:param nodes: The grid nodes $gamma$ the jacobian gets evaluated at.
-&#64;keyword component: The index tuple $left(i,j</dd>
-<dt>ight)$ that specifies</dt>
-<dd>the potential&#8217;s entry of which the jacobian is evaluated. (Defaults to &#8216;None&#8217; to evaluate all)
-:return: Either a list or a single value depending on the optional parameters.</dd>
-</dl>
+<dd><p>Evaluate the jacobian at some grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> for each component <img class="math" src="../_images/math/063f01a1c71854a84794178b80c3c6eb2ffaf808.png" alt="V_{i,j}"/> of the potential.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> the jacobian gets evaluated at.</li>
+<li><strong>component</strong> &#8211; The index tuple <img class="math" src="../_images/math/8d0a83f7e53f2057dee65c238e64db73c7601832.png" alt="\left(i,j\right)"/> that specifies the potential&#8217;s entry of which the jacobian is evaluated. (Defaults to &#8216;None&#8217; to evaluate all)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Either a list or a single value depending on the optional parameters.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_local_quadratic_at">
 <tt class="descname">evaluate_local_quadratic_at</tt><big>(</big><em>nodes</em>, <em>diagonal_component</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_local_quadratic_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Numerically evaluate the local quadratic approximation matrix $U$ of
-the potential&#8217;s eigenvalues in $Lambda$ at the given grid nodes $gamma$.
-:param nodes: The grid nodes $gamma$ we want to evaluate the quadratic approximation at.
-:param diagonal_component: Specifies the index $i$ of the eigenvalue $lambda_i$
-that gets expanded into a Taylor series $u_i$.
-:return: A list of arrays or a single array containing the values of $U_{i,j}$ at the nodes $gamma$.</p>
+<dd><p>Numerically evaluate the local quadratic approximation matrix <img class="math" src="../_images/math/73f5e249c88b2b3068263480f576b051cb5c4f6e.png" alt="U"/> of
+the potential&#8217;s eigenvalues in <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/> at the given grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the quadratic approximation at.</li>
+<li><strong>diagonal_component</strong> &#8211; Specifies the index <img class="math" src="../_images/math/a581f053bbfa5115f42c13094857cdd12a37ec49.png" alt="i"/> of the eigenvalue <img class="math" src="../_images/math/3b765ea6939f1eba2541e91f870cb3c078aa29be.png" alt="\lambda_i"/> that gets expanded into a Taylor series <img class="math" src="../_images/math/4301e96aa92ce06a03e5d43e1cc0f6b52555b706.png" alt="u_i"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of arrays or a single array containing the values of <img class="math" src="../_images/math/20129b66009de1b7063b8043c68e6eba121ffc69.png" alt="U_{i,j}"/> at the nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.evaluate_local_remainder_at">
 <tt class="descname">evaluate_local_remainder_at</tt><big>(</big><em>position</em>, <em>nodes</em>, <em>diagonal_component=None</em>, <em>component=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.evaluate_local_remainder_at" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Numerically evaluate the non-quadratic remainder matrix $W$ of the quadratic</dt>
-<dd>approximation matrix $U$ of the potential&#8217;s eigenvalues in $Lambda$ at the
-given nodes $gamma$. This function is used for the homogeneous and the
-inhomogeneous case and just evaluates the remainder matrix $W$.
-:param position: The point $q$ where the Taylor series is computed.
-:param nodes: The grid nodes $gamma$ we want to evaluate the potential at.
-&#64;keyword component: The component $left(i,j</dd>
-<dt>ight)$ of the remainder matrix $W$</dt>
-<dd>that is evaluated.
-:return: A list with a single entry consisting of an array containing the
-values of $W$ at the nodes $gamma$.</dd>
-</dl>
+<dd><p>Numerically evaluate the non-quadratic remainder matrix <img class="math" src="../_images/math/fa34489cf430b7630b30f28b2eb050e2489e3523.png" alt="W"/> of the quadratic
+approximation matrix <img class="math" src="../_images/math/73f5e249c88b2b3068263480f576b051cb5c4f6e.png" alt="U"/> of the potential&#8217;s eigenvalues in <img class="math" src="../_images/math/7327d24dc2d12421147d5944f0fc23e67753f1b0.png" alt="\Lambda"/> at the
+given nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>. This function is used for the homogeneous and the
+inhomogeneous case and just evaluates the remainder matrix <img class="math" src="../_images/math/fa34489cf430b7630b30f28b2eb050e2489e3523.png" alt="W"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>position</strong> &#8211; The point <img class="math" src="../_images/math/23f1b45408e5b4130c0f940fcbfcec54492cbdcd.png" alt="q"/> where the Taylor series is computed.</li>
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> we want to evaluate the potential at.</li>
+<li><strong>component</strong> &#8211; The component <img class="math" src="../_images/math/8d0a83f7e53f2057dee65c238e64db73c7601832.png" alt="\left(i,j\right)"/> of the remainder matrix <img class="math" src="../_images/math/fa34489cf430b7630b30f28b2eb050e2489e3523.png" alt="W"/> that is evaluated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with a single entry consisting of an array containing the values of <img class="math" src="../_images/math/fa34489cf430b7630b30f28b2eb050e2489e3523.png" alt="W"/> at the nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -235,67 +324,66 @@ values of $W$ at the nodes $gamma$.</dd>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number $N$ of components the potential supports. This is also the size</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number <img class="math" src="../_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> of components the potential supports. This is also the size of the matrix. In the current case it&#8217;s 2.</td>
 </tr>
 </tbody>
 </table>
-<p>of the matrix. In the current case it&#8217;s 2.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.MatrixPotential2S.potential">
 <tt class="descname">potential</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.potential" title="Permalink to this definition">¶</a></dt>
-<dd><p>The matrix of the potential $Vofs{x}$.</p>
+<dd><p>The matrix of the potential <img class="math" src="../_images/math/dc1d7be477fe74243aa6f1ba7c750af9f791496a.png" alt="V\left(x\right)"/>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.project_to_canonical">
 <tt class="descname">project_to_canonical</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.project_to_canonical" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Project a given vector from the potential&#8217;s eigenbasis to the canonical basis.</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
+<dd><p>Project a given vector from the potential&#8217;s eigenbasis to the canonical basis.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The grid nodes $gamma$ for the pointwise transformation.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> for the pointwise transformation.</li>
+<li><strong>values</strong> &#8211; The list of vectors <img class="math" src="../_images/math/38ba27b521757821cb1f5780083494f79565cec4.png" alt="\varphi_i"/> containing the values we want to transform.</li>
+<li><strong>basis</strong> &#8211; A list of basis vectors <img class="math" src="../_images/math/f8ef43b38aca23d25c611830ee93b6fdf3bc03de.png" alt="nu_i"/>. Allows to use this function for external data, similar to a static function.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">param values:</th><td class="field-body">The list of vectors $</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returned is another list containing the projection of the values into the eigenbasis.</p>
+</td>
 </tr>
 </tbody>
 </table>
-</dd>
-<dt>arphi_i$ containing the values we want to transform.</dt>
-<dd>&#64;keyword basis: A list of basis vectors $nu_i$. Allows to use this function for external data, similar to a static function.
-:return: Returned is another list containing the projection of the values into the eigenbasis.</dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="WaveBlocks.MatrixPotential2S.project_to_eigen">
 <tt class="descname">project_to_eigen</tt><big>(</big><em>nodes</em>, <em>values</em>, <em>basis=None</em><big>)</big><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.project_to_eigen" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Project a given vector from the canonical basis to the eigenbasis of the potential.</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
+<dd><p>Project a given vector from the canonical basis to the eigenbasis of the potential.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param nodes:</th><td class="field-body">The grid nodes $gamma$ for the pointwise transformation.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodes</strong> &#8211; The grid nodes <img class="math" src="../_images/math/0ebb67342b546ca42a1c634b1ef03c893c4cdedb.png" alt="\gamma"/> for the pointwise transformation.</li>
+<li><strong>values</strong> &#8211; The list of vectors <img class="math" src="../_images/math/38ba27b521757821cb1f5780083494f79565cec4.png" alt="\varphi_i"/> containing the values we want to transform.</li>
+<li><strong>basis</strong> &#8211; A list of basisvectors <img class="math" src="../_images/math/f8ef43b38aca23d25c611830ee93b6fdf3bc03de.png" alt="nu_i"/>. Allows to use this function for external data, similar to a static function.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">param values:</th><td class="field-body">The list of vectors $</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returned is another list containing the projection of the values into the eigenbasis.</p>
+</td>
 </tr>
 </tbody>
 </table>
-</dd>
-<dt>arphi_i$ containing the values we want to transform.</dt>
-<dd>&#64;keyword basis: A list of basisvectors $nu_i$. Allows to use this function for external data, similar to a static function.
-:return: Returned is another list containing the projection of the values into the eigenbasis.</dd>
-</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="WaveBlocks.MatrixPotential2S.x">
 <tt class="descname">x</tt><em class="property"> = None</em><a class="headerlink" href="#WaveBlocks.MatrixPotential2S.x" title="Permalink to this definition">¶</a></dt>
-<dd><p>The variable $x$ that represents position space.</p>
+<dd><p>The variable <img class="math" src="../_images/math/188c175aac0a8a9c22499336711b5d7256407254.png" alt="x"/> that represents position space.</p>
 </dd></dl>
 
 </dd></dl>

@@ -62,7 +62,8 @@
 
 
 <div class="viewcode-block" id="add_fourieroperators"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_fourieroperators.html#IOM_plugin_fourieroperators.add_fourieroperators">[docs]</a><span class="k">def</span> <span class="nf">add_fourieroperators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add storage for the Fourier propagation operators.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Add storage for the Fourier propagation operators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">grp_pr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s">&quot;propagation&quot;</span><span class="p">)</span>
     <span class="n">grp_op</span> <span class="o">=</span> <span class="n">grp_pr</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s">&quot;operators&quot;</span><span class="p">)</span>
@@ -71,7 +72,8 @@
 
 </div>
 <div class="viewcode-block" id="delete_fourieroperators"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_fourieroperators.html#IOM_plugin_fourieroperators.delete_fourieroperators">[docs]</a><span class="k">def</span> <span class="nf">delete_fourieroperators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove the stored Fourier operators.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Remove the stored Fourier operators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/propagation/operators&quot;</span><span class="p">]</span>
@@ -83,14 +85,17 @@
 
 </div>
 <div class="viewcode-block" id="has_fourieroperators"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_fourieroperators.html#IOM_plugin_fourieroperators.has_fourieroperators">[docs]</a><span class="k">def</span> <span class="nf">has_fourieroperators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ask if the specified data block has the desired data tensor.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Ask if the specified data block has the desired data tensor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="s">&quot;propagation&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span>
             <span class="s">&quot;operators&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefixb</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">blockid</span><span class="p">)][</span><span class="s">&quot;propagation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 </div>
 <div class="viewcode-block" id="save_fourieroperators"><a class="viewcode-back" href="../waveblocks_classes/IOM_plugin_fourieroperators.html#IOM_plugin_fourieroperators.save_fourieroperators">[docs]</a><span class="k">def</span> <span class="nf">save_fourieroperators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operators</span><span class="p">,</span> <span class="n">blockid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save the kinetic and potential operator to a file.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Save the kinetic and potential operator to a file.</span>
+
 <span class="sd">    :param operators: The operators to save, given as (T, V).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># Save the kinetic propagation operator</span>

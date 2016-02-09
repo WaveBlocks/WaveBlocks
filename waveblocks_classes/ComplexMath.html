@@ -72,29 +72,50 @@
 <dt id="ComplexMath.cont_angle">
 <tt class="descclassname">ComplexMath.</tt><tt class="descname">cont_angle</tt><big>(</big><em>data</em>, <em>reference=None</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#cont_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.cont_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the angle of a complex number <em>not</em> constrained to
-the principal value and avoiding discontinuities at the branch cut.
-:param data: An array with the input data.
-&#64;keyword reference: This value allows the specify the starting point for
-continuation explicitely. It can be used together with I{data} beeing a single number.
-&#64;note: This function just applies &#8216;continuate(.)&#8217; to the complex phase.</p>
+the principal value and avoiding discontinuities at the branch cut.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; An array with the input data.</li>
+<li><strong>reference</strong> &#8211; This value allows the specify the starting point for continuation explicitely.
+It can be used together with <tt class="docutils literal"><span class="pre">data</span></tt> beeing a single number.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function just applies &#8216;continuate(.)&#8217; to the complex phase.</p>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="ComplexMath.cont_sqrt">
 <tt class="descclassname">ComplexMath.</tt><tt class="descname">cont_sqrt</tt><big>(</big><em>data</em>, <em>reference=None</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#cont_sqrt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.cont_sqrt" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the complex square root (following the Riemann surface)</dt>
-<dd>yields a result <em>not</em> constrained to the principal value and avoiding
-discontinuities at the branch cut.
-:param data: An array with the input data.
-&#64;keyword reference: This value allows the specify the starting point for
-continuation explicitely. It can be used together with I{data} beeing a single number.
-&#64;note: This function applies &#8216;continuate(.)&#8217; to the complex phase
-and computes the complex square root according to the formula
-$sqrt{z} = sqrt{r} cdot exp left( i cdot</dd>
-</dl>
-<p>rac{phi}{2} 
-ight)$</p>
+<dd><p>Compute the complex square root (following the Riemann surface)
+yields a result <em>not</em> constrained to the principal value and avoiding
+discontinuities at the branch cut.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; An array with the input data.</li>
+<li><strong>reference</strong> &#8211; This value allows the specify the starting point for continuation explicitely.
+It can be used together with <tt class="docutils literal"><span class="pre">data</span></tt> beeing a single number.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function applies &#8216;continuate(.)&#8217; to the complex phase and computes the complex square root according
+to the formula <img class="math" src="../_images/math/2246e1e27a8e93ebffcca67cc6730245891c91d0.png" alt="\sqrt{z} = \sqrt{r} \cdot \exp \left( i \cdot \frac{\phi}{2} \right)"/></p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -102,12 +123,25 @@ ight)$</p>
 <tt class="descclassname">ComplexMath.</tt><tt class="descname">continuate</tt><big>(</big><em>data</em>, <em>jump=6.283185307179586</em>, <em>reference=0.0</em><big>)</big><a class="reference internal" href="../_modules/ComplexMath.html#continuate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ComplexMath.continuate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make the given data continuous by removing all jumps of size k*jump
 but not touching jumps of any other size. This can be used to overcome
-issues with the branch cut along the negative axis.
-:param data: An array with the input data.
-&#64;keyword jump: The basic size of jumps which will be removed. Default is 2*pi.
-&#64;keyword reference: This value allows the specify the starting point for
-continuation explicitely. It can be used together with I{data} beeing a single number.
-&#64;Note: There may be issues with jumps that are of size nearly k*jump.</p>
+issues with the branch cut along the negative axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; An array with the input data.</li>
+<li><strong>jump</strong> &#8211; The basic size of jumps which will be removed. Default is 2*pi.</li>
+<li><strong>reference</strong> &#8211; This value allows the specify the starting point for continuation explicitely.
+It can be used together with <tt class="docutils literal"><span class="pre">data</span></tt> beeing a single number.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There may be issues with jumps that are of size nearly k*jump.</p>
+</div>
 </dd></dl>
 
 </div>

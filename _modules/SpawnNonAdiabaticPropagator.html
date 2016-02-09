@@ -65,13 +65,16 @@
 
 
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator">[docs]</a><span class="k">class</span> <span class="nc">SpawnNonAdiabaticPropagator</span><span class="p">(</span><span class="n">Propagator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This class can numerically propagate given initial values :math:`\Psi` in</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    This class can numerically propagate given initial values :math:`\Psi` in</span>
 <span class="sd">    a potential :math:`V(x)`. The propagation is done for several given homogeneous</span>
-<span class="sd">    Hagedorn wavepackets neglecting interaction.&quot;&quot;&quot;</span>
+<span class="sd">    Hagedorn wavepackets neglecting interaction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propagator</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">packet</span><span class="p">,</span> <span class="n">leading_component</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize a new :py:class:SpawnNonAdiabaticPropagator instance.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new :py:class:SpawnNonAdiabaticPropagator instance.</span>
 
 <span class="sd">        :param propagator: The propagator used for time propagation.</span>
 <span class="sd">        :param potential: The potential the wavepacket :math:`\Psi` feels during the time propagation.</span>
@@ -114,29 +117,38 @@
 
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prepare a printable string representing the :py:class:`SpawnNonAdiabaticPropagator` instance.&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Prepare a printable string representing the :py:class:`SpawnNonAdiabaticPropagator` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;Prapagation and spawning in the adabatic case.&quot;</span>
 
 
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.get_number_components"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.get_number_components">[docs]</a>    <span class="k">def</span> <span class="nf">get_number_components</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`.&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        :return: The number :math:`N` of components :math:`\Phi_i` of :math:`\Psi`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_components</span>
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.get_potential"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.get_potential">[docs]</a>    <span class="k">def</span> <span class="nf">get_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;:return: The :py:class:`MatrixPotential` instance used for time propagation.&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        :return: The :py:class:`MatrixPotential` instance used for time propagation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">potential</span>
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.get_number_packets"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.get_number_packets">[docs]</a>    <span class="k">def</span> <span class="nf">get_number_packets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the number of packets :math:`\Psi_n` taking part in the simulation.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of packets :math:`\Psi_n` taking part in the simulation.</span>
 
-<span class="sd">        :return: The number of packets currently taking part in the simulation.&quot;&quot;&quot;</span>
+<span class="sd">        :return: The number of packets currently taking part in the simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">packets</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.get_wavepackets"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.get_wavepackets">[docs]</a>    <span class="k">def</span> <span class="nf">get_wavepackets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Retrieve the wavepackets taking part in the simulation.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the wavepackets taking part in the simulation.</span>
 
 <span class="sd">        :param packet: The number of a single packet that is to be returned.</span>
 <span class="sd">        :type packet: Integer</span>
@@ -150,8 +162,9 @@
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.propagate"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.propagate">[docs]</a>    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated</span>
-<span class="sd">        wavepacket at time :math:`t + \\tau`. We perform exactly one timestep :math:`\\tau`</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Given the wavepacket :math:`\Psi` at time :math:`t` compute the propagated</span>
+<span class="sd">        wavepacket at time :math:`t + \tau`. We perform exactly one timestep :math:`\tau`</span>
 <span class="sd">        here. At every timestep we check the spawning condition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># Make time accessible for spawn condition testers</span>
@@ -168,7 +181,8 @@
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.should_spwan"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.should_spwan">[docs]</a>    <span class="k">def</span> <span class="nf">should_spwan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check if there is a reason to spawn a new wavepacket.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Check if there is a reason to spawn a new wavepacket.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">components</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_components</span><span class="p">)</span>
         <span class="n">spawn_todo</span> <span class="o">=</span> <span class="p">[]</span>
@@ -195,7 +209,8 @@
 
 </div>
 <div class="viewcode-block" id="SpawnNonAdiabaticPropagator.spawn"><a class="viewcode-back" href="../waveblocks_classes/SpawnNonAdiabaticPropagator.html#SpawnNonAdiabaticPropagator.SpawnNonAdiabaticPropagator.spawn">[docs]</a>    <span class="k">def</span> <span class="nf">spawn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Really spawn the new wavepackets :math:`\\tilde{\Psi}`. This method</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Really spawn the new wavepackets :math:`\tilde{\Psi}`. This method</span>
 <span class="sd">        appends the new :py:class:`HagedornWavepacket` instances to the list</span>
 <span class="sd">        :py:attr:`packets` of packets.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
